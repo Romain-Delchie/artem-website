@@ -1,3 +1,69 @@
+@use 'src/styles/variables.scss' as var;
+
 .navbar {
-    background-color: rgb(151, 228, 36);
+    background-color: white;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: fixed;
+
+    &-logo {
+        width: 80px;
+        height: 100%;
+    }
+
+    &-links {
+        display: none;
+        list-style: none;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        background-color: var.$secondaryColor;
+        justify-content: space-evenly;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    &-burger {
+        display: block;
+        border: none;
+        background: none;
+        position: fixed;
+        top: 35px;
+        right: 1rem;
+    }
+}
+
+.show-navbar {
+    display: flex;
+}
+
+.burger-line,
+.burger-line::before,
+.burger-line::after {
+    display: block;
+    width: 40px;
+    height: 3px;
+    position: relative;
+    border-radius: 3px;
+    background-color: var.$primaryColor;
+    transition: all 0.3s ease-in-out;
+}
+
+.burger-line::before,
+.burger-line::after {
+    content: '';
+    position: absolute;
+    left: 0;
+}
+
+.burger-line::before {
+    transform: translateY(-10px);
+}
+
+
+.burger-line::after {
+    transform: translateY(10px);
+
 }
