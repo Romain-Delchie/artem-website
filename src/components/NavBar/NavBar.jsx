@@ -11,16 +11,16 @@ export default function NavBar() {
             </div>
             <ul className={`navbar-links ${isBurgerOpen ? "show-navbar" : "hide-navbar"}`}>
                 <li>
-                    <Link to="/">Nos produits</Link>
+                    <Link className='navbar-link' to="/">Nos produits</Link>
                 </li>
                 <li>
-                    <Link to="/">Payer une facture</Link>
+                    <Link className='navbar-link' to="/">Payer une facture</Link>
                 </li>
                 <li>
-                    <Link to="/">Contact</Link>
+                    <Link className='navbar-link' to="/">Contact</Link>
                 </li>
                 <li>
-                    <Link to="/test">test</Link>
+                    <Link className='navbar-link' to="/test">test</Link>
                 </li>
             </ul>
             <button onClick={() => setIsBurgerOpen(!isBurgerOpen)} className='navbar-burger'>

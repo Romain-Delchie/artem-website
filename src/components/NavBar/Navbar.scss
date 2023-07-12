@@ -9,6 +9,7 @@
     position: fixed;
 
     &-logo {
+        margin: 0.2rem;
         width: 80px;
         height: 100%;
     }
@@ -18,11 +19,20 @@
         list-style: none;
         flex-direction: column;
         align-items: center;
-        position: absolute;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
         background-color: var.$secondaryColor;
-        justify-content: space-evenly;
-        width: 100vw;
+        justify-content: center;
         height: 100vh;
+    }
+
+    &-link {
+        color: var.$primaryColor;
+        display: block;
+        padding: 1.5rem;
+        font-size: 6vw;
     }
 
     &-burger {
@@ -30,13 +40,9 @@
         border: none;
         background: none;
         position: fixed;
-        top: 35px;
+        top: 1rem;
         right: 1rem;
     }
-}
-
-.show-navbar {
-    display: flex;
 }
 
 .burger-line,
@@ -48,13 +54,13 @@
     position: relative;
     border-radius: 3px;
     background-color: var.$primaryColor;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.5s ease-in-out;
 }
 
 .burger-line::before,
 .burger-line::after {
-    content: '';
     position: absolute;
+    content: '';
     left: 0;
 }
 
@@ -66,4 +72,17 @@
 .burger-line::after {
     transform: translateY(10px);
 
+}
+
+.show-navbar {
+    display: flex;
+}
+
+.show-navbar .burger-line {
+    background-color: transparent;
+
+}
+
+.show-navbar .burger-line::before {
+    transform: rotate(45deg) translate(5px, 5px);
 }
