@@ -1,0 +1,28 @@
+@use 'src/styles/variables.scss' as var;
+
+.hero {
+    margin-top: 1rem;
+    padding-top: 5rem;
+    background: var.$secondaryColor;
+
+    &-container {
+        height: 300px;
+        background: url(/images/boulangegrand.jpg) center / cover no-repeat;
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    &-title,
+    &-subtitle {
+        backdrop-filter: brightness(0.5);
+        color: white;
+        height: 50%;
+        width: 100%;
+        text-align: center;
+    }
+
+    &-title {
+        padding-top: 5rem;
+    }
+}
