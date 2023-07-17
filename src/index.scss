@@ -1,0 +1,5 @@
+@use 'src/styles/variables.scss' as var;
+
+* {
+    font-family: var.$font;
+}
