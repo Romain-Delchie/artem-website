@@ -2,27 +2,87 @@
 
 .hero {
     margin-top: 1rem;
-    padding-top: 5rem;
-    background: var.$secondaryColor;
+    width: 100vw;
 
-    &-container {
-        height: 300px;
-        background: url(/images/boulangegrand.jpg) center / cover no-repeat;
+    &-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &-btn {
+            margin: auto;
+            color: var.$primaryColor;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+
+            &-label {
+                margin-right: 1rem;
+                width: 180px;
+                display: flex;
+                height: 120px;
+                flex-direction: column-reverse;
+                border: 1px solid var.$primaryColor;
+                background-color: var.$secondaryColor;
+                border-radius: 15px;
+                padding: 0.5rem;
+                color: var.$primaryColor;
+
+                &:hover {
+                    color: var.$primaryColor;
+                }
+
+            }
+        }
+    }
+
+    &-title-container {
         display: flex;
         flex-direction: column;
+        padding: 0 1rem;
+        margin: 1rem;
 
     }
 
     &-title,
     &-subtitle {
-        backdrop-filter: brightness(0.5);
-        color: white;
-        height: 50%;
-        width: 100%;
-        text-align: center;
+        color: var.$secondaryColor;
     }
 
-    &-title {
-        padding-top: 5rem;
+    &-subtitle {
+        width: 80%;
+        font-style: italic;
+        font-size: 1rem;
+    }
+
+    &-button-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 80vw;
+        align-items: end;
+        background: url(/images/boulangegrand-inverse.jpg) center/cover no-repeat;
+    }
+
+    &-button {
+        border: none;
+        width: 40%;
+        height: 25%;
+        background-color: var.$primaryColorTransparent;
+        color: var.$secondaryColor;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0 50%);
+
+        &:hover {
+            background-color: var.$secondaryColorTransparent;
+            // clip-path: none;
+            // border-radius: 15px 0 0 15px;
+            color: var.$primaryColor;
+            width: 50%;
+            letter-spacing: 1px;
+            font-size: larger;
+        }
     }
 }
