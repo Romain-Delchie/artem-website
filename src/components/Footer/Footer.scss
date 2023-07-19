@@ -1,0 +1,45 @@
+@use 'src/styles/variables.scss' as var;
+
+.footer {
+    height: 130px;
+    display: flex;
+    justify-content: space-between;
+    background: var.$primaryColor;
+    clip-path: polygon(0 0, 100% 30%, 100% 100%, 0% 100%);
+    color: var.$secondaryColor;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 1rem 2rem;
+
+    &-links {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+
+    }
+
+    &-link:hover,
+    &-contact-line:hover {
+        transition: all 0.3s ease-in-out;
+        color: white
+    }
+
+    &-contact {
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        gap: 0.8rem;
+
+        &-line {
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+
+            & svg {
+                width: 1.3rem;
+                height: 1.3rem;
+            }
+        }
+    }
+}
