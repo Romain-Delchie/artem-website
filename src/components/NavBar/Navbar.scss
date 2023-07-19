@@ -139,3 +139,28 @@
 .show-navbar .slideInDown4 {
     transition: all 0.9s ease-in-out;
 }
+
+.navbar-presentation {
+    display: none;
+}
+
+@media (min-width:801px) {
+    .navbar {
+        align-items: center;
+    }
+
+    .navbar-burger {
+        display: none;
+    }
+
+    .navbar-presentation {
+        display: inline;
+        color: var.$secondaryColor;
+        font-size: 1.2rem;
+        width: 420px;
+        text-align: end;
+        margin-right: 1rem;
+
+    }
+
+}

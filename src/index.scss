@@ -3,3 +3,11 @@
 * {
     font-family: var.$font;
 }
+
+#root {
+    min-width: 320px;
+    max-width: 1800px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}

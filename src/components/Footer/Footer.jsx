@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import artem from './data/artem-data'
+import artem from '/data/artem-data'
 import './Footer.scss'
 
 export default function Footer() {

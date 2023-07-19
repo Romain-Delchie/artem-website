@@ -11,6 +11,12 @@ export default function NavBar() {
             </div>
             <ul className={`navbar-links ${isBurgerOpen ? "show-navbar" : "hide-navbar"}`}>
                 <li className='navbar-item slideInDown1'>
+                    <Link className='navbar-link' to="/">Se connecter</Link>
+                </li>
+                <li className='navbar-item slideInDown1'>
+                    <Link className='navbar-link' to="/">Créer un compte</Link>
+                </li>
+                <li className='navbar-item slideInDown2'>
                     <Link className='navbar-link' to="/">Nos produits</Link>
                 </li>
                 <li className='navbar-item slideInDown2'>
@@ -26,6 +32,7 @@ export default function NavBar() {
             <button onClick={() => setIsBurgerOpen(!isBurgerOpen)} className='navbar-burger'>
                 <span className='burger-line'></span>
             </button>
+            <h2 className='navbar-presentation'>Fabricant de textiles techniques et machines d'enfounement pour la boulangerie</h2>
         </nav >
     )
 }
