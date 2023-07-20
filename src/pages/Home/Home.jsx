@@ -18,7 +18,7 @@ export default function Home() {
                 </Link>
             </header>
             <section className='hero-button-container'>
-                <Link className='hero-button hero-button-one'>Notre entreprise</Link>
+                <Link className='hero-button hero-button-one' to='/company'>Notre entreprise</Link>
                 <Link className='hero-button hero-button-two'>Notre gamme</Link>
                 <Link className='hero-button hero-button-three'>Contact</Link>
                 <Link className='hero-button hero-button-four'>Créer un compte</Link>
