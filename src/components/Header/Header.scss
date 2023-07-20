@@ -1,0 +1,67 @@
+@use 'src/styles/variables.scss' as var;
+
+.header {
+    &-connection {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 2rem 0;
+
+        &-btn {
+            margin: auto;
+            margin-right: 1rem;
+            padding: 0.5rem;
+            color: white;
+            border: none;
+            text-align: center;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            line-height: 20px;
+            justify-content: center;
+            border-radius: 5px;
+            align-items: center;
+            background: linear-gradient(145deg, var.$primaryColor, var.$secondaryColor);
+            box-shadow: 3px 3px 5px var.$secondaryColor,
+                -3px -3px 5px #ffffff;
+
+            & svg {
+                height: 25px;
+                margin-bottom: 0.2rem;
+            }
+
+            & p {
+                margin-top: 0.5rem;
+                line-height: 14px;
+            }
+
+            &:hover {
+                background: linear-gradient(145deg, var.$secondaryColor, var.$primaryColor);
+                box-shadow: inset 5px 5px 5px var.$secondaryColor,
+                    inset -5px -5px 5px var.$primaryColor;
+                transform: scale(0.98);
+            }
+        }
+    }
+
+    &-title-container {
+        display: flex;
+        flex-direction: column;
+        padding: 0 1rem;
+
+    }
+
+    &-title,
+    &-subtitle {
+        color: var.$secondaryColor;
+    }
+
+    &-subtitle {
+        width: 92%;
+        font-style: italic;
+        font-size: 1rem;
+        line-height: 19px;
+    }
+}

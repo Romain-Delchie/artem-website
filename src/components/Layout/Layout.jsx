@@ -1,11 +1,11 @@
 import Footer from "../Footer/Footer";
-import NavBar from "../NavBar/NavBar";
+import Header from "../Header/Header";
 import './Layout.scss';
 
 export default function Layout({ children }) {
     return (
         <>
-            <NavBar />
+            <Header />
             <main>{children}</main>
             <Footer />
         </>

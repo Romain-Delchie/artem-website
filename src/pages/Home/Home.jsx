@@ -5,21 +5,9 @@ export default function Home() {
 
     return (
         <main className='hero'>
-            <header className='hero-header'>
-                <div className='hero-title-container'>
-                    <h1 className='hero-title'>ARTEM</h1>
-                    <h2 className='hero-subtitle'>Les supports d'avenir pour la pâte traditionnelle</h2>
-                </div>
-
-
-                <Link className='hero-header-btn'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg><p>Se connecter</p>
-                </Link>
-            </header>
             <section className='hero-button-container'>
                 <Link className='hero-button hero-button-one' to='/company'>Notre entreprise</Link>
-                <Link className='hero-button hero-button-two'>Notre gamme</Link>
+                <Link className='hero-button hero-button-two' to='/products'>Notre gamme</Link>
                 <Link className='hero-button hero-button-three'>Contact</Link>
                 <Link className='hero-button hero-button-four'>Créer un compte</Link>
             </section>
