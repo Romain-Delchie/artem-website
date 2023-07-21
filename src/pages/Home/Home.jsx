@@ -8,8 +8,8 @@ export default function Home() {
             <section className='hero-button-container'>
                 <Link className='hero-button hero-button-one' to='/company'>Notre entreprise</Link>
                 <Link className='hero-button hero-button-two' to='/products'>Notre gamme</Link>
-                <Link className='hero-button hero-button-three'>Contact</Link>
-                <Link className='hero-button hero-button-four'>Créer un compte</Link>
+                <Link className='hero-button hero-button-three' to='/contact'>Contact</Link>
+                <Link className='hero-button hero-button-four' to='/signup' >Créer un compte</Link>
             </section>
 
             <section className='hero-description-container'>
