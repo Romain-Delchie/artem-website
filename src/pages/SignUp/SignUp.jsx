@@ -3,7 +3,10 @@ import './SignUp.scss'
 export default function SignUp() {
     return (
         <main className='signup'>
-            <h2>SignUp TODO</h2>
+            <div className="signup-container">
+                <h2>Créez votre compte et bénéficiez de tous nos services</h2>
+
+            </div>
         </main>
     )
 }

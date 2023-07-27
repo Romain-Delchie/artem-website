@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
-import './SignIn.scss'
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AppContext from '../../context/AppContext';
+import API from '../../utils/api/api';
+import './SignIn.scss';
 
 export default function SignIn() {
 
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { user, updateUser } = useContext(AppContext);
+
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
@@ -16,38 +22,49 @@ export default function SignIn() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Ici, vous pouvez mettre votre logique de connexion (envoyer les données au backend, vérifier les informations, etc.).
-        // Pour cet exemple, nous allons simplement afficher les données entrées dans la console.
-        console.log('Email:', Email);
-        console.log('Password:', password);
+        API.auth.signin(email, password).then((response) => {
+            // et on stock la réponse renvoyée
+            const tokenReceived = response.data.token;
+
+            if (tokenReceived) {
+                updateUser({ ...user, token: tokenReceived });
+                navigate('/dashboard');
+            }
+
+        });
     };
+
+
 
     return (
         <main className='signin'>
-            <h2>Connectez-vous et accéder à votre tableau de bord</h2>
 
-            <form className="signin-form" onSubmit={handleSubmit}>
-                <input
-                    className="signin-form-input"
-                    name="email"
-                    type="email"
-                    placeholder="Adresse email"
-                    value={email}
-                    onChange={handleEmailChange}
-                />
-                <input
-                    className="signin-form-input"
-                    name="password"
-                    type="password"
-                    placeholder="Mot de passe"
-                    value={password}
-                    onChange={handlePasswordChange}
-                />
+            <div className='signin-container'>
 
-                <button className="signin-form-button" type="submit">
-                    Se connecter
-                </button>
-            </form>
+                <h2>Connectez-vous et accéder à votre tableau de bord</h2>
+                <form className="signin-form" onSubmit={handleSubmit}>
+                    <input
+                        className="signin-form-input"
+                        name="email"
+                        type="email"
+                        placeholder="Adresse email"
+                        value={email}
+                        onChange={handleEmailChange}
+                    />
+                    <input
+                        className="signin-form-input"
+                        name="password"
+                        type="password"
+                        placeholder="Mot de passe"
+                        value={password}
+                        onChange={handlePasswordChange}
+                    />
+
+                    <button className="signin-form-button" type="submit">
+                        Se connecter
+                    </button>
+                </form>
+            </div>
         </main>
     )
 }

@@ -9,6 +9,7 @@ import SignUp from "../pages/SignUp/SignUp";
 import LegalTerms from "../pages/LegalTerms/LegalTerms";
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 import TermsOfSales from "../pages/TermsOfSales/TermsOfSales";
+import Dashboard from "../pages/Dashboard/Dashboard";
 import './App.scss'
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
       <Route path="/legal-terms" element={<LegalTerms />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/terms-of-sales" element={<TermsOfSales />} />
+      <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
   )
 }

@@ -2,11 +2,13 @@
 
 .signin {
     color: var.$secondaryColor;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: url(/images/boulanger.jpg) no-repeat center center/cover;
     margin-bottom: -40px;
     min-height: calc(100vh - 320px);
-    padding-top: 100px;
-    padding-bottom: 200px;
+    padding-bottom: 40px;
 
     & h2 {
         width: 80%;
@@ -77,5 +79,12 @@
                 color: var.$primaryColor;
             }
         }
+    }
+}
+
+@media (min-width: 500px) {
+    .signin-container {
+        width: 400px;
+        margin: auto;
     }
 }

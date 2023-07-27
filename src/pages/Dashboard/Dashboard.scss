@@ -1,0 +1,31 @@
+@use 'src/styles/variables.scss' as var;
+
+.dashboard {
+    background: url(/images/boul-ordi-grande.jpg) no-repeat center / cover;
+
+    &-container {
+        background-color: rgba(255, 255, 255, 0.479);
+    }
+
+    &-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        width: 80%;
+        margin: 2rem auto;
+    }
+
+    &-button {
+        display: flex;
+        flex-direction: column;
+        background-color: var.$secondaryColorTransparent;
+        color: white;
+        padding: 16px;
+        border-radius: 15px;
+        width: 300px;
+        height: 80px;
+        text-align: center;
+        justify-content: center;
+    }
+}
