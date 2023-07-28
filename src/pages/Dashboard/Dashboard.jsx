@@ -43,16 +43,16 @@ export default function Dashboard() {
                 {user.role === 'user' &&
                     <section className='dashboard-buttons'>
                         <Link className='dashboard-button' to='/user-informations'>Mes informations</Link>
-                        <Link className='dashboard-button'>Mes outils</Link>
-                        <Link className='dashboard-button'>mon historique de devis<span>{user.quotations.length} devis en cours</span></Link>
-                        <Link className='dashboard-button'>Nouveau devis</Link>
-                        <Link className='dashboard-button'>Régler une facture en CB</Link>
+                        <Link className='dashboard-button' to='/tools'>Mes outils</Link>
+                        <Link className='dashboard-button' to='/quote-history'>mon historique de devis<span>{user.quotations.length} devis en cours</span></Link>
+                        <Link className='dashboard-button' to='/new-quote'>Nouveau devis</Link>
+                        <Link className='dashboard-button' to='https://pay-pro.monetico.fr/artem/paiementenligne' target='_blank'>Régler une facture en CB</Link>
                     </section>
                 }
                 {user.role === 'admin' &&
                     <section className='dashboard-buttons'>
-                        <Link className='dashboard-button'>Ajouter un produit</Link>
-                        <Link className='dashboard-button'>Valider rôle client</Link>
+                        <Link className='dashboard-button' to='/add-product'>Ajouter un produit</Link>
+                        <Link className='dashboard-button' to='/role-validation'>Valider rôle client</Link>
                     </section>
                 }
 
