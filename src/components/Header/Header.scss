@@ -46,6 +46,51 @@
         }
     }
 
+    &-disconnection {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 2rem 0;
+
+        &-btn {
+            margin: auto;
+            margin-right: 1rem;
+            padding: 0.5rem;
+            color: white;
+            border: none;
+            text-align: center;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            line-height: 20px;
+            justify-content: center;
+            border-radius: 5px;
+            align-items: center;
+            background: rgb(160, 46, 46);
+            box-shadow: 3px 3px 5px var.$secondaryColor,
+                -3px -3px 5px #ffffff;
+
+            & svg {
+                height: 25px;
+                margin-bottom: 0.2rem;
+            }
+
+            & p {
+                margin-top: 0.5rem;
+                line-height: 14px;
+            }
+
+            &:hover {
+                background: rgba(160, 46, 46);
+                box-shadow: inset 5px 5px 5px rgb(160, 46, 46),
+                    inset -5px -5px 5px rgb(160, 46, 46);
+                transform: scale(0.98);
+            }
+        }
+    }
+
     &-title-container {
         display: flex;
         flex-direction: column;

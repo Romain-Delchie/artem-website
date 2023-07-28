@@ -19,6 +19,14 @@ const API = {
                 },
             });
         },
+        async update(token, data) {
+            return axios.patch("/account", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+
+        },
     },
 
     quotation: {

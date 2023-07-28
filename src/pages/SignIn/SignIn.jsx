@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../../context/AppContext';
 import API from '../../utils/api/api';
@@ -10,6 +10,7 @@ export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { user, updateUser } = useContext(AppContext);
+
 
 
     const handleEmailChange = (event) => {
@@ -28,8 +29,12 @@ export default function SignIn() {
 
             if (tokenReceived) {
                 updateUser({ ...user, token: tokenReceived });
-                navigate('/dashboard');
+
+
             }
+
+        }).finally(() => {
+            navigate('/dashboard');
 
         });
     };
