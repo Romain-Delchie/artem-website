@@ -29,15 +29,23 @@ export default function Dashboard() {
             <div className="dashboard-container">
                 <h3>{user.company}</h3>
                 <h4>Bonjour {user.firstname}</h4>
-                <section className='dashboard-buttons'>
-                    <Link className='dashboard-button'>Mes informations</Link>
-                    <Link className='dashboard-button'>Mes outils</Link>
-                    <Link className='dashboard-button'>mon historique de devis<span>{user.quotations.length} devis en cours</span></Link>
-                    <Link className='dashboard-button'>Nouveau devis</Link>
-                    <Link className='dashboard-button'>Régler une facture en CB</Link>
+                {user.role === "user" &&
+                    <section className='dashboard-buttons'>
+                        <Link className='dashboard-button'>Mes informations</Link>
+                        <Link className='dashboard-button'>Mes outils</Link>
+                        <Link className='dashboard-button'>mon historique de devis<span>{user.quotations.length} devis en cours</span></Link>
+                        <Link className='dashboard-button'>Nouveau devis</Link>
+                        <Link className='dashboard-button'>Régler une facture en CB</Link>
+                    </section>
+                }
+                {user.role === "admin" &&
+                    <section className='dashboard-buttons'>
+                        <Link className='dashboard-button'>Ajouter un produit</Link>
+                        <Link className='dashboard-button'>Valider rôle client</Link>
+                    </section>
+                }
 
 
-                </section>
             </div>
 
         </main>
