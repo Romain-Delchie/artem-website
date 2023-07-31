@@ -1,1 +1,40 @@
 @use 'src/styles/variables.scss' as var;
+
+.add-product-form {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 50px;
+
+        & .input-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+            width: 50%;
+
+            &-stock {
+                flex-direction: row;
+                justify-content: start;
+            }
+        }
+    }
+
+    &-btn {
+        background-color: var.$secondaryColorTransparent;
+        margin: 60px auto 30px;
+        color: white;
+        padding: 16px;
+        border-radius: 15px;
+        width: 300px;
+        height: 80px;
+        text-align: center;
+    }
+}

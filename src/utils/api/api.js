@@ -39,6 +39,47 @@ const API = {
         }
     },
 
+    product: {
+        async getProducts(token) {
+            return axios.get("/product", {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+        async getProduct(token, id) {
+            return axios.get(`/product/${id}`, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+        async create(token, data) {
+            return axios.post("/product", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+        async update(token, id, data) {
+            return axios.patch(`/product/${id}`, data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+        async delete(token, id) {
+            return axios.delete(`/product/${id}`, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        }
+
+
+
+    },
+
 
 };
 
