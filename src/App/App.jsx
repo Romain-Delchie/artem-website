@@ -17,6 +17,7 @@ import NewQuote from "../pages/NewQuote/NewQuote";
 import AddProduct from "../pages/AddProduct/AddProduct";
 import RoleValidation from "../pages/RoleValidation/RoleValidation";
 import './App.scss'
+import DeleteProduct from "../pages/DeleteProduct/DeleteProduct";
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
       <Route path="/quote-history" element={<QuoteHistory />} />
       <Route path="/new-quote" element={<NewQuote />} />
       <Route path="/add-product" element={<AddProduct />} />
+      <Route path="/delete-product" element={<DeleteProduct />} />
       <Route path="/role-validation" element={<RoleValidation />} />
 
 
