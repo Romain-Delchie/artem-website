@@ -1,12 +1,13 @@
 import { useEffect, useState, useContext } from "react";
 import AppContext from "../../context/AppContext";
+import ProductCard from "../ProductCard/ProductCard";
 import "./SearchProduct.scss";
 import API from "../../utils/api/api";
 
 export default function SearchProduct() {
     const { user } = useContext(AppContext);
     const [products, setProducts] = useState([]);
-    const [searchBy, setSearchBy] = useState('reference');
+    const [searchBy, setSearchBy] = useState('description');
     const [searchValue, setSearchValue] = useState();
     const [searchResults, setSearchResults] = useState(null);
 
@@ -50,21 +51,27 @@ export default function SearchProduct() {
 
         <div className="search-product">
             <form className="search-product-form">
-                <label htmlFor="searchBy">Recherche par :</label>
-                <input type="radio" id="searchBy" name="searchBy" value="reference" checked={searchBy === 'reference'} onChange={handleChangeSearchBy} />
-                <label htmlFor="reference">Référence ARTEM</label>
-                <input type="radio" id="searchBy" name="searchBy" value="Mots clés" checked={searchBy === 'Mots clés'} onChange={handleChangeSearchBy} />
-                <label htmlFor="designation">Mot clé</label>
-                <input type="text" id="search" name="search" placeholder={searchBy === 'reference' ? 'Rechercher par référence' : 'Rechercher par mots clés'} onChange={handleSearch} />
+                <h3>Recherche par :</h3>
+                <div className="input-radio">
+                    <div className="input-container">
+                        <label htmlFor="reference">Mots clés</label>
+                        <input type="radio" id="searchBy" name="searchBy" value="description" checked={searchBy === 'description'} onChange={handleChangeSearchBy} />
+                    </div>
+                    <div className="input-container">
+                        <label htmlFor="searchBy">Référence ARTEM</label>
+                        <input type="radio" id="searchBy" name="searchBy" value="reference" checked={searchBy === 'reference'} onChange={handleChangeSearchBy} />
+                    </div>
+
+                </div>
+                <div className="input-container input-container-text">
+                    <input type="text" id="search" name="search" placeholder={searchBy === 'reference' ? 'Rechercher par référence' : 'Rechercher par mots clés'} onChange={handleSearch} />
+                </div>
 
             </form>
             <div className="search-product-results">
                 {searchResults && searchResults.map((product) => (
                     <div className="search-product-result" key={product.id}>
-                        <p>{product.reference}</p>
-                        <p>{product.designation}</p>
-                        <p>{product.price}</p>
-                        <p>{product.stock}</p>
+                        <ProductCard product={product} />
                     </div>
                 ))}
             </div>

@@ -1,1 +1,58 @@
 @use 'src/styles/variables.scss' as var;
+
+.search-product {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    color: var.$secondaryColor;
+
+    &-form {
+        margin: 15px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+
+        & .input-radio {
+            margin: 5px 0 15px;
+        }
+
+        & .input-container {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: start;
+
+            &-text {
+                width: 90%;
+                margin-bottom: 40px;
+            }
+
+            & input:checked {
+                color: var.$primaryColor;
+            }
+
+            & input[type="radio"] {
+                margin-right: 10px;
+
+            }
+
+            & input[type="text"] {
+                border: 3px solid var.$secondaryColor;
+                border-radius: 10px;
+                padding: 5px;
+                font-size: 1rem;
+                width: 100%;
+                color: var.$secondaryColor;
+            }
+        }
+    }
+
+    &-results {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+        align-items: center;
+    }
+}

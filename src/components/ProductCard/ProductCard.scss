@@ -1,0 +1,26 @@
+@use 'src/styles/variables.scss' as var;
+
+.product-card {
+    border: 3px solid var.$secondaryColor;
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: var.$secondaryColor;
+    width: 200px;
+
+    &-description {
+        padding: 10px;
+
+        & h3 {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: var.$primaryColor;
+        }
+
+        & p {
+            font-size: 0.8rem;
+            color: white;
+
+        }
+    }
+
+}
