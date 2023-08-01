@@ -51,7 +51,7 @@ export default function SearchProduct() {
 
         <div className="search-product">
             <form className="search-product-form">
-                <h3>Recherche par :</h3>
+                <h3>Recherche un produit par :</h3>
                 <div className="input-radio">
                     <div className="input-container">
                         <label htmlFor="reference">Mots clés</label>
@@ -64,7 +64,7 @@ export default function SearchProduct() {
 
                 </div>
                 <div className="input-container input-container-text">
-                    <input type="text" id="search" name="search" placeholder={searchBy === 'reference' ? 'Rechercher par référence' : 'Rechercher par mots clés'} onChange={handleSearch} />
+                    <input type="text" id="search" name="search" placeholder={searchBy === 'reference' ? 'ex: MP_1280_X_790' : 'ex: abry toile enfourneur'} onChange={handleSearch} />
                 </div>
 
             </form>

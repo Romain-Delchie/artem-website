@@ -8,6 +8,8 @@
     min-width: 320px;
     max-width: 2000px;
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
     margin: auto;
+    min-height: 100vh;
 }

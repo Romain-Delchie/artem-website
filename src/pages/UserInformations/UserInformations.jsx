@@ -5,6 +5,16 @@ import API from '../../utils/api/api';
 
 
 export default function UserInformations() {
+
+    const labelName = {
+        'firstname': 'Prénom',
+        'lastname': 'Nom',
+        'email': 'Email',
+        'phone_number': 'Téléphone',
+        'invoice_address': 'Adresse',
+        'company': 'Société'
+    }
+
     const { user, updateUser } = useContext(AppContext);
     const [updatedUser, setUpdatedUser] = useState({ ...user });
     const [modification, setModification] = useState(false);
@@ -40,7 +50,7 @@ export default function UserInformations() {
                         {!modification &&
 
                             <div className='user-informations-container'>
-                                <p>{key}</p>
+                                <p>{labelName[key]}</p>
                                 <p>{user[key]}</p>
 
 
@@ -48,13 +58,25 @@ export default function UserInformations() {
                         }
                         {modification &&
                             <div className='user-informations-container'>
-                                <label htmlFor={key}>{key}</label>
-                                <input
-                                    type='text'
-                                    id={key}
-                                    value={updatedUser[key]}
-                                    onChange={(e) => handleChange(key, e.target.value)}
-                                />
+                                <label htmlFor={key}>{labelName[key]}</label>
+                                {key === 'invoice_address' ?
+                                    <textarea
+                                        rows={5}
+                                        cols={20}
+                                        id={key}
+                                        value={updatedUser[key]}
+                                        onChange={(e) => handleChange(key, e.target.value)}
+                                    />
+                                    :
+                                    <input
+                                        type='text'
+                                        id={key}
+                                        value={updatedUser[key]}
+                                        onChange={(e) => handleChange(key, e.target.value)}
+                                    />
+                                }
+
+
 
                             </div>
                         }
