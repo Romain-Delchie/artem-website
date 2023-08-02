@@ -1,1 +1,144 @@
 @use 'src/styles/variables.scss' as var;
+
+.products {
+    color: var.$secondaryColor;
+    margin: 40px 0;
+
+    & h2 {
+        background: var.$gradient;
+        color: white;
+        text-align: center;
+
+    }
+
+    &-section {
+        margin: 30px 0;
+
+        & h3 {
+            text-align: center;
+            width: 80%;
+            margin: 60px auto 20px;
+
+        }
+
+        &-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            &-item-link {
+                display: flex;
+                justify-content: left;
+                align-items: center;
+            }
+
+            &-item {
+                width: 80%;
+                margin: 0 auto;
+                list-style: none;
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 6px 6px 12px #999999,
+                    -6px -6px 12px #ffffff;
+
+                &:hover {
+                    transform: scale(1.1);
+                    transition: all 0.5s ease-in-out;
+                }
+
+                & img {
+                    height: 100px;
+                    width: 50%;
+                    object-fit: cover;
+                }
+
+                & p {
+                    width: 40%;
+                    margin-left: 15px;
+                    text-align: center;
+                    font-weight: 700;
+                }
+
+            }
+        }
+
+        &-textile {
+
+            & h3 {
+                color: var.$primaryColor;
+                border-top: 3px solid var.$primaryColor;
+                border-bottom: 3px solid var.$primaryColor;
+            }
+
+            & .products-section-list-item {
+                background-color: var.$primaryColor;
+                border: 3px solid var.$primaryColor;
+                color: var.$secondaryColor;
+
+            }
+        }
+
+        &-meca {
+            color: var.$primaryColorLight;
+
+            & h3 {
+                border-top: 3px solid var.$secondaryColor;
+                border-bottom: 3px solid var.$secondaryColor;
+                color: var.$secondaryColor;
+
+            }
+
+            & .products-section-list-item {
+                background-color: var.$secondaryColor;
+                border: 3px solid var.$secondaryColor;
+
+            }
+        }
+    }
+}
+
+@media (min-width:450px) {
+
+    .products {
+        &-section {
+            max-width: 1440px;
+            margin: auto;
+
+            &-list {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-around;
+                align-items: center;
+
+                &-item {
+                    width: 350px;
+                    margin: 0 auto;
+                    list-style: none;
+                    border-radius: 10px;
+                    overflow: hidden;
+                    box-shadow: 6px 6px 12px #999999,
+                        -6px -6px 12px #ffffff;
+
+                    &:hover {
+                        transform: scale(1.1);
+                        transition: all 0.5s ease-in-out;
+                    }
+
+                    & img {
+                        height: 100px;
+                        width: 50%;
+                        object-fit: cover;
+                    }
+
+                    & p {
+                        width: 40%;
+                        margin-left: 15px;
+                        text-align: center;
+                        font-weight: 700;
+                    }
+
+                }
+            }
+        }
+    }
+}

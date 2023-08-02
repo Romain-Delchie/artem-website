@@ -75,10 +75,18 @@ const API = {
                 },
             });
         }
-
-
-
     },
+
+    range: {
+        async getRanges() {
+            return axios.get("/range");
+        },
+
+        async getRange(id) {
+            return axios.get(`/range/${id}`);
+        }
+    },
+
 
 
 };

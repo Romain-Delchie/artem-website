@@ -15,6 +15,7 @@ $primaryColorDark: color.adjust($primaryColor, $lightness: -20%);
 $secondaryColorDark: color.adjust($secondaryColor, $lightness: -20%);
 $primaryColorTransparent: rgba($primaryColor, 0.8);
 $secondaryColorTransparent: rgba($secondaryColor, 0.9);
+$gradient: linear-gradient(90deg, $primaryColor 30%, $secondaryColor 70%);
 
 
 // Polices
