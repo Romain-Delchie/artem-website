@@ -1,11 +1,22 @@
 @use 'src/styles/variables.scss' as var;
 
 .header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1000;
+    transition: all 3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var.$primaryColor;
+
+
     &-connection {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin: 2rem 0;
+
 
         &-btn {
             margin: auto;
@@ -108,5 +119,28 @@
         font-style: italic;
         font-size: 1rem;
         line-height: 19px;
+    }
+
+    & .back-btn {
+        margin-left: 1rem;
+        border: 1px solid var.$primaryColorLight;
+        color: var.$primaryColor;
+        background-color: #f8f8f8;
+        padding: 16px;
+        border-radius: 15px;
+        box-shadow: 5px 5px 5px #e8e8e8,
+            -5px -5px 5px #ffffff;
+
+        &:hover {
+            // border-radius: 8px;
+            // border: 1px solid var.$primaryColor;
+            // outline: 1px solid var.$primaryColor;
+            box-shadow: inset 5px 5px 3px #ebebeb,
+                inset -5px -5px 3px #ffffff;
+        }
+
+        & svg {
+            height: 15px;
+        }
     }
 }

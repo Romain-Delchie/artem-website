@@ -16,34 +16,36 @@ import QuoteHistory from "../pages/QuoteHistory/QuoteHistory";
 import NewQuote from "../pages/NewQuote/NewQuote";
 import AddProduct from "../pages/AddProduct/AddProduct";
 import RoleValidation from "../pages/RoleValidation/RoleValidation";
-import './App.scss'
 import DeleteProduct from "../pages/DeleteProduct/DeleteProduct";
+import './App.scss'
+import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
 
 function App() {
 
-
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/company" element={<Company />} />
-      <Route path="/products" element={<Products />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/signin" element={<SignIn />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/legal-terms" element={<LegalTerms />} />
-      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-      <Route path="/terms-of-sales" element={<TermsOfSales />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/user-informations" element={<UserInformations />} />
-      <Route path="/tools" element={<Tools />} />
-      <Route path="/quote-history" element={<QuoteHistory />} />
-      <Route path="/new-quote" element={<NewQuote />} />
-      <Route path="/add-product" element={<AddProduct />} />
-      <Route path="/delete-product" element={<DeleteProduct />} />
-      <Route path="/role-validation" element={<RoleValidation />} />
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/company" element={<Company />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/legal-terms" element={<LegalTerms />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-sales" element={<TermsOfSales />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/user-informations" element={<UserInformations />} />
+        <Route path="/tools" element={<Tools />} />
+        <Route path="/quote-history" element={<QuoteHistory />} />
+        <Route path="/new-quote" element={<NewQuote />} />
+        <Route path="/add-product" element={<AddProduct />} />
+        <Route path="/delete-product" element={<DeleteProduct />} />
+        <Route path="/role-validation" element={<RoleValidation />} />
 
-
-    </Routes>
+      </Routes>
+    </>
   )
 }
 

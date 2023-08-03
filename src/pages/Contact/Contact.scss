@@ -1,1 +1,46 @@
 @use 'src/styles/variables.scss' as var;
+
+.contact {
+    background: url(/images/contact.jpg) right/cover no-repeat;
+    flex-grow: 1;
+    margin-bottom: -40px;
+    min-height: calc(100vh - 150px);
+    padding-top: 16px;
+
+    & h2 {
+        text-align: center;
+        margin: 32px auto 0;
+        border-radius: 10px 10px 0 0;
+        padding: 25px;
+        width: 80%;
+        color: var.$secondaryColor;
+        background-color: var.$primaryColorTransparent;
+    }
+
+    &-container {
+        color: var.$primaryColor;
+        background-color: var.$secondaryColorTransparent;
+        width: 80%;
+        margin: auto;
+        border-radius: 0 0 10px 10px;
+        padding: 16px;
+        display: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    &-item {
+        margin-bottom: 16px;
+
+        & a {
+            display: flex;
+            justify-content: center;
+        }
+
+        & svg {
+            height: 18px;
+            margin-right: 5px;
+        }
+    }
+}
