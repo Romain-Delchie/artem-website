@@ -12,7 +12,7 @@
         width: 100%;
         height: 60vw;
         align-items: end;
-        background: url(/images/boulangegrand-inverse.jpg) center/cover no-repeat;
+        background: url(/images/boulanger.jpg) center/cover no-repeat;
     }
 
 
@@ -99,8 +99,7 @@
         padding: 1rem;
         background: linear-gradient(145deg, var.$secondaryColor 70%, var.$primaryColor);
         color: white;
-        box-shadow: 9px 9px 5px #7d7d7d,
-            -9px -9px 5px #ffffff;
+        box-shadow: 9px 9px 5px #7d7d7d;
 
         & svg {
             width: 50px;
@@ -148,6 +147,8 @@
 
 @media (min-width:850px) {
     .hero {
+        background: url(/images/boulanger.jpg) center/cover no-repeat;
+
         &-title {
             font-size: 3rem;
         }
@@ -168,7 +169,13 @@
         }
 
         &-button {
-            font-size: 1.8rem;
+            width: 20%;
+
+            &-container {
+                background: none;
+                height: 200px;
+                width: 100%;
+            }
         }
 
         &-description-container h3 {

@@ -35,8 +35,68 @@ const API = {
                 headers: {
                     "x-auth-token": token,
                 },
+
             });
-        }
+        },
+
+        async getQuotationById(token, id) {
+            return axios.get(`/quotation/${id}`, {
+                headers: {
+                    "x-auth-token": token,
+                },
+
+            });
+        },
+
+        async create(token, data) {
+            return axios.post("/quotation", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async update(token, id, data) {
+            return axios.patch(`/quotation/${id}`, data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async delete(token, id) {
+            return axios.delete(`/quotation/${id}`, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+
+        async updateProduct(token, id, data) {
+            return axios.patch(`/quotationHasProduct/${id}`, data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async deleteProduct(token, id) {
+            return axios.delete(`/quotationHasProduct/${id}`, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async createProduct(token, data) {
+            return axios.post("/quotationHasProduct", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
     },
 
     product: {

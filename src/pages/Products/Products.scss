@@ -4,6 +4,7 @@
     color: var.$secondaryColor;
     margin: 40px 0;
 
+
     & h2 {
         background: var.$gradient;
         color: white;
@@ -38,8 +39,7 @@
                 list-style: none;
                 border-radius: 10px;
                 overflow: hidden;
-                box-shadow: 6px 6px 12px #999999,
-                    -6px -6px 12px #ffffff;
+
 
                 &:hover {
                     transform: scale(1.1);
@@ -71,7 +71,7 @@
             }
 
             & .products-section-list-item {
-                background-color: var.$primaryColor;
+                background-color: var.$primaryColorTransparent;
                 border: 3px solid var.$primaryColor;
                 color: var.$secondaryColor;
 
@@ -89,7 +89,7 @@
             }
 
             & .products-section-list-item {
-                background-color: var.$secondaryColor;
+                background-color: var.$secondaryColorTransparent;
                 border: 3px solid var.$secondaryColor;
 
             }
@@ -116,8 +116,7 @@
                     list-style: none;
                     border-radius: 10px;
                     overflow: hidden;
-                    box-shadow: 6px 6px 12px #999999,
-                        -6px -6px 12px #ffffff;
+
 
                     &:hover {
                         transform: scale(1.1);

@@ -20,7 +20,7 @@ export default function Tools() {
                 </div>
                 <div className='tools-container-item'>
                     <h3>Outils d'aide en ligne pour :</h3>
-                    <Link className='tools-container-item-link' to='/sizing-tool'>Toile enfourneur</Link>
+                    <Link className='tools-container-item-link' to='/te-tool'>Toile enfourneur</Link>
 
                 </div>
             </div>
