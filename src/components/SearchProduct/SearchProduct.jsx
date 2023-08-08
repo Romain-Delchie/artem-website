@@ -33,12 +33,13 @@ export default function SearchProduct() {
 
     const handleSearch = (event) => {
         event.preventDefault();
-        setSearchValue(event.target.value.toLowerCase().trim().split(/\s+/));
+        const inputValue = event.target.value.toLowerCase().trim().split(/\s+/);
+        setSearchValue(inputValue);
         if (searchBy === 'reference') {
-            setSearchResults(products.filter((product) => product.reference.toLowerCase().startsWith(searchValue)));
+            setSearchResults(products.filter((product) => product.reference.toLowerCase().startsWith(inputValue)));
         } else {
 
-            setSearchResults(products.filter((product) => searchValue.every((word) =>
+            setSearchResults(products.filter((product) => inputValue.every((word) =>
                 product.description.toLowerCase().includes(word)))
 
             );
