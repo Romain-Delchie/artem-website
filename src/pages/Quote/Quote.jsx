@@ -5,16 +5,16 @@ import './Quote.scss'
 import API from '../../utils/api/api';
 
 export default function Quote() {
-    const { user } = useContext(AppContext);
-    console.log(user.quotations);
+    const { user, updateUser } = useContext(AppContext);
+
 
     const { quoteId } = useParams();
-    const quote = user.quotations.find(quote => quote.quotation_id === Number(quoteId));
+    const [quote, setQuote] = useState(user.quotations.find(quote => quote.quotation_id === Number(quoteId)));
     const [products, setProducts] = useState(JSON.parse(quote.products));
     const [updateQuantity, setUpdateQuantity] = useState({});
     const [quantityInput, setQuantityInput] = useState({});
-    const totalPrice = products.reduce((acc, product) => acc + product.price * product.quantity, 0);
-    const totalWeight = products.reduce((acc, product) => acc + product.weight * product.quantity, 0);
+    const totalPrice = products.reduce((acc, product) => acc + product.price * (quantityInput[product.id] || product.quantity), 0);
+    const totalWeight = products.reduce((acc, product) => acc + product.weight * (quantityInput[product.id] || product.quantity), 0);
     const tansport = {
         "1": 18,
         "2": 20,
@@ -23,14 +23,16 @@ export default function Quote() {
         "5": 39,
     }
 
+
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setQuantityInput((inputs) => ({
             ...inputs,
             [name]: value,
         }));
-        console.log(quantityInput)
     };
+
+
 
     function handleUpdateQuantity(event) {
         const productId = event.target.dataset.id;
@@ -40,14 +42,25 @@ export default function Quote() {
         }));
     }
 
-    function handleSubmitQuantity(productId) {
+    async function handleSubmitQuantity(productId) {
 
         const productData = { quantity: quantityInput[productId] }
-        API.quotation.updateProduct(user.token, productId, productData)
-        setUpdateQuantity((prevUpdateQuantity) => ({
-            ...prevUpdateQuantity,
-            [productId]: false, // Met à jour l'état du champ de quantité spécifique à false après la soumission
-        }));
+        try {
+            const [, quotationData] = await Promise.all([
+                API.quotation.updateProduct(user.token, productId, productData),
+                API.quotation.getQuotation(user.token),
+            ]);
+            const userUpdated = { ...user, ...quotationData.data };
+            updateUser({ ...user, ...userUpdated })
+
+            setUpdateQuantity((prevUpdateQuantity) => ({
+                ...prevUpdateQuantity,
+                [productId]: false,
+            }));
+        } catch (error) {
+            console.error("An error occurred while updating quantity:", error);
+            // Vous pouvez ajouter une logique de gestion d'erreur ici si nécessaire
+        }
     }
 
 
@@ -82,7 +95,7 @@ export default function Quote() {
                                 <td>{product.weight}</td>
                                 <td>{!updateQuantity[product.id] &&
                                     <>
-                                        {product.quantity}
+                                        {quantityInput[product.id] || product.quantity}
                                         <svg data-id={product.id} onClick={handleUpdateQuantity} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                         </svg>
@@ -103,7 +116,7 @@ export default function Quote() {
                                 <td>{product.reference}</td>
                                 <td>{product.designation}</td>
                                 <td>{product.delivery_time}</td>
-                                <td>{(product.price * product.quantity).toFixed(2)} € HT</td>
+                                <td>{(product.price * (quantityInput[product.id] || product.quantity)).toFixed(2)} € HT</td>
                                 <td>
 
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
