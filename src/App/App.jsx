@@ -15,12 +15,13 @@ import Tools from "../pages/Tools/Tools";
 import QuoteHistory from "../pages/QuoteHistory/QuoteHistory";
 import NewQuote from "../pages/NewQuote/NewQuote";
 import AddProduct from "../pages/AddProduct/AddProduct";
+import UpdateProduct from "../pages/UpdateProduct/UpdateProduct";
 import RoleValidation from "../pages/RoleValidation/RoleValidation";
 import DeleteProduct from "../pages/DeleteProduct/DeleteProduct";
 import Quote from "../pages/Quote/Quote";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
-import './App.scss'
 import TeTool from "../pages/TeTool/TeTool";
+import './App.scss'
 
 function App() {
 
@@ -44,6 +45,7 @@ function App() {
         <Route path="/quote-history/:quoteId" element={<Quote />} />
         <Route path="/new-quote" element={<NewQuote />} />
         <Route path="/add-product" element={<AddProduct />} />
+        <Route path="/update-product" element={<UpdateProduct />} />
         <Route path="/delete-product" element={<DeleteProduct />} />
         <Route path="/role-validation" element={<RoleValidation />} />
         <Route path="/te-tool" element={<TeTool />} />

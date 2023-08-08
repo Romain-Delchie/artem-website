@@ -1,1 +1,9 @@
 @use 'src/styles/variables.scss' as var;
+
+.quote {
+    & svg {
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+    }
+}

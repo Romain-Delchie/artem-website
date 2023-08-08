@@ -52,6 +52,7 @@ export default function Dashboard() {
                 {user.role === 'admin' &&
                     <section className='dashboard-buttons'>
                         <Link className='dashboard-button' to='/add-product'>Ajouter un produit</Link>
+                        <Link className='dashboard-button' to='/update-product'>Modifier un produit</Link>
                         <Link className='dashboard-button' to='/delete-product'>Supprimer un produit</Link>
                         <Link className='dashboard-button' to='/role-validation'>Valider rôle client</Link>
                     </section>
