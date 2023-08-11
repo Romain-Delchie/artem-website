@@ -6,6 +6,8 @@ import AppContext from './AppContext';
 const UserContextProvider = ({ children }) => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
     const [userState, setUserState] = useState(storedUser || { token: "", email: "", firstname: "", lastname: "" });
+    const [products, setProducts] = useState(null);
+    const [openAddProductForm, setOpenAddProductForm] = useState(false);
 
     useEffect(() => {
         // Sauvegarder l'état du contexte dans le localStorage chaque fois qu'il change
@@ -13,7 +15,7 @@ const UserContextProvider = ({ children }) => {
     }, [userState]);
 
     return (
-        <AppContext.Provider value={{ user: userState, updateUser: setUserState }}>
+        <AppContext.Provider value={{ user: userState, updateUser: setUserState, products, setProducts, openAddProductForm, setOpenAddProductForm }}>
             {children}
         </AppContext.Provider>
     );

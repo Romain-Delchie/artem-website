@@ -6,4 +6,28 @@
         height: 30px;
         cursor: pointer;
     }
+
+    &-search-product {
+        position: absolute;
+        padding: 16px;
+        width: 100%;
+        height: 100vh;
+        transform: translateX(-50%) translateY(-50%);
+        top: 50%;
+        left: 50%;
+        border-radius: 10px;
+        overflow: scroll;
+        z-index: 1001;
+        background-color: var.$primaryColorTransparent;
+
+        & .quote-btn-cross {
+            float: right;
+            padding: 10px;
+            background-color: var.$secondaryColor;
+            color: white;
+            border: 3px solid white;
+            font-size: 20px;
+            border-radius: 10px;
+        }
+    }
 }

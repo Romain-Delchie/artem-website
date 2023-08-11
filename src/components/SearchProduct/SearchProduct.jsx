@@ -5,12 +5,12 @@ import "./SearchProduct.scss";
 import API from "../../utils/api/api";
 
 export default function SearchProduct() {
-    const { user } = useContext(AppContext);
+    const { user, openAddProductForm, setOpenAddProductForm } = useContext(AppContext);
     const [products, setProducts] = useState([]);
     const [searchBy, setSearchBy] = useState('description');
     const [searchValue, setSearchValue] = useState();
     const [searchResults, setSearchResults] = useState(null);
-
+    console.log(user)
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -46,8 +46,6 @@ export default function SearchProduct() {
         }
     };
 
-    console.log(searchResults)
-
     return (
 
         <div className="search-product">
@@ -73,6 +71,9 @@ export default function SearchProduct() {
                 {searchResults && searchResults.map((product) => (
                     <div className="search-product-result" key={product.id}>
                         <ProductCard product={product} />
+                        <div className="product-card-btn">
+                            <button onClick={() => setOpenAddProductForm({ [product.id]: true })}>Ajouter au devis</button>
+                        </div>
                     </div>
                 ))}
             </div>

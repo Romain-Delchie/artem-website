@@ -89,7 +89,7 @@ const API = {
             });
         },
 
-        async createProduct(token, data) {
+        async addProduct(token, data) {
             return axios.post("/quotationHasProduct", data, {
                 headers: {
                     "x-auth-token": token,
@@ -147,6 +147,15 @@ const API = {
         }
     },
 
+    email: {
+        async sendEmail(token, data) {
+            return axios.post("/email-order", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        }
+    }
 
 
 };

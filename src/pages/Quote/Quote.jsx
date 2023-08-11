@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react'
 import AppContext from '../../context/AppContext'
 import SearchProduct from '../../components/SearchProduct/SearchProduct'
@@ -6,27 +6,26 @@ import './Quote.scss'
 import API from '../../utils/api/api';
 
 export default function Quote() {
-    const { user, updateUser } = useContext(AppContext);
-
+    const { user, updateUser, products, setProducts } = useContext(AppContext);
+    const Navigate = useNavigate();
     const { quoteId } = useParams();
-    const [quote, setQuote] = useState(user.quotations.find(quote => quote.quotation_id === Number(quoteId)));
-    const [products, setProducts] = useState(JSON.parse(quote.products));
+    const quote = user.quotations.find(quote => quote.quotation_id === Number(quoteId));
+
+    useEffect(() => {
+        if (quote) {
+            setProducts(JSON.parse(quote.products));
+        }
+    }, [quote]);
     const [updateQuantity, setUpdateQuantity] = useState({});
     const [deleteLine, setDeleteLine] = useState({});
     const [quantityInput, setQuantityInput] = useState({});
     const [render, setRender] = useState(true);
-    if (quote.products === null) {
-        return (
-            <div>
-                <p>Vous n'avez pas d'article à votre devis</p>
-                <SearchProduct />
-
-            </div>
-        )
-    }
-    const totalPrice = products.reduce((acc, product) => acc + product.price * (quantityInput[product.quotation_has_product_id
+    const [openSearchProduct, setOpenSearchProduct] = useState(false);
+    const [openDeleteQuotation, setOpenDeleteQuotation] = useState(false);
+    const [openOrderConfirmation, setOpenOrderConfirmation] = useState(false);
+    const totalPrice = products === null ? 0 : products.reduce((acc, product) => acc + product.price * (quantityInput[product.quotation_has_product_id
     ] || product.quantity), 0);
-    const totalWeight = products.reduce((acc, product) => acc + product.weight * (quantityInput[product.quotation_has_product_id
+    const totalWeight = products === null ? 0 : products.reduce((acc, product) => acc + product.weight * (quantityInput[product.quotation_has_product_id
     ] || product.quantity), 0);
     const tansport = {
         "1": 18,
@@ -49,7 +48,7 @@ export default function Quote() {
         };
 
         fetchData(); // Appeler la fonction pour récupérer les données
-    }, [render]);
+    }, []);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -92,7 +91,6 @@ export default function Quote() {
         } catch (error) {
             console.error("An error occurred while updating quantity:", error);
         }
-        setRender(!render)
     }
 
 
@@ -110,14 +108,51 @@ export default function Quote() {
         try {
             await API.quotation.deleteProduct(user.token, productId);
             const updatedProducts = products.filter(product => product.quotation_has_product_id !== productId);
+            console.log(updatedProducts);
             setProducts(updatedProducts);
             setRender(!render)
+
         } catch (error) {
             console.error("An error occurred while deleting product:", error);
         }
     }
 
+    function handleOpenSearchProduct() {
+        setOpenSearchProduct(true);
+        window.scrollTo(0, 0);
+    }
 
+    async function handledeleteQuotation() {
+        try {
+            await API.quotation.delete(user.token, quoteId);
+            const updatedQuotations = user.quotations.filter(quote => quote.quotation_id !== Number(quoteId));
+            const updatedUser = { ...user, quotations: updatedQuotations };
+            updateUser(updatedUser);
+            Navigate('/dashboard', { replace: true });
+        } catch (error) {
+            console.error("An error occurred while deleting quotation:", error);
+        }
+    }
+
+    async function handleOrder() {
+        try {
+            const orderData = products.map(product => {
+                return {
+                    reference: product.reference,
+                    quantité: product.quantity,
+                    puht: product.price,
+                    totalht: product.price * product.quantity,
+                    livraison: product.delivery_time,
+
+                }
+            })
+            console.log(orderData);
+            await API.email.sendEmail(user.token, orderData)
+            Navigate('/dashboard', { replace: true });
+        } catch (error) {
+            console.error("An error occurred while creating order:", error);
+        }
+    }
 
 
     return (
@@ -143,7 +178,7 @@ export default function Quote() {
                 </thead>
                 <tbody>
 
-                    {products.map((product) => {
+                    {Array.isArray(products) && products.map((product) => {
                         return (
                             <tr key={product.quotation_has_product_id
                             }>
@@ -228,6 +263,36 @@ export default function Quote() {
                     </tr>
                 </tbody>
             </table>
-        </div >
+            <button className='quote-btn' onClick={handleOpenSearchProduct}>Ajouter un produit</button>
+            <button className='quote-btn' onClick={() => setOpenOrderConfirmation(true)}>Passer en commande</button>
+            <button className='quote-btn' onClick={() => setOpenDeleteQuotation(true)}>Supprimer ce devis</button>
+            {openSearchProduct &&
+                <section className="quote-search-product">
+                    <button className='quote-btn-cross' onClick={() => setOpenSearchProduct(false)}>X</button>
+                    <SearchProduct />
+                </section>
+            }
+
+            {
+                openDeleteQuotation &&
+                <section className="quote-delete-quotation">
+                    <button className='quote-btn-cross' onClick={() => setOpenDeleteQuotation(false)}>X</button>
+                    <p>Supprimer ce devis ?</p>
+                    <button className='quote-btn' onClick={handledeleteQuotation}>Oui</button>
+                    <button className='quote-btn' onClick={() => setOpenDeleteQuotation(false)}>Non</button>
+                </section>
+            }
+
+            {
+                openOrderConfirmation &&
+                <section className="quote-order-confirmation">
+                    <button className='quote-btn-cross' onClick={() => setOpenOrderConfirmation(false)}>X</button>
+                    <p>Confirmer la commande ?</p>
+                    <button className='quote-btn' onClick={() => setOpenOrderConfirmation(false)}>Non</button>
+                    <button className='quote-btn' onClick={handleOrder}>Oui</button>
+
+                </section >
+            }
+        </div>
     )
 }
