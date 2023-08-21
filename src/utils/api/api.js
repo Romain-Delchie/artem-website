@@ -19,14 +19,27 @@ const API = {
                 },
             });
         },
+
+        async create(data) {
+            return axios.post("/account", data);
+        },
+
         async update(token, data) {
             return axios.patch("/account", data, {
                 headers: {
                     "x-auth-token": token,
                 },
             });
-
         },
+
+        async updatePassword(token, data) {
+            return axios.patch("/account/password", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
     },
 
     quotation: {

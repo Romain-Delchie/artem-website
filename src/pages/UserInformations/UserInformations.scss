@@ -62,14 +62,14 @@
         font-weight: 700;
         font-size: 1.1rem;
     }
-}
 
-#invoice_address {
-    width: 170px;
-    background-color: var.$secondaryColorLight;
-    color: white;
-    letter-spacing: 1px;
-    max-width: 100%;
-    line-height: 1.5;
-    height: 100px;
+    & #invoice_address {
+        width: 170px;
+        background-color: var.$secondaryColorLight;
+        color: white;
+        letter-spacing: 1px;
+        max-width: 100%;
+        line-height: 1.5;
+        height: 100px;
+    }
 }
