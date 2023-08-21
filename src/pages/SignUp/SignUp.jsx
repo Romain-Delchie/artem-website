@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import API from '../../utils/api/api';
 import './SignUp.scss'
 import PasswordInput from '../../components/PasswordInput/PasswordInput';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
 
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         company: '',
@@ -68,9 +70,7 @@ export default function SignUp() {
                 API.user
                     .create(lastData)
                     .then((response) => {
-                        console.log(response);
-                        // Handle the server response as needed
-                        console.log('User created');
+                        navigate('/signin', { replace: true });
                     })
                     .catch((error) => {
                         console.error(error);
