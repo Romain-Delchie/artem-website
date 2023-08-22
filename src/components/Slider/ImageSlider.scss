@@ -1,7 +1,8 @@
 @use 'src/styles/variables.scss' as var;
 
-.swiper-slide {
-    width: 50%;
+.image-swiper-slide {
+    width: 100px;
     border-radius: 5px;
     overflow: hidden;
+    border: px solid var.$primaryColor;
 }

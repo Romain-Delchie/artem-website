@@ -23,10 +23,10 @@
         position: fixed;
         right: -100vw;
         visibility: hidden;
+        top: 0;
         bottom: 0;
         background-color: var.$secondaryColor;
         justify-content: center;
-        height: 100vh;
         transition: all 0.5s ease-in-out;
     }
 
@@ -100,8 +100,9 @@
 }
 
 .show-navbar.navbar-links {
-    width: 100vw;
+
     right: 0;
+    width: 100%;
     visibility: visible;
 
 }

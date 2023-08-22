@@ -1,0 +1,21 @@
+@use 'src/styles/variables.scss' as var;
+
+.text-swiper {
+    width: 100%;
+    margin-bottom: 20px;
+
+    &-slide {
+        color: var.$secondaryColor;
+        font-size: 1.5rem;
+
+        & p {
+            margin-top: 30px;
+            font-size: 1rem;
+            color: var.$secondaryColor;
+            font-family: var.$font1;
+            font-weight: 700;
+            font-style: italic;
+            text-align: center;
+        }
+    }
+}
