@@ -1,1 +1,77 @@
 @use 'src/styles/variables.scss' as var;
+
+.range {
+    padding: 16px;
+
+    & h2,
+    h3 {
+        text-align: center;
+        margin-bottom: 16px;
+    }
+
+    &-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        margin-bottom: 16px;
+        border: 2px solid var.$secondaryColor;
+        padding: 2px;
+        border-radius: 8px;
+    }
+
+    &-description {
+        margin-bottom: 16px;
+        background-color: var.$primaryColorTransparent;
+        color: var.$secondaryColor;
+        border: 2px solid var.$primaryColor;
+        border-radius: 8px;
+        padding: 16px;
+        text-align: justify;
+    }
+
+    &-link {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & p {
+            font-weight: 700;
+            color: var.$secondaryColor;
+            font-size: 1rem;
+            margin: 0 15px;
+            position: relative;
+
+        }
+
+        &-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 40%;
+            height: 60px;
+            border: none;
+            font-size: 0.8rem;
+            width: 50%;
+            -webkit-transition: 0.3s;
+            transition: 0.3s;
+            background: var.$secondaryColor;
+            color: whitesmoke;
+            cursor: pointer;
+            padding: 10px;
+            letter-spacing: 0.2px;
+            border-radius: 5px;
+            -webkit-box-shadow: 17px 17px 34px #8c8c8c, -17px -17px 34px #ffffff;
+            box-shadow: 17px 17px 34px #8c8c8c, -17px -17px 34px #ffffff;
+
+            &:hover {
+                letter-spacing: 0;
+                -webkit-box-shadow: 5px 5px 10px #c9c9c9, -5px -5px 10px #ffffff;
+                box-shadow: 5px 5px 10px #c9c9c9, -5px -5px 10px #ffffff;
+                -webkit-transform: translate(3px, 3px);
+                transform: translate(3px, 3px);
+
+            }
+        }
+    }
+}

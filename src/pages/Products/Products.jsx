@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
 import './Products.scss'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import AppContext from '../../context/AppContext'
 import API from '../../utils/api/api'
 
 export default function Products() {
-    const [ranges, setRanges] = useState([]);
+    const { ranges, setRanges } = useContext(AppContext)
     useEffect(() => {
         API.range.getRanges()
             .then(res => setRanges(res.data.ranges))

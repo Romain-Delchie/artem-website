@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
+
 import './Home.scss'
+import Slider from '../../components/Slider/Slider'
 
 export default function Home() {
 
@@ -10,6 +12,9 @@ export default function Home() {
                 <Link className='hero-button hero-button-two' to='/products'>Notre gamme</Link>
                 <Link className='hero-button hero-button-three' to='/contact'>Contact</Link>
                 <Link className='hero-button hero-button-four' to='/signup' >Créer un compte</Link>
+            </section>
+            <section className='hero-products-container'>
+                <Slider />
             </section>
 
             <section className='hero-description-container'>
