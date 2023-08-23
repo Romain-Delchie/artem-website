@@ -6,14 +6,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
 
 // Colors
-$primaryColor: #8BB817;
+$primaryColor: rgb(139, 184, 23);
 $secondaryColor: #252E5B;
 $primaryColorLight: color.adjust($primaryColor, $lightness: 20%);
 $secondaryColorLight: color.adjust($secondaryColor, $lightness: 20%);
 $primaryColorDark: color.adjust($primaryColor, $lightness: -20%);
 $secondaryColorDark: color.adjust($secondaryColor, $lightness: -20%);
-$primaryColorTransparent: rgba($primaryColor, 0.8);
+$primaryColorTransparent: rgba($primaryColor, 0.7);
 $secondaryColorTransparent: rgba($secondaryColor, 0.9);
+$secondaryColorVeryTransparent: rgba($secondaryColor, 0.6);
 $gradient: linear-gradient(90deg, $primaryColor 30%, $secondaryColor 70%);
 
 

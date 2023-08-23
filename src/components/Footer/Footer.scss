@@ -49,6 +49,13 @@
 @media (min-width:440px) {
     .footer {
         justify-content: space-evenly;
+        font-size: 0.8rem;
+    }
+}
+
+@media (min-width:700px) {
+    .footer {
+        font-size: 0.9rem;
     }
 }
 

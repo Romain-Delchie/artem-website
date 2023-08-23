@@ -1,10 +1,8 @@
 import React, { useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Pagination, Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+
+// import 'swiper/css/effect-coverflow';
 import './ImageSlider.scss'
 import slide_image_1 from '/images/products/tdl.jpg'
 import slide_image_2 from '/images/products/mp.jpg'
@@ -43,6 +41,13 @@ export default function ImageSlider() {
                     "modifier": 1,
                     "slideShadows": true
                 }}
+                breakpoints={
+                    {
+                        850: {
+                            slidesPerView: 2,
+                        }
+                    }
+                }
                 // pagination={true}
                 modules={[Autoplay, EffectCoverflow, Pagination]}
                 className="my-swiper"
@@ -68,7 +73,7 @@ export default function ImageSlider() {
                 <SwiperSlide className='image-swiper-slide'>
                     <img src={slide_image_7} alt='slide_image_7' />
                 </SwiperSlide>
-                <SwiperSlide>
+                <SwiperSlide className='image-swiper-slide'>
                     <img src={slide_image_8} alt='slide_image_8' />
                 </SwiperSlide>
                 <SwiperSlide className='image-swiper-slide'>
@@ -80,16 +85,16 @@ export default function ImageSlider() {
                 <SwiperSlide className='image-swiper-slide'>
                     <img src={slide_image_11} alt='slide_image_11' />
                 </SwiperSlide>
-                <SwiperSlide className='swiper-slide'>
+                <SwiperSlide className='image-swiper-slide'>
                     <img src={slide_image_12} alt='slide_image_12' />
                 </SwiperSlide>
-                <SwiperSlide className='swiper-slide'>
+                <SwiperSlide className='image-swiper-slide'>
                     <img src={slide_image_13} alt='slide_image_13' />
                 </SwiperSlide>
-                <SwiperSlide className='swiper-slide'>
+                <SwiperSlide className='image-swiper-slide'>
                     <img src={slide_image_14} alt='slide_image_14' />
                 </SwiperSlide>
-                <SwiperSlide className='swiper-slide'>
+                <SwiperSlide className='image-swiper-slide'>
                     <img src={slide_image_15} alt='slide_image_15' />
                 </SwiperSlide>
             </Swiper>

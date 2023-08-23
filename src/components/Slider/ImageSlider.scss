@@ -1,8 +1,51 @@
 @use 'src/styles/variables.scss' as var;
 
 .image-swiper-slide {
-    width: 100px;
     border-radius: 5px;
     overflow: hidden;
-    border: px solid var.$primaryColor;
+    border: 2px solid var.$primaryColor;
+
+    & img {
+        margin: auto;
+    }
+}
+
+@media (min-width:390px) {
+    .swiper {
+        width: 300px;
+    }
+
+    .image-swiper-slide {
+
+        width: 80%;
+
+        & img {
+
+            margin: auto;
+        }
+    }
+}
+
+@media (min-width:600px) {
+    .swiper {
+        width: 500px;
+    }
+
+
+
+    .image-swiper-slide {
+
+        width: 80%;
+
+        & img {
+
+            margin: auto;
+        }
+    }
+}
+
+@media (min-width:850px) {
+    .swiper {
+        width: 500px;
+    }
 }

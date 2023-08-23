@@ -1,26 +1,50 @@
 import { Link } from 'react-router-dom'
+import { useEffect, useContext } from 'react'
+import AppContext from '../../context/AppContext'
+import API from '../../utils/api/api'
 
 import './Home.scss'
 import ImageSlider from '../../components/Slider/ImageSlider'
 import TextSlider from '../../components/Slider/TextSlider'
 
 export default function Home() {
-
+    const { ranges, setRanges } = useContext(AppContext)
+    useEffect(() => {
+        API.range.getRanges()
+            .then(res => setRanges(res.data.ranges))
+            .catch(err => console.log(err))
+    }, [])
     return (
         <main className='hero'>
             <section className='hero-button-container'>
-                <Link className='hero-button hero-button-one' to='/company'>Notre entreprise</Link>
-                <Link className='hero-button hero-button-two' to='/products'>Notre gamme</Link>
-                <Link className='hero-button hero-button-three' to='/contact'>Contact</Link>
-                <Link className='hero-button hero-button-four' to='/signup' >Créer un compte</Link>
+                <Link className='hero-button hero-button-one' to='/company'><p>Notre entreprise</p></Link>
+                <Link className='hero-button hero-button-two' to='/products'><p>Notre gamme</p></Link>
+                <Link className='hero-button hero-button-three' to='/contact'><p>Contact</p></Link>
+                <Link className='hero-button hero-button-four' to='/signup' ><p>Créer un compte</p></Link>
             </section>
             <section className='hero-products-container'>
+                <div className="hero-products-list-container">
+                    <h2>Nous proposons :</h2>
+                    <ul className="hero-products-list">
+                        {
+                            ranges.map(range => {
+                                return (
+                                    <li className="hero-products-list-item" key={range.id}>
+                                        <Link className='hero-products-list-item-link' to={`/range/${range.id}`}><p>{range.name}</p></Link>
+                                    </li>
+
+                                )
+                            }
+                            )
+                        }
+                    </ul>
+                </div>
                 <TextSlider />
                 <ImageSlider />
             </section>
 
             <section className='hero-description-container'>
-                <h3>Créer un compte et bénéficier ainsi de nos services :</h3>
+                <h2>Créer un compte et bénéficier ainsi de nos services :</h2>
                 <div className='hero-service-container'>
                     <div className='hero-service'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 7.756a4.5 4.5 0 100 8.488M7.5 10.5h5.25m-5.25 3h5.25M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
