@@ -71,7 +71,7 @@
             }
 
             & .products-section-list-item {
-                background-color: var.$primaryColorTransparent;
+                background-color: var.$primaryColor;
                 border: 3px solid var.$primaryColor;
                 color: var.$secondaryColor;
 
@@ -89,7 +89,7 @@
             }
 
             & .products-section-list-item {
-                background-color: var.$secondaryColorTransparent;
+                background-color: var.$secondaryColor;
                 border: 3px solid var.$secondaryColor;
 
             }

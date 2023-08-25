@@ -50,7 +50,7 @@ export default function ImageSlider() {
                 }
                 // pagination={true}
                 modules={[Autoplay, EffectCoverflow, Pagination]}
-                className="my-swiper"
+                className="image-swiper"
             >
                 <SwiperSlide className='image-swiper-slide'>
                     <img src={slide_image_1} alt='slide_image_1' />

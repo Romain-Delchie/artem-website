@@ -21,9 +21,10 @@
 
     &-description {
         margin-bottom: 16px;
-        background-color: var.$primaryColorTransparent;
+        background-color: var.$primaryColor;
         color: var.$secondaryColor;
         border: 2px solid var.$primaryColor;
+        font-size: 1.1rem;
         border-radius: 8px;
         padding: 16px;
         text-align: justify;

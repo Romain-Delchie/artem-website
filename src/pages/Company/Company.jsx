@@ -8,7 +8,7 @@ export default function Company() {
             <section className='company-description'>
                 <div className="company-description-item">
                     <h2>Notre savoir-faire</h2>
-                    <img className='left-img' src="/images/te-general.jpg" alt="facade artem" />
+                    <img className='left-img' src="/images/couture.jpg" alt="facade artem" />
                     <p>Depuis plus de 40 ans, Artem est un acteur incontournable dans le domaine des textiles techniques et des machines d'enfournement pour les professionnels de la boulangerie. Nous nous sommes engagés à fournir des solutions de qualité supérieure, conçues spécifiquement pour répondre aux besoins des acteurs de la boulangerie. Nous produisons en interne la majorité de nos produits
                         et en assurons le contrôle. La matière première
                         et les produits que nous ne transformons pas font
@@ -18,7 +18,7 @@ export default function Company() {
                 <hr />
                 <div className="company-description-item">
                     <h2>Nos produits</h2>
-                    <img className='right-img' src="/images/facade.jpg" alt="facade artem" />
+                    <img className='right-img' src="/images/te-general.jpg" alt="facade artem" />
                     <p>Avec plus de 5000 références que nous produisons pour la quasi totalité dans notre entrepôt de Montévrain en seine et marne proche d'Eurodisney, Artem est capable de répondre à tout vos besoin en textiles :  Toiles d'enfourneur, de couche, balancelles, tapis de laminoir et façonneuses, de transport, feutre divers., manche à farine et plus encore.. Mais plus encore avec notre partie méca :  grilles, séchoir  et machines d"enfournement.</p>
                     <Link className='company-description-item-link' to='/products'>Découvrir notre gamme plus en détails</Link>
                 </div>

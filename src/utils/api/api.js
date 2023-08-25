@@ -61,12 +61,8 @@ const API = {
             });
         },
 
-        async create(token, data) {
-            return axios.post("/quotation", data, {
-                headers: {
-                    "x-auth-token": token,
-                },
-            });
+        async create(data) {
+            return axios.post("/quotation", data);
         },
 
         async update(token, id, data) {

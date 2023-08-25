@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AppContext from '../../context/AppContext'
 import API from '../../utils/api/api'
+import { Logger } from 'sass'
 
 export default function Dashboard() {
     const { user, updateUser } = useContext(AppContext);
@@ -18,7 +19,7 @@ export default function Dashboard() {
                 ]);
 
                 // Mettre à jour le context 'user' en conservant le token et en fusionnant les autres propriétés
-                const updatedUser = { ...user, ...userData.data, ...quotationData.data };
+                const updatedUser = { ...user, ...userData.data, billing_address: JSON.parse(userData.data.billing_address), deliveries: JSON.parse(userData.data.deliveries), delivery_standard: JSON.parse(userData.data.delivery_standard), ...quotationData.data };
                 updateUser(updatedUser);
                 setIsDataLoaded(true);
             } catch (error) {
@@ -34,6 +35,8 @@ export default function Dashboard() {
         // Vous pouvez afficher un indicateur de chargement ici pendant que les données sont récupérées
         return <div>Chargement...</div>;
     }
+
+    console.log(user);
     return (
         <main className='dashboard'>
             <h2>Tableau de bord </h2>
@@ -46,7 +49,7 @@ export default function Dashboard() {
                         <Link className='dashboard-button' to='/tools'>Mes outils</Link>
                         <Link className='dashboard-button' to='/quote-history'>mon historique de devis<span>{user.quotations.length} devis en cours</span></Link>
                         <Link className='dashboard-button' to='/new-quote'>Nouveau devis</Link>
-                        <Link className='dashboard-button' to='https://pay-pro.monetico.fr/artem/paiementenligne' target='_blank'>Régler une facture en CB</Link>
+                        <Link className='dashboard-button dashboard-button-last' to='https://pay-pro.monetico.fr/artem/paiementenligne' target='_blank'>Régler une facture en CB</Link>
                     </section>
                 }
                 {user.role === 'admin' &&
@@ -54,7 +57,7 @@ export default function Dashboard() {
                         <Link className='dashboard-button' to='/add-product'>Ajouter un produit</Link>
                         <Link className='dashboard-button' to='/update-product'>Modifier un produit</Link>
                         <Link className='dashboard-button' to='/delete-product'>Supprimer un produit</Link>
-                        <Link className='dashboard-button' to='/role-validation'>Valider rôle client</Link>
+                        <Link className='dashboard-button dashboard-button-last' to='/role-validation'>Valider rôle client</Link>
                     </section>
                 }
 

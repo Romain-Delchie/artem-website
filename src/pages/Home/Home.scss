@@ -4,6 +4,9 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    background: url('/images/bgg.jpg') center/cover fixed no-repeat;
+    margin-bottom: -60px;
+    padding-bottom: 60px;
 
     &-button-container {
         margin: 30px auto;
@@ -73,7 +76,7 @@
         flex-direction: column;
         justify-content: center;
         height: 250px;
-        background-color: whitesmoke;
+        background-color: rgba(245, 245, 245, 0.97);
         width: 90%;
         border-radius: 8px;
         padding: 16px;
@@ -87,7 +90,7 @@
 
     &-description-container {
         border-radius: 8px;
-        background-color: whitesmoke;
+        background-color: rgba(245, 245, 245, 0.97);
         box-shadow: 0px 0px 5px 1px var.$secondaryColor;
         width: 90%;
         margin: 30px auto;
