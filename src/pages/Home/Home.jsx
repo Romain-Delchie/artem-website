@@ -19,7 +19,7 @@ export default function Home() {
                 <Link className='hero-button hero-button-one' to='/company'><p>Notre entreprise</p></Link>
                 <Link className='hero-button hero-button-two' to='/products'><p>Notre gamme</p></Link>
                 <Link className='hero-button hero-button-three' to='/contact'><p>Contact</p></Link>
-                <Link className='hero-button hero-button-four' to='/signup' ><p>Créer un compte</p></Link>
+                <Link className='hero-button hero-button-four' to='https://pay-pro.monetico.fr/artem/paiementenligne' ><p>Régler une facture</p></Link>
             </section>
             <section className='hero-products-container'>
                 <div className="hero-products-list-container">
