@@ -4,13 +4,28 @@ import AppContext from '../../context/AppContext'
 import SearchProduct from '../../components/SearchProduct/SearchProduct'
 import './Quote.scss'
 import API from '../../utils/api/api';
+import Quotepdf from '../../components/Quotepdf/Quotepdf';
+import ReactPDF, { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
+
 
 export default function Quote() {
     const { user, updateUser, products, setProducts } = useContext(AppContext);
     const Navigate = useNavigate();
     const { quoteId } = useParams();
-    const quote = user.quotations.find(quote => quote.quotation_id === Number(quoteId));
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const quotationData = await API.quotation.getQuotation(user.token)
+                const updatedUser = { ...user, ...quotationData.data };
+                updateUser(updatedUser);
+            } catch (error) {
+                console.error('Erreur lors de la récupération des données:', error);
+            }
+        };
 
+        fetchData(); // Appeler la fonction pour récupérer les données
+    }, []);
+    const quote = user.quotations.find(quote => quote.quotation_id === Number(quoteId));
     useEffect(() => {
         if (quote) {
             setProducts(JSON.parse(quote.products));
@@ -36,19 +51,6 @@ export default function Quote() {
     }
 
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const quotationData = await API.quotation.getQuotation(user.token)
-                const updatedUser = { ...user, ...quotationData.data };
-                updateUser(updatedUser);
-            } catch (error) {
-                console.error('Erreur lors de la récupération des données:', error);
-            }
-        };
-
-        fetchData(); // Appeler la fonction pour récupérer les données
-    }, []);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -154,9 +156,19 @@ export default function Quote() {
         }
     }
 
+    console.log(user);
 
     return (
         <div className='quote'>
+            <button className='quote-btn' onClick={() => ReactPDF.render(<QuotePDF quote={quote} />, `/quote.pdf`)}>
+                Télécharger en PDF
+            </button>
+            <PDFViewer width="100%" height="200px">
+                <Quotepdf quote={quote} user={user} totalWeight={totalWeight} totalPrice={totalPrice} />
+            </PDFViewer>
+            <PDFDownloadLink document={<Quotepdf quote={quote} user={user} totalWeight={totalWeight} totalPrice={totalPrice} />} fileName="quote.pdf">
+                {({ loading }) => (loading ? 'Loading document...' : 'Télécharger en PDF')}
+            </PDFDownloadLink>
             <h2>Devis</h2>
             <p>Devis n°{quote.quotation_id}</p>
             <p>Reference : {quote.reference}</p>
