@@ -1,6 +1,8 @@
 const artemData = {
     name: 'ARTEM',
     tel: '+33 1 64 11 00 33',
+    fax: '+33 1 64 11 32 09',
+    site: 'www.artem-fr.com',
     email: 'com@artem-fr.com',
     adress: '16 rue de Berlin',
     address2: "Innovespace Val d'Europe 2",

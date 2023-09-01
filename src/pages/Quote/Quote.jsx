@@ -4,7 +4,7 @@ import AppContext from '../../context/AppContext'
 import SearchProduct from '../../components/SearchProduct/SearchProduct'
 import './Quote.scss'
 import API from '../../utils/api/api';
-import Quotepdf from '../../components/Quotepdf/Quotepdf';
+import Quotepdf from '../../components/Quotepdf/Quotepdf.jsx';
 import ReactPDF, { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 
 
@@ -26,9 +26,13 @@ export default function Quote() {
         fetchData(); // Appeler la fonction pour récupérer les données
     }, []);
     const quote = user.quotations.find(quote => quote.quotation_id === Number(quoteId));
+    console.log(typeof quote.products);
     useEffect(() => {
         if (quote) {
-            setProducts(JSON.parse(quote.products));
+            if (typeof quote.products === "string") {
+                quote.products = JSON.parse(quote.products);
+            }
+            setProducts(quote.products);
         }
     }, [quote]);
     const [updateQuantity, setUpdateQuantity] = useState({});
@@ -42,15 +46,31 @@ export default function Quote() {
     ] || product.quantity), 0);
     const totalWeight = products === null ? 0 : products.reduce((acc, product) => acc + product.weight * (quantityInput[product.quotation_has_product_id
     ] || product.quantity), 0);
-    const tansport = {
-        "1": 18,
-        "2": 20,
-        "3": 24,
-        "4": 29,
-        "5": 39,
+
+    const tansportFunction = (weight) => {
+
+        if (weight < 1.8) {
+            return 18;
+        } else if (weight < 4.8) {
+            return 20;
+        } else if (weight < 9.8) {
+            return 24;
+        } else if (weight < 14.7) {
+            return 29;
+        } else if (weight < 29.7) {
+            return 39;
+        } else {
+            return "Nous consulter";
+        }
     }
 
+    quote.transport = tansportFunction(totalWeight);
 
+    if (openSearchProduct) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'unset';
+    }
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -90,6 +110,8 @@ export default function Quote() {
                 ...prevUpdateQuantity,
                 [productId]: false,
             }));
+            console.log(quotationData.data);
+
         } catch (error) {
             console.error("An error occurred while updating quantity:", error);
         }
@@ -110,7 +132,6 @@ export default function Quote() {
         try {
             await API.quotation.deleteProduct(user.token, productId);
             const updatedProducts = products.filter(product => product.quotation_has_product_id !== productId);
-            console.log(updatedProducts);
             setProducts(updatedProducts);
             setRender(!render)
 
@@ -158,19 +179,33 @@ export default function Quote() {
 
     console.log(user);
 
+    if (typeof quote.products === "string") {
+        return <p>Chargement...</p>
+    }
+
     return (
         <div className='quote'>
-            <button className='quote-btn' onClick={() => ReactPDF.render(<QuotePDF quote={quote} />, `/quote.pdf`)}>
-                Télécharger en PDF
-            </button>
-            <PDFViewer width="100%" height="200px">
-                <Quotepdf quote={quote} user={user} totalWeight={totalWeight} totalPrice={totalPrice} />
-            </PDFViewer>
-            <PDFDownloadLink document={<Quotepdf quote={quote} user={user} totalWeight={totalWeight} totalPrice={totalPrice} />} fileName="quote.pdf">
-                {({ loading }) => (loading ? 'Loading document...' : 'Télécharger en PDF')}
-            </PDFDownloadLink>
-            <h2>Devis</h2>
-            <p>Devis n°{quote.quotation_id}</p>
+
+            <h2>Devis n°{quote.quotation_id} Ref: {quote.reference}</h2>
+            <div className="quote-viewer">
+                <PDFViewer width="100%" height="100%">
+                    <Quotepdf quote={quote} user={user} totalWeight={totalWeight} totalPrice={totalPrice} />
+                </PDFViewer>
+            </div>
+
+            <div className="quote-btn-container">
+                <div className='quote-btn'>
+                    <PDFDownloadLink document={<Quotepdf quote={quote} user={user} totalWeight={totalWeight} totalPrice={totalPrice} />} fileName="quote.pdf">
+                        {({ loading }) => (loading ? 'Loading document...' : 'Télécharger en PDF')}
+                    </PDFDownloadLink>
+                </div>
+                <button className='quote-btn' onClick={() => setOpenOrderConfirmation(true)}>Passer en commande</button>
+                <button className='quote-btn' onClick={handleOpenSearchProduct}>Ajouter un produit</button>
+                <button className='quote-btn'>Modifier le devis</button>
+                <button className='quote-btn' onClick={() => setOpenDeleteQuotation(true)}>Supprimer ce devis</button>
+            </div>
+
+            <p>Devis</p>
             <p>Reference : {quote.reference}</p>
             <p>Créé le : {quote.creation_date}</p>
             <p>Valable jusqu'au : {quote.expiration_date}</p>
@@ -265,9 +300,15 @@ export default function Quote() {
                         )
 
                     })}
+                    {quote.shipment &&
+                        <tr>
+                            <td colSpan="7">Port et emballage :</td>
+                            <td colSpan="2">{quote.transport} € HT</td>
+                        </tr>
+                    }
                     <tr>
                         <td colSpan="7">Total HT :</td>
-                        <td colSpan="2">{totalPrice.toFixed(2)} € HT</td>
+                        <td colSpan="2">{typeof quote.transport === "string" ? `${totalPrice.toFixed(2)} € HT hors transport` : `${(quote.transport + totalPrice).toFixed(2)} € HT`}</td>
                     </tr>
                     <tr>
                         <td colSpan="7">Total TTC :</td>
@@ -275,9 +316,6 @@ export default function Quote() {
                     </tr>
                 </tbody>
             </table>
-            <button className='quote-btn' onClick={handleOpenSearchProduct}>Ajouter un produit</button>
-            <button className='quote-btn' onClick={() => setOpenOrderConfirmation(true)}>Passer en commande</button>
-            <button className='quote-btn' onClick={() => setOpenDeleteQuotation(true)}>Supprimer ce devis</button>
             {openSearchProduct &&
                 <section className="quote-search-product">
                     <button className='quote-btn-cross' onClick={() => setOpenSearchProduct(false)}>X</button>
