@@ -2,32 +2,18 @@ import './Dashboard.scss'
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AppContext from '../../context/AppContext'
-import API from '../../utils/api/api'
-import { Logger } from 'sass'
+import fetchData from '../../utils/function'
+
+
 
 export default function Dashboard() {
     const { user, updateUser } = useContext(AppContext);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
 
     useEffect(() => {
-        // Fonction pour récupérer les informations de l'utilisateur et les devis en parallèle
-        const fetchData = async () => {
-            try {
-                const [userData, quotationData] = await Promise.all([
-                    API.user.account(user.token),
-                    API.quotation.getQuotation(user.token),
-                ]);
 
-                // Mettre à jour le context 'user' en conservant le token et en fusionnant les autres propriétés
-                const updatedUser = { ...user, ...userData.data, billing_address: JSON.parse(userData.data.billing_address), deliveries: JSON.parse(userData.data.deliveries), delivery_standard: JSON.parse(userData.data.delivery_standard), ...quotationData.data };
-                updateUser(updatedUser);
-                setIsDataLoaded(true);
-            } catch (error) {
-                console.error('Erreur lors de la récupération des données:', error);
-            }
-        };
-
-        fetchData(); // Appeler la fonction pour récupérer les données
+        fetchData(user, updateUser); // Appeler la fonction pour récupérer les données
+        setIsDataLoaded(true);
     }, [user.token, updateUser]);
 
 

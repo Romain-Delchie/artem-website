@@ -293,7 +293,7 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
         }
     });
 
-
+    console.log(quote.products)
     return (
         <Document>
             <Page size="A4" style={styles.page}>

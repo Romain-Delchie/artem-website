@@ -5,6 +5,7 @@ import SearchProduct from '../../components/SearchProduct/SearchProduct'
 import './Quote.scss'
 import API from '../../utils/api/api';
 import Quotepdf from '../../components/Quotepdf/Quotepdf.jsx';
+import fetchData from '../../utils/function'
 import ReactPDF, { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 
 
@@ -13,43 +14,40 @@ export default function Quote() {
     const Navigate = useNavigate();
     const { quoteId } = useParams();
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const quotationData = await API.quotation.getQuotation(user.token)
-                const updatedUser = { ...user, ...quotationData.data };
-                updateUser(updatedUser);
-            } catch (error) {
-                console.error('Erreur lors de la récupération des données:', error);
-            }
-        };
 
-        fetchData(); // Appeler la fonction pour récupérer les données
+
+        fetchData(user, updateUser); // Appeler la fonction pour récupérer les données
     }, []);
-    const quote = user.quotations.find(quote => quote.quotation_id === Number(quoteId));
-    console.log(typeof quote.products);
+    const [quote, setQuote] = useState(user.quotations.find(quote => quote.quotation_id === Number(quoteId)));
+
     useEffect(() => {
         if (quote) {
-            if (typeof quote.products === "string") {
-                quote.products = JSON.parse(quote.products);
-            }
             setProducts(quote.products);
         }
+
     }, [quote]);
+    useEffect(() => {
+        setQuote(user.quotations.find(quote => quote.quotation_id === Number(quoteId)))
+
+    }, [user]);
+
     const [updateQuantity, setUpdateQuantity] = useState({});
     const [deleteLine, setDeleteLine] = useState({});
     const [quantityInput, setQuantityInput] = useState({});
-    const [render, setRender] = useState(true);
     const [openSearchProduct, setOpenSearchProduct] = useState(false);
     const [openDeleteQuotation, setOpenDeleteQuotation] = useState(false);
     const [openOrderConfirmation, setOpenOrderConfirmation] = useState(false);
-    const totalPrice = products === null ? 0 : products.reduce((acc, product) => acc + product.price * (quantityInput[product.quotation_has_product_id
+    console.log(Array.isArray(quote.products));
+    const totalPrice = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + product.price * (quantityInput[product.quotation_has_product_id
     ] || product.quantity), 0);
-    const totalWeight = products === null ? 0 : products.reduce((acc, product) => acc + product.weight * (quantityInput[product.quotation_has_product_id
+    const totalWeight = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + product.weight * (quantityInput[product.quotation_has_product_id
     ] || product.quantity), 0);
 
     const tansportFunction = (weight) => {
 
-        if (weight < 1.8) {
+        if (weight === 0) {
+            return 0;
+        } else if (weight < 1.8) {
             return 18;
         } else if (weight < 4.8) {
             return 20;
@@ -99,18 +97,14 @@ export default function Quote() {
             return
         }
         try {
-            const [, quotationData] = await Promise.all([
-                API.quotation.updateProduct(user.token, productId, productData),
-                API.quotation.getQuotation(user.token),
-            ]);
-            const userUpdated = { ...user, ...quotationData.data };
-            updateUser({ ...user, ...userUpdated })
 
-            setUpdateQuantity((prevUpdateQuantity) => ({
-                ...prevUpdateQuantity,
-                [productId]: false,
-            }));
-            console.log(quotationData.data);
+            await API.quotation.updateProduct(user.token, productId, productData),
+
+                setUpdateQuantity((prevUpdateQuantity) => ({
+                    ...prevUpdateQuantity,
+                    [productId]: false,
+                }));
+            fetchData(user, updateUser);
 
         } catch (error) {
             console.error("An error occurred while updating quantity:", error);
@@ -133,7 +127,8 @@ export default function Quote() {
             await API.quotation.deleteProduct(user.token, productId);
             const updatedProducts = products.filter(product => product.quotation_has_product_id !== productId);
             setProducts(updatedProducts);
-            setRender(!render)
+            fetchData(user, updateUser);
+
 
         } catch (error) {
             console.error("An error occurred while deleting product:", error);

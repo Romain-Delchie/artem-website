@@ -3,10 +3,11 @@ import { Link, Navigate, useParams } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import API from '../../utils/api/api';
 import AppContext from '../../context/AppContext';
+import fetchData from '../../utils/function';
 
 
 export default function ProductCard({ product }) {
-    const { user, products, setProducts, openAddProductForm, setOpenAddProductForm } = useContext(AppContext);
+    const { user, updateUser, products, setProducts, openAddProductForm, setOpenAddProductForm } = useContext(AppContext);
     const quotationId = Number(useParams().quoteId);
     const [quantityToAdd, setQuantityToAdd] = useState(1);
     function handleAddToQuotation() {
@@ -23,9 +24,14 @@ export default function ProductCard({ product }) {
                 } else {
                     setProducts([...products, { ...product, quantity: quantityToAdd, quotation_has_product_id: res.data.generatedId }])
                 }
-                setOpenAddProductForm(false);
+                console.log(products);
+                fetchData(user, updateUser);
 
-            }).catch((err) => console.log(err))
+
+            }).catch((err) => console.log(err)).finally(
+                setOpenAddProductForm(false)
+
+            )
 
 
     }
