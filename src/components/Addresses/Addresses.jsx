@@ -3,9 +3,10 @@ import AppContext from '../../context/AppContext'
 import API from '../../utils/api/api';
 import axios from 'axios';
 import './Addresses.scss'
+import fetchData from '../../utils/function';
 
 
-export default function Addresses({ type, modification, setModification }) {
+export default function Addresses({ type, modification, setModification, quoteId }) {
     const title = type === 'billing' ? 'Adresse de facturation' : 'Adresse de livraison';
     const typeKey = type === 'billing' ? 'billing_address' : 'delivery_standard';
 
@@ -15,7 +16,8 @@ export default function Addresses({ type, modification, setModification }) {
     const [availableCities, setAvailableCities] = useState([])
 
     useEffect(() => {
-        console.log("Updated User:", user);
+
+        setAddressSelected({ new: false, ...user[typeKey], zip_code: "" })
     }, [user]);
 
     const handleChangeSelect = (e) => {
@@ -76,6 +78,7 @@ export default function Addresses({ type, modification, setModification }) {
         if (dataAddress.name_address === '' || dataAddress.street_address === '' || dataAddress.zip_code === '' || dataAddress.city === '') {
             return alert('Veuillez renseigner tous les champs')
         }
+        console.log(dataAddress);
 
         try {
             const response = await API.address.create(user.token, dataAddress);
@@ -96,15 +99,12 @@ export default function Addresses({ type, modification, setModification }) {
                 }
                 )
             }
-
-
             setAddressSelected({ ...addressSelected, ...response.data.newAddress })
             setIsOpenAddresses(false)
 
         } catch (error) {
             console.error(error);
         } finally {
-
             const dataDelivery = {
                 delivery_address_id: dataAddress.id,
                 account_id: user.id,
@@ -116,17 +116,38 @@ export default function Addresses({ type, modification, setModification }) {
                 console.error(error);
             }
             )
+
+            if (type === 'quote') {
+                const dataQuotation = {
+                    shipment: dataAddress.id !== 1,
+                    delivery_id: dataAddress.id
+                }
+
+                API.quotation.update(user.token, quoteId, dataQuotation).then((response) => {
+                    console.log(response.data);
+                    fetchData(user, updateUser)
+                    setModification({ ...modification, [type]: false })
+                }
+                ).catch((error) => {
+                    console.error(error);
+                }
+                )
+            }
         }
     }
 
     const handleValidateAddress = async () => {
         try {
-            console.log(addressSelected);
-            const response = await API.user.update(user.token, { [typeKey + '_id']: addressSelected.id })
-            const newUser = { ...user, [typeKey]: { ...addressSelected } }
-            console.log(response.data);
-            updateUser(newUser)
-            setModification({ ...modification, [type]: false })
+            if (type !== 'quote') {
+                const response = await API.user.update(user.token, { [typeKey + '_id']: addressSelected.id })
+                const newUser = { ...user, [typeKey]: { ...addressSelected } }
+                updateUser(newUser)
+                setModification({ ...modification, [type]: false })
+            } else {
+                const response = await API.quotation.update(user.token, quoteId, { delivery_id: addressSelected.id })
+                fetchData(user, updateUser)
+                setModification({ ...modification, [type]: false })
+            }
         } catch (error) {
             console.error(error);
         }
@@ -137,7 +158,7 @@ export default function Addresses({ type, modification, setModification }) {
             <div className="addresses-change">
                 <button className='addresses-change-close' onClick={() => setModification({ ...modification, [type]: false })}>X</button>
                 <label className='addresses-change-title' htmlFor="shipment">{title}</label>
-                <select name="shipment" id="shipment" onChange={handleChangeSelect} value={addressSelected.id}>
+                <select name="shipment" id="shipment" defaultValue="none" onChange={handleChangeSelect}>
                     <option disabled key="presentation" value="none">Choisissez une adresse</option>
                     <option value="new" key="new">Nouvelle adresse</option>
                     {user.deliveries.map((address) => {

@@ -4,12 +4,13 @@ import API from '../../utils/api/api';
 import axios from 'axios';
 import AppContext from '../../context/AppContext'
 import './NewQuote.scss'
+import fetchData from '../../utils/function';
 
 export default function NewQuote() {
     const { user, updateUser } = useContext(AppContext)
     console.log(user);
     const navigate = useNavigate()
-    const [addressSelected, setAddressSelected] = useState({ new: false, ...user.delivery_standard, zip_code: "", street_address: "", city: "", name_address: "", id: 1 })
+    const [addressSelected, setAddressSelected] = useState({ new: false, ...user.delivery_standard })
     const [isOpenAddresses, setIsOpenAddresses] = useState(false)
     const [availableCities, setAvailableCities] = useState([])
 
@@ -45,19 +46,15 @@ export default function NewQuote() {
             delivery_id: addressSelected.id
         }
         API.quotation.create(dataQuotation).then((response) => {
-            console.log(response.data.newQuotation.generatedId);
-            API.quotation.getQuotationById(user.token, response.data.newQuotation.generatedId).then((res) => {
-                const updatedUser = { ...user, quotations: [...user.quotations, res.data.oneQuotation] }
-                updateUser(updatedUser)
-                navigate(`/quote-history/${res.data.oneQuotation.quotation_id}`)
-            }).catch((error) => {
-                console.error(error);
-            })
+            fetchData(user, updateUser)
         }
         ).catch((error) => {
             console.error(error);
         }
-        )
+        ).finally(() => {
+
+            navigate(`/quote-history/${user.quotations.slice(-1)[0].quotation_id}`)
+        })
     }
 
     const handleNewAddress = (e) => {
@@ -73,12 +70,22 @@ export default function NewQuote() {
             delete response.data.newAddress.generatedId
             const updatedUser = { ...user, deliveries: [...user.deliveries, response.data.newAddress] }
             updateUser(updatedUser)
-            console.log(response.data.newAddress);
-            setAddressSelected({ ...addressSelected, ...response.data.newAddress, new: false })
+            console.log({ ...addressSelected });
+            console.log({ ...response.data.newAddress });
+            setAddressSelected({ ...response.data.newAddress, new: false })
             setIsOpenAddresses(false)
 
         }).catch((error) => {
             console.error(error);
+        }).finally(() => {
+            API.delivery.create(user.token, { delivery_address_id: addressSelected.id, account_id: user.id }).then((response) => {
+                fetchData(user, updateUser)
+            }
+            ).catch((error) => {
+                console.error(error);
+            }
+            )
+
         })
     }
 
@@ -108,13 +115,12 @@ export default function NewQuote() {
     };
 
     const handleCityChange = (event) => {
-        setAddressSelected({
-            ...addressSelected,
-            city: event.target.value
-        });
+        const adressUpdated = { ...addressSelected, city: event.target.value }
+        console.log(adressUpdated);
+        setAddressSelected(adressUpdated);
     };
 
-    console.log(user.deliveries);
+    console.log(addressSelected);
     return (
         <div className='new-quote' >
             <h2>Nouveau devis</h2>

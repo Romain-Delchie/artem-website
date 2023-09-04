@@ -81,14 +81,56 @@
         z-index: 1001;
         background-color: var.$primaryColor;
 
-        & .quote-btn-cross {
-            float: right;
-            padding: 10px;
-            background-color: var.$secondaryColor;
-            color: white;
-            border: 3px solid white;
-            font-size: 20px;
-            border-radius: 10px;
+    }
+
+    & .quote-btn-cross {
+        float: right;
+        align-self: end;
+        justify-self: start;
+        padding: 10px;
+        background-color: var.$secondaryColor;
+        color: white;
+        border: 3px solid white;
+        font-size: 20px;
+        border-radius: 10px;
+    }
+
+    &-modif {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 16px;
+        z-index: 1001;
+        background-color: var.$secondaryColor;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        & svg {
+            margin-left: 5px;
+            color: var.$primaryColor;
+        }
+
+        & .red {
+            color: red;
+        }
+    }
+
+    &-reference {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        width: 90%;
+        border-bottom: 1px solid var.$secondaryColorDark;
+        border-top: 1px solid var.$secondaryColorDark;
+
+        &-input {
+            display: flex;
         }
     }
 }
