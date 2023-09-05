@@ -19,7 +19,6 @@ const fetchData = async (user, updateUser) => {
         // Mettre à jour le context 'user' en conservant le token et en fusionnant les autres propriétés
         const updatedUser = { ...user, ...userData.data, billing_address: JSON.parse(userData.data.billing_address), deliveries: JSON.parse(userData.data.deliveries), delivery_standard: JSON.parse(userData.data.delivery_standard), quotations };
         updateUser(updatedUser);
-        console.log(updatedUser)
     } catch (error) {
         console.error('Erreur lors de la récupération des données:', error);
     }

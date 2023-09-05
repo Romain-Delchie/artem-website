@@ -38,7 +38,7 @@
             transform: translate(3px, 3px);
         }
 
-        &:last-child {
+        &-delete {
             &:hover {
                 background-color: rgb(233, 24, 24);
                 color: black;
@@ -83,7 +83,7 @@
 
     }
 
-    & .quote-btn-cross {
+    &-btn-cross {
         float: right;
         align-self: end;
         justify-self: start;
@@ -95,42 +95,55 @@
         border-radius: 10px;
     }
 
-    &-modif {
+    &-delete-quotation {
         position: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        padding: 16px;
-        z-index: 1001;
-        background-color: var.$secondaryColor;
-        color: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        background-color: var.$secondaryColorTransparent;
 
-        & svg {
-            margin-left: 5px;
-            color: var.$primaryColor;
-        }
-
-        & .red {
-            color: red;
-        }
-    }
-
-    &-reference {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 10px;
-        width: 90%;
-        border-bottom: 1px solid var.$secondaryColorDark;
-        border-top: 1px solid var.$secondaryColorDark;
-
-        &-input {
+        &-container {
             display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            min-width: 310px;
+            width: 50%;
+            height: 40%;
+            background-color: whitesmoke;
+            position: relative;
+            border-radius: 5px;
+
+            & p {
+                font-size: 1.1rem;
+                margin-top: 30px;
+                font-weight: 700;
+                color: var.$secondaryColor;
+            }
+
+            & .quote-btn {
+                &-cross {
+                    position: absolute;
+                    top: 0;
+                    height: 50px;
+
+                    &-delete {
+                        display: flex;
+                        flex-direction: row;
+
+                        & .red:hover {
+                            background-color: rgb(233, 24, 24);
+                            color: black;
+                        }
+                    }
+
+                }
+            }
         }
     }
+
 }

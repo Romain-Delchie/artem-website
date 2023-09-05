@@ -1,0 +1,49 @@
+@use 'src/styles/variables.scss' as var;
+
+.quote {
+
+    &-update {
+        position: fixed;
+        overflow: scroll;
+
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 16px;
+        z-index: 1001;
+        background-color: var.$secondaryColor;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        & svg {
+            margin-left: 5px;
+            color: var.$primaryColor;
+        }
+
+        & .red {
+            color: red;
+        }
+
+        & .product-list {
+            height: 65%;
+        }
+    }
+
+    &-reference {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        width: 90%;
+        border-bottom: 1px solid var.$secondaryColorDark;
+        border-top: 1px solid var.$secondaryColorDark;
+
+        &-input {
+            display: flex;
+        }
+    }
+}

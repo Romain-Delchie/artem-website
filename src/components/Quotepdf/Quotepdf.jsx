@@ -226,11 +226,30 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                 fontSize: 9,
                 textAlign: 'right',
                 borderBottomColor: '#000',
-
                 borderRightWidth: 1,
             },
 
             totalPrice: {
+                height: '30px',
+                width: '16%',
+                padding: '5px',
+                fontSize: 9,
+                textAlign: 'right',
+                borderBottomColor: '#000',
+                borderBottomWidth: 1,
+                borderRightWidth: 1,
+            },
+            clicli: {
+                height: '30px',
+                width: '85%',
+                padding: '5px',
+                fontSize: 9,
+                textAlign: 'right',
+                borderBottomColor: '#000',
+                borderRightWidth: 1,
+            },
+
+            clicliPrice: {
                 height: '30px',
                 width: '16%',
                 padding: '5px',
@@ -375,6 +394,12 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                         </View>
                     }
 
+                    {quote.clicli === 6 &&
+                        <View style={styles.tableRow}>
+                            <Text style={styles.tableCell.clicli}>Supplément livraison en dépôt ou chez votre client</Text>
+                            <Text style={styles.tableCell.clicliPrice}>{quote.clicli.toFixed(2)} € HT</Text>
+                        </View>
+                    }
                     <View style={styles.tableRow}>
                         {typeof quote.transport === "string" &&
                             <View style={styles.tableCell.redFlagPort}>
@@ -383,15 +408,15 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                         }
                         <Text style={styles.tableCell.total}>
                             Total HT :</Text>
-                        <Text style={styles.tableCell.totalPrice}>{(totalPrice + transportCost).toFixed(2)} € HT</Text>
+                        <Text style={styles.tableCell.totalPrice}>{(totalPrice + transportCost + quote.clicli).toFixed(2)} € HT</Text>
                     </View>
                     <View style={styles.tableRow}>
                         <Text style={styles.tableCell.total}>TVA :</Text>
-                        <Text style={styles.tableCell.totalPrice}>{((totalPrice + transportCost) * 0.2).toFixed(2)} €</Text>
+                        <Text style={styles.tableCell.totalPrice}>{((totalPrice + transportCost + quote.clicli) * 0.2).toFixed(2)} €</Text>
                     </View>
                     <View style={styles.tableRow}>
                         <Text style={styles.tableCell.total}>Total TTC</Text>
-                        <Text style={styles.tableCell.lastTotalPrice}>{((totalPrice + transportCost) * 1.2).toFixed(2)} € TTC</Text>
+                        <Text style={styles.tableCell.lastTotalPrice}>{((totalPrice + transportCost + quote.clicli) * 1.2).toFixed(2)} € TTC</Text>
                     </View>
                 </View>
 
