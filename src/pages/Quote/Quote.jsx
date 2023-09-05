@@ -73,16 +73,12 @@ export default function Quote() {
 
     async function handleOrder() {
         try {
-            const orderData = products.map(product => {
-                return {
-                    reference: product.reference,
-                    quantité: product.quantity,
-                    puht: product.price,
-                    totalht: product.price * product.quantity,
-                    livraison: product.delivery_time,
+            const orderData = {
+                company: user.company,
+                quotation_id: quote.quotation_id,
 
-                }
-            })
+            }
+
 
             await API.email.sendEmail(user.token, orderData)
             Navigate('/dashboard', { replace: true });
