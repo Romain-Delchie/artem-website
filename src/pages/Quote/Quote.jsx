@@ -132,11 +132,11 @@ export default function Quote() {
 
             {
                 openDeleteQuotation &&
-                <section className="quote-delete-quotation">
-                    <div className="quote-delete-quotation-container">
+                <section className="quote-confirmation">
+                    <div className="quote-confirmation-container">
                         <button className='quote-btn-cross' onClick={() => setOpenDeleteQuotation(false)}>X</button>
                         <p>Supprimer ce devis ?</p>
-                        <div className="quote-btn-delete-container">
+                        <div className="quote-btn-confirmation-container">
                             <button className='quote-btn  quote-btn-delete' onClick={handledeleteQuotation}>Oui</button>
                             <button className='quote-btn' onClick={() => setOpenDeleteQuotation(false)}>Non</button>
                         </div>
@@ -146,11 +146,15 @@ export default function Quote() {
 
             {
                 openOrderConfirmation &&
-                <section className="quote-order-confirmation">
-                    <button className='quote-btn-cross' onClick={() => setOpenOrderConfirmation(false)}>X</button>
-                    <p>Confirmer la commande ?</p>
-                    <button className='quote-btn' onClick={() => setOpenOrderConfirmation(false)}>Non</button>
-                    <button className='quote-btn' onClick={handleOrder}>Oui</button>
+                <section className="quote-confirmation">
+                    <div className="quote-confirmation-container">
+                        <button className='quote-btn-cross' onClick={() => setOpenOrderConfirmation(false)}>X</button>
+                        <p>Confirmer la commande ?</p>
+                        <div className="quote-btn-confirmation-container">
+                            <button className='quote-btn' onClick={handleOrder}>Oui</button>
+                            <button className='quote-btn' onClick={() => setOpenOrderConfirmation(false)}>Non</button>
+                        </div>
+                    </div>
 
                 </section >
             }
