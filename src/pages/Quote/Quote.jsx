@@ -6,9 +6,10 @@ import './Quote.scss'
 import API from '../../utils/api/api';
 import Quotepdf from '../../components/Quotepdf/Quotepdf.jsx';
 import fetchData from '../../utils/function'
-import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
+import { PDFViewer, PDFDownloadLink, pdf } from '@react-pdf/renderer';
 import QuoteUpdate from '../../components/QuoteUpdate/QuoteUpdate'
 import artemData from '../../../data/artem-data'
+
 
 export default function Quote() {
     const { user, updateUser, products, setProducts } = useContext(AppContext);
@@ -40,11 +41,13 @@ export default function Quote() {
     console.log(user);
     const totalPrice = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + product.price * product.quantity, 0);
     const totalWeight = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + product.weight * product.quantity, 0);
-
+    quote.totalPrice = totalPrice;
+    quote.totalWeight = totalWeight;
 
 
     quote.transport = artemData.tansportFunction(totalWeight);
     quote.clicli = quote.delivery_id !== user.delivery_standard.id ? artemData.clicli : 0;
+    quote.totalPrice = quote.totalPrice + quote.transport + quote.clicli;
 
     if (openSearchProduct || openDeleteQuotation || openOrderConfirmation || openModifQuote) {
         document.body.style.overflow = 'hidden';
@@ -75,18 +78,27 @@ export default function Quote() {
         try {
             const orderData = {
                 company: user.company,
-                quotation_id: quote.quotation_id,
+                email: user.email,
+                phoneNumber: user.phone_number,
+                zipCode: user.billing_address.zip_code,
+                quote: quote
+            };
 
+            console.log(orderData); // Maintenant, vous pouvez afficher orderData correctement
+
+            try {
+                // Envoyez l'e-mail avec les données du PDF
+                await API.email.sendEmail(user.token, orderData);
+                console.log("Email sent successfully.");
+                Navigate('/dashboard', { replace: true });
+            } catch (emailError) {
+                console.error("An error occurred while sending the email:", emailError);
             }
 
-
-            await API.email.sendEmail(user.token, orderData)
-            Navigate('/dashboard', { replace: true });
         } catch (error) {
             console.error("An error occurred while creating order:", error);
         }
     }
-
 
     if (!isDataLoaded) {
         // Vous pouvez afficher un indicateur de chargement ici pendant que les données sont récupérées

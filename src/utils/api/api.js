@@ -192,6 +192,23 @@ const API = {
                 },
             });
         },
+
+        async getAllTE(token) {
+            return axios.get("/product/te", {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async getAllLam(token) {
+            return axios.get("/product/lam", {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
         async create(token, data) {
             return axios.post("/product", data, {
                 headers: {

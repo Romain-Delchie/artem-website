@@ -170,7 +170,7 @@ export default function Addresses({ type, modification, setModification, quoteId
 
 
                 </select>
-                {!addressSelected.new && user[typeKey].id !== addressSelected.id &&
+                {!addressSelected.new &&
                     <button onClick={handleValidateAddress}>Modifier l'{title.toLowerCase()}</button>
                 }
                 {
