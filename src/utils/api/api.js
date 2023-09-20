@@ -4,7 +4,6 @@ const axios = Axios.create({
     baseURL: "http://85.215.34.177:3305/api",
     headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
     },
 });
 
