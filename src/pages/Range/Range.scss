@@ -75,4 +75,54 @@
             }
         }
     }
+
+    &-sheet {
+        &-legende {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            & img {
+                width: 30px;
+                margin-right: 10px;
+            }
+        }
+
+        &-container {
+            &-item {
+                list-style: none;
+                margin: 5px 0;
+                padding: 5px;
+
+                &-link {
+                    display: flex;
+                    justify-content: start;
+                    align-items: center;
+                    border: 1px solid var.$secondaryColor;
+                    gap: 5px;
+                    height: 80px;
+
+                    & img {
+                        width: 30px;
+                        margin: 10px;
+                    }
+
+                    &-text {
+                        font-weight: 700;
+                        width: 80%;
+                    }
+
+                    &-text p:nth-child(2) {
+                        font-weight: 400;
+                    }
+
+                    &-img {
+                        position: absolute;
+                        right: 50px;
+                    }
+
+                }
+            }
+        }
+    }
 }
