@@ -41,7 +41,7 @@ export default function Range() {
                             return (
                                 <li className="range-sheet-container-item" key={techSheet.id}>
                                     <Link className='range-sheet-container-item-link' to={`/technicalSheet/${techSheet.link}.pdf`} target='_blank' download rel="noreferrer">
-                                        <img src={`/images/pdf.png`} alt={`fiche technique pour ${techSheet.name}`} />
+                                        <img className='range-sheet-container-item-link-pdf' src={`/images/pdf.png`} alt={`fiche technique pour ${techSheet.name}`} />
                                         {
                                             techSheet.description.includes('lavable') &&
                                             <img className='range-sheet-container-item-link-img' src={`/images/clean.png`} alt={`photo de nettoyage`} />

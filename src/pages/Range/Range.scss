@@ -95,6 +95,7 @@
                 padding: 5px;
 
                 &-link {
+                    position: relative;
                     display: flex;
                     justify-content: start;
                     align-items: center;
@@ -102,23 +103,26 @@
                     gap: 5px;
                     height: 80px;
 
-                    & img {
+                    &-pdf {
                         width: 30px;
                         margin: 10px;
                     }
 
                     &-text {
                         font-weight: 700;
-                        width: 80%;
+                        width: 75%;
                     }
 
                     &-text p:nth-child(2) {
                         font-weight: 400;
+                        line-height: 16px;
                     }
 
                     &-img {
                         position: absolute;
-                        right: 50px;
+                        right: 10px;
+                        top: 10px;
+                        width: 25px;
                     }
 
                 }
@@ -133,6 +137,29 @@
             width: 100%;
             height: 300px;
             object-fit: contain;
+        }
+
+        &-sheet {
+            &-container {
+                width: 500px;
+                margin: auto;
+
+                &-item {
+                    &-link {
+                        height: 100px;
+
+                        &-text {
+                            width: 100%;
+                        }
+
+                        &-img {
+                            right: 10px;
+                            top: 10px;
+                            width: 40px;
+                        }
+                    }
+                }
+            }
         }
     }
 }

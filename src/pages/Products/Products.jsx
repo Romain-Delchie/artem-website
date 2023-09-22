@@ -24,7 +24,7 @@ export default function Products() {
                             return (
 
                                 <li className="products-section-list-item" key={range.id}>
-                                    <Link className='products-section-list-item-link' to={`/range/${range.id}`}><img src={`/images/products/${range.image_link}`} alt={`photo de ${range.name}`} /><p>{range.name}</p></Link>
+                                    <Link className='products-section-list-item-link' to={`/vitrine/range/${range.id}`}><img src={`/images/products/${range.image_link}`} alt={`photo de ${range.name}`} /><p>{range.name}</p></Link>
                                 </li>
                             )
                         })
