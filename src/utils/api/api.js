@@ -1,7 +1,10 @@
 import Axios from "axios";
 
 const axios = Axios.create({
-    baseURL: "http://localhost:3305",
+    baseURL: "http://85.215.34.177:3305/api",
+    headers: {
+        "Content-Type": "application/json",
+    },
 });
 
 const API = {
@@ -108,6 +111,75 @@ const API = {
 
     },
 
+    address: {
+        async getAddresses(token) {
+            return axios.get("/address", {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async getAddress(token, id) {
+            return axios.get(`/address/${id}`, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async create(token, data) {
+            return axios.post("/address", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async update(token, id, data) {
+            return axios.patch(`/address/${id}`, data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async delete(token, id) {
+            return axios.delete(`/address/${id}`, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        }
+    },
+
+    delivery: {
+        async getDeliveries(token) {
+            return axios.get("/delivery", {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async create(token, data) {
+            return axios.post("/delivery", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async delete(token, id) {
+            return axios.delete(`/delivery/${id}`, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        }
+    },
+
+
     product: {
         async getProducts(token) {
             return axios.get("/product", {
@@ -123,6 +195,23 @@ const API = {
                 },
             });
         },
+
+        async getAllTE(token) {
+            return axios.get("/product/te", {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async getAllLam(token) {
+            return axios.get("/product/lam", {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
         async create(token, data) {
             return axios.post("/product", data, {
                 headers: {
