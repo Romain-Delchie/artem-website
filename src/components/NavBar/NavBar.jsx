@@ -14,38 +14,23 @@ export default function NavBar() {
     return (
         <nav className='navbar'>
             <div className='navbar-logo'>
-                <Link to="/"><img className='navbar-logo' src="/images/logoCarre.jpg" alt="logo artem" /></Link>
+                <Link to="/vitrine/"><img className='navbar-logo' src="/images/logoCarre.jpg" alt="logo artem" /></Link>
             </div>
             <ul className={`navbar-links ${isBurgerOpen ? "show-navbar" : "hide-navbar"}`}>
+                <li className='navbar-item slideInDown1'>
+                    <Link className='navbar-link' to="/vitrine/company">Notre entreprise</Link>
+                </li>
 
-                {user.token === '' &&
-                    <>
-                        <li className='navbar-item slideInDown1'>
-                            <Link className='navbar-link' to="/">Se connecter</Link>
-
-                        </li>
-                        <li className='navbar-item slideInDown1'>
-                            <Link className='navbar-link' to="/">Créer un compte</Link>
-                        </li>
-                    </>
-                }
                 <li className='navbar-item slideInDown2'>
-                    <Link className='navbar-link' to="/products">Nos produits</Link>
+                    <Link className='navbar-link' to="/vitrine/products">Nos produits</Link>
                 </li>
                 <li className='navbar-item slideInDown2'>
                     <Link className='navbar-link' to='https://pay-pro.monetico.fr/artem/paiementenligne' target='_blank' >Payer une facture</Link>
                 </li>
                 <li className='navbar-item slideInDown3'>
-                    <Link className='navbar-link' to="/contact">Contact</Link>
+                    <Link className='navbar-link' to="/vitrine/contact">Contact</Link>
                 </li>
-                {
-                    user.token !== '' &&
 
-                    <li className='navbar-item slideInDown4'>
-                        <Link className='navbar-link' to="/" onClick={handleDisconnection}>Se déconnecter</Link>
-                    </li>
-
-                }
             </ul>
             <button onClick={() => setIsBurgerOpen(!isBurgerOpen)} className='navbar-burger'>
                 <span className='burger-line'></span>

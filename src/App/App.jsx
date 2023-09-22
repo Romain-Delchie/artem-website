@@ -30,27 +30,27 @@ function App() {
     <>
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/company" element={<Company />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/range/:rangeId" element={<Range />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/legal-terms" element={<LegalTerms />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms-of-sales" element={<TermsOfSales />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/user-informations" element={<UserInformations />} />
-        <Route path="/tools" element={<Tools />} />
-        <Route path="/quote-history/" element={<QuoteHistory />} />
-        <Route path="/quote-history/:quoteId" element={<Quote />} />
-        <Route path="/new-quote" element={<NewQuote />} />
-        <Route path="/add-product" element={<AddProduct />} />
-        <Route path="/update-product" element={<UpdateProduct />} />
-        <Route path="/delete-product" element={<DeleteProduct />} />
-        <Route path="/role-validation" element={<RoleValidation />} />
-        <Route path="/te-tool" element={<TeTool />} />
+        <Route path="/vitrine/" element={<Home />} />
+        <Route path="/vitrine/company" element={<Company />} />
+        <Route path="/vitrine/products" element={<Products />} />
+        <Route path="/vitrine/range/:rangeId" element={<Range />} />
+        <Route path="/vitrine/contact" element={<Contact />} />
+        <Route path="/vitrine/signin" element={<SignIn />} />
+        <Route path="/vitrine/signup" element={<SignUp />} />
+        <Route path="/vitrine/legal-terms" element={<LegalTerms />} />
+        <Route path="/vitrine/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/vitrine/terms-of-sales" element={<TermsOfSales />} />
+        <Route path="/vitrine/dashboard" element={<Dashboard />} />
+        <Route path="/vitrine/user-informations" element={<UserInformations />} />
+        <Route path="/vitrine/tools" element={<Tools />} />
+        <Route path="/vitrine/quote-history/" element={<QuoteHistory />} />
+        <Route path="/vitrine/quote-history/:quoteId" element={<Quote />} />
+        <Route path="/vitrine/new-quote" element={<NewQuote />} />
+        <Route path="/vitrine/add-product" element={<AddProduct />} />
+        <Route path="/vitrine/update-product" element={<UpdateProduct />} />
+        <Route path="/vitrine/delete-product" element={<DeleteProduct />} />
+        <Route path="/vitrine/role-validation" element={<RoleValidation />} />
+        <Route path="/vitrine/te-tool" element={<TeTool />} />
 
 
       </Routes>
