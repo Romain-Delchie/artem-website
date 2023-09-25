@@ -22,9 +22,13 @@ import DeleteProduct from "../pages/DeleteProduct/DeleteProduct";
 import Quote from "../pages/Quote/Quote";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
 import TeTool from "../pages/TeTool/TeTool";
+import AppContext from "../context/AppContext";
+import { useContext } from "react";
 import './App.scss'
 
 function App() {
+
+  const { user } = useContext(AppContext);
 
   return (
     <>
@@ -40,19 +44,29 @@ function App() {
         <Route path="/legal-terms" element={<LegalTerms />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-sales" element={<TermsOfSales />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/user-informations" element={<UserInformations />} />
-        <Route path="/tools" element={<Tools />} />
-        <Route path="/quote-history/" element={<QuoteHistory />} />
-        <Route path="/quote-history/:quoteId" element={<Quote />} />
-        <Route path="/new-quote" element={<NewQuote />} />
-        <Route path="/add-product" element={<AddProduct />} />
-        <Route path="/update-product" element={<UpdateProduct />} />
-        <Route path="/delete-product" element={<DeleteProduct />} />
-        <Route path="/role-validation" element={<RoleValidation />} />
-        <Route path="/te-tool" element={<TeTool />} />
+        {user.token &&
+          <Route path="/dashboard" element={<Dashboard />} />
+        }
+        {user.role === 'user' &&
+          <>
+            <Route path="/user-informations" element={<UserInformations />} />
+            <Route path="/tools" element={<Tools />} />
+            <Route path="/quote-history/" element={<QuoteHistory />} />
+            <Route path="/quote-history/:quoteId" element={<Quote />} />
+            <Route path="/new-quote" element={<NewQuote />} />
+            <Route path="/te-tool" element={<TeTool />} />
+          </>
+        }
+        {user.role === 'admin' &&
+          <>
+            <Route path="/add-product" element={<AddProduct />} />
+            <Route path="/update-product" element={<UpdateProduct />} />
+            <Route path="/delete-product" element={<DeleteProduct />} />
+            <Route path="/role-validation" element={<RoleValidation />} />
+          </>
+        }
 
-
+        <Route path="*" element={<Home />} />
       </Routes>
     </>
   )

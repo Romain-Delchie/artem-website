@@ -174,6 +174,7 @@
     &-input-reference-container {
         display: flex;
         flex-direction: column;
+        list-style: none;
 
         & .reference-radio-label {
             display: inline-block;
