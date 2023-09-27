@@ -1,6 +1,53 @@
 @use 'src/styles/variables.scss' as var;
 
-.quote-item {
-    border: 5px solid var.$secondaryColor;
+.quote-history {
+    & li {
+        list-style: none;
+    }
 
+    & h2 {
+        text-align: center;
+        margin: 15px 0;
+        color: var.$secondaryColor;
+    }
+
+    .quote-item {
+        display: flex;
+        flex-direction: column;
+        background-color: var.$secondaryColorTransparent;
+        border: 1px solid var.$primaryColorLight;
+        border-radius: 5px;
+        padding: 10px;
+        color: whitesmoke;
+        width: 90%;
+        margin: 0 auto 20px;
+
+        & h3 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        & ul {
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px;
+            height: 150px;
+        }
+
+        & li {
+            display: flex;
+
+            & p:last-child {
+                margin-left: 5px;
+            }
+        }
+
+        &-btn {
+            margin-top: 20px;
+            background-color: var.$primaryColor;
+            align-self: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    }
 }

@@ -2,17 +2,24 @@ import { Link } from 'react-router-dom'
 import './Products.scss'
 import { useState, useEffect, useContext } from 'react'
 import AppContext from '../../context/AppContext'
+import Loading from '../../components/Loading/Loading'
 import API from '../../utils/api/api'
 
 export default function Products() {
     const { ranges, setRanges } = useContext(AppContext)
     const [isOpen, setIsOpen] = useState({ artisanal: false, industriel: false, autre: false, textile: false, bande: false, meca: false, service: false })
+    const [isDataLoaded, setIsDataLoaded] = useState(false)
 
     useEffect(() => {
         API.range.getRanges()
             .then(res => setRanges(res.data.ranges))
             .catch(err => console.log(err))
+            .finally(() => setIsDataLoaded(true))
     }, [])
+
+    if (!isDataLoaded) {
+        return <Loading />
+    }
 
     return (
         <main className='products'>

@@ -19,9 +19,8 @@ export default function Dashboard() {
 
 
     if (!isDataLoaded) {
-        // Vous pouvez afficher un indicateur de chargement ici pendant que les données sont récupérées
+        return <Loading />
     }
-    return <Loading />
 
     console.log(user);
     return (

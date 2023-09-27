@@ -5,6 +5,7 @@ import Price from '../../components/Price/Price';
 import API from '../../utils/api/api';
 import './TeTool.scss';
 import reference from '../../../data/te-data';
+import Loading from '../../components/Loading/Loading';
 
 export default function TeTool() {
     const { user } = useContext(AppContext);
@@ -34,12 +35,6 @@ export default function TeTool() {
         fetchTE();
         setIsLoaded(true);
     }, []);
-
-
-
-    console.log(teInfo)
-    console.log(teList)
-    console.log("slide", slide)
 
     const searchWithEA = (ea) => {
         ea = Number(ea)
@@ -272,7 +267,7 @@ export default function TeTool() {
     }
 
     if (!isLoaded) {
-        return <div className="loading">Chargement...</div>
+        return <Loading />
     }
 
     return (

@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import API from '../../utils/api/api'
 import AppContext from '../../context/AppContext'
 import './Range.scss'
+import Loading from '../../components/Loading/Loading'
 
 export default function Range() {
     const { user } = useContext(AppContext);
@@ -20,7 +21,7 @@ export default function Range() {
     }, [rangeId]);
 
     if (!range) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
     console.log(range);
     return (

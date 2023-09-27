@@ -9,6 +9,7 @@ import fetchData from '../../utils/function'
 import { PDFViewer, PDFDownloadLink, pdf } from '@react-pdf/renderer';
 import QuoteUpdate from '../../components/QuoteUpdate/QuoteUpdate'
 import artemData from '../../../data/artem-data'
+import Loading from '../../components/Loading/Loading'
 
 
 export default function Quote() {
@@ -75,6 +76,7 @@ export default function Quote() {
     }
 
     async function handleOrder() {
+        setIsDataLoaded(false);
         try {
             const orderData = {
                 company: user.company,
@@ -84,12 +86,11 @@ export default function Quote() {
                 quote: quote
             };
 
-            console.log(orderData); // Maintenant, vous pouvez afficher orderData correctement
-
             try {
                 // Envoyez l'e-mail avec les données du PDF
                 await API.email.sendEmail(user.token, orderData);
                 console.log("Email sent successfully.");
+                alert('Votre commande a bien été prise en compte, vous serez en copie du mail de commande qui nous sera envoyé dans les prochaines minutes.');
                 Navigate('/dashboard', { replace: true });
             } catch (emailError) {
                 console.error("An error occurred while sending the email:", emailError);
@@ -97,12 +98,13 @@ export default function Quote() {
 
         } catch (error) {
             console.error("An error occurred while creating order:", error);
+        } finally {
+            setIsDataLoaded(true);
         }
     }
 
     if (!isDataLoaded) {
-        // Vous pouvez afficher un indicateur de chargement ici pendant que les données sont récupérées
-        return <div>Chargement...</div>;
+        return <Loading />
     }
 
     return (
