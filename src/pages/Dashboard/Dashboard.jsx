@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AppContext from '../../context/AppContext'
 import fetchData from '../../utils/function'
+import Loading from '../../components/Loading/Loading'
 
 
 
@@ -19,8 +20,8 @@ export default function Dashboard() {
 
     if (!isDataLoaded) {
         // Vous pouvez afficher un indicateur de chargement ici pendant que les données sont récupérées
-        return <div>Chargement...</div>;
     }
+    return <Loading />
 
     console.log(user);
     return (
