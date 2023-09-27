@@ -50,7 +50,7 @@ export default function NavBar() {
             <button onClick={() => setIsBurgerOpen(!isBurgerOpen)} className='navbar-burger'>
                 <span className='burger-line'></span>
             </button>
-            <h2 className='navbar-presentation'>Fabricant de textiles techniques et machines d'enfounement pour la boulangerie</h2>
+            <h2 className='navbar-presentation'>Fabricant de textiles techniques et machines d'enfournement pour la boulangerie</h2>
         </nav >
     )
 }

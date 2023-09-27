@@ -28,35 +28,39 @@ export default function Range() {
             <h2>{range.name}</h2>
             <img className='range-img' src={`/images/products/${range.image_link}`} alt={`photo de ${range.name}`} />
             <p className='range-description'>{range.description}</p>
-            <section className="range-sheet">
-                <h3>Fiche technique des différentes matières à télécharger :</h3>
-                <div className="range-sheet-legende">
-                    <img className='range-sheet-img' src={`/images/clean.png`} alt={`photo de lavage}`} />
-                    <p>: Facilité de nettoyage</p>
-                </div>
-                <ul className="range-sheet-container">
-                    {
-                        range.techSheets.map((techSheet) => {
-                            return (
-                                <li className="range-sheet-container-item" key={techSheet.id}>
-                                    <Link className='range-sheet-container-item-link' to={`/technicalSheet/${techSheet.link}.pdf`} target='_blank' download rel="noreferrer">
-                                        <img className='range-sheet-container-item-link-pdf' src={`/images/pdf.png`} alt={`fiche technique pour ${techSheet.name}`} />
-                                        {
-                                            techSheet.description.includes('lavable') &&
-                                            <img className='range-sheet-container-item-link-img' src={`/images/clean.png`} alt={`photo de nettoyage`} />
-                                        }
-                                        <div className='range-sheet-container-item-link-text'>
-                                            <p>{techSheet.name}</p>
-                                            <p>{techSheet.description}</p>
-                                        </div>
-                                    </Link>
-                                </li>
-                            )
-                        })
-                    }
-                </ul>
+            {
+                range.techSheets &&
+                <section className="range-sheet">
 
-            </section>
+                    <h3>Fiche technique des différentes matières à télécharger :</h3>
+                    <div className="range-sheet-legende">
+                        <img className='range-sheet-img' src={`/images/clean.png`} alt={`photo de lavage}`} />
+                        <p>: Facilité de nettoyage</p>
+                    </div>
+                    <ul className="range-sheet-container">
+                        {
+                            range.techSheets.map((techSheet) => {
+                                return (
+                                    <li className="range-sheet-container-item" key={techSheet.id}>
+                                        <Link className='range-sheet-container-item-link' to={`/technicalSheet/${techSheet.link}.pdf`} target='_blank' download rel="noreferrer">
+                                            <img className='range-sheet-container-item-link-pdf' src={`/images/pdf.png`} alt={`fiche technique pour ${techSheet.name}`} />
+                                            {
+                                                techSheet.description.includes('lavable') &&
+                                                <img className='range-sheet-container-item-link-img' src={`/images/clean.png`} alt={`photo de nettoyage`} />
+                                            }
+                                            <div className='range-sheet-container-item-link-text'>
+                                                <p>{techSheet.name}</p>
+                                                <p>{techSheet.description}</p>
+                                            </div>
+                                        </Link>
+                                    </li>
+                                )
+                            })
+                        }
+                    </ul>
+
+                </section>
+            }
 
 
             {
