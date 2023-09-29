@@ -24,8 +24,9 @@
     }
 
     &-form {
-        background-color: rgba(255, 255, 255, 0.5);
-        padding: 1rem;
+        background-color: rgba(255, 255, 255, 0.7);
+        padding: 10px;
+        padding-top: 30px;
         border-radius: 0 0 10px 10px;
         display: flex;
         flex-direction: column;
@@ -33,13 +34,21 @@
         margin: auto;
         align-items: center;
         justify-content: space-around;
-        height: 200px;
+        height: 250px;
 
+        & .forgot-link {
+            font-size: 0.8rem;
+            font-weight: bolder;
+            color: var.$secondaryColorTransparent;
+            text-align: end;
+            width: 90%;
+            margin: -10px 0 10px 0;
+        }
 
         &-input {
             background-color: rgba(255, 255, 255, 0.9);
             width: 90%;
-            margin: 0.5rem 0;
+            margin-bottom: 10px;
             color: var.$secondaryColor;
             font-weight: 700;
             border: none;
@@ -49,7 +58,7 @@
             outline: none;
 
             &::placeholder {
-                color: var.$primaryColorTransparent;
+                color: var.$primaryColor;
                 font-weight: 400;
             }
 
@@ -58,12 +67,14 @@
                 border: 1px solid var.$secondaryColor;
 
                 &::placeholder {
-                    color: var.$secondaryColorTransparent;
+                    color: rgba(245, 245, 245, 0.644);
+
                 }
             }
         }
 
         &-button {
+            margin-top: 10px;
             background-color: var.$primaryColorTransparent;
             color: var.$secondaryColor;
             font-weight: 700;

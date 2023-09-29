@@ -25,6 +25,9 @@ import TeTool from "../pages/TeTool/TeTool";
 import AppContext from "../context/AppContext";
 import { useContext } from "react";
 import './App.scss'
+import ValidationEmail from "../pages/ValidationEmail/ValidationEmail";
+import ConfirmEmail from "../pages/ConfirmEmail/ConfirmEmail";
+import Forgotpassword from "../pages/ForgotPassword/ForgotPassword";
 
 function App() {
 
@@ -44,8 +47,13 @@ function App() {
         <Route path="/legal-terms" element={<LegalTerms />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-sales" element={<TermsOfSales />} />
+        <Route path="/confirm-email/:code" element={<ConfirmEmail />} />
+        <Route path="/forgot-password" element={<Forgotpassword />} />
         {user.token &&
-          <Route path="/dashboard" element={<Dashboard />} />
+          <>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/validation-email" element={<ValidationEmail />} />
+          </>
         }
         {user.role === 'user' &&
           <>

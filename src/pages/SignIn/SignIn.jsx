@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import AppContext from '../../context/AppContext';
 import API from '../../utils/api/api';
 import './SignIn.scss';
@@ -64,6 +64,7 @@ export default function SignIn() {
                         value={password}
                         onChange={handlePasswordChange}
                     />
+                    <Link className='forgot-link' to="/forgot-password">Mot de passe oublié ?</Link>
 
                     <button className="signin-form-button" type="submit">
                         Se connecter

@@ -1,9 +1,10 @@
 import './Dashboard.scss'
 import React, { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import AppContext from '../../context/AppContext'
 import fetchData from '../../utils/function'
 import Loading from '../../components/Loading/Loading'
+import ValidationEmail from '../ValidationEmail/ValidationEmail'
 
 
 
@@ -20,6 +21,9 @@ export default function Dashboard() {
 
     if (!isDataLoaded) {
         return <Loading />
+    }
+    if (isDataLoaded && !user.verified) {
+        return <ValidationEmail />
     }
 
     console.log(user);

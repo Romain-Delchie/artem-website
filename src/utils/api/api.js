@@ -247,15 +247,34 @@ const API = {
 
     email: {
         async sendEmail(token, data) {
-            return axios.post("/email-order", data, {
+            return axios.post("/email/order", data, {
                 headers: {
                     "x-auth-token": token,
                 },
             });
+        },
+
+        async sendConfirmationEmail(token, data) {
+            return axios.post("/email/validation", data, {
+                headers: {
+                    "x-auth-token": token,
+                }
+            });
+        },
+
+        async verifyEmail(data) {
+            return axios.post("/account/verify-email", data);
+        },
+
+        async reset(token, data) {
+            return axios.post("/email/reset", data, {
+                headers: {
+                    "x-auth-token": token,
+                }
+            });
         }
+
     }
-
-
 };
 
 export default API;
