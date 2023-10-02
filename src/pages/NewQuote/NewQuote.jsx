@@ -65,7 +65,7 @@ export default function NewQuote() {
             zip_code: e.target.zip_code.value,
             city: e.target.city.value
         }
-        API.address.create(user.token, dataAddress).then((response) => {
+        API.address.create(dataAddress).then((response) => {
             response.data.newAddress.id = response.data.newAddress.generatedId
             delete response.data.newAddress.generatedId
             const updatedUser = { ...user, deliveries: [...user.deliveries, response.data.newAddress] }

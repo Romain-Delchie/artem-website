@@ -81,7 +81,7 @@ export default function Addresses({ type, modification, setModification, quoteId
         console.log(dataAddress);
 
         try {
-            const response = await API.address.create(user.token, dataAddress);
+            const response = await API.address.create(dataAddress);
             response.data.newAddress.id = response.data.newAddress.generatedId
             delete response.data.newAddress.generatedId
             const updatedUser = { ...user, deliveries: [...user.deliveries, response.data.newAddress] }
@@ -212,12 +212,6 @@ export default function Addresses({ type, modification, setModification, quoteId
                                 ))}
                             </select>
                         </div>
-                        <div className="addresses-new-item">
-                        </div>
-                        <div className="addresses-new-item">
-                        </div>
-
-
                         <button type='submit'>Valider la nouvelle adresse</button>
                     </form>
                 }

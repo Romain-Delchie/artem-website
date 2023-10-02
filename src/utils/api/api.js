@@ -124,12 +124,8 @@ const API = {
             });
         },
 
-        async create(token, data) {
-            return axios.post("/address", data, {
-                headers: {
-                    "x-auth-token": token,
-                },
-            });
+        async create(data) {
+            return axios.post("/address", data);
         },
 
         async update(token, id, data) {

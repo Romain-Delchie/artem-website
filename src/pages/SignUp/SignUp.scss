@@ -27,21 +27,29 @@
             display: flex;
             justify-content: space-between;
 
+
             & label {
                 width: 40%;
             }
+
 
             & textarea {
                 width: 60% !important;
                 resize: none !important;
             }
 
-            & input {
+            & input,
+            select {
                 width: 60%;
 
                 &::placeholder {
                     font-size: 14px;
                 }
+            }
+
+            &-address {
+                display: flex;
+                flex-wrap: wrap;
             }
 
             & .radio-container {
