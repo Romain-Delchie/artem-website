@@ -17,8 +17,7 @@ export default function ValidationEmail() {
         }, 1000);
         API.email.sendConfirmationEmail(user.token, { email: user.email, firstname: user.firstname, email_token: user.email_token }).then((response) => {
         }
-        ).finally(() => {
-        })
+        )
     }
     if (!isSended) {
         return <Loading />

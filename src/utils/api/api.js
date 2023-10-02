@@ -35,12 +35,8 @@ const API = {
             });
         },
 
-        async updatePassword(token, data) {
-            return axios.patch("/account/password", data, {
-                headers: {
-                    "x-auth-token": token,
-                },
-            });
+        async updatePassword(data) {
+            return axios.patch("/account/update-password", data);
         },
 
     },
@@ -272,6 +268,14 @@ const API = {
                     "x-auth-token": token,
                 }
             });
+        },
+
+        async forgotPassword(data) {
+            return axios.post("/email/forgot-password", data);
+        },
+
+        async checkResetPasswordToken(token) {
+            return axios.get(`/account/find-by-token/${token}`);
         }
 
     }

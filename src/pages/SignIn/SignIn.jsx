@@ -12,7 +12,6 @@ export default function SignIn() {
     const { user, updateUser } = useContext(AppContext);
 
 
-
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
     };
@@ -25,18 +24,23 @@ export default function SignIn() {
         event.preventDefault();
         API.auth.signin(email, password).then((response) => {
             // et on stock la réponse renvoyée
-            const tokenReceived = response.data.token;
 
+            const tokenReceived = response.data.token;
             if (tokenReceived) {
                 updateUser({ ...user, token: tokenReceived });
+            }
+            navigate('/dashboard')
+        }).catch((error) => {
 
-
+            if (error.response.status === 404) {
+                alert('Cette adresse email ne correspond à aucun compte. Veuillez vérifier votre adresse email et réessayer.')
             }
 
-        }).finally(() => {
-            navigate('/dashboard');
+            if (error.response.status === 401) {
+                alert('Mot de passe incorrect. Veuillez vérifier votre mot de passe et réessayer.')
+            }
 
-        });
+        })
     };
 
 

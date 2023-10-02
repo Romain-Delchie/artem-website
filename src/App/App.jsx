@@ -27,7 +27,8 @@ import { useContext } from "react";
 import './App.scss'
 import ValidationEmail from "../pages/ValidationEmail/ValidationEmail";
 import ConfirmEmail from "../pages/ConfirmEmail/ConfirmEmail";
-import Forgotpassword from "../pages/ForgotPassword/ForgotPassword";
+import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword/ResetPassword";
 
 function App() {
 
@@ -48,7 +49,8 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-sales" element={<TermsOfSales />} />
         <Route path="/confirm-email/:code" element={<ConfirmEmail />} />
-        <Route path="/forgot-password" element={<Forgotpassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
         {user.token &&
           <>
             <Route path="/dashboard" element={<Dashboard />} />
