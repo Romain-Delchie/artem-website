@@ -12,6 +12,37 @@ export default function ResetPassword() {
     const { token } = useParams();
     const [isLoading, setIsLoading] = useState(false);
 
+    const [passwordValidation, setPasswordValidation] = useState({
+        minLength: false,
+        uppercase: false,
+        digit: false,
+        specialChar: false,
+    });
+
+    const [passwordMatch, setPasswordMatch] = useState(false);
+    useEffect(() => {
+        setPasswordMatch(password === confirmPassword);
+    }, [password, confirmPassword]);
+
+    const handleChange = (e) => {
+        const { name, value, type } = e.target;
+
+        const minLength = value.length >= 8;
+        const uppercase = /[A-Z]/.test(value);
+        const digit = /[0-9]/.test(value);
+        const specialChar = /[!@#$%^&*()_+[\]{};':"\\|,.<>?/~`-]/.test(value);
+
+        setPasswordValidation({
+            minLength,
+            uppercase,
+            digit,
+            specialChar,
+        });
+
+
+
+    };
+
     useEffect(() => {
         setIsLoading(true);
         API.email.checkResetPasswordToken(token).then((response) => {
@@ -30,7 +61,18 @@ export default function ResetPassword() {
 
     // Gérez les changements dans les champs de mot de passe
     const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
+        const { value } = e.target;
+        const minLength = value.length >= 8;
+        const uppercase = /[A-Z]/.test(value);
+        const digit = /[0-9]/.test(value);
+        const specialChar = /[!@#$%^&*()_+[\]{};':"\\|,.<>?/~`-]/.test(value);
+        setPassword(value);
+        setPasswordValidation({
+            minLength,
+            uppercase,
+            digit,
+            specialChar,
+        });
     };
 
     const handleConfirmPasswordChange = (e) => {
@@ -40,24 +82,24 @@ export default function ResetPassword() {
     // Gérez la soumission du formulaire
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsLoading(true);
 
-        // Vérifiez si les mots de passe correspondent
-        if (password === confirmPassword) {
+
+        if (password !== confirmPassword) {
+            setMessage('Les mots de passe ne correspondent pas.');
+
+
+        } else if (passwordValidation.minLength === false || passwordValidation.uppercase === false || passwordValidation.digit === false || passwordValidation.specialChar === false) {
+            setMessage('Le mot de passe doit contenir au moins 8 caractères, une majuscule, un chiffre et un caractère spécial.');
+        } else {
+            setIsLoading(true);
 
             API.user.updatePassword({ code: token, password: password }).then((response) => {
-                console.log(response);
+                setMessage('Mot de passe réinitialisé avec succès !');
+                setTimeout(() => {
+                    Navigate('/signin', { replace: true })
+                }, 1500);
             }
             )
-            // Ici, vous pouvez envoyer une requête au serveur pour réinitialiser le mot de passe
-            // ou effectuer toute autre action nécessaire.
-            setMessage('Mot de passe réinitialisé avec succès !');
-            setTimeout(() => {
-                Navigate('/signin', { replace: true })
-            }, 1500);
-
-        } else {
-            setMessage('Les mots de passe ne correspondent pas.');
         }
     };
 
@@ -72,9 +114,21 @@ export default function ResetPassword() {
                 <h1>Réinitialisation du mot de passe</h1>
                 <form className="reset-password-form" onSubmit={handleSubmit}>
                     <input onChange={handlePasswordChange} className="reset-password-form-input" type="password" placeholder="Nouveau mot de passe" />
+                    <div className="password-validation">
+
+                        <span className={passwordValidation.minLength ? "valid" : "invalid"}>8 caractères</span>
+                        <span className={passwordValidation.uppercase ? "valid" : "invalid"}>1 majuscule</span>
+                        <span className={passwordValidation.digit ? "valid" : "invalid"}>1 chiffre</span>
+                        <span className={passwordValidation.specialChar ? "valid" : "invalid"}>1 caractère spécial</span>
+
+                    </div>
                     <input onChange={handleConfirmPasswordChange} className="reset-password-form-input" type="password" placeholder="Confirmer le mot de passe" />
+                    {!passwordMatch &&
+
+                        <span className="invalid">Doit être identique au premier mot de passe</span>
+                    }
                     <button className="reset-password-form-button">Envoyer</button>
-                    <p>{message}</p>
+                    <p className='submit-message'>{message}</p>
                 </form>
             </div>
         </main>
