@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './PasswordInput.scss'
 
-export default function PasswordInput({ name, id, placeholder, value, onChange }) {
+export default function PasswordInput({ name, id, placeholder, value, onChange, className = 'password-input' }) {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const togglePasswordVisibility = () => {
@@ -9,7 +9,7 @@ export default function PasswordInput({ name, id, placeholder, value, onChange }
     };
 
     return (
-        <div className="password-input">
+        <div className={className}>
             <input
                 type={isPasswordVisible ? 'text' : 'password'}
                 name={name}
