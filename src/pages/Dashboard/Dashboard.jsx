@@ -35,9 +35,14 @@ export default function Dashboard() {
                 <h4>Bonjour {user.firstname}</h4>
                 {user.role === 'user' &&
                     <section className='dashboard-buttons'>
+                        <Link className='dashboard-button' to='/search-products'>Tous les articles standard Artem</Link>
                         <Link className='dashboard-button' to='/user-informations'>Mes informations</Link>
                         <Link className='dashboard-button' to='/tools'>Mes outils</Link>
-                        <Link className='dashboard-button' to='/quote-history'>mon historique de devis<span>{user.quotations.length} devis en cours</span></Link>
+                        <Link className='dashboard-button' to='/quote-history'>mon historique de devis
+                            {user.quotations.length > 0 &&
+                                <span>{user.quotations.length}</span>
+                            }
+                        </Link>
                         <Link className='dashboard-button' to='/new-quote'>Nouveau devis</Link>
                         <Link className='dashboard-button dashboard-button-last' to='https://pay-pro.monetico.fr/artem/paiementenligne' target='_blank'>Régler une facture en CB</Link>
                     </section>

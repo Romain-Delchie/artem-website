@@ -12,6 +12,10 @@ const API = {
         async signin(email, password) {
             return axios.post("/auth/signin", { email, password });
         },
+
+        async refreshToken({ id, email, firstname, lastname, role }) {
+            return axios.post("/auth/refresh-token", { id, firstname, lastname, email, role });
+        }
     },
 
     user: {

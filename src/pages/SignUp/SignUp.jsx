@@ -5,12 +5,14 @@ import AppContext from '../../context/AppContext';
 import './SignUp.scss'
 import PasswordInput from '../../components/PasswordInput/PasswordInput';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../components/Loading/Loading';
 import axios from 'axios';
 
 export default function SignUp() {
     const { user, updateUser } = useContext(AppContext)
     const navigate = useNavigate();
     const [availableCities, setAvailableCities] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         company: '',
         firstname: '',
@@ -31,6 +33,8 @@ export default function SignUp() {
         digit: false,
         specialChar: false,
     });
+
+    console.log(formData);
 
     const [passwordMatch, setPasswordMatch] = useState(false);
     useEffect(() => {
@@ -84,8 +88,6 @@ export default function SignUp() {
         }
     };
 
-    console.log(formData);
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const isPasswordValid =
@@ -103,54 +105,64 @@ export default function SignUp() {
             return;
         }
 
-        if (isPasswordValid) {
-            if (formData.password === formData.repeat_password) {
-                const dataAddress = {
-                    name_address: formData.company,
-                    street_address: formData.street_address,
-                    zip_code: formData.zip_code,
-                    city: formData.city
-                }
-                API.address.create(dataAddress).then((response) => {
-                    const lastForm = formData
-                    lastForm.billing_address_id = response.data.newAddress.generatedId
-                    lastForm.delivery_standard_id = response.data.newAddress.generatedId
-                    lastForm.siret = String(lastForm.siret)
-                    delete lastForm.street_address
-                    delete lastForm.zip_code
-                    delete lastForm.city
-                    setFormData(lastForm)
-                    API.user
-                        .create(lastForm)
-                        .then((response) => {
-                            API.auth.signin(formData.email, formData.password).then((response) => {
-                                const tokenReceived = response.data.token;
+        const phonePattern = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/;
+        const siretPattern = /^[0-9]{14}$/
 
-                                updateUser({ ...user, token: tokenReceived });
-
-                                API.email.sendConfirmationEmail(tokenReceived, { email: formData.email, firstname: formData.firstname }).then((response) => {
-
-                                    navigate('/dashboard')
-                                })
-                            }
-                            )
-
-                        })
-                }).catch((error) => {
-                    console.error(error);
-                })
-            } else {
-                // Passwords do not match, handle this case as needed
-                alert('Passwords do not match');
-                // You might want to display an error message to the user
-            }
+        if (!isPasswordValid) {
+            alert("Le mot de passe ne respecte pas les critères de sécurité.");
+            return;
+        } else if (!phonePattern.test(formData.phone_number)) {
+            alert("Le numéro de téléphone n'est pas valide.");
+            return;
+        } else if (!siretPattern.test(formData.siret)) {
+            alert("Le numéro de SIRET n'est pas valide.");
+            return;
+        } else if (formData.password !== formData.repeat_password) {
+            alert("Les mots de passe ne correspondent pas.");
+            return;
         } else {
-            // Password is not valid, handle this case as needed
-            alert('Password is not valid');
-            // You might want to display an error message to the user
+            setIsLoading(true)
+            const dataAddress = {
+                name_address: formData.company,
+                street_address: formData.street_address,
+                zip_code: formData.zip_code,
+                city: formData.city
+            }
+
+            API.address.create(dataAddress).then((response) => {
+                const lastForm = formData
+                lastForm.billing_address_id = response.data.newAddress.generatedId
+                lastForm.delivery_standard_id = response.data.newAddress.generatedId
+                lastForm.siret = String(lastForm.siret)
+                delete lastForm.street_address
+                delete lastForm.zip_code
+                delete lastForm.city
+                setFormData(lastForm)
+                API.user
+                    .create(lastForm)
+                    .then((response) => {
+                        API.auth.signin(formData.email, formData.password).then((response) => {
+                            const tokenReceived = response.data.token;
+
+                            updateUser({ ...user, token: tokenReceived });
+
+                            API.email.sendConfirmationEmail(tokenReceived, { email: formData.email, firstname: formData.firstname }).then((response) => {
+
+                                navigate('/dashboard')
+                            })
+                        }
+                        )
+
+                    })
+            })
         }
+
+
     };
 
+    if (isLoading) {
+        return <Loading />
+    }
 
 
     return (

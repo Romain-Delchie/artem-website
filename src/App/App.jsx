@@ -23,16 +23,63 @@ import Quote from "../pages/Quote/Quote";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
 import TeTool from "../pages/TeTool/TeTool";
 import AppContext from "../context/AppContext";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import './App.scss'
 import ValidationEmail from "../pages/ValidationEmail/ValidationEmail";
 import ConfirmEmail from "../pages/ConfirmEmail/ConfirmEmail";
 import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword/ResetPassword";
+import API from "../utils/api/api";
+import SearchProduct from "../components/SearchProduct/SearchProduct";
 
 function App() {
 
-  const { user } = useContext(AppContext);
+  const { user, updateUser } = useContext(AppContext);
+  const [logoutTimer, setLogoutTimer] = useState(null);
+
+  useEffect(() => {
+    // Fonction pour rafraîchir le token
+    const refreshToken = async () => {
+      // Code pour envoyer une requête au serveur pour rafraîchir le token
+      API.auth.refreshToken({ id: user.id, email: user.email, firstname: user.firstname, lastname: user.lastname, role: user.role }).then((res) => {
+        updateUser({ ...user, token: res.data.token });
+      }).catch((err) => {
+        console.log(err);
+      }
+      );
+    };
+
+    // Fonction pour déconnecter l'utilisateur
+    const logoutUser = () => {
+      updateUser({ token: "", email: "", firstname: "", lastname: "" });; // Mettez à jour le contexte pour déconnecter l'utilisateur
+    };
+
+    // Démarrez un intervalle pour rafraîchir le token périodiquement (par exemple, toutes les 15 minutes)
+    const tokenRefreshInterval = setInterval(refreshToken, 15 * 60 * 1000);
+
+    // Démarrez une minuterie pour déconnecter l'utilisateur en cas d'inactivité (par exemple, 30 minutes)
+    const inactivityLogoutTimer = setTimeout(logoutUser, 30 * 60 * 1000);
+
+    // Écoutez les événements pour réinitialiser la minuterie d'inactivité lorsque l'utilisateur est actif
+    const resetInactivityTimer = () => {
+      clearTimeout(inactivityLogoutTimer);
+      const newInactivityLogoutTimer = setTimeout(logoutUser, 30 * 60 * 1000);
+      setLogoutTimer(newInactivityLogoutTimer);
+    };
+
+    // Ajoutez des gestionnaires d'événements pour surveiller l'activité de l'utilisateur
+    window.addEventListener('mousemove', resetInactivityTimer);
+    window.addEventListener('keydown', resetInactivityTimer);
+
+    // Nettoyez les intervalles et les gestionnaires d'événements lorsque le composant est démonté
+    return () => {
+      clearInterval(tokenRefreshInterval);
+      clearTimeout(logoutTimer);
+      window.removeEventListener('mousemove', resetInactivityTimer);
+      window.removeEventListener('keydown', resetInactivityTimer);
+    };
+  }, [user, updateUser, logoutTimer]);
+
 
   return (
     <>
@@ -55,6 +102,8 @@ function App() {
           <>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/validation-email" element={<ValidationEmail />} />
+            <Route path="/search-products" element={<SearchProduct />} />
+
           </>
         }
         {user.role === 'user' &&
