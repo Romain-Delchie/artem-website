@@ -47,7 +47,7 @@ export default function SearchProduct() {
     const handleChangeSearchBy = (event) => {
         setSearchBy(event.target.value);
     };
-    console.log(productsSorted);
+
     useEffect(() => {
         const productsByRange = sort.range === 'all' ? products : products.filter((product) => product.range_id === parseInt(sort.range))
         const productsByRangeAndBrand = sort.brand === 'all' ? productsByRange : productsByRange.filter((product) => product.brand === sort.brand)
