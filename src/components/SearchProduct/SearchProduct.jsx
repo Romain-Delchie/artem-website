@@ -3,10 +3,12 @@ import AppContext from "../../context/AppContext";
 import ProductCard from "../ProductCard/ProductCard";
 import "./SearchProduct.scss";
 import API from "../../utils/api/api";
+import { Link } from "react-router-dom";
 
 export default function SearchProduct() {
     const { user, openAddProductForm, setOpenAddProductForm } = useContext(AppContext);
     const [products, setProducts] = useState([]);
+    const location = window.location.pathname;
     const [ranges, setRanges] = useState([]);
     const [searchBy, setSearchBy] = useState('description');
     const [searchResults, setSearchResults] = useState(null);
@@ -14,7 +16,6 @@ export default function SearchProduct() {
     const [productsSorted, setProductsSorted] = useState([]);
     const [searchValue, setSearchValue] = useState([]);
     const [sort, setSort] = useState({ brand: 'all', range: 'all' })
-
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -24,6 +25,7 @@ export default function SearchProduct() {
                 ]);
                 setProducts(productsResponse.data);
                 setRanges(rangeResponse.data.ranges);
+                setProductsSorted(productsResponse.data);
 
             } catch (error) {
                 console.error("Erreur lors de la récupération des produits :", error);
@@ -45,7 +47,7 @@ export default function SearchProduct() {
     const handleChangeSearchBy = (event) => {
         setSearchBy(event.target.value);
     };
-
+    console.log(productsSorted);
     useEffect(() => {
         const productsByRange = sort.range === 'all' ? products : products.filter((product) => product.range_id === parseInt(sort.range))
         const productsByRangeAndBrand = sort.brand === 'all' ? productsByRange : productsByRange.filter((product) => product.brand === sort.brand)
@@ -66,7 +68,6 @@ export default function SearchProduct() {
         const { value, name } = event.target;
         setSort({ ...sort, [name]: value });
     }
-
     return (
 
         <div className="search-product">
@@ -94,12 +95,12 @@ export default function SearchProduct() {
                 <h3>Recherche un produit par :</h3>
                 <div className="input-radio">
                     <div className="input-container">
-                        <label htmlFor="reference">Mots clés</label>
-                        <input type="radio" id="searchBy" name="searchBy" value="description" checked={searchBy === 'description'} onChange={handleChangeSearchBy} />
+                        <label htmlFor="description">
+                            <input type="radio" id="description" name="description" value="description" checked={searchBy === 'description'} onChange={handleChangeSearchBy} />Mots clés</label>
                     </div>
                     <div className="input-container">
-                        <label htmlFor="searchBy">Référence ARTEM</label>
-                        <input type="radio" id="searchBy" name="searchBy" value="reference" checked={searchBy === 'reference'} onChange={handleChangeSearchBy} />
+                        <label htmlFor="reference">
+                            <input type="radio" id="reference" name="reference" value="reference" checked={searchBy === 'reference'} onChange={handleChangeSearchBy} />Référence ARTEM</label>
                     </div>
 
                 </div>
@@ -112,10 +113,26 @@ export default function SearchProduct() {
                 {productsSorted && productsSorted.map((product) => (
                     <div className="search-product-result" key={product.id}>
                         <ProductCard product={product} />
-
-                        <div className="product-card-btn">
-                            <button onClick={() => setOpenAddProductForm({ [product.id]: true })}>Ajouter au devis</button>
-                        </div>
+                        {location.includes('quote-history') &&
+                            <div className="product-card-btn">
+                                <button onClick={() => setOpenAddProductForm({ [product.id]: true })}>Ajouter au devis</button>
+                            </div>
+                        }
+                        {location === '/search-products' &&
+                            <div className="product-card-btn">
+                                <Link to={`/new-quote`}>Créer un devis</Link>
+                            </div>
+                        }
+                        {location === '/update-product' &&
+                            <div className="product-card-btn">
+                                <Link state={product} to={`/update-product/${product.id}`}>Modifier le produit</Link>
+                            </div>
+                        }
+                        {location === '/delete-product' &&
+                            <div className="product-card-btn">
+                                <Link to={`/delete-product/${product.id}`}>Supprimer le produit</Link>
+                            </div>
+                        }
                     </div>
                 ))}
             </div>

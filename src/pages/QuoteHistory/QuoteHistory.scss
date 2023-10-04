@@ -1,6 +1,9 @@
 @use 'src/styles/variables.scss' as var;
 
 .quote-history {
+    display: flex;
+    flex-direction: column;
+
     & li {
         list-style: none;
     }
@@ -31,7 +34,7 @@
             display: flex;
             flex-direction: column;
             margin-top: 10px;
-            height: 150px;
+
         }
 
         & li {

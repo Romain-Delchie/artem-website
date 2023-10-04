@@ -51,20 +51,21 @@ function App() {
 
     // Fonction pour déconnecter l'utilisateur
     const logoutUser = () => {
-      updateUser({ token: "", email: "", firstname: "", lastname: "" });; // Mettez à jour le contexte pour déconnecter l'utilisateur
+      console.log('logoutUser');
+      updateUser({ token: "", email: "", firstname: "", lastname: "" }); // Mettez à jour le contexte pour déconnecter l'utilisateur
     };
 
     // Démarrez un intervalle pour rafraîchir le token périodiquement (par exemple, toutes les 15 minutes)
     const tokenRefreshInterval = setInterval(refreshToken, 15 * 60 * 1000);
 
     // Démarrez une minuterie pour déconnecter l'utilisateur en cas d'inactivité (par exemple, 30 minutes)
-    const inactivityLogoutTimer = setTimeout(logoutUser, 30 * 60 * 1000);
+    let inactivityLogoutTimer = setTimeout(logoutUser, 30 * 60 * 1000);
 
     // Écoutez les événements pour réinitialiser la minuterie d'inactivité lorsque l'utilisateur est actif
     const resetInactivityTimer = () => {
+      console.log('resetInactivityTimer');
       clearTimeout(inactivityLogoutTimer);
-      const newInactivityLogoutTimer = setTimeout(logoutUser, 30 * 60 * 1000);
-      setLogoutTimer(newInactivityLogoutTimer);
+      inactivityLogoutTimer = setTimeout(logoutUser, 30 * 60 * 1000);
     };
 
     // Ajoutez des gestionnaires d'événements pour surveiller l'activité de l'utilisateur
@@ -74,7 +75,7 @@ function App() {
     // Nettoyez les intervalles et les gestionnaires d'événements lorsque le composant est démonté
     return () => {
       clearInterval(tokenRefreshInterval);
-      clearTimeout(logoutTimer);
+      clearTimeout(inactivityLogoutTimer);
       window.removeEventListener('mousemove', resetInactivityTimer);
       window.removeEventListener('keydown', resetInactivityTimer);
     };
@@ -119,8 +120,10 @@ function App() {
         {user.role === 'admin' &&
           <>
             <Route path="/add-product" element={<AddProduct />} />
-            <Route path="/update-product" element={<UpdateProduct />} />
-            <Route path="/delete-product" element={<DeleteProduct />} />
+            <Route path="/update-product" element={<SearchProduct />} />
+            <Route path="/update-product/:id" element={<UpdateProduct />} />
+            <Route path="/delete-product" element={<SearchProduct />} />
+            <Route path="/delete-product/:id" element={<DeleteProduct />} />
             <Route path="/role-validation" element={<RoleValidation />} />
           </>
         }
