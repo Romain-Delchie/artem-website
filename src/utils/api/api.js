@@ -43,6 +43,14 @@ const API = {
             return axios.patch("/account/update-password", data);
         },
 
+        async accountToValidate(token) {
+            return axios.get("/account/validation", {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
     },
 
     quotation: {
