@@ -27,8 +27,10 @@ export default function DeleteProduct() {
 
         <main className='delete-product'>
             <h2>Etes-vous sur de vouloir supprimer ce produit?</h2>
-            <button onClick={handleDelete} className='delete-product-choice'>Oui</button>
-            <Link className='delete-product-choice' to='/dashboard'>Non</Link>
+            <div className="delete-product-btn">
+                <button onClick={handleDelete} className='delete-product-choice'>Oui</button>
+                <Link className='delete-product-choice' to='/dashboard'>Non</Link>
+            </div>
 
 
         </main >
