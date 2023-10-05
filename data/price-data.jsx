@@ -1,5 +1,7 @@
 const priceData = {
 
+    coeffBoulanger: 2.5,
+
     cordon: (length, nbOeillets) => {
         const TB = 0.1
         const TF = 0.45

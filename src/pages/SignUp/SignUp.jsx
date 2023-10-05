@@ -12,6 +12,7 @@ export default function SignUp() {
     const { user, updateUser } = useContext(AppContext)
     const navigate = useNavigate();
     const [availableCities, setAvailableCities] = useState([]);
+    const [apiError, setApiError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         company: '',
@@ -20,13 +21,14 @@ export default function SignUp() {
         email: '',
         phone_number: '',
         password: '',
+        repeat_password: '',
         siret: '', // Changed to string type
         street_address: '',
         zip_code: '',
         city: '',
         profile_id: 3, // Set a default value
     });
-
+    console.log(formData);
     const [passwordValidation, setPasswordValidation] = useState({
         minLength: false,
         uppercase: false,
@@ -34,7 +36,6 @@ export default function SignUp() {
         specialChar: false,
     });
 
-    console.log(formData);
 
     const [passwordMatch, setPasswordMatch] = useState(false);
     useEffect(() => {
@@ -82,6 +83,7 @@ export default function SignUp() {
                 }
             } catch (error) {
                 console.error('Error fetching cities:', error);
+                setApiError(true);
             }
         } else {
             setAvailableCities([]);
@@ -135,9 +137,10 @@ export default function SignUp() {
                 lastForm.delivery_standard_id = response.data.newAddress.generatedId
                 lastForm.siret = String(lastForm.siret)
                 delete lastForm.street_address
+                delete lastForm.name_address
                 delete lastForm.zip_code
                 delete lastForm.city
-                setFormData(lastForm)
+                setFormData({ ...formData, ...dataAddress })
                 API.user
                     .create(lastForm)
                     .then((response) => {
@@ -152,6 +155,14 @@ export default function SignUp() {
                             })
                         }
                         )
+
+                    }).catch((error) => {
+                        setIsLoading(false)
+                        if (error.response.status === 400) {
+                            alert('Cet email est déjà utilisé')
+                        } else {
+                            alert(error.message)
+                        }
 
                     })
             })
@@ -233,7 +244,7 @@ export default function SignUp() {
                             type="text"
                             name="street_address"
                             id="street_address"
-                            value={formData.address}
+                            value={formData.street_address}
                             onChange={handleChange}
                         />
 
@@ -248,19 +259,26 @@ export default function SignUp() {
                         />
 
                         <label htmlFor="city">Ville</label>
-                        <select
-                            name="city"
-                            id="city"
-                            value={formData.city}
-                            onChange={handleChange}
-                        >
-                            <option value="none" key='none'>Sélectionnez une ville</option>
-                            {availableCities.map((city, index) => (
-                                <option key={`${city}_${index}`} value={city}>
-                                    {city}
-                                </option>
-                            ))}
-                        </select>
+                        {
+                            apiError &&
+                            <input type='text' name='city' id='city' placeholder='Ville' value={formData.city} onChange={handleChange} />
+                        }
+                        {
+                            !apiError &&
+                            <select
+                                name="city"
+                                id="city"
+                                value={formData.city}
+                                onChange={handleChange}
+                            >
+                                <option value="none" key='none'>Sélectionnez une ville</option>
+                                {availableCities.map((city, index) => (
+                                    <option key={`${city}_${index}`} value={city}>
+                                        {city}
+                                    </option>
+                                ))}
+                            </select>
+                        }
 
                     </div>
 
@@ -324,6 +342,7 @@ export default function SignUp() {
                             type="number"
                             name="siret"
                             id="siret"
+                            value={formData.siret}
                             onChange={handleChange}
                         />
                     </div>
