@@ -3,7 +3,8 @@ import { useContext, useState } from 'react'
 import AppContext from '../../context/AppContext'
 import API from '../../utils/api/api';
 import Addresses from '../Addresses/Addresses'
-import fetchData from '../../utils/function'
+import fetchData from '../../utils/fetchData'
+import goodPrice from '../../utils/goodPrice';
 
 
 export default function QuoteUpdate({ quote, totalPrice, setOpenModifQuote, setQuote }) {
@@ -135,7 +136,7 @@ export default function QuoteUpdate({ quote, totalPrice, setOpenModifQuote, setQ
                             <div className="product-info">
                                 <div className="product-details">
                                     <p><strong>Produit:</strong> {product.quotation_has_product_id}</p>
-                                    <p><strong>Prix:</strong> {product.price} €</p>
+                                    <p><strong>Prix:</strong> {goodPrice(user.profile_id, product.price)} €</p>
                                     <p><strong>Poids:</strong> {product.weight} kg</p>
                                     <p><strong>Référence:</strong> {product.reference}</p>
                                     <p><strong>Désignation:</strong> {product.designation}</p>
@@ -165,7 +166,7 @@ export default function QuoteUpdate({ quote, totalPrice, setOpenModifQuote, setQ
                                 </div>
                             </div>
                             <div className="product-total">
-                                <p><strong>Total:</strong> {(product.price * (quantityInput[product.quotation_has_product_id] || product.quantity)).toFixed(2)} € HT</p>
+                                <p><strong>Total:</strong> {(goodPrice(user.profile_id, product.price) * (quantityInput[product.quotation_has_product_id] || product.quantity)).toFixed(2)} € HT</p>
                                 {!deleteLine[product.quotation_has_product_id] &&
                                     <span className="delete-product-icon" onClick={() => handleDeleteLine(product.quotation_has_product_id)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
@@ -203,7 +204,7 @@ export default function QuoteUpdate({ quote, totalPrice, setOpenModifQuote, setQ
                 }
                 <div className="totals">
                     <p><strong>Total HT :</strong> {typeof quote.transport === "string" ? `${totalPrice.toFixed(2)} € HT hors transport` : `${(quote.transport + totalPrice).toFixed(2)} € HT`}</p>
-                    <p><strong>Total TTC :</strong> {(totalPrice * 1.2).toFixed(2)} € TTC</p>
+                    <p><strong>Total TTC :</strong> {((totalPrice + quote.transport) * 1.2).toFixed(2)} € TTC</p>
                 </div>
             </div>
 

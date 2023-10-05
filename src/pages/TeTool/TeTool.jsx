@@ -563,7 +563,7 @@ export default function TeTool() {
                         <p>largeur de la toile : {teListFiltered[0].width}</p>
                         <p>longueur de la toile : {teListFiltered[0].length}</p>
                         <p>{teListFiltered[0].designation}</p>
-                        <Price price={teListFiltered[0].price} category='t3' />
+                        <Price price={teListFiltered[0].price} />
                         <p>Délai : {teListFiltered[0].stock ? 'En stock' : '24/48h'}</p>
                     </div>
                 </div>
@@ -587,7 +587,7 @@ export default function TeTool() {
                                     <p>largeur de la toile : {te.width}</p>
                                     <p>longueur de la toile : {te.length}</p>
                                     <p>{te.designation}</p>
-                                    <Price price={te.price} category='t3' />
+                                    <Price price={te.price} />
                                     <p>Délai : {te.stock ? 'En stock' : '24/48h'}</p>
                                 </div>
                             )
@@ -642,7 +642,7 @@ export default function TeTool() {
                             </>
                         }
                         <h5>Et voici le prix de votre toile personnalisée:</h5>
-                        <Price price={teInfo.t1} category='t1' />
+                        <Price price={(teInfo.t1 / 3) * 2} />
                         <p>Délai : 24/48h</p>
                     </div>
                 </div>

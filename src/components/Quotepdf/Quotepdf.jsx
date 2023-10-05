@@ -1,5 +1,6 @@
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import artemData from '../../../data/artem-data';
+import goodPrice from '../../utils/goodPrice';
 
 export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
 
@@ -378,11 +379,11 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                         <View style={styles.tableRow} key={product.id}>
                             <Text style={styles.tableCell.reference}>{product.reference}</Text>
                             <Text style={styles.tableCell.designation}>{product.designation}</Text>
-                            <Text style={styles.tableCell.price}>{product.price} €</Text>
+                            <Text style={styles.tableCell.price}>{goodPrice(user.profile_id, product.price)} €</Text>
                             <Text style={styles.tableCell.quantite}>{product.quantity}</Text>
                             <Text style={styles.tableCell}>{product.weight} kg</Text>
                             <Text style={styles.tableCell}>{product.delivery_time.startsWith("0") ? "stock" : product.delivery_time}</Text>
-                            <Text style={styles.tableCell.totalPrice}>{(product.price * product.quantity).toFixed(2)} € HT</Text>
+                            <Text style={styles.tableCell.totalPrice}>{(goodPrice(user.profile_id, product.price) * product.quantity).toFixed(2)} € HT</Text>
 
                         </View>
                     ))}

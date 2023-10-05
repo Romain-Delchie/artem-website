@@ -3,7 +3,7 @@ import { Link, Navigate, useParams } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import API from '../../utils/api/api';
 import AppContext from '../../context/AppContext';
-import fetchData from '../../utils/function';
+import fetchData from '../../utils/fetchData';
 import Price from '../Price/Price';
 
 

@@ -5,11 +5,13 @@ import SearchProduct from '../../components/SearchProduct/SearchProduct'
 import './Quote.scss'
 import API from '../../utils/api/api';
 import Quotepdf from '../../components/Quotepdf/Quotepdf.jsx';
-import fetchData from '../../utils/function'
+import fetchData from '../../utils/fetchData'
 import { PDFViewer, PDFDownloadLink, pdf } from '@react-pdf/renderer';
 import QuoteUpdate from '../../components/QuoteUpdate/QuoteUpdate'
 import artemData from '../../../data/artem-data'
 import Loading from '../../components/Loading/Loading'
+import priceData from '../../../data/price-data'
+import goodPrice from '../../utils/goodPrice'
 
 
 export default function Quote() {
@@ -40,7 +42,7 @@ export default function Quote() {
     }, [user]);
     console.log(quote);
     console.log(user);
-    const totalPrice = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + product.price * product.quantity, 0);
+    const totalPrice = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + goodPrice(user.profile_id, product.price) * product.quantity, 0);
     const totalWeight = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + product.weight * product.quantity, 0);
     quote.totalPrice = totalPrice;
     quote.totalWeight = totalWeight;

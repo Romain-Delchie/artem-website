@@ -3,7 +3,7 @@ import AppContext from '../../context/AppContext'
 import API from '../../utils/api/api';
 import axios from 'axios';
 import './Addresses.scss'
-import fetchData from '../../utils/function';
+import fetchData from '../../utils/fetchData';
 
 
 export default function Addresses({ type, modification, setModification, quoteId }) {

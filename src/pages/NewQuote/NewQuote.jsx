@@ -4,7 +4,7 @@ import API from '../../utils/api/api';
 import axios from 'axios';
 import AppContext from '../../context/AppContext'
 import './NewQuote.scss'
-import fetchData from '../../utils/function';
+import fetchData from '../../utils/fetchData';
 
 export default function NewQuote() {
     const { user, updateUser } = useContext(AppContext)
