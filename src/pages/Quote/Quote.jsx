@@ -137,7 +137,9 @@ export default function Quote() {
             {
                 openSearchProduct &&
                 <section className="quote-search-product">
-                    <button className='quote-btn-cross' onClick={() => setOpenSearchProduct(false)}>X</button>
+                    <svg onClick={() => setOpenSearchProduct(false)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 quote-btn-cross">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
                     <SearchProduct />
                 </section>
             }
@@ -146,7 +148,9 @@ export default function Quote() {
                 openDeleteQuotation &&
                 <section className="quote-confirmation">
                     <div className="quote-confirmation-container">
-                        <button className='quote-btn-cross' onClick={() => setOpenDeleteQuotation(false)}>X</button>
+                        <svg onClick={() => setOpenDeleteQuotation(false)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 quote-btn-cross">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
                         <p>Supprimer ce devis ?</p>
                         <div className="quote-btn-confirmation-container">
                             <button className='quote-btn  quote-btn-delete' onClick={handledeleteQuotation}>Oui</button>
@@ -160,7 +164,9 @@ export default function Quote() {
                 openOrderConfirmation &&
                 <section className="quote-confirmation">
                     <div className="quote-confirmation-container">
-                        <button className='quote-btn-cross' onClick={() => setOpenOrderConfirmation(false)}>X</button>
+                        <svg onClick={() => setOpenOrderConfirmation(false)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 quote-btn-cross">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
                         <p>Confirmer la commande ?</p>
                         <div className="quote-btn-confirmation-container">
                             <button className='quote-btn' onClick={handleOrder}>Oui</button>

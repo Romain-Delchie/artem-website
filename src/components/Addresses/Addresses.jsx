@@ -156,7 +156,10 @@ export default function Addresses({ type, modification, setModification, quoteId
     return (
         <div className='addresses'>
             <div className="addresses-change">
-                <button className='addresses-change-close' onClick={() => setModification({ ...modification, [type]: false })}>X</button>
+                <svg onClick={() => setModification({ ...modification, [type]: false })} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 quote-btn-cross">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+
                 <label className='addresses-change-title' htmlFor="shipment">{title}</label>
                 <select name="shipment" id="shipment" defaultValue="none" onChange={handleChangeSelect}>
                     <option disabled key="presentation" value="none">Choisissez une adresse</option>
