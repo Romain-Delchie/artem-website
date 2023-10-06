@@ -1,5 +1,5 @@
 import './ProductCard.scss';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import API from '../../utils/api/api';
 import AppContext from '../../context/AppContext';
@@ -39,7 +39,7 @@ export default function ProductCard({ product }) {
     return (
         <>
             <div className="product-card" >
-                <Link className='product-card-container' to={`/product/${product.id}`}>
+                <div className='product-card-container'>
                     <div className="product-card-image">
                         <img src={`/images/products/${product.image_link}`} alt={product.description} />
                     </div>
@@ -49,7 +49,7 @@ export default function ProductCard({ product }) {
                         <p>Délai: {product.delivery_time.startsWith('0') ? 'en stock' : product.delivery_time}</p>
                         <Price price={product.price} />
                     </div>
-                </Link>
+                </div>
 
             </div >
             {
