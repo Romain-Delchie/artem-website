@@ -23,7 +23,7 @@ export default function Forgotpassword() {
             setIsLoading(false);
             alert("Un email vous a été envoyé afin de réinitialiser votre mot de passe.");
         }).catch((error) => {
-            console.log(error);
+            console.error(error);
             setIsLoading(false);
             alert("votre email ne correspond pas à aucun compte actif, veuillez réessayer ou créer un compte.");
         })

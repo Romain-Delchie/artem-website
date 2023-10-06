@@ -26,7 +26,6 @@ export default function Dashboard() {
         return <ValidationEmail />
     }
 
-    console.log(user);
     return (
         <main className='dashboard'>
             <h2>Tableau de bord </h2>

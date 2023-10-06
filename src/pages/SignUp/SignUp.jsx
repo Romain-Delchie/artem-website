@@ -28,7 +28,6 @@ export default function SignUp() {
         city: '',
         profile_id: 3, // Set a default value
     });
-    console.log(formData);
     const [passwordValidation, setPasswordValidation] = useState({
         minLength: false,
         uppercase: false,

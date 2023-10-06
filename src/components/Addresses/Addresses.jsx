@@ -78,7 +78,6 @@ export default function Addresses({ type, modification, setModification, quoteId
         if (dataAddress.name_address === '' || dataAddress.street_address === '' || dataAddress.zip_code === '' || dataAddress.city === '') {
             return alert('Veuillez renseigner tous les champs')
         }
-        console.log(dataAddress);
 
         try {
             const response = await API.address.create(dataAddress);
@@ -124,7 +123,6 @@ export default function Addresses({ type, modification, setModification, quoteId
                 }
 
                 API.quotation.update(user.token, quoteId, dataQuotation).then((response) => {
-                    console.log(response.data);
                     fetchData(user, updateUser)
                     setModification({ ...modification, [type]: false })
                 }
@@ -174,7 +172,7 @@ export default function Addresses({ type, modification, setModification, quoteId
 
                 </select>
                 {!addressSelected.new &&
-                    <button onClick={handleValidateAddress}>Modifier l'{title.toLowerCase()}</button>
+                    <button className='addresses-button' onClick={handleValidateAddress}>Modifier l'{title.toLowerCase()}</button>
                 }
                 {
                     addressSelected.new &&
@@ -215,7 +213,7 @@ export default function Addresses({ type, modification, setModification, quoteId
                                 ))}
                             </select>
                         </div>
-                        <button type='submit'>Valider la nouvelle adresse</button>
+                        <button className='addresses-new-button' type='submit'>Valider la nouvelle adresse</button>
                     </form>
                 }
             </div>

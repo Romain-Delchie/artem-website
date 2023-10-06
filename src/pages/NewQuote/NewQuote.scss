@@ -82,11 +82,12 @@
 
         &-btn {
             background-color: var.$primaryColor;
-            color: var.$secondaryColorDark;
-            padding: 5px;
+            color: var.$secondaryColor;
+            padding: 10px;
             margin-top: 10px;
             border-radius: 5px;
-            font-size: 0.9rem;
+            font-size: 1rem;
+            font-weight: 700;
         }
     }
 
@@ -189,6 +190,18 @@
             color: var.$primaryColor;
             background-color: var.$secondaryColor;
             border-radius: 5px;
+        }
+    }
+}
+
+@media (min-width: 800px) {
+    .new-quote {
+        & h2 {
+            width: 550px;
+        }
+
+        &-form {
+            width: 550px;
         }
     }
 }

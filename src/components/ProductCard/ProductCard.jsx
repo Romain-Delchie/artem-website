@@ -25,11 +25,10 @@ export default function ProductCard({ product }) {
                 } else {
                     setProducts([...products, { ...product, quantity: quantityToAdd, quotation_has_product_id: res.data.generatedId }])
                 }
-                console.log(products);
                 fetchData(user, updateUser);
 
 
-            }).catch((err) => console.log(err)).finally(
+            }).catch((err) => console.error(err)).finally(
                 setOpenAddProductForm(false)
 
             )

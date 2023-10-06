@@ -16,7 +16,7 @@ export default function DeleteProduct() {
             setIsLoading(false);
             alert('Produit supprimé')
         }).catch((err) => {
-            console.log(err);
+            console.error(err);
         }).finally(() => {
             navigate('/dashboard', { replace: true })
         })

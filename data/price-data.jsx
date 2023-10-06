@@ -60,7 +60,6 @@ const priceData = {
         const coef = 2.8
         const oeilletOrNot = nbOeillets > 0 ? 1 : 0
         const result = (((TF + TO * (lengthInM + 0.2) * 1.05 + ((TFO + TPO * nbOeillets) * oeilletOrNot) + TS * nbSangles) * H) + ((lengthInM + 0.2) * 1.05 * PA / 2 + 0.1 * nbOeillets + (0.3 + 0.55 * (lengthInM + 0.2) * 1.05) * nbSangles)) * coef
-        console.log(result);
         const valeurSuperieure = Math.ceil(result * 2) / 2;
         const valeurInferieure = Math.floor(result * 2) / 2;
         if (result - valeurInferieure < valeurSuperieure - result) {

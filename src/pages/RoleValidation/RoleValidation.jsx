@@ -25,8 +25,6 @@ export default function RoleValidation() {
     const handleSubmit = (event) => {
         event.preventDefault();
         setIsLoading(true)
-        console.log(event.target.dataset.accountid);
-        console.log(event.target.profile_id.value);
         const dataToSend = {
             idToValidate: event.target.dataset.accountid,
             profile_id: event.target.profile_id.value

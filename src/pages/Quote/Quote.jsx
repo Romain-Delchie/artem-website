@@ -40,8 +40,7 @@ export default function Quote() {
         setQuote(user.quotations.find(quote => quote.quotation_id === Number(quoteId)))
         setIsDataLoaded(true);
     }, [user]);
-    console.log(quote);
-    console.log(user);
+
     const totalPrice = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + goodPrice(user.profile_id, product.price) * product.quantity, 0);
     const totalWeight = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + product.weight * product.quantity, 0);
     quote.totalPrice = totalPrice;
@@ -91,7 +90,6 @@ export default function Quote() {
             try {
                 // Envoyez l'e-mail avec les données du PDF
                 await API.email.sendEmail(user.token, orderData);
-                console.log("Email sent successfully.");
                 alert('Votre commande a bien été prise en compte, vous serez en copie du mail de commande qui nous sera envoyé dans les prochaines minutes.');
                 Navigate('/dashboard', { replace: true });
             } catch (emailError) {

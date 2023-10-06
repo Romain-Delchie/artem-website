@@ -81,7 +81,7 @@ export default function SearchProduct() {
                         ))}
                     </select>
                 </div>
-                <div className="search-product-brand">
+                <div className="search-product-sorting-brand">
                     <h3>Marque</h3>
                     <select name="brand" id="brand" onChange={handleChangeSort}>
                         <option value="all">Toutes les marques</option>

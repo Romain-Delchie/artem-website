@@ -13,7 +13,7 @@ export default function Products() {
     useEffect(() => {
         API.range.getRanges()
             .then(res => setRanges(res.data.ranges))
-            .catch(err => console.log(err))
+            .catch(err => console.error(err))
             .finally(() => setIsDataLoaded(true))
     }, [])
 

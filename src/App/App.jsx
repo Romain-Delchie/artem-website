@@ -44,14 +44,13 @@ function App() {
       API.auth.refreshToken({ id: user.id, email: user.email, firstname: user.firstname, lastname: user.lastname, role: user.role }).then((res) => {
         updateUser({ ...user, token: res.data.token });
       }).catch((err) => {
-        console.log(err);
+        console.error(err);
       }
       );
     };
 
     // Fonction pour déconnecter l'utilisateur
     const logoutUser = () => {
-      console.log('logoutUser');
       updateUser({ token: "", email: "", firstname: "", lastname: "" }); // Mettez à jour le contexte pour déconnecter l'utilisateur
     };
 
@@ -63,7 +62,6 @@ function App() {
 
     // Écoutez les événements pour réinitialiser la minuterie d'inactivité lorsque l'utilisateur est actif
     const resetInactivityTimer = () => {
-      console.log('resetInactivityTimer');
       clearTimeout(inactivityLogoutTimer);
       inactivityLogoutTimer = setTimeout(logoutUser, 30 * 60 * 1000);
     };

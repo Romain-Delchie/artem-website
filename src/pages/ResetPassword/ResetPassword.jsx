@@ -54,7 +54,6 @@ export default function ResetPassword() {
             alert("Le lien de réinitialisation du mot de passe est invalide ou a expiré.");
             Navigate('/forgot-password', { replace: true });
 
-            console.log(error);
         })
     }, [])
 

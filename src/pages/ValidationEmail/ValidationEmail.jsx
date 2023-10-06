@@ -7,7 +7,6 @@ import Loading from '../../components/Loading/Loading';
 export default function ValidationEmail() {
     const { user, updateUser } = useContext(AppContext);
     const [isSended, setIsSended] = useState(true);
-    console.log(user);
     const handleSendEmail = () => {
         setIsSended(false);
         setTimeout(() => {

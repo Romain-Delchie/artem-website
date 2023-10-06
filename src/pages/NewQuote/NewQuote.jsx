@@ -1,18 +1,28 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import API from '../../utils/api/api';
 import axios from 'axios';
 import AppContext from '../../context/AppContext'
 import './NewQuote.scss'
 import fetchData from '../../utils/fetchData';
+import Loading from '../../components/Loading/Loading';
 
 export default function NewQuote() {
     const { user, updateUser } = useContext(AppContext)
-    console.log(user);
     const navigate = useNavigate()
     const [addressSelected, setAddressSelected] = useState({ new: false, ...user.delivery_standard })
     const [isOpenAddresses, setIsOpenAddresses] = useState(false)
     const [availableCities, setAvailableCities] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
+    const [newQuoteId, setNewQuoteId] = useState()
+
+
+
+    useEffect(() => {
+        if (user.quotations.filter((quotation) => quotation.quotation_id === newQuoteId).length > 0) {
+            navigate(`/quote-history/${user.quotations.slice(-1)[0].quotation_id}`)
+        }
+    }, [user])
 
     const handleOpenAddresses = (e) => {
         e.preventDefault()
@@ -33,12 +43,13 @@ export default function NewQuote() {
         )
     }
 
-
     const handleCreateQuotation = (e) => {
+        setIsLoading(true)
         e.preventDefault()
         if (e.target.reference.value === '') {
             return alert('Veuillez renseigner une référence')
         }
+
         const dataQuotation = {
             account_id: user.id,
             reference: e.target.reference.value,
@@ -47,16 +58,16 @@ export default function NewQuote() {
         }
         API.quotation.create(dataQuotation).then((response) => {
             fetchData(user, updateUser)
+            setNewQuoteId(response.data.newQuotation.generatedId)
         }
         ).catch((error) => {
             console.error(error);
         }
         ).finally(() => {
-
-            navigate(`/quote-history/${user.quotations.slice(-1)[0].quotation_id}`)
+            setIsLoading(false)
         })
     }
-    console.log(addressSelected);
+
     const handleNewAddress = (e) => {
         e.preventDefault()
         const dataAddress = {
@@ -112,9 +123,14 @@ export default function NewQuote() {
 
     const handleCityChange = (event) => {
         const adressUpdated = { ...addressSelected, city: event.target.value }
-        console.log(adressUpdated);
         setAddressSelected(adressUpdated);
     };
+
+
+    if (isLoading) {
+        return <Loading />
+    }
+
 
     return (
         <div className='new-quote' >

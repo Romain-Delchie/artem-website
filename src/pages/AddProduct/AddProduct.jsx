@@ -35,7 +35,6 @@ export default function AddProduct() {
 
     const handleChange = (event) => {
         const { name, value } = event.target
-        console.log(name, value);
         if (name === 'price') {
             setProductToCreate({ ...productToCreate, [name]: Number(value) })
         } else if (name === 'stock') {
@@ -44,7 +43,6 @@ export default function AddProduct() {
             setProductToCreate({ ...productToCreate, [name]: value })
         }
     }
-    console.log(productToCreate);
 
     function handleProductSubmit(event) {
         event.preventDefault();
@@ -63,9 +61,7 @@ export default function AddProduct() {
         const delivery_time = event.target.elements.delivery_time.value;
         const stock = event.target.elements.stock.checked;
         const range_id = event.target.elements.range_id.value;
-        console.log(length);
-        console.log(brand);
-        console.log(event.target.elements.length.value);
+
         if (isValidPrice(price)) {
             const productData = {
                 reference,
@@ -83,7 +79,7 @@ export default function AddProduct() {
                 stock,
                 range_id: Number(range_id),
             };
-            console.log(productData);
+
             API.product.create(user.token, productData).then((res) => {
                 setIsLoading(false);
                 alert('Le produit a bien été ajouté');

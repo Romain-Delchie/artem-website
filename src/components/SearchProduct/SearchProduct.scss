@@ -1,11 +1,28 @@
 @use 'src/styles/variables.scss' as var;
 
 .search-product {
+    padding-top: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     color: var.$secondaryColor;
+
+    &-sorting {
+        text-align: center;
+
+        &-range {
+            margin-bottom: 10px;
+        }
+
+        &-brand {
+            margin-bottom: 10px;
+        }
+
+        & select {
+            width: 300px;
+        }
+    }
 
     &-form {
         margin: 15px;

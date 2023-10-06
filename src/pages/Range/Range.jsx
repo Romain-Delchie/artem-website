@@ -17,13 +17,13 @@ export default function Range() {
                 const thisRange = { ...res.data.oneRange, techSheets: JSON.parse(res.data.oneRange.techSheets) }
                 setRange(thisRange)
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     }, [rangeId]);
 
     if (!range) {
         return <Loading />;
     }
-    console.log(range);
+
     return (
         <div className='range'>
             <h2>{range.name}</h2>
