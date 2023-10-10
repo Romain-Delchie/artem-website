@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const axios = Axios.create({
-    baseURL: "http://85.215.34.177:3305/api",
+    baseURL: "http://localhost:3305/api",
     headers: {
         "Content-Type": "application/json",
     },
@@ -246,6 +246,22 @@ const API = {
 
         async getRange(id) {
             return axios.get(`/range/${id}`);
+        },
+
+        async create(token, data) {
+            return axios.post("/range", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async update(token, id, data) {
+            return axios.patch(`/range/${id}`, data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
         }
     },
 
@@ -286,6 +302,17 @@ const API = {
             return axios.get(`/account/find-by-token/${token}`);
         }
 
+    },
+
+    upload: {
+        async image(token, data) {
+            return axios.post("/upload/image", data, {
+                headers: {
+                    "x-auth-token": token,
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+        }
     }
 };
 

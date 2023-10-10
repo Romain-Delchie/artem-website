@@ -44,7 +44,7 @@ export default function ProductCard({ product }) {
                     </div>
                     <div className="product-card-description">
                         {
-                            product.brand.toLowerCase() !== 'artem' &&
+                            product.brand?.toLowerCase() !== 'artem' &&
                             <h3>Adaptable {product.brand}</h3>
                         }
                         <h3>{product.description}</h3>
