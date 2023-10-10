@@ -31,6 +31,8 @@ import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword/ResetPassword";
 import API from "../utils/api/api";
 import SearchProduct from "../components/SearchProduct/SearchProduct";
+import AddRange from "../pages/AddRange/AddRange";
+import UpdateRange from "../pages/UpdateRange/UpdateRange";
 
 function App() {
 
@@ -118,7 +120,9 @@ function App() {
         {user.role === 'admin' &&
           <>
             <Route path="/add-product" element={<AddProduct />} />
+            <Route path="/add-range" element={<AddRange />} />
             <Route path="/update-product" element={<SearchProduct />} />
+            <Route path="/update-range" element={<UpdateRange />} />
             <Route path="/update-product/:id" element={<UpdateProduct />} />
             <Route path="/delete-product" element={<SearchProduct />} />
             <Route path="/delete-product/:id" element={<DeleteProduct />} />

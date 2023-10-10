@@ -78,7 +78,7 @@ export default function SearchProduct() {
         <div className="search-product">
             <section className="search-product-sorting">
                 <div className="search-product-sorting-range">
-                    <h3>Gamme</h3>
+                    <h3>Filtrer par gamme</h3>
                     <select name="range" id="range" onChange={handleChangeSort}>
                         <option value="all">Toutes les gammes</option>
                         {ranges && ranges.map((range) => (
@@ -87,7 +87,7 @@ export default function SearchProduct() {
                     </select>
                 </div>
                 <div className="search-product-sorting-brand">
-                    <h3>Marque</h3>
+                    <h3>Filtrer par marque</h3>
                     <select name="brand" id="brand" onChange={handleChangeSort}>
                         <option value="all">Toutes les marques</option>
                         {brands && brands.map((brand) => (
@@ -110,7 +110,7 @@ export default function SearchProduct() {
 
                 </div>
                 <div className="input-container input-container-text">
-                    <input type="text" id="search" name="search" placeholder={searchBy === 'reference' ? 'ex: MP_1280_X_790' : 'ex: abry toile enfourneur'} onChange={handleSearch} />
+                    <input type="text" id="search" name="search" placeholder={searchBy === 'reference' ? 'ex: MP_1280_X_790 / NB : avec des _ à la place des espaces' : 'ex: abry toile enfourneur'} onChange={handleSearch} />
                 </div>
 
             </form>

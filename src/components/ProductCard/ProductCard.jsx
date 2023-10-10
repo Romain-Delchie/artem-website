@@ -43,6 +43,10 @@ export default function ProductCard({ product }) {
                         <img src={`/images/products/${product.image_link}`} alt={product.description} />
                     </div>
                     <div className="product-card-description">
+                        {
+                            product.brand.toLowerCase() !== 'artem' &&
+                            <h3>Adaptable {product.brand}</h3>
+                        }
                         <h3>{product.description}</h3>
                         <p>Ref: {product.reference}</p>
                         <p>Délai: {product.delivery_time.startsWith('0') ? 'en stock' : product.delivery_time}</p>
