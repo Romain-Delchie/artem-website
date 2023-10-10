@@ -72,6 +72,19 @@
         justify-content: center;
         align-items: center;
         margin: 0 20px;
+        list-style: none;
+
+        &-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+
+            & h4 {
+                font-size: 1.5rem;
+            }
+        }
     }
 
     &-result {

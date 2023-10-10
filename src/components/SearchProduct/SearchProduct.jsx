@@ -114,32 +114,35 @@ export default function SearchProduct() {
                 </div>
 
             </form>
-            <div className="search-product-results">
-                {productsSorted && productsSorted.map((product) => (
-                    <div className="search-product-result" key={product.id}>
-                        <ProductCard product={product} />
-                        {location.includes('quote-history') &&
-                            <div className="product-card-btn">
-                                <button onClick={() => setOpenAddProductForm({ [product.id]: true })}>Ajouter au devis</button>
-                            </div>
-                        }
-                        {location === '/search-products' &&
-                            <div className="product-card-btn">
-                                <Link to={`/new-quote`}>Créer un devis</Link>
-                            </div>
-                        }
-                        {location === '/update-product' &&
-                            <div className="product-card-btn">
-                                <Link state={product} to={`/update-product/${product.id}`}>Modifier le produit</Link>
-                            </div>
-                        }
-                        {location === '/delete-product' &&
-                            <div className="product-card-btn">
-                                <Link to={`/delete-product/${product.id}`}>Supprimer le produit</Link>
-                            </div>
-                        }
-                    </div>
-                ))}
+            <div className="search-product-results-container">
+                <h4>{productsSorted.length} produits trouvés :</h4>
+                <ul className="search-product-results">
+                    {productsSorted && productsSorted.map((product) => (
+                        <li className="search-product-result" key={product.id}>
+                            <ProductCard product={product} />
+                            {location.includes('quote-history') &&
+                                <div className="product-card-btn">
+                                    <button onClick={() => setOpenAddProductForm({ [product.id]: true })}>Ajouter au devis</button>
+                                </div>
+                            }
+                            {location === '/search-products' &&
+                                <div className="product-card-btn">
+                                    <Link to={`/new-quote`}>Créer un devis</Link>
+                                </div>
+                            }
+                            {location === '/update-product' &&
+                                <div className="product-card-btn">
+                                    <Link state={product} to={`/update-product/${product.id}`}>Modifier le produit</Link>
+                                </div>
+                            }
+                            {location === '/delete-product' &&
+                                <div className="product-card-btn">
+                                    <Link to={`/delete-product/${product.id}`}>Supprimer le produit</Link>
+                                </div>
+                            }
+                        </li>
+                    ))}
+                </ul>
             </div>
 
         </div>
