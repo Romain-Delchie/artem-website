@@ -10,12 +10,11 @@ import { PDFViewer, PDFDownloadLink, pdf } from '@react-pdf/renderer';
 import QuoteUpdate from '../../components/QuoteUpdate/QuoteUpdate'
 import artemData from '../../../data/artem-data'
 import Loading from '../../components/Loading/Loading'
-import priceData from '../../../data/price-data'
 import goodPrice from '../../utils/goodPrice'
 
 
 export default function Quote() {
-    const { user, updateUser, products, setProducts } = useContext(AppContext);
+    const { user, updateUser, setProducts } = useContext(AppContext);
     const Navigate = useNavigate();
     const { quoteId } = useParams();
     const [openSearchProduct, setOpenSearchProduct] = useState(false);
@@ -23,6 +22,7 @@ export default function Quote() {
     const [openOrderConfirmation, setOpenOrderConfirmation] = useState(false);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
     const [openModifQuote, setOpenModifQuote] = useState(false);
+
 
     useEffect(() => {
         fetchData(user, updateUser); // Appeler la fonction pour récupérer les données
@@ -45,8 +45,6 @@ export default function Quote() {
     const totalWeight = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + product.weight * product.quantity, 0);
     quote.totalPrice = totalPrice;
     quote.totalWeight = totalWeight;
-
-
     quote.transport = artemData.tansportFunction(totalWeight);
     quote.clicli = quote.delivery_id !== user.delivery_standard.id ? artemData.clicli : 0;
     quote.totalPrice = quote.totalPrice + quote.transport + quote.clicli;
@@ -70,7 +68,9 @@ export default function Quote() {
             const updatedQuotations = user.quotations.filter(quote => quote.quotation_id !== Number(quoteId));
             const updatedUser = { ...user, quotations: updatedQuotations };
             updateUser(updatedUser);
-            Navigate('/dashboard', { replace: true });
+            window.history.replaceState(null, '', '/quote-history');
+            window.location.reload();
+            console.log(window.history);
         } catch (error) {
             console.error("An error occurred while deleting quotation:", error);
         }
@@ -135,10 +135,17 @@ export default function Quote() {
             {
                 openSearchProduct &&
                 <section className="quote-search-product">
-                    <svg onClick={() => setOpenSearchProduct(false)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 quote-btn-cross">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                    <div className="quote-btn-close" onClick={() => setOpenSearchProduct(false)}>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                        </svg>
+                        <span className='quote-btn-close-quantity'>{quote.products?.length}</span>
+                        <p>Retour au devis</p>
+
+                    </div>
                     <SearchProduct />
+
                 </section>
             }
 
@@ -174,6 +181,8 @@ export default function Quote() {
 
                 </section >
             }
+
+
         </div >
     )
 }

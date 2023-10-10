@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import AppContext from "../../context/AppContext";
 import ProductCard from "../ProductCard/ProductCard";
 import "./SearchProduct.scss";
@@ -6,16 +6,17 @@ import API from "../../utils/api/api";
 import { Link } from "react-router-dom";
 
 export default function SearchProduct() {
-    const { user, openAddProductForm, setOpenAddProductForm } = useContext(AppContext);
+    const { user, setOpenAddProductForm } = useContext(AppContext);
     const [products, setProducts] = useState([]);
     const location = window.location.pathname;
     const [ranges, setRanges] = useState([]);
     const [searchBy, setSearchBy] = useState('description');
-    const [searchResults, setSearchResults] = useState(null);
     const [brands, setBrands] = useState([]);
     const [productsSorted, setProductsSorted] = useState([]);
     const [searchValue, setSearchValue] = useState([]);
-    const [sort, setSort] = useState({ brand: 'all', range: 'all' })
+    const [sort, setSort] = useState({ brand: 'all', range: 'all' });
+
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -68,6 +69,10 @@ export default function SearchProduct() {
         const { value, name } = event.target;
         setSort({ ...sort, [name]: value });
     }
+
+
+
+
     return (
 
         <div className="search-product">

@@ -1,0 +1,22 @@
+@use 'src/styles/variables.scss' as var;
+
+.scroll-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 22px;
+    background-color: #007bff;
+    color: #ff0000;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 50%;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.scroll-to-top.visible {
+    opacity: 1;
+}
