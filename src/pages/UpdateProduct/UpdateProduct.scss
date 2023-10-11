@@ -3,12 +3,13 @@
 .update-product {
     display: flex;
     flex-direction: column;
-    justify-content: start;
     align-items: center;
 
+    & h2 {
+        margin: 20px 0 50px;
+    }
+
     &-form {
-
-
         &-input {
             display: flex;
             justify-content: space-evenly;
@@ -25,11 +26,35 @@
 
             &-stock {
                 width: 50%;
-                gap: 5px;
+                gap: 1px;
+                justify-content: center;
 
+                & label {
+                    width: 150px;
+                    text-align: end;
+                    margin-right: 5px;
+                }
 
                 & input {
                     width: 25px;
+                    margin-right: 50px;
+                }
+            }
+
+            &-active {
+                width: 60%;
+                gap: 1px;
+                justify-content: center;
+
+                & label {
+                    width: 150px;
+                    text-align: end;
+                    margin-right: 5px;
+                }
+
+                & input {
+                    width: 25px;
+                    margin-right: 80px;
                 }
             }
         }

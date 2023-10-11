@@ -11,8 +11,16 @@ export default function AddProduct() {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isLoading, setIsLoading] = useState(false);
     const [productToCreate, setProductToCreate] = useState({ id: 99, delivery_time: '0 jours', price: 0, stock: false });
-
+    const [ranges, setRanges] = useState(null);
     useEffect(() => {
+
+        API.range.getRanges().then((res) => {
+            setRanges(res.data.ranges);
+        }).catch((err) => {
+            console.log(err);
+        });
+
+
         // Écoutez l'événement de mouvement de la souris
         function handleMouseMove(e) {
             setPosition({ x: e.clientX + 10 + window.scrollX, y: e.clientY + 10 + window.scrollY });
@@ -37,7 +45,7 @@ export default function AddProduct() {
         const { name, value } = event.target
         if (name === 'price') {
             setProductToCreate({ ...productToCreate, [name]: Number(value) })
-        } else if (name === 'stock') {
+        } else if (name === 'stock' || name === 'active') {
             setProductToCreate({ ...productToCreate, [name]: event.target.checked })
         } else {
             setProductToCreate({ ...productToCreate, [name]: value })
@@ -58,8 +66,9 @@ export default function AddProduct() {
         const price = event.target.elements.price.value;
         const unit = event.target.elements.unit.value;
         const weight = event.target.elements.weight.value;
-        const delivery_time = event.target.elements.delivery_time.value;
+        const delivery_time = event.target.elements.stock.checked ? "0 jour" : event.target.elements.delivery_time.value;
         const stock = event.target.elements.stock.checked;
+        const active = event.target.elements.active.checked;
         const range_id = event.target.elements.range_id.value;
 
         if (isValidPrice(price)) {
@@ -77,6 +86,7 @@ export default function AddProduct() {
                 weight: Number(weight),
                 delivery_time: stock ? '0 jours' : delivery_time,
                 stock,
+                active,
                 range_id: Number(range_id),
             };
 
@@ -180,14 +190,18 @@ export default function AddProduct() {
                     </div>
                     <div className="input-container input-container-stock">
                         <label htmlFor='stock'>stock</label>
-                        <input type='checkbox' name='stock' checked={productToCreate.checked} id='stock' onChange={handleChange} />
+                        <input type='checkbox' name='stock' checked={productToCreate.stock} id='stock' onChange={handleChange} />
+                    </div>
+                    <div className="input-container input-container-stock">
+                        <label htmlFor='stock'>Actif</label>
+                        <input type='checkbox' name='active' checked={productToCreate.active} id='active' onChange={handleChange} />
                     </div>
                     <div className="input-container">
                         <label htmlFor='range_id'>catégorie</label>
                         <select onChange={handleChange} name="Catégorie" id="range_id">
-                            <option value="1">Toile enfourneur</option>
-                            <option value="2">Toile de couche</option>
-                            <option value="3">Tapis de façonneuse</option>
+                            {ranges && ranges.map((range) => {
+                                return <option value={range.id}>{range.name}</option>
+                            })}
                         </select>
                     </div>
                 </div>

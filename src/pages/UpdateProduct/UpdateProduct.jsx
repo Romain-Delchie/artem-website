@@ -14,10 +14,10 @@ export default function UpdateProduct() {
     const product = location.state;
     const [productUpdate, setProductUpdate] = useState(product)
     const [isLoading, setIsLoading] = useState(false)
-
+    console.log(productUpdate);
     const handlechange = (event) => {
         const { name, value } = event.target
-        if (name === 'stock' || name === 'range_id' || name === 'price' || name === 'weight' || name === 'width' || name === 'unit' || name === 'length') {
+        if (name === 'stock' || name === 'active' || name === 'range_id' || name === 'price' || name === 'weight' || name === 'width' || name === 'unit' || name === 'length') {
             setProductUpdate({ ...productUpdate, [name]: parseInt(value) })
         } else {
             setProductUpdate({ ...productUpdate, [name]: value })
@@ -30,6 +30,7 @@ export default function UpdateProduct() {
         const dataProduct = { ...productUpdate }
         delete dataProduct.created_at
         delete dataProduct.updated_at
+        dataProduct.active = dataProduct.active === 1 ? true : false
         dataProduct.stock = dataProduct.stock === 1 ? true : false
         dataProduct.delivery_time = dataProduct.stock === true ? '0 jour' : dataProduct.delivery_time
 
@@ -52,11 +53,17 @@ export default function UpdateProduct() {
             <h2>Modifier un produit</h2>
 
             <form className="update-product-form" onSubmit={handleSubmit}>
+
+                <div className="update-product-form-input update-product-form-input-active">
+                    <label htmlFor='active'>Article actif</label>
+                    <input type='radio' id='active' name='active' value='1' onChange={handlechange} checked={productUpdate.active === 1} />
+                    <label htmlFor='non'>Article inactif</label>
+                    <input type='radio' id='non' name='active' value='0' onChange={handlechange} checked={productUpdate.active === 0} />
+                </div>
                 {product &&
-                    Object.keys(product).filter((key) => (key !== 'id' && key !== 'stock' && key !== 'created_at' && key !== 'updated_at')).map((key) => (
+                    Object.keys(product).filter((key) => (key !== 'id' && key !== 'active' && key !== 'stock' && key !== 'created_at' && key !== 'updated_at')).map((key) => (
+
                         <div className="update-product-form-input" key={key}>
-
-
                             <label htmlFor={key}>{key}</label>
                             {
                                 typeof product[key] === 'string' ? (
@@ -65,8 +72,9 @@ export default function UpdateProduct() {
                                     <input value={productUpdate[key]} type="number" id={key} name={key} onChange={handlechange} />
                                 )
                             }
-                        </div>
-                    ))
+                        </div>)
+                    )
+
                 }
                 <div className="update-product-form-input update-product-form-input-stock">
                     <label htmlFor='stock'>En stock</label>
