@@ -1,4 +1,8 @@
 import Axios from "axios";
+import { useContext } from "react";
+import AppContext from "../../context/AppContext";
+
+
 
 const axios = Axios.create({
     baseURL: "http://localhost:3305/api",
@@ -6,6 +10,24 @@ const axios = Axios.create({
         "Content-Type": "application/json",
     },
 });
+
+axios.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        if (error.response && error.response.status === 401) {
+            // Gérer l'erreur d'authentification ici, par exemple, déconnectez l'utilisateur.
+            const { updateUser } = useContext(AppContext)
+            updateUser({ token: "", email: "", firstname: "", lastname: "" })
+            // Vous pouvez appeler une fonction globale de déconnexion ou afficher un message d'erreur.
+            // Pour la déconnexion, vous pouvez appeler votre fonction API.auth.signout (si elle existe) pour supprimer le token d'accès.
+            console.log("Erreur d'authentification, déconnexion de l'utilisateur...");
+        }
+        return Promise.reject(error);
+    }
+);
+
 
 const API = {
     auth: {

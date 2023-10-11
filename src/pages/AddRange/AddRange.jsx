@@ -71,6 +71,8 @@ export default function AddRange() {
                         <label htmlFor="image">Fichier image</label>
                         <input type='file' name='image' id='image' />
                         <p>ATTENTION: le nom du fichier doit être strictement identique à "lien image" ci-dessus</p>
+                        <p>Le fichier doit être le moins lourd possible (moins de 100 ko si possible)</p>
+                        <p>Outils en ligne simple pour réduire le poids de la photo en 2 cliques : https://squoosh.app/</p>
                     </div>
                 </div>
                 <button type='submit' className='add-product-form-btn'>Valider</button>
