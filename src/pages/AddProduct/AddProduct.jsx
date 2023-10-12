@@ -89,18 +89,22 @@ export default function AddProduct() {
                 active,
                 range_id: Number(range_id),
             };
-
-            API.product.create(user.token, productData).then((res) => {
-                setIsLoading(false);
-                alert('Le produit a bien été ajouté');
-            }).catch((err) => {
-                setIsLoading(false);
-                alert('Erreur lors de la création du produit');
-            }).finally(() => {
-                navigate('/dashboard');
+            const keysEmpty = []
+            Object.keys(productData).filter(key => key !== stock && key !== active).forEach((key) => { if (productData[key] === '') { keysEmpty.push(key) } })
+            if (keysEmpty.length > 0) {
+                alert(`Les champs ${keysEmpty.join(', ')} sont vides`);
+            } else {
+                API.product.create(user.token, productData).then((res) => {
+                    setIsLoading(false);
+                    alert('Le produit a bien été ajouté');
+                }).catch((err) => {
+                    setIsLoading(false);
+                    alert('Erreur lors de la création du produit');
+                }).finally(() => {
+                    navigate('/dashboard');
+                }
+                );
             }
-            );
-
         } else {
             alert('Le prix doit être un nombre avec 2 décimales');
         }
@@ -209,7 +213,7 @@ export default function AddProduct() {
             </form>
             {
                 productToCreate &&
-                <div style={{ position: 'absolute', left: position.x, top: position.y, transition: 0.3 }}>
+                <div style={{ position: 'fixed', left: 50, top: 400 }}>
                     <ProductCard product={productToCreate} />
                 </div>
             }
