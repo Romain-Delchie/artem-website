@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Loading from '../../components/Loading/Loading'
 import API from '../../utils/api/api'
 import AppContext from '../../context/AppContext'
 
 export default function AddRange() {
-
+    const navigate = useNavigate();
     const { user } = useContext(AppContext)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -27,7 +28,13 @@ export default function AddRange() {
         } finally {
             formData.delete('image');
             setIsLoading(false);
-            API.range.create(user.token, formData)
+            API.range.create(user.token, formData).then((res) => {
+                navigate('/products');
+            }
+            ).catch((err) => {
+                console.error(err);
+            }
+            );
         }
     }
 

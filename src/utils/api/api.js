@@ -334,8 +334,70 @@ const API = {
                     'Content-Type': 'multipart/form-data',
                 },
             });
+        },
+
+        async pdf(token, data) {
+            return axios.post("/upload/pdf", data, {
+                headers: {
+                    "x-auth-token": token,
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
         }
-    }
+    },
+
+    techsheet: {
+
+        async getTechsheets(token) {
+            return axios.get("/techsheet", {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async create(token, data) {
+            return axios.post("/techsheet", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        }
+    },
+
+    rangeHasTechsheet: {
+
+        async getRangeHasTechsheets(token) {
+            return axios.get("/rangeHasTechsheet", {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async create(token, data) {
+            return axios.post("/rangeHasTechsheet", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async delete(token, data) {
+            console.log(data);
+            console.log(token);
+            return axios.delete("/rangeHasTechsheet/", {
+                headers: {
+                    "x-auth-token": token,
+                },
+                params: {
+                    range_id: data.range_id,
+                    techsheet_id: data.techSheet_id
+                }
+            });
+        }
+    },
+
 };
 
 export default API;

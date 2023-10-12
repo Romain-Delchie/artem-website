@@ -15,8 +15,7 @@ export default function SearchProduct() {
     const [productsSorted, setProductsSorted] = useState([]);
     const [searchValue, setSearchValue] = useState([]);
     const [sort, setSort] = useState({ brand: 'all', range: 'all' });
-
-
+    const [active, setActive] = useState(true)
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -24,7 +23,8 @@ export default function SearchProduct() {
                     API.product.getProducts(user.token),
                     API.range.getRanges(),
                 ]);
-                setProducts(productsResponse.data);
+                const productsActive = productsResponse.data.filter((product) => active ? product.active : !product.active);
+                setProducts(productsActive);
                 setRanges(rangeResponse.data.ranges);
                 setProductsSorted(productsResponse.data);
 
@@ -33,7 +33,7 @@ export default function SearchProduct() {
             }
         };
         fetchProducts();
-    }, []);
+    }, [active]);
 
     useEffect(() => {
         const brandsData = []
@@ -48,6 +48,11 @@ export default function SearchProduct() {
     const handleChangeSearchBy = (event) => {
         setSearchBy(event.target.value);
     };
+
+    const handleChangeActive = (event) => {
+        event.target.value === 'inactive' ? setActive(false) : setActive(true)
+        setSort({ brand: 'all', range: 'all' })
+    }
 
     useEffect(() => {
         const productsByRange = sort.range === 'all' ? products : products.filter((product) => product.range_id === parseInt(sort.range))
@@ -70,13 +75,16 @@ export default function SearchProduct() {
         setSort({ ...sort, [name]: value });
     }
 
-
-
-
     return (
 
         <div className="search-product">
             <section className="search-product-sorting">
+                <div className="search-product-sorting-active">
+                    <label htmlFor="active">Produits actif</label>
+                    <input type="radio" value="active" name="active" id="active" checked={active} onChange={handleChangeActive} />
+                    <label htmlFor="inactive">Produits inactif</label>
+                    <input type="radio" value='inactive' name="inactive" id="inactive" checked={!active} onChange={handleChangeActive} />
+                </div>
                 <div className="search-product-sorting-range">
                     <h3>Filtrer par gamme</h3>
                     <select name="range" id="range" onChange={handleChangeSort}>
@@ -115,7 +123,7 @@ export default function SearchProduct() {
 
             </form>
             <div className="search-product-results-container">
-                <h4>{productsSorted.length} produits trouvés :</h4>
+                <h4>{productsSorted.length} {productsSorted.length < 2 ? "produit trouvé" : "produits trouvés"} :</h4>
                 <ul className="search-product-results">
                     {productsSorted && productsSorted.map((product) => (
                         <li className="search-product-result" key={product.id}>
@@ -130,12 +138,12 @@ export default function SearchProduct() {
                                     <Link to={`/new-quote`}>Créer un devis</Link>
                                 </div>
                             }
-                            {location === '/update-product' &&
+                            {(location === '/update-product' || location === '/update-product/inactive') &&
                                 <div className="product-card-btn">
                                     <Link state={product} to={`/update-product/${product.id}`}>Modifier le produit</Link>
                                 </div>
                             }
-                            {location === '/delete-product' &&
+                            {(location === '/delete-product' || location === '/delete-product/inactive') &&
                                 <div className="product-card-btn">
                                     <Link to={`/delete-product/${product.id}`}>Supprimer le produit</Link>
                                 </div>

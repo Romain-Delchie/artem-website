@@ -33,6 +33,7 @@ import API from "../utils/api/api";
 import SearchProduct from "../components/SearchProduct/SearchProduct";
 import AddRange from "../pages/AddRange/AddRange";
 import UpdateRange from "../pages/UpdateRange/UpdateRange";
+import AddTechsheet from "../pages/AddTechsheet/AddTechsheet";
 
 function App() {
 
@@ -126,6 +127,7 @@ function App() {
             <Route path="/update-product/:id" element={<UpdateProduct />} />
             <Route path="/delete-product" element={<SearchProduct />} />
             <Route path="/delete-product/:id" element={<DeleteProduct />} />
+            <Route path="/add-techsheet" element={<AddTechsheet />} />
             <Route path="/role-validation" element={<RoleValidation />} />
           </>
         }

@@ -53,6 +53,7 @@ export default function Dashboard() {
                         <Link className='dashboard-button' to='/delete-product'>Supprimer un produit</Link>
                         <Link className='dashboard-button' to='/add-range'>Ajouter une gamme (vitrine)</Link>
                         <Link className='dashboard-button' to='/update-range'>Modifier une gamme (vitrine)</Link>
+                        <Link className='dashboard-button' to='/add-techsheet'>Gestion des fiches techniques</Link>
                         <Link className='dashboard-button dashboard-button-last' to='/role-validation'>Valider rôle client</Link>
                     </section>
                 }

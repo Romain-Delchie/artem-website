@@ -143,7 +143,7 @@ export default function NewQuote() {
 
 
                 <div className="new-quote-shipment">
-                    <h3>Addresse de livraison</h3>
+                    <h3>Adresse de livraison</h3>
                     <div className="new-quote-shipment-container">
                         <div className="new-quote-shipment-item">
                             <p>{addressSelected.name_address}</p>
