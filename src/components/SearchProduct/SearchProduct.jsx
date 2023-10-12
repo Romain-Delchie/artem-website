@@ -79,12 +79,14 @@ export default function SearchProduct() {
 
         <div className="search-product">
             <section className="search-product-sorting">
-                <div className="search-product-sorting-active">
-                    <label htmlFor="active">Produits actif</label>
-                    <input type="radio" value="active" name="active" id="active" checked={active} onChange={handleChangeActive} />
-                    <label htmlFor="inactive">Produits inactif</label>
-                    <input type="radio" value='inactive' name="inactive" id="inactive" checked={!active} onChange={handleChangeActive} />
-                </div>
+                {user.role === 'admin' &&
+                    <div className="search-product-sorting-active">
+                        <label htmlFor="active">Produits actif</label>
+                        <input type="radio" value="active" name="active" id="active" checked={active} onChange={handleChangeActive} />
+                        <label htmlFor="inactive">Produits inactif</label>
+                        <input type="radio" value='inactive' name="inactive" id="inactive" checked={!active} onChange={handleChangeActive} />
+                    </div>
+                }
                 <div className="search-product-sorting-range">
                     <h3>Filtrer par gamme</h3>
                     <select name="range" id="range" onChange={handleChangeSort}>
