@@ -6,7 +6,8 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
 
 
     const transportCost = quote.transport && typeof quote.transport === 'number' ? quote.transport : 0;
-
+    const tvaCoeff = quote.country.toLowerCase() !== "france" || quote.zip_code.startsWith("97") ? 0 : 0.2;
+    const ttcCoeff = quote.country.toLowerCase() !== "france" || quote.zip_code.startsWith("97") ? 1 : 1.2;
     const styles = StyleSheet.create({
         page: {
             fontFamily: 'Helvetica',
@@ -346,12 +347,14 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                         <Text>{user.billing_address.name_address}</Text>
                         <Text>{user.billing_address.street_address}</Text>
                         <Text>{user.billing_address.zip_code} {user.billing_address.city}</Text>
+                        <Text>{user.billing_address.country}</Text>
                     </View>
                     <View style={styles.address}>
                         <Text style={styles.subtitle}>Adresse de Livraison</Text>
                         <Text>{quote.name_address}</Text>
                         <Text>{quote.street_address}</Text>
                         <Text>{quote.zip_code} {quote.city}</Text>
+                        <Text>{quote.country}</Text>
                     </View>
 
                 </View>
@@ -426,11 +429,11 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                     </View>
                     <View style={styles.tableRow}>
                         <Text style={styles.tableCell.total}>TVA :</Text>
-                        <Text style={styles.tableCell.totalPrice}>{((totalPrice + transportCost + quote.clicli) * 0.2).toFixed(2)} €</Text>
+                        <Text style={styles.tableCell.totalPrice}>{((totalPrice + transportCost + quote.clicli) * tvaCoeff).toFixed(2)} €</Text>
                     </View>
                     <View style={styles.tableRow}>
                         <Text style={styles.tableCell.total}>Total TTC</Text>
-                        <Text style={styles.tableCell.lastTotalPrice}>{((totalPrice + transportCost + quote.clicli) * 1.2).toFixed(2)} € TTC</Text>
+                        <Text style={styles.tableCell.lastTotalPrice}>{((totalPrice + transportCost + quote.clicli) * ttcCoeff).toFixed(2)} € TTC</Text>
                     </View>
                 </View>
 

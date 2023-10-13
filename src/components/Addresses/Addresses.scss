@@ -10,6 +10,13 @@
     bottom: 0;
     overflow: hidden;
 
+    &-btn-cross {
+        position: fixed;
+        right: 10px;
+        top: 10px;
+        width: 50px;
+    }
+
     &-button {
         background-color: var.$primaryColorLight;
         padding: 10px;
@@ -67,6 +74,10 @@
         padding: 20px;
         width: 98%;
 
+        & option {
+            color: var.$secondaryColor;
+        }
+
         &-button {
             background-color: var.$primaryColorLight;
             padding: 10px;
@@ -90,13 +101,26 @@
             }
 
             & input,
-            select {
+            select,
+            #country {
                 width: 80%;
                 margin-bottom: 20px;
                 font-size: 1.1rem;
+                height: 38px;
+            }
+
+            & .css-art2ul-ValueContainer2 {
+                padding: 0;
+                height: 38px;
             }
         }
     }
+}
+
+
+#country {
+    color: var.$secondaryColor;
+
 }
 
 #shipment {
@@ -116,12 +140,6 @@
 
 @media (min-width:600px) {
     .addresses {
-        & {
-            & select {
-                width: 550px;
-            }
-        }
-
         &-button {
             width: 550px;
         }

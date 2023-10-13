@@ -46,7 +46,7 @@ export default function Quote() {
     quote.totalPrice = totalPrice;
     quote.totalWeight = totalWeight;
     quote.transport = quote.delivery_id === 1 ? 0 : artemData.tansportFunction(totalWeight);
-    quote.transport = quote.zip_code.startsWith('97') ? "Nous consulter" : quote.transport;
+    quote.transport = quote.zip_code.startsWith('97') || quote.country.toLowerCase() !== 'france' ? "Nous consulter" : quote.transport;
     quote.clicli = quote.delivery_id !== user.delivery_standard.id ? artemData.clicli : 0;
     quote.totalPrice = quote.totalPrice + quote.transport + quote.clicli;
     if (openSearchProduct || openDeleteQuotation || openOrderConfirmation || openModifQuote) {

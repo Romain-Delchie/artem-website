@@ -6,7 +6,7 @@ import './SignUp.scss'
 import PasswordInput from '../../components/PasswordInput/PasswordInput';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../components/Loading/Loading';
-import axios, { all } from 'axios';
+import axios from 'axios';
 import Select from 'react-select';
 
 export default function SignUp() {
@@ -38,7 +38,6 @@ export default function SignUp() {
     const [passwordMatch, setPasswordMatch] = useState(false);
     const [selectedCountry, setSelectedCountry] = useState({ label: 'France', value: 'France' });
     const [countryOptions, setCountryOptions] = useState([]);
-    console.log(selectedCountry);
     useEffect(() => {
         setPasswordMatch(formData.password === formData.repeat_password);
     }, [formData.password, formData.repeat_password]);
@@ -77,7 +76,6 @@ export default function SignUp() {
                 console.error('Erreur lors de la récupération des pays', error);
             });
     }, []);
-    console.log(countryOptions);
 
     const handleZipCodeChange = async (e) => {
         const zipCode = e.target.value;

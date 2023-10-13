@@ -15,6 +15,7 @@ export default function UserInformations() {
         'invoice_address': 'Adresse',
         'company': 'Société',
         'siret': 'Siret',
+        "country": "Pays",
     }
 
     const { user, updateUser } = useContext(AppContext);
@@ -113,6 +114,11 @@ export default function UserInformations() {
                             </p>
                             <p>{user.billing_address.city}</p>
                         </li>
+                        <li className='user-informations-item'>
+                            <p>Pays
+                            </p>
+                            <p>{user.billing_address.country}</p>
+                        </li>
                         <button className='user-informations-button' onClick={() => setModification({ ...modification, billing: true })}>Modifier</button>
 
                     </ul>
@@ -144,6 +150,11 @@ export default function UserInformations() {
                             <p>Ville
                             </p>
                             <p>{user.delivery_standard.city}</p>
+                        </li>
+                        <li className='user-informations-item'>
+                            <p>Pays
+                            </p>
+                            <p>{user.delivery_standard.country}</p>
                         </li>
                         <button className='user-informations-button' onClick={() => setModification({ ...modification, delivery: true })}>Modifier</button>
 
