@@ -312,7 +312,7 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
             borderTop: '2px double black',
         }
     });
-
+    console.log(quote);
     return (
         <Document>
             <Page size="A4" style={styles.page}>
@@ -391,7 +391,12 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                         <View style={styles.tableRow}>
                             <Text style={styles.tableCell.port}>Poids net total : {totalWeight.toFixed(2)} kg</Text>
                             <Text style={styles.tableCell.portTitle}>Port et emballage :</Text>
-                            <Text style={styles.tableCell.totalPrice}>{typeof quote.transport === "string" ? "Nous consulter" : `${quote.transport.toFixed(2)} € HT`}</Text>
+                            {quote.delivery_id === 1 &&
+                                <Text style={styles.tableCell.port}>Enlèvement à Montévrain</Text>
+                            }
+                            {quote.delivery_id !== 1 &&
+                                <Text style={styles.tableCell.totalPrice}>{typeof quote.transport === "string" ? "Nous consulter" : `${quote.transport.toFixed(2)} € HT`}</Text>
+                            }
                         </View>
                     }
 
@@ -402,7 +407,7 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                         </View>
                     }
                     <View style={styles.tableRow}>
-                        {typeof quote.transport === "string" &&
+                        {typeof quote.transport === "string" && quote.delivery_id !== 1 &&
                             <View style={styles.tableCell.redFlagPort}>
                                 <Text>Attention port à ajouter : nous consulter</Text>
                             </View>
