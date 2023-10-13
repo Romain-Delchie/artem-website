@@ -6,8 +6,8 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
 
 
     const transportCost = quote.transport && typeof quote.transport === 'number' ? quote.transport : 0;
-    const tvaCoeff = quote.country.toLowerCase() !== "france" || quote.zip_code.startsWith("97") ? 0 : 0.2;
-    const ttcCoeff = quote.country.toLowerCase() !== "france" || quote.zip_code.startsWith("97") ? 1 : 1.2;
+    const tvaCoeff = quote.country?.toLowerCase() !== "france" || quote.zip_code.startsWith("97") ? 0 : 0.2;
+    const ttcCoeff = quote.country?.toLowerCase() !== "france" || quote.zip_code.startsWith("97") ? 1 : 1.2;
     const styles = StyleSheet.create({
         page: {
             fontFamily: 'Helvetica',
@@ -313,7 +313,6 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
             borderTop: '2px double black',
         }
     });
-    console.log(quote);
     return (
         <Document>
             <Page size="A4" style={styles.page}>
@@ -378,18 +377,24 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                         <Text style={styles.tableHeaderCell.totalPrice}>Total</Text>
                     </View>
 
-                    {quote.products && Array.isArray(quote.products) && quote.products.map(product => (
-                        <View style={styles.tableRow} key={product.id}>
-                            <Text style={styles.tableCell.reference}>{product.reference}</Text>
-                            <Text style={styles.tableCell.designation}>{product.designation}</Text>
-                            <Text style={styles.tableCell.price}>{goodPrice(user.profile_id, product.price)} €</Text>
-                            <Text style={styles.tableCell.quantite}>{product.quantity}</Text>
-                            <Text style={styles.tableCell}>{product.weight} kg</Text>
-                            <Text style={styles.tableCell}>{product.delivery_time.startsWith("0") ? "stock" : product.delivery_time}</Text>
-                            <Text style={styles.tableCell.totalPrice}>{(goodPrice(user.profile_id, product.price) * product.quantity).toFixed(2)} € HT</Text>
+                    {quote.products && Array.isArray(quote.products) && quote.products.map(product => {
+                        product.priceWithCoeff = product.price;
+                        if (product.reference.startsWith('TB') && product.quantity < 20) {
+                            product.priceWithCoeff = product.price * 1.1;
+                        }
+                        return (
+                            <View style={styles.tableRow} key={product.id}>
+                                <Text style={styles.tableCell.reference}>{product.reference}</Text>
+                                <Text style={styles.tableCell.designation}>{product.designation}</Text>
+                                <Text style={styles.tableCell.price}>{goodPrice(user.profile_id, product.priceWithCoeff)} €</Text>
+                                <Text style={styles.tableCell.quantite}>{product.quantity}</Text>
+                                <Text style={styles.tableCell}>{product.weight} kg</Text>
+                                <Text style={styles.tableCell}>{product.delivery_time.startsWith("0") ? "stock" : product.delivery_time}</Text>
+                                <Text style={styles.tableCell.totalPrice}>{(goodPrice(user.profile_id, product.priceWithCoeff) * product.quantity).toFixed(2)} € HT</Text>
 
-                        </View>
-                    ))}
+                            </View>
+                        )
+                    })}
                     {quote.transport &&
                         <View style={styles.tableRow}>
                             <Text style={styles.tableCell.port}>Poids net total : {totalWeight.toFixed(2)} kg</Text>

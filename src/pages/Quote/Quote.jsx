@@ -23,7 +23,6 @@ export default function Quote() {
     const [isDataLoaded, setIsDataLoaded] = useState(false);
     const [openModifQuote, setOpenModifQuote] = useState(false);
 
-
     useEffect(() => {
         fetchData(user, updateUser); // Appeler la fonction pour récupérer les données
         setQuote(user.quotations.find(quote => quote.quotation_id === Number(quoteId)))
@@ -41,12 +40,12 @@ export default function Quote() {
         setIsDataLoaded(true);
     }, [user]);
 
-    const totalPrice = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + goodPrice(user.profile_id, product.price) * product.quantity, 0);
+    const totalPrice = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + goodPrice(user.profile_id, product.priceWithCoeff ? product.priceWithCoeff : product.price) * product.quantity, 0);
     const totalWeight = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + product.weight * product.quantity, 0);
     quote.totalPrice = totalPrice;
     quote.totalWeight = totalWeight;
     quote.transport = quote.delivery_id === 1 ? 0 : artemData.tansportFunction(totalWeight);
-    quote.transport = quote.zip_code.startsWith('97') || quote.country.toLowerCase() !== 'france' ? "Nous consulter" : quote.transport;
+    quote.transport = quote.zip_code.startsWith('97') || quote.country?.toLowerCase() !== 'france' ? "Nous consulter" : quote.transport;
     quote.clicli = quote.delivery_id !== user.delivery_standard.id ? artemData.clicli : 0;
     quote.totalPrice = quote.totalPrice + quote.transport + quote.clicli;
     if (openSearchProduct || openDeleteQuotation || openOrderConfirmation || openModifQuote) {
@@ -54,6 +53,8 @@ export default function Quote() {
     } else {
         document.body.style.overflow = 'unset';
     }
+
+    console.log("test", quote);
 
     function handleOpenSearchProduct() {
         setOpenSearchProduct(true);
