@@ -45,10 +45,10 @@ export default function Quote() {
     const totalWeight = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + product.weight * product.quantity, 0);
     quote.totalPrice = totalPrice;
     quote.totalWeight = totalWeight;
-    quote.transport = artemData.tansportFunction(totalWeight);
+    quote.transport = quote.delivery_id === 1 ? 0 : artemData.tansportFunction(totalWeight);
+    quote.transport = quote.zip_code.startsWith('97') ? "Nous consulter" : quote.transport;
     quote.clicli = quote.delivery_id !== user.delivery_standard.id ? artemData.clicli : 0;
     quote.totalPrice = quote.totalPrice + quote.transport + quote.clicli;
-
     if (openSearchProduct || openDeleteQuotation || openOrderConfirmation || openModifQuote) {
         document.body.style.overflow = 'hidden';
     } else {

@@ -39,7 +39,8 @@
             }
 
             & input,
-            select {
+            select,
+            #country {
                 width: 60%;
 
                 &::placeholder {
@@ -92,6 +93,7 @@
 
         input[type="number"] {
             -moz-appearance: textfield;
+            appearance: textfield;
 
             &::-webkit-inner-spin-button,
             &::-webkit-outer-spin-button {

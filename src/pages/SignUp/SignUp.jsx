@@ -6,7 +6,8 @@ import './SignUp.scss'
 import PasswordInput from '../../components/PasswordInput/PasswordInput';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../components/Loading/Loading';
-import axios from 'axios';
+import axios, { all } from 'axios';
+import Select from 'react-select';
 
 export default function SignUp() {
     const { user, updateUser } = useContext(AppContext)
@@ -34,9 +35,10 @@ export default function SignUp() {
         digit: false,
         specialChar: false,
     });
-
-
     const [passwordMatch, setPasswordMatch] = useState(false);
+    const [selectedCountry, setSelectedCountry] = useState({ label: 'France', value: 'France' });
+    const [countryOptions, setCountryOptions] = useState([]);
+    console.log(selectedCountry);
     useEffect(() => {
         setPasswordMatch(formData.password === formData.repeat_password);
     }, [formData.password, formData.repeat_password]);
@@ -61,6 +63,21 @@ export default function SignUp() {
 
     };
 
+    useEffect(() => {
+        // Utilisez une API pour récupérer la liste des pays
+        axios.get('https://restcountries.com/v3.1/all')
+            .then(response => {
+                const countries = response.data.map(country => ({
+                    label: country.name.common,
+                    value: country.name.common,
+                }));
+                setCountryOptions(countries);
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des pays', error);
+            });
+    }, []);
+    console.log(countryOptions);
 
     const handleZipCodeChange = async (e) => {
         const zipCode = e.target.value;
@@ -96,11 +113,11 @@ export default function SignUp() {
             passwordValidation.uppercase &&
             passwordValidation.digit &&
             passwordValidation.specialChar;
-
+        formData.siret = formData.country !== 'France' ? '00000000000000' : String(formData.siret)
         const allFieldsFilled = Object.values(formData).every(
             (field) => field !== null && field !== ""
         );
-
+        console.log(allFieldsFilled);
         if (!allFieldsFilled) {
             alert("Veuillez remplir tous les champs.");
             return;
@@ -134,7 +151,9 @@ export default function SignUp() {
                 const lastForm = formData
                 lastForm.billing_address_id = response.data.newAddress.generatedId
                 lastForm.delivery_standard_id = response.data.newAddress.generatedId
-                lastForm.siret = String(lastForm.siret)
+
+                lastForm.country = selectedCountry.label
+
                 delete lastForm.street_address
                 delete lastForm.name_address
                 delete lastForm.zip_code
@@ -148,10 +167,9 @@ export default function SignUp() {
 
                             updateUser({ ...user, token: tokenReceived });
 
-                            API.email.sendConfirmationEmail(tokenReceived, { email: formData.email, firstname: formData.firstname }).then((response) => {
+                            API.email.sendConfirmationEmail(tokenReceived, { email: formData.email, firstname: formData.firstname })
+                            navigate('/dashboard')
 
-                                navigate('/dashboard')
-                            })
                         }
                         )
 
@@ -235,11 +253,22 @@ export default function SignUp() {
                             onChange={handleChange}
                         />
                     </div>
+                    <div className="signup-form-item">
+                        <label htmlFor="country">Pays</label>
+                        <Select
+                            id="country"
+                            options={countryOptions}
+                            value={selectedCountry}
+                            onChange={option => setSelectedCountry(option)}
+                            placeholder="Sélectionnez un pays"
+                            isSearchable={true}
+                        />
+                    </div>
 
                     <div className="signup-form-item signup-form-item-address">
                         <label htmlFor='street_address'>Adresse de facturation</label>
                         <input
-                            placeholder='Adresse'
+                            placeholder='ex: 10 Rue de la paix'
                             type="text"
                             name="street_address"
                             id="street_address"
@@ -259,28 +288,22 @@ export default function SignUp() {
 
                         <label htmlFor="city">Ville</label>
                         {
-                            apiError &&
-                            <input type='text' name='city' id='city' placeholder='Ville' value={formData.city} onChange={handleChange} />
+                            (apiError || (selectedCountry.label !== 'France')) ? (
+                                <input type='text' name='city' id='city' placeholder='Ville' value={formData.city} onChange={handleChange} />
+                            ) : (
+                                !apiError && (selectedCountry.label === 'France') ? (
+                                    <select name="city" id="city" value={formData.city} onChange={handleChange}>
+                                        <option value="none" key='none'>Sélectionnez une ville</option>
+                                        {availableCities.map((city, index) => (
+                                            <option key={`${city}_${index}`} value={city}>
+                                                {city}
+                                            </option>
+                                        ))}
+                                    </select>
+                                ) : null // Ajout de null pour éviter un rendu inattendu
+                            )
                         }
-                        {
-                            !apiError &&
-                            <select
-                                name="city"
-                                id="city"
-                                value={formData.city}
-                                onChange={handleChange}
-                            >
-                                <option value="none" key='none'>Sélectionnez une ville</option>
-                                {availableCities.map((city, index) => (
-                                    <option key={`${city}_${index}`} value={city}>
-                                        {city}
-                                    </option>
-                                ))}
-                            </select>
-                        }
-
                     </div>
-
                     <div className="signup-form-item">
                         <label htmlFor="password">Mot de passe</label>
                         <div className="password-checking">
@@ -334,17 +357,19 @@ export default function SignUp() {
                             }
                         </div>
                     </div>
-                    <div className="signup-form-item">
-                        <label htmlFor="siret">Numéro de SIRET</label>
-                        <input
-                            placeholder='N° de SIRET à 14 chiffres'
-                            type="number"
-                            name="siret"
-                            id="siret"
-                            value={formData.siret}
-                            onChange={handleChange}
-                        />
-                    </div>
+                    {selectedCountry.label === 'France' &&
+                        <div className="signup-form-item">
+                            <label htmlFor="siret">Numéro de SIRET</label>
+                            <input
+                                placeholder='N° de SIRET à 14 chiffres'
+                                type="number"
+                                name="siret"
+                                id="siret"
+                                value={formData.siret}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    }
 
                     <button type='submit'>Valider</button>
                 </form>

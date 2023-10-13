@@ -406,6 +406,14 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                             <Text style={styles.tableCell.clicliPrice}>{quote.clicli.toFixed(2)} € HT</Text>
                         </View>
                     }
+                    {
+                        quote.zip_code.startsWith("20") || quote.zip_code.startsWith("2A") || quote.zip_code.startsWith("2B") &&
+                        <View style={styles.tableRow}>
+                            <Text style={styles.tableCell.clicli}>Supplément livraison en Corse</Text>
+                            <Text style={styles.tableCell.clicliPrice}>{artemData.corse.toFixed(2)} € HT</Text>
+                        </View>
+                    }
+
                     <View style={styles.tableRow}>
                         {typeof quote.transport === "string" && quote.delivery_id !== 1 &&
                             <View style={styles.tableCell.redFlagPort}>
