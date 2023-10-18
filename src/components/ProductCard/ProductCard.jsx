@@ -50,7 +50,9 @@ export default function ProductCard({ product }) {
                         <h3>{product.description}</h3>
                         <p>Ref: {product.reference}</p>
                         <p>Délai: {product.delivery_time.startsWith('0') ? 'en stock' : product.delivery_time}</p>
-                        <Price price={product.price} />
+                        {user.profile_id !== 3 &&
+                            <Price price={product.price} />
+                        }
                     </div>
                 </div>
 

@@ -135,7 +135,7 @@ export default function SearchProduct() {
                                     <button onClick={() => setOpenAddProductForm({ [product.id]: true })}>Ajouter au devis</button>
                                 </div>
                             }
-                            {location === '/search-products' &&
+                            {location === '/search-products' && user.profile_id !== 3 &&
                                 <div className="product-card-btn">
                                     <Link to={`/new-quote`}>Créer un devis</Link>
                                 </div>
