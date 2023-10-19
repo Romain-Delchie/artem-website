@@ -132,9 +132,9 @@ export default function TeTool() {
         // SLIDE 5 LENGTH
 
         if (slide === 5 && teInfo.eaLength === '') {
-            alert('Veuillez renseigner la longueur de rouleau à rouleau')
+            alert("Veuillez renseigner la longueur d'axe à axe des rouleaux")
         } else if (slide === 5 && teInfo.eaLength < 800 || teInfo.eaLength > 5000) {
-            alert('La longueur de rouleau à rouleau doit être comprise entre 800mm et 5000mm')
+            alert("La longueur d'axe à axe des rouleaux doit être comprise entre 800mm et 5000mm")
         } else if (slide === 5) {
             searchWithEA(teInfo.eaLength)
             searchMatch()
@@ -365,7 +365,7 @@ export default function TeTool() {
                 }
                 {slide === 5 &&
                     <div className='each-slide-effect'>
-                        <label htmlFor="eaLength">Longueur de rouleau à rouleau en mm</label>
+                        <label htmlFor="eaLength">Longueur d'axe à axe des rouleaux en mm</label>
                         <input type="number" name='eaLength' defaultValue={teInfo.eaLength} placeholder="ex: 2000" onChange={handleInfoChange} />
                     </div>
                 }

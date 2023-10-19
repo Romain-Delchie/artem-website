@@ -107,6 +107,39 @@ export default function Products() {
                             </ul>
                         }
                     </section>
+                    {/* Produits inox */}
+
+                    <section className='products-section products-section-inox'>
+                        <div onClick={() => setIsOpen({ ...isOpen, inox: !isOpen.inox })} className="products-section-title">
+                            {
+                                !isOpen.inox &&
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                </svg>
+                            }
+                            {
+                                isOpen.bande &&
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+                                </svg>
+                            }
+                            <h3>AUTRES PRODUITS INOX</h3>
+                        </div>
+                        {isOpen.inox &&
+                            <ul className="products-section-list">
+                                {
+                                    ranges.filter(range => range.category === 'inox').map(range => {
+                                        return (
+
+                                            <li className="products-section-list-item" key={range.id}>
+                                                <Link className='products-section-list-item-link' to={`/range/${range.id}`}><img src={`/images/products/${range.image_link}`} alt={`photo de ${range.name}`} /><p>{range.name}</p></Link>
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                        }
+                    </section>
 
                     {/* MECA */}
 
@@ -124,7 +157,7 @@ export default function Products() {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
                                 </svg>
                             }
-                            <h3>MECA</h3>
+                            <h3>ELEVATEUR - ENFOURNEUR</h3>
                         </div>
                         {
                             isOpen.meca &&

@@ -129,19 +129,36 @@
             }
         }
 
-        &-bande {
+        &-inox {
             color: var.$secondaryColor;
 
             & .products-section-title {
-                color: rgb(226, 176, 10);
-                border-top: 3px solid rgb(226, 176, 10);
-                border-bottom: 3px solid rgb(226, 176, 10);
+                border-top: 3px solid var.$fourthColor;
+                border-bottom: 3px solid var.$fourthColor;
+                color: var.$fourthColor;
 
             }
 
             & .products-section-list-item {
-                background-color: rgb(226, 176, 10);
-                border: 3px solid rgb(226, 176, 10);
+                background-color: var.$fourthColor;
+                border: 3px solid var.$fourthColor;
+
+            }
+        }
+
+        &-bande {
+            color: var.$secondaryColor;
+
+            & .products-section-title {
+                color: var.$thirdColor;
+                border-top: 3px solid var.$thirdColor;
+                border-bottom: 3px solid var.$thirdColor;
+
+            }
+
+            & .products-section-list-item {
+                background-color: var.$thirdColor;
+                border: 3px solid var.$thirdColor;
 
             }
         }
