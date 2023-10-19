@@ -5,15 +5,16 @@ import API from '../../utils/api/api'
 import './Home.scss'
 import ImageSlider from '../../components/Slider/ImageSlider'
 import TextSlider from '../../components/Slider/TextSlider'
+import ChatBot from '../../components/ChatBot/ChatBot'
 
 export default function Home() {
 
     return (
         <main className='hero'>
             <section className='hero-button-container'>
-                <Link className='hero-button hero-button-one' to='/vitrine/company'><p>Notre entreprise</p></Link>
-                <Link className='hero-button hero-button-two' to='/vitrine/products'><p>Notre gamme</p></Link>
-                <Link className='hero-button hero-button-three' to='/vitrine/contact'><p>Contact</p></Link>
+                <Link className='hero-button hero-button-one' to='/company'><p>Notre entreprise</p></Link>
+                <Link className='hero-button hero-button-two' to='/products'><p>Notre gamme</p></Link>
+                <Link className='hero-button hero-button-three' to='/contact'><p>Contact</p></Link>
                 <Link className='hero-button hero-button-four' to='https://pay-pro.monetico.fr/artem/paiementenligne' target='_blank' ><p>Régler une facture</p></Link>
             </section>
             <section className='hero-products-container'>
@@ -44,6 +45,7 @@ export default function Home() {
 
                 </div>
             </section>
+            <ChatBot />
 
         </main>
     )
