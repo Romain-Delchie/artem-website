@@ -4,123 +4,64 @@ import AppContext from '../../context/AppContext'
 import SearchProduct from '../../components/SearchProduct/SearchProduct'
 import './Quote.scss'
 import API from '../../utils/api/api';
+import Quotepdf from '../../components/Quotepdf/Quotepdf.jsx';
+import fetchData from '../../utils/fetchData'
+import { PDFViewer, PDFDownloadLink, pdf } from '@react-pdf/renderer';
+import QuoteUpdate from '../../components/QuoteUpdate/QuoteUpdate'
+import artemData from '../../../data/artem-data'
+import Loading from '../../components/Loading/Loading'
+import goodPrice from '../../utils/goodPrice'
+
 
 export default function Quote() {
-    const { user, updateUser, products, setProducts } = useContext(AppContext);
+    const { user, updateUser, setProducts } = useContext(AppContext);
     const Navigate = useNavigate();
     const { quoteId } = useParams();
-    const quote = user.quotations.find(quote => quote.quotation_id === Number(quoteId));
-
-    useEffect(() => {
-        if (quote) {
-            setProducts(JSON.parse(quote.products));
-        }
-    }, [quote]);
-    const [updateQuantity, setUpdateQuantity] = useState({});
-    const [deleteLine, setDeleteLine] = useState({});
-    const [quantityInput, setQuantityInput] = useState({});
-    const [render, setRender] = useState(true);
     const [openSearchProduct, setOpenSearchProduct] = useState(false);
     const [openDeleteQuotation, setOpenDeleteQuotation] = useState(false);
     const [openOrderConfirmation, setOpenOrderConfirmation] = useState(false);
-    const totalPrice = products === null ? 0 : products.reduce((acc, product) => acc + product.price * (quantityInput[product.quotation_has_product_id
-    ] || product.quantity), 0);
-    const totalWeight = products === null ? 0 : products.reduce((acc, product) => acc + product.weight * (quantityInput[product.quotation_has_product_id
-    ] || product.quantity), 0);
-    const tansport = {
-        "1": 18,
-        "2": 20,
-        "3": 24,
-        "4": 29,
-        "5": 39,
-    }
-
+    const [isDataLoaded, setIsDataLoaded] = useState(false);
+    const [openModifQuote, setOpenModifQuote] = useState(false);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const quotationData = await API.quotation.getQuotation(user.token)
-                const updatedUser = { ...user, ...quotationData.data };
-                updateUser(updatedUser);
-            } catch (error) {
-                console.error('Erreur lors de la récupération des données:', error);
-            }
-        };
-
-        fetchData(); // Appeler la fonction pour récupérer les données
+        fetchData(user, updateUser); // Appeler la fonction pour récupérer les données
+        setQuote(user.quotations.find(quote => quote.quotation_id === Number(quoteId)))
     }, []);
+    const [quote, setQuote] = useState(user.quotations.find(quote => quote.quotation_id === Number(quoteId)));
 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setQuantityInput((inputs) => ({
-            ...inputs,
-            [name]: value,
-        }));
-    };
-
-
-
-    function handleUpdateQuantity(productId) {
-        setUpdateQuantity((prevUpdateQuantity) => ({
-            ...prevUpdateQuantity,
-            [productId]: true, // Met à jour l'état du champ de quantité spécifique
-        }));
-
-    }
-
-
-    async function handleSubmitQuantity(productId) {
-
-        const productData = { quantity: quantityInput[productId] }
-        if (quantityInput[productId] === undefined) {
-            setUpdateQuantity({});
-            return
+    useEffect(() => {
+        if (quote) {
+            setProducts(quote.products);
         }
-        try {
-            const [, quotationData] = await Promise.all([
-                API.quotation.updateProduct(user.token, productId, productData),
-                API.quotation.getQuotation(user.token),
-            ]);
-            const userUpdated = { ...user, ...quotationData.data };
-            updateUser({ ...user, ...userUpdated })
+    }, [quote]);
 
-            setUpdateQuantity((prevUpdateQuantity) => ({
-                ...prevUpdateQuantity,
-                [productId]: false,
-            }));
-        } catch (error) {
-            console.error("An error occurred while updating quantity:", error);
-        }
+    useEffect(() => {
+        setQuote(user.quotations.find(quote => quote.quotation_id === Number(quoteId)))
+        setIsDataLoaded(true);
+    }, [user]);
+
+    const totalPrice = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + goodPrice(user.profile_id, product.priceWithCoeff ? product.priceWithCoeff : product.price) * product.quantity, 0);
+    const totalWeight = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + product.weight * product.quantity, 0);
+    quote.totalPrice = totalPrice;
+    quote.totalWeight = totalWeight;
+    quote.transport = quote.delivery_id === 1 ? 0 : artemData.tansportFunction(totalWeight);
+    quote.transport = quote.zip_code.startsWith('97') || quote.country?.toLowerCase() !== 'france' ? "Nous consulter" : quote.transport;
+    quote.clicli = quote.delivery_id !== user.delivery_standard.id ? artemData.clicli : 0;
+    quote.totalPrice = quote.totalPrice + quote.transport + quote.clicli;
+    if (openSearchProduct || openDeleteQuotation || openOrderConfirmation || openModifQuote) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'unset';
     }
 
-
-    function handleDeleteLine(productId) {
-        setDeleteLine((prevDeleteLine) => {
-            return {
-                ...prevDeleteLine,
-                [productId]: !prevDeleteLine[productId],
-            };
-        });
-    }
-
-
-    async function handleConfirmDeleteLine(productId) {
-        try {
-            await API.quotation.deleteProduct(user.token, productId);
-            const updatedProducts = products.filter(product => product.quotation_has_product_id !== productId);
-            console.log(updatedProducts);
-            setProducts(updatedProducts);
-            setRender(!render)
-
-        } catch (error) {
-            console.error("An error occurred while deleting product:", error);
-        }
-    }
+    console.log("test", quote);
 
     function handleOpenSearchProduct() {
         setOpenSearchProduct(true);
         window.scrollTo(0, 0);
     }
+
+
 
     async function handledeleteQuotation() {
         try {
@@ -128,171 +69,121 @@ export default function Quote() {
             const updatedQuotations = user.quotations.filter(quote => quote.quotation_id !== Number(quoteId));
             const updatedUser = { ...user, quotations: updatedQuotations };
             updateUser(updatedUser);
-            Navigate('/dashboard', { replace: true });
+            window.history.replaceState(null, '', '/quote-history');
+            window.location.reload();
+            console.log(window.history);
         } catch (error) {
             console.error("An error occurred while deleting quotation:", error);
         }
     }
 
     async function handleOrder() {
+        setIsDataLoaded(false);
         try {
-            const orderData = products.map(product => {
-                return {
-                    reference: product.reference,
-                    quantité: product.quantity,
-                    puht: product.price,
-                    totalht: product.price * product.quantity,
-                    livraison: product.delivery_time,
+            const orderData = {
+                company: user.company,
+                email: user.email,
+                phoneNumber: user.phone_number,
+                zipCode: user.billing_address.zip_code,
+                quote: quote
+            };
 
-                }
-            })
-            console.log(orderData);
-            await API.email.sendEmail(user.token, orderData)
-            Navigate('/dashboard', { replace: true });
+            try {
+                // Envoyez l'e-mail avec les données du PDF
+                await API.email.sendEmail(user.token, orderData);
+                alert('Votre commande a bien été prise en compte, vous serez en copie du mail de commande qui nous sera envoyé dans les prochaines minutes.');
+                Navigate('/dashboard', { replace: true });
+            } catch (emailError) {
+                console.error("An error occurred while sending the email:", emailError);
+            }
+
         } catch (error) {
             console.error("An error occurred while creating order:", error);
+        } finally {
+            setIsDataLoaded(true);
         }
     }
 
+    if (!isDataLoaded) {
+        return <Loading />
+    }
 
     return (
         <div className='quote'>
-            <h2>Devis</h2>
-            <p>Devis n°{quote.quotation_id}</p>
-            <p>Reference : {quote.reference}</p>
-            <p>Créé le : {quote.creation_date}</p>
-            <p>Valable jusqu'au : {quote.expiration_date}</p>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Produit</th>
-                        <th>Prix</th>
-                        <th>Poids</th>
-                        <th>Quantité</th>
-                        <th>Référence</th>
-                        <th>Désignation</th>
-                        <th>Délai de livraison</th>
-                        <th>Total</th>
-                        <th>Supprimer</th>
-                    </tr>
-                </thead>
-                <tbody>
 
-                    {Array.isArray(products) && products.map((product) => {
-                        return (
-                            <tr key={product.quotation_has_product_id
-                            }>
-                                <td>{product.quotation_has_product_id
-                                }</td>
-                                <td>{product.price}</td>
-                                <td>{product.weight}</td>
-                                <td>{!updateQuantity[product.quotation_has_product_id
-                                ] &&
-                                    <>
-                                        {quantityInput[product.quotation_has_product_id
-                                        ] || product.quantity}
-                                        <svg data-id={product.quotation_has_product_id
-                                        } onClick={() => handleUpdateQuantity(product.quotation_has_product_id)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                                        </svg>
-                                    </>
+            <h2>Devis n°{quote.quotation_id} Ref: {quote.reference}</h2>
+            <div className="quote-viewer">
+                <PDFViewer width="100%" height="100%">
+                    <Quotepdf quote={quote} user={user} totalWeight={totalWeight} totalPrice={totalPrice} />
+                </PDFViewer>
+            </div>
 
-                                }
-                                    {updateQuantity[product.quotation_has_product_id
-                                    ] &&
-                                        <>
-                                            <input name={product.quotation_has_product_id
-                                            } type="number" defaultValue={quantityInput[product.quotation_has_product_id
-                                            ] || product.quantity} onChange={handleInputChange} />
-                                            <svg data-id={product.quotation_has_product_id
-                                            } onClick={() => handleSubmitQuantity(product.quotation_has_product_id
-                                            )} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                                            </svg>
-
-                                        </>
-                                    }
-
-                                </td>
-                                <td>{product.reference}</td>
-                                <td>{product.designation}</td>
-                                <td>{product.delivery_time.startsWith("0") ? "stock" : product.delivery_time}</td>
-                                <td>{(product.price * (quantityInput[product.quotation_has_product_id
-                                ] || product.quantity)).toFixed(2)} € HT</td>
-                                {
-                                    !deleteLine[product.quotation_has_product_id] &&
-                                    <td>
-                                        <svg
-                                            onClick={() => handleDeleteLine(product.quotation_has_product_id)}
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            strokeWidth="1.5"
-                                            stroke="currentColor"
-                                            className="w-6 h-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                        </svg>
-                                    </td>
-                                }
-
-                                {
-                                    deleteLine[product.quotation_has_product_id] &&
-                                    <td className="confirmation-popup">
-                                        <p>Supprimer la ligne ?</p>
-                                        <svg onClick={() => handleDeleteLine(product.quotation_has_product_id)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                        <svg onClick={() => handleConfirmDeleteLine(product.quotation_has_product_id)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                                        </svg>
-                                    </td>
-
-                                }
-                            </tr>
-
-                        )
-
-                    })}
-                    <tr>
-                        <td colSpan="7">Total HT :</td>
-                        <td colSpan="2">{totalPrice.toFixed(2)} € HT</td>
-                    </tr>
-                    <tr>
-                        <td colSpan="7">Total TTC :</td>
-                        <td colSpan="2">{(totalPrice * 1.2).toFixed(2)} € TTC</td>
-                    </tr>
-                </tbody>
-            </table>
-            <button className='quote-btn' onClick={handleOpenSearchProduct}>Ajouter un produit</button>
-            <button className='quote-btn' onClick={() => setOpenOrderConfirmation(true)}>Passer en commande</button>
-            <button className='quote-btn' onClick={() => setOpenDeleteQuotation(true)}>Supprimer ce devis</button>
-            {openSearchProduct &&
+            <div className="quote-btn-container">
+                <div className='quote-btn'>
+                    <PDFDownloadLink document={<Quotepdf quote={quote} user={user} totalWeight={totalWeight} totalPrice={totalPrice} />} fileName={`devis_${quote.reference}`}>
+                        {({ loading }) => (loading ? 'Loading document...' : 'Télécharger en PDF')}
+                    </PDFDownloadLink>
+                </div>
+                <button className='quote-btn' onClick={() => setOpenOrderConfirmation(true)}>Passer en commande</button>
+                <button className='quote-btn' onClick={handleOpenSearchProduct}>Ajouter un produit</button>
+                <button className='quote-btn' onClick={() => setOpenModifQuote(true)}>Modifier le devis</button>
+                <button className='quote-btn quote-btn-delete' onClick={() => setOpenDeleteQuotation(true)}>Supprimer ce devis</button>
+            </div>
+            {
+                openModifQuote &&
+                <QuoteUpdate quote={quote} setQuote={setQuote} totalPrice={totalPrice} setOpenModifQuote={setOpenModifQuote} />
+            }
+            {
+                openSearchProduct &&
                 <section className="quote-search-product">
-                    <button className='quote-btn-cross' onClick={() => setOpenSearchProduct(false)}>X</button>
+                    <div className="quote-btn-close" onClick={() => setOpenSearchProduct(false)}>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                        </svg>
+                        <span className='quote-btn-close-quantity'>{quote.products?.length}</span>
+                        <p>Retour au devis</p>
+
+                    </div>
                     <SearchProduct />
+
                 </section>
             }
 
             {
                 openDeleteQuotation &&
-                <section className="quote-delete-quotation">
-                    <button className='quote-btn-cross' onClick={() => setOpenDeleteQuotation(false)}>X</button>
-                    <p>Supprimer ce devis ?</p>
-                    <button className='quote-btn' onClick={handledeleteQuotation}>Oui</button>
-                    <button className='quote-btn' onClick={() => setOpenDeleteQuotation(false)}>Non</button>
+                <section className="quote-confirmation">
+                    <div className="quote-confirmation-container">
+                        <svg onClick={() => setOpenDeleteQuotation(false)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 quote-btn-cross">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        <p>Supprimer ce devis ?</p>
+                        <div className="quote-btn-confirmation-container">
+                            <button className='quote-btn  quote-btn-delete' onClick={handledeleteQuotation}>Oui</button>
+                            <button className='quote-btn' onClick={() => setOpenDeleteQuotation(false)}>Non</button>
+                        </div>
+                    </div>
                 </section>
             }
 
             {
                 openOrderConfirmation &&
-                <section className="quote-order-confirmation">
-                    <button className='quote-btn-cross' onClick={() => setOpenOrderConfirmation(false)}>X</button>
-                    <p>Confirmer la commande ?</p>
-                    <button className='quote-btn' onClick={() => setOpenOrderConfirmation(false)}>Non</button>
-                    <button className='quote-btn' onClick={handleOrder}>Oui</button>
+                <section className="quote-confirmation">
+                    <div className="quote-confirmation-container">
+                        <svg onClick={() => setOpenOrderConfirmation(false)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 quote-btn-cross">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        <p>Confirmer la commande ?</p>
+                        <div className="quote-btn-confirmation-container">
+                            <button className='quote-btn' onClick={handleOrder}>Oui</button>
+                            <button className='quote-btn' onClick={() => setOpenOrderConfirmation(false)}>Non</button>
+                        </div>
+                    </div>
 
                 </section >
             }
-        </div>
+
+
+        </div >
     )
 }

@@ -7,12 +7,7 @@ import ImageSlider from '../../components/Slider/ImageSlider'
 import TextSlider from '../../components/Slider/TextSlider'
 
 export default function Home() {
-    const { ranges, setRanges } = useContext(AppContext)
-    useEffect(() => {
-        API.range.getRanges()
-            .then(res => setRanges(res.data.ranges))
-            .catch(err => console.log(err))
-    }, [])
+
     return (
         <main className='hero'>
             <section className='hero-button-container'>
@@ -22,22 +17,6 @@ export default function Home() {
                 <Link className='hero-button hero-button-four' to='https://pay-pro.monetico.fr/artem/paiementenligne' target='_blank' ><p>Régler une facture</p></Link>
             </section>
             <section className='hero-products-container'>
-                <div className="hero-products-list-container">
-                    <h2>Nous proposons :</h2>
-                    <ul className="hero-products-list">
-                        {
-                            ranges.map(range => {
-                                return (
-                                    <li className="hero-products-list-item" key={range.id}>
-                                        <Link className='hero-products-list-item-link' to={`/range/${range.id}`}><p>{range.name}</p></Link>
-                                    </li>
-
-                                )
-                            }
-                            )
-                        }
-                    </ul>
-                </div>
                 <TextSlider />
                 <ImageSlider />
             </section>

@@ -42,18 +42,8 @@
     }
 }
 
-@media (min-width:1050px) {
+@media (min-width:850px) {
     .text-swiper-slide {
-        & p {
-            font-size: 1.3rem;
-        }
-    }
-}
-
-@media (min-width:1500px) {
-    .text-swiper-slide {
-        & p {
-            font-size: 1.5rem;
-        }
+        margin-bottom: 10px;
     }
 }

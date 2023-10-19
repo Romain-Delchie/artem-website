@@ -1,4 +1,8 @@
 import Axios from "axios";
+import { useContext } from "react";
+import AppContext from "../../context/AppContext";
+
+
 
 const axios = Axios.create({
     baseURL: "http://localhost:3305/api",
@@ -7,11 +11,33 @@ const axios = Axios.create({
     },
 });
 
+axios.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        if (error.response && error.response.status === 401) {
+            // Gérer l'erreur d'authentification ici, par exemple, déconnectez l'utilisateur.
+            const { updateUser } = useContext(AppContext)
+            updateUser({ token: "", email: "", firstname: "", lastname: "" })
+            // Vous pouvez appeler une fonction globale de déconnexion ou afficher un message d'erreur.
+            // Pour la déconnexion, vous pouvez appeler votre fonction API.auth.signout (si elle existe) pour supprimer le token d'accès.
+            console.log("Erreur d'authentification, déconnexion de l'utilisateur...");
+        }
+        return Promise.reject(error);
+    }
+);
+
+
 const API = {
     auth: {
         async signin(email, password) {
             return axios.post("/auth/signin", { email, password });
         },
+
+        async refreshToken({ id, email, firstname, lastname, role }) {
+            return axios.post("/auth/refresh-token", { id, firstname, lastname, email, role });
+        }
     },
 
     user: {
@@ -35,8 +61,12 @@ const API = {
             });
         },
 
-        async updatePassword(token, data) {
-            return axios.patch("/account/password", data, {
+        async updatePassword(data) {
+            return axios.patch("/account/update-password", data);
+        },
+
+        async accountToValidate(token) {
+            return axios.get("/account/validation", {
                 headers: {
                     "x-auth-token": token,
                 },
@@ -128,12 +158,8 @@ const API = {
             });
         },
 
-        async create(token, data) {
-            return axios.post("/address", data, {
-                headers: {
-                    "x-auth-token": token,
-                },
-            });
+        async create(data) {
+            return axios.post("/address", data);
         },
 
         async update(token, id, data) {
@@ -242,19 +268,135 @@ const API = {
 
         async getRange(id) {
             return axios.get(`/range/${id}`);
-        }
-    },
+        },
 
-    email: {
-        async sendEmail(token, data) {
-            return axios.post("/email-order", data, {
+        async create(token, data) {
+            return axios.post("/range", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async update(token, id, data) {
+            return axios.patch(`/range/${id}`, data, {
                 headers: {
                     "x-auth-token": token,
                 },
             });
         }
-    }
+    },
 
+    email: {
+        async sendEmail(token, data) {
+            return axios.post("/email/order", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async sendConfirmationEmail(token, data) {
+            return axios.post("/email/validation", data, {
+                headers: {
+                    "x-auth-token": token,
+                }
+            });
+        },
+
+        async verifyEmail(data) {
+            return axios.post("/account/verify-email", data);
+        },
+
+        async reset(token, data) {
+            return axios.post("/email/reset", data, {
+                headers: {
+                    "x-auth-token": token,
+                }
+            });
+        },
+
+        async forgotPassword(data) {
+            return axios.post("/email/forgot-password", data);
+        },
+
+        async checkResetPasswordToken(token) {
+            return axios.get(`/account/find-by-token/${token}`);
+        }
+
+    },
+
+    upload: {
+        async image(token, data) {
+            return axios.post("/upload/image", data, {
+                headers: {
+                    "x-auth-token": token,
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+        },
+
+        async pdf(token, data) {
+            return axios.post("/upload/pdf", data, {
+                headers: {
+                    "x-auth-token": token,
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+        }
+    },
+
+    techsheet: {
+
+        async getTechsheets(token) {
+            return axios.get("/techsheet", {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async create(token, data) {
+            return axios.post("/techsheet", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        }
+    },
+
+    rangeHasTechsheet: {
+
+        async getRangeHasTechsheets(token) {
+            return axios.get("/rangeHasTechsheet", {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async create(token, data) {
+            return axios.post("/rangeHasTechsheet", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async delete(token, data) {
+            console.log(data);
+            console.log(token);
+            return axios.delete("/rangeHasTechsheet/", {
+                headers: {
+                    "x-auth-token": token,
+                },
+                params: {
+                    range_id: data.range_id,
+                    techsheet_id: data.techSheet_id
+                }
+            });
+        }
+    },
 
 };
 

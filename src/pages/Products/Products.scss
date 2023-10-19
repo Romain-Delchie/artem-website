@@ -5,27 +5,61 @@
     margin: 40px 0;
 
 
-    & h2 {
+    &-range-title {
+        position: relative;
+        display: flex;
+        justify-content: center;
         background: var.$gradient;
+        font-size: 0.8rem;
         color: white;
         text-align: center;
+        height: 80px;
+        align-items: center;
+        margin-bottom: 10px;
 
+        & h2 {
+            width: 70%;
+        }
+
+        & svg {
+            position: absolute;
+            left: 10px;
+            width: 30px;
+            margin-right: 16px;
+            border-radius: 50px;
+            padding: 5px;
+            border: 1px solid white;
+        }
     }
 
     &-section {
         margin: 30px 0;
 
-        & h3 {
+        &-title {
+            position: relative;
+            display: flex;
+            justify-content: center;
             text-align: center;
+            font-size: 0.8rem;
             width: 80%;
-            margin: 60px auto 20px;
+            margin: 20px auto 20px;
 
+            & svg {
+                width: 30px;
+                margin-right: 16px;
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+            }
         }
 
         &-list {
             display: flex;
             flex-direction: column;
             gap: 20px;
+            margin-top: 30px;
+            margin-bottom: 30px;
 
             &-item-link {
                 display: flex;
@@ -64,7 +98,7 @@
 
         &-textile {
 
-            & h3 {
+            & .products-section-title {
                 color: var.$primaryColor;
                 border-top: 3px solid var.$primaryColor;
                 border-bottom: 3px solid var.$primaryColor;
@@ -81,7 +115,7 @@
         &-meca {
             color: var.$primaryColorLight;
 
-            & h3 {
+            & .products-section-title {
                 border-top: 3px solid var.$secondaryColor;
                 border-bottom: 3px solid var.$secondaryColor;
                 color: var.$secondaryColor;
@@ -91,6 +125,40 @@
             & .products-section-list-item {
                 background-color: var.$secondaryColor;
                 border: 3px solid var.$secondaryColor;
+
+            }
+        }
+
+        &-inox {
+            color: var.$secondaryColor;
+
+            & .products-section-title {
+                border-top: 3px solid var.$fourthColor;
+                border-bottom: 3px solid var.$fourthColor;
+                color: var.$fourthColor;
+
+            }
+
+            & .products-section-list-item {
+                background-color: var.$fourthColor;
+                border: 3px solid var.$fourthColor;
+
+            }
+        }
+
+        &-bande {
+            color: var.$secondaryColor;
+
+            & .products-section-title {
+                color: var.$thirdColor;
+                border-top: 3px solid var.$thirdColor;
+                border-bottom: 3px solid var.$thirdColor;
+
+            }
+
+            & .products-section-list-item {
+                background-color: var.$thirdColor;
+                border: 3px solid var.$thirdColor;
 
             }
         }
@@ -140,4 +208,51 @@
             }
         }
     }
+}
+
+@media (min-width:500px) {
+
+    .products-range-title {
+        width: 80%;
+        height: 100px;
+        align-items: center;
+        margin: 5px auto 20px;
+        font-size: 1rem;
+
+        & svg {
+            left: 20px;
+
+        }
+    }
+
+    .products-section-title {
+        width: 90%;
+        height: 50px;
+        align-items: center;
+        font-size: 1rem;
+
+    }
+
+    .products-section-list-item {
+        width: 350px;
+
+    }
+}
+
+@media (min-width:800px) {
+
+    .products-range-title {
+        width: 80%;
+        height: 100px;
+        align-items: center;
+        margin: 5px auto 20px;
+        font-size: 1rem;
+
+        & svg {
+            left: 30px;
+            width: 40px;
+        }
+    }
+
+
 }
