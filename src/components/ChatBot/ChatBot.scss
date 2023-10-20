@@ -51,8 +51,8 @@
     z-index: 10000;
 
     &-open {
-        bottom: 110px;
-        right: 70px;
+        bottom: 120px;
+        right: 40px;
         opacity: 1;
     }
 }
@@ -92,13 +92,12 @@
 }
 
 .bot-link {
-    background-color: #A7BED3;
-    color: white;
+    background-color: var.$primaryColorLight;
     display: flex;
     justify-content: center;
-    padding: 15px;
+    padding: 5px;
     border-radius: 8px;
-    margin: 10px;
+    margin: 5px;
 }
 
 .bot-response {
