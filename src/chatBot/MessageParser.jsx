@@ -40,6 +40,8 @@ const MessageParser = ({ children, actions }) => {
             actions.quotation();
         } else if (brand.some((word) => lowercase.includes(word))) {
             actions.Brand();
+        } else {
+            actions.lost();
         }
     };
     return (

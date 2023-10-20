@@ -42,6 +42,13 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         setState((prev) => ({ ...prev, messages: [...prev.messages, botMessage], product: product }));
     }
 
+    const lost = () => {
+        const botMessage = createChatBotMessage(
+            "Désolé, je ne suis qu''un robot et je n\'ai pas compris votre demande, veuillez reformuler votre question svp",
+        );
+        setState((prev) => ({ ...prev, messages: [...prev.messages, botMessage], }));
+    }
+
     return (
         <div>
             {React.Children.map(children, (child) => {
@@ -51,6 +58,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
                         quotation,
                         brand,
                         products,
+                        lost
                     },
                 });
             })}
