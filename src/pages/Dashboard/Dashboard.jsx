@@ -13,7 +13,6 @@ export default function Dashboard() {
     const [isDataLoaded, setIsDataLoaded] = useState(false);
 
     useEffect(() => {
-
         fetchData(user, updateUser); // Appeler la fonction pour récupérer les données
         setIsDataLoaded(true);
     }, [user.token, updateUser]);

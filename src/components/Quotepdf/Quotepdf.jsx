@@ -378,6 +378,7 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                     </View>
 
                     {quote.products && Array.isArray(quote.products) && quote.products.map(product => {
+                        const price = goodPrice(user.profile_id, product);
                         product.priceWithCoeff = product.price;
                         if (product.reference.startsWith('TB') && product.quantity < 20) {
                             product.priceWithCoeff = product.price * 1.1;
@@ -386,11 +387,11 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                             <View style={styles.tableRow} key={product.id}>
                                 <Text style={styles.tableCell.reference}>{product.reference}</Text>
                                 <Text style={styles.tableCell.designation}>{product.designation}</Text>
-                                <Text style={styles.tableCell.price}>{goodPrice(user.profile_id, product.priceWithCoeff)} €</Text>
+                                <Text style={styles.tableCell.price}>{goodPrice(user.profile_id, product, product.quantity)} €</Text>
                                 <Text style={styles.tableCell.quantite}>{product.quantity}</Text>
                                 <Text style={styles.tableCell}>{product.weight} kg</Text>
                                 <Text style={styles.tableCell}>{product.delivery_time.startsWith("0") ? "stock" : product.delivery_time}</Text>
-                                <Text style={styles.tableCell.totalPrice}>{(goodPrice(user.profile_id, product.priceWithCoeff) * product.quantity).toFixed(2)} € HT</Text>
+                                <Text style={styles.tableCell.totalPrice}>{(goodPrice(user.profile_id, product, product.quantity) * product.quantity).toFixed(2)} € HT</Text>
 
                             </View>
                         )

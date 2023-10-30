@@ -16,6 +16,7 @@ export default function SearchProduct() {
     const [searchValue, setSearchValue] = useState([]);
     const [sort, setSort] = useState({ brand: 'all', range: 'all' });
     const [active, setActive] = useState(true)
+    console.log(products);
     useEffect(() => {
         const fetchProducts = async () => {
             try {

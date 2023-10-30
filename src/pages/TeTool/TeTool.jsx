@@ -15,7 +15,7 @@ export default function TeTool() {
     const [teList, setTeList] = useState([]);
     const [teListFiltered, setTeListFiltered] = useState([]);
     const { cordon, sangle, barre } = priceData;
-
+    console.log(teInfo);
     if (teInfo.sangle === '3' && teInfo.sangleNS !== '') {
         setTeInfo({ ...teInfo, sangleNS: '' })
     }
@@ -24,6 +24,7 @@ export default function TeTool() {
         const fetchTE = async () => {
             try {
                 const result = await API.product.getAllTE(user.token);
+                setTeInfo({ ...teInfo, minPrice: result.data[0].minPrice, coeff: result.data[0].coeff })
                 result.data.map((te) => {
                     te.closing = te.image_link.includes('sangle') ? 'sangle' : te.image_link.includes('cordon') ? 'cordon' : 'barre';
                 });
@@ -563,7 +564,7 @@ export default function TeTool() {
                         <p>largeur de la toile : {teListFiltered[0].width}</p>
                         <p>longueur de la toile : {teListFiltered[0].length}</p>
                         <p>{teListFiltered[0].designation}</p>
-                        <Price price={teListFiltered[0].price} />
+                        <Price product={teListFiltered[0]} />
                         <p>Délai : {teListFiltered[0].stock ? 'En stock' : '24/48h'}</p>
                     </div>
                 </div>
@@ -587,7 +588,7 @@ export default function TeTool() {
                                     <p>largeur de la toile : {te.width}</p>
                                     <p>longueur de la toile : {te.length}</p>
                                     <p>{te.designation}</p>
-                                    <Price price={te.price} />
+                                    <Price product={te} />
                                     <p>Délai : {te.stock ? 'En stock' : '24/48h'}</p>
                                 </div>
                             )
@@ -642,7 +643,7 @@ export default function TeTool() {
                             </>
                         }
                         <h5>Et voici le prix de votre toile personnalisée:</h5>
-                        <Price price={(teInfo.t1 / 3) * 2} />
+                        <Price product={teInfo} />
                         <p>Délai : 24/48h</p>
                     </div>
                 </div>
