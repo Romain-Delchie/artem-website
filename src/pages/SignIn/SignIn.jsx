@@ -11,6 +11,9 @@ export default function SignIn() {
     const [password, setPassword] = useState('');
     const { user, updateUser } = useContext(AppContext);
 
+    useEffect(() => {
+        updateUser({ token: "", email: "", firstname: "", lastname: "" });
+    }, [])
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);

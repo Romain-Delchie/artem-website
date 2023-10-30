@@ -38,50 +38,6 @@ import AddTechsheet from "../pages/AddTechsheet/AddTechsheet";
 function App() {
 
   const { user, updateUser } = useContext(AppContext);
-  const [logoutTimer, setLogoutTimer] = useState(null);
-
-  useEffect(() => {
-    // Fonction pour rafraîchir le token
-    const refreshToken = async () => {
-      // Code pour envoyer une requête au serveur pour rafraîchir le token
-      API.auth.refreshToken({ id: user.id, email: user.email, firstname: user.firstname, lastname: user.lastname, role: user.role }).then((res) => {
-        updateUser({ ...user, token: res.data.token });
-      }).catch((err) => {
-        console.error(err);
-      }
-      );
-    };
-
-    // Fonction pour déconnecter l'utilisateur
-    const logoutUser = () => {
-      updateUser({ token: "", email: "", firstname: "", lastname: "" }); // Mettez à jour le contexte pour déconnecter l'utilisateur
-    };
-
-    // Démarrez un intervalle pour rafraîchir le token périodiquement (par exemple, toutes les 15 minutes)
-    const tokenRefreshInterval = setInterval(refreshToken, 15 * 60 * 1000);
-
-    // Démarrez une minuterie pour déconnecter l'utilisateur en cas d'inactivité (par exemple, 30 minutes)
-    let inactivityLogoutTimer = setTimeout(logoutUser, 30 * 60 * 1000);
-
-    // Écoutez les événements pour réinitialiser la minuterie d'inactivité lorsque l'utilisateur est actif
-    const resetInactivityTimer = () => {
-      clearTimeout(inactivityLogoutTimer);
-      inactivityLogoutTimer = setTimeout(logoutUser, 30 * 60 * 1000);
-    };
-
-    // Ajoutez des gestionnaires d'événements pour surveiller l'activité de l'utilisateur
-    window.addEventListener('mousemove', resetInactivityTimer);
-    window.addEventListener('keydown', resetInactivityTimer);
-
-    // Nettoyez les intervalles et les gestionnaires d'événements lorsque le composant est démonté
-    return () => {
-      clearInterval(tokenRefreshInterval);
-      clearTimeout(inactivityLogoutTimer);
-      window.removeEventListener('mousemove', resetInactivityTimer);
-      window.removeEventListener('keydown', resetInactivityTimer);
-    };
-  }, [user, updateUser, logoutTimer]);
-
 
   return (
     <>
