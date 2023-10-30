@@ -1,7 +1,4 @@
 import { Link } from 'react-router-dom'
-import { useEffect, useContext } from 'react'
-import AppContext from '../../context/AppContext'
-import API from '../../utils/api/api'
 import './Home.scss'
 import ImageSlider from '../../components/Slider/ImageSlider'
 import TextSlider from '../../components/Slider/TextSlider'

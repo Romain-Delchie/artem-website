@@ -8,7 +8,7 @@ export default function QuoteHistory() {
     return (
         <div className='quote-history'>
             <h2>Liste des devis en cours</h2>
-            <ul>
+            <ul className='quote-history-container'>
                 {user.quotations && user.quotations.map((quotation, index) => (
 
                     <li key={index} className='quote-item'>
@@ -22,7 +22,7 @@ export default function QuoteHistory() {
                                     <p>{product.reference}</p>
                                 </li>
                             ))}
-                            {quotation.products && quotation.products.length > 4 && <li className='more-product' key="more"> + .......</li>}
+                            {quotation.products && quotation.products.length > 4 && <li className='more-product' key="more"><p>etc...</p></li>}
                             {quotation.products === null && <p>Pas encore d'article dans ce devis</p>}
                         </ul>
                         <Link className='quote-item-btn' to={`/quote-history/${quotation.quotation_id}`}>
