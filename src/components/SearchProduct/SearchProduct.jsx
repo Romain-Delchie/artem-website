@@ -4,6 +4,7 @@ import ProductCard from "../ProductCard/ProductCard";
 import "./SearchProduct.scss";
 import API from "../../utils/api/api";
 import { Link } from "react-router-dom";
+import ModalTeTool from "../ModalTeTool/ModalTeTool";
 
 export default function SearchProduct() {
     const { user, setOpenAddProductForm } = useContext(AppContext);
@@ -78,6 +79,7 @@ export default function SearchProduct() {
     return (
 
         <div className="search-product">
+            <ModalTeTool />
             <section className="search-product-sorting">
                 {user.role === 'admin' &&
                     <div className="search-product-sorting-active">
