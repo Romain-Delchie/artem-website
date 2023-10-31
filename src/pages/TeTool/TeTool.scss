@@ -18,6 +18,7 @@
         font-size: 1.2rem;
         text-align: center;
         background-color: var.$secondaryColorTransparent;
+        box-shadow: 0px 0px 5px 1px black;
         color: var.$primaryColor;
         padding: 20px;
         border-radius: 5px;
@@ -228,4 +229,20 @@
     }
 
 
+}
+
+@media (min-width: 800px) {
+    .te-tool {
+        & h2 {
+            width: 700px;
+        }
+
+        &-container {
+            width: 700px;
+        }
+
+        & .result-container {
+            width: 700px;
+        }
+    }
 }

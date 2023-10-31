@@ -7,7 +7,6 @@
     position: fixed;
     bottom: 20px;
     right: 20px;
-    height: 260px;
     width: 280px;
     border-radius: 15px;
     padding: 12px;
@@ -53,6 +52,14 @@
         font-size: 28px;
         right: 10px;
         color: whitesmoke;
+        cursor: pointer;
+    }
+
+    &-text {
+        font-size: 0.9rem;
+        padding: 5px;
+        text-align: justify;
+        margin-top: 15px;
     }
 
 }
