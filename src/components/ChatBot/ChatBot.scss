@@ -78,6 +78,15 @@
     background-color: #252e5b !important;
     color: #8bb817 !important;
     border-radius: 0;
+
+    &-cross {
+        color: white;
+        font-size: 40px;
+        font-weight: 400;
+        top: -10px;
+        position: absolute;
+        right: 8px;
+    }
 }
 
 .react-chatbot-kit-chat-bot-message {

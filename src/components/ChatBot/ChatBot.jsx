@@ -15,7 +15,7 @@ export default function ChatBot() {
         <div>
             <Chatbot
                 config={config}
-                headerText='Artem Robot pour vous aider'
+                headerText='Votre assistant virtuel'
                 placeholderText='Posez votre question ici'
                 messageParser={MessageParser}
                 actionProvider={ActionProvider}

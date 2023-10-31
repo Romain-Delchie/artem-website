@@ -7,7 +7,7 @@ import Products from './widget/Products';
 
 
 
-const botName = "Artem Robot"
+const botName = "votre assistant virtuel"
 
 const config = {
     initialMessages: [createChatBotMessage(`Bonjour Cher Visiteur, je suis ${botName}, comment puis-je vous aider ?`)],
@@ -18,6 +18,10 @@ const config = {
     customComponents: {
         // Replaces the default bot avatar    
         botAvatar: (props) => <MyAvatar {...props} />,
+        header: () => <div className="react-chatbot-kit-chat-header ">Chat d'aide <span className="react-chatbot-kit-chat-header-cross" onClick={() => {
+            const bot = document.querySelector('.react-chatbot-kit-chat-container')
+            bot.classList.toggle('react-chatbot-kit-chat-container-open')
+        }}>x</span></div>,
         // Replaces the default bot chat message container    botChatMessage: (props) => <MyCustomChatMessage {...props} />,    
         // Replaces the default user icon    userAvatar: (props) => <MyCustomAvatar {...props} />,    
         // Replaces the default user chat message    userChatMessage: (props) => <MyCustomUserChatMessage {...props} />  },
