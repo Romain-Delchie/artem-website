@@ -1,6 +1,4 @@
 import Axios from "axios";
-import { useContext } from "react";
-import AppContext from "../../context/AppContext";
 
 let alertDisplayed = false;
 

@@ -19,7 +19,7 @@ export default function AddRange() {
         formData.append('description', e.target.elements.description.value);
         formData.append('image_link', e.target.elements.image_link.value);
         formData.append('category', e.target.elements.category.value);
-        formData.append('coeff', e.target.elements.coeff.value);
+        formData.append('minPrice', e.target.elements.minPrice.value);
         try {
             const response = API.upload.image(user.token, formData)
             // Une fois le fichier téléversé, vous pouvez effectuer d'autres actions, comme ajouter des données dans votre base de données.
@@ -71,8 +71,8 @@ export default function AddRange() {
                         </select>
                     </div>
                     <div className="input-container">
-                        <label htmlFor="coeff">Coeff</label>
-                        <input type='number' step="0.01" name='coeff' id='coeff' placeholder='ex: 2.5' />
+                        <label htmlFor="minPrice">Prix minimum boulanger</label>
+                        <input type='number' step="0.01" name='minPrice' id='minPrice' placeholder='ex: 120.00 (2chiffres après la virgule)' />
                     </div>
                     <div className="input-container">
                         <label htmlFor="image">Fichier image</label>

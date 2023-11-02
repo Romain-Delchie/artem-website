@@ -67,6 +67,7 @@ export default function AddProduct() {
         const unit = event.target.elements.unit.value;
         const weight = event.target.elements.weight.value;
         const delivery_time = event.target.elements.stock.checked ? "0 jour" : event.target.elements.delivery_time.value;
+        const coeff = event.target.elements.coeff.value;
         const stock = event.target.elements.stock.checked;
         const active = event.target.elements.active.checked;
         const range_id = event.target.elements.range_id.value;
@@ -85,6 +86,7 @@ export default function AddProduct() {
                 unit: Number(unit),
                 weight: Number(weight),
                 delivery_time: stock ? '0 jours' : delivery_time,
+                coeff: Number(coeff).toFixed(2),
                 stock,
                 active,
                 range_id: Number(range_id),
@@ -191,6 +193,10 @@ export default function AddProduct() {
                     <div className="input-container">
                         <label htmlFor='delivery_time'>délai</label>
                         <input onChange={handleChange} type='text' name='delivery_time' id='delivery_time' placeholder='ex: 2 jours, mettre 0 jours si en stock' />
+                    </div>
+                    <div className="input-container">
+                        <label htmlFor='coeff'>Coeff</label>
+                        <input onChange={handleChange} type='number' name='coeff' id='coeff' placeholder='coeff pour les boulangers, ex: 1.60 (2 chiffres apres la virgule)' />
                     </div>
                     <div className="input-container input-container-stock">
                         <label htmlFor='stock'>stock</label>

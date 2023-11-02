@@ -14,12 +14,12 @@ export default function Home() {
                 <Link className='hero-button hero-button-three' to='/contact'><p>Contact</p></Link>
                 <Link className='hero-button hero-button-four' to='https://pay-pro.monetico.fr/artem/paiementenligne' target='_blank' ><p>Régler une facture</p></Link>
             </section>
-            <section className='hero-products-container'>
+            <Link to='/products' className='hero-products-container'>
                 <TextSlider />
                 <ImageSlider />
-            </section>
+            </Link>
 
-            <section className='hero-description-container'>
+            <Link to='/signup' className='hero-description-container'>
                 <h2> Créer un compte et bénéficier ainsi de nos services :</h2>
                 <div className='hero-service-container'>
                     <div className='hero-service'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
@@ -39,7 +39,7 @@ export default function Home() {
                     </svg>
                         <p>Garder un historique de ses devis</p></div>
                 </div>
-            </section>
+            </Link>
             <ChatBot />
 
         </main>

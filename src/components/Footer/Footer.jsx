@@ -8,17 +8,17 @@ export default function Footer() {
         <footer className='footer'>
             <ul className='footer-links'>
                 <li>
-                    <Link className='footer-link' to='/vitrine/legal-terms' >Mentions légales</Link>
+                    <Link className='footer-link' to='/legal-terms' >Mentions légales</Link>
                 </li>
                 <li>
-                    <Link className='footer-link' to='/vitrine/terms-of-sales'>Conditions générales de vente</Link>
+                    <Link className='footer-link' to='/terms-of-sales'>Conditions générales de vente</Link>
                 </li>
                 <li>
-                    <Link className='footer-link' to='/vitrine/privacy-policy'>Politique de confidentialité</Link>
+                    <Link className='footer-link' to='/privacy-policy'>Politique de confidentialité</Link>
                 </li>
-                <li>
+                {/* <li>
                     <Link className='footer-link'>Plan du site</Link>
-                </li>
+                </li> */}
             </ul>
             <div className='footer-contact'>
                 <div className='footer-contact-line'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">

@@ -9,13 +9,13 @@ import Loading from '../../components/Loading/Loading';
 
 export default function TeTool() {
     const { user } = useContext(AppContext);
-    const [teInfo, setTeInfo] = useState({ brand: '', width: '', eaLength: '', closing: '', length: '', row: '', hole: '', sameOrNot: '', entraxe: '', entraxeA: '', entraxeB: '', entraxeC: '', entraxeD: '', entraxeE: '', entraxeF: '', entraxeG: '', entraxeH: '', sangle: '', sangleNS: "", holeForBar: "", holeForRope: "", holeForBarEntraxe: "", priceTE: "" });
+    const [teInfo, setTeInfo] = useState({ brand: '', width: '', reference: '', eaLength: '', closing: '', length: '', row: '', hole: '', sameOrNot: '', entraxe: '', entraxeA: '', entraxeB: '', entraxeC: '', entraxeD: '', entraxeE: '', entraxeF: '', entraxeG: '', entraxeH: '', sangle: '', sangleNS: "", holeForBar: "", holeForRope: "", holeForBarEntraxe: "", priceTE: "" });
     const [slide, setSlide] = useState(1);
     const [isLoaded, setIsLoaded] = useState(false);
     const [teList, setTeList] = useState([]);
     const [teListFiltered, setTeListFiltered] = useState([]);
     const { cordon, sangle, barre } = priceData;
-    console.log(teInfo);
+
     if (teInfo.sangle === '3' && teInfo.sangleNS !== '') {
         setTeInfo({ ...teInfo, sangleNS: '' })
     }
@@ -73,6 +73,7 @@ export default function TeTool() {
     const handleInfoChange = (e) => {
         const { name, value } = e.target;
         setTeInfo({ ...teInfo, [name]: value });
+        console.log(name, value);
 
     };
 
@@ -300,32 +301,20 @@ export default function TeTool() {
                 {slide === 2 &&
                     <div className='each-slide-effect each-slide-effect-reference'>
                         <h4>Choisissez une référence :</h4>
-                        <ul className="te-tool-input-reference-container">
-                            <input
-                                type="radio"
-                                value='none'
-                                id='none'
-                                name="reference"
-                                onChange={handleInfoChange} />
-                            <label htmlFor='none' className="reference-radio-label"> Je n'ai pas de référence
-                            </label>
-                            {reference[teInfo.brand].map((ref, index) => {
-                                return (
-                                    <li key={index}>
-                                        <input
-                                            type="radio"
-                                            value={ref[1]}
-                                            name="reference"
-                                            id={ref[1]}
+                        <select
+                            name="reference"
+                            onChange={handleInfoChange}
+                            value={teInfo.reference}
+                        >
+                            <option disabled value=''>Choisissez une référence</option>
+                            <option value="none">Je n'ai pas de référence</option>
+                            {reference[teInfo.brand].map((ref, index) => (
+                                <option key={index} value={ref[1]}>
+                                    {ref[0]}
+                                </option>
+                            ))}
+                        </select>
 
-                                            onChange={handleInfoChange} />
-                                        <label htmlFor={ref[1]} className="reference-radio-label" >{ref[0]}
-                                        </label>
-                                    </li>
-                                )
-                            }
-                            )}
-                        </ul>
                     </div>
 
                 }

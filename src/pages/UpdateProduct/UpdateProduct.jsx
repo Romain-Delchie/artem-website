@@ -30,6 +30,7 @@ export default function UpdateProduct() {
         const dataProduct = { ...productUpdate }
         delete dataProduct.created_at
         delete dataProduct.updated_at
+        delete dataProduct.minPrice
         dataProduct.active = dataProduct.active === 1 ? true : false
         dataProduct.stock = dataProduct.stock === 1 ? true : false
         dataProduct.delivery_time = dataProduct.stock === true ? '0 jour' : dataProduct.delivery_time
