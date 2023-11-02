@@ -19,7 +19,7 @@ export default function NavBar() {
     return (
         <nav className='navbar'>
             <div className='navbar-logo'>
-                <Link to="/vitrine/"><img className='navbar-logo' src="/images/logoCarre.jpg" alt="logo artem" /></Link>
+                <Link to="/"><img className='navbar-logo' src="/images/logoCarre.jpg" alt="logo artem" /></Link>
             </div>
             <ul className={`navbar-links ${isBurgerOpen ? "show-navbar" : "hide-navbar"}`}>
 
