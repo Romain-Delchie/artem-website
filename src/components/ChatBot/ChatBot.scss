@@ -118,3 +118,17 @@
     border-radius: 8px;
     margin: 10px;
 }
+
+@media (min-width:2000px) {
+    .bot-svg-container {
+        right: calc((100vw - 2000px) / 2 + 10px);
+    }
+
+    .react-chatbot-kit-chat-container {
+        right: calc((100vw - 2000px) / 2 - 300px);
+
+        &-open {
+            right: calc((100vw - 2000px) / 2 + 50px);
+        }
+    }
+}
