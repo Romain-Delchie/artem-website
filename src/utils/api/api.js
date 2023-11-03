@@ -3,7 +3,7 @@ import Axios from "axios";
 let alertDisplayed = false;
 
 const axios = Axios.create({
-    baseURL: "http://85.215.34.177:3305/api",
+    baseURL: "http://localhost:3305/api",
     headers: {
         "Content-Type": "application/json",
     },
@@ -38,6 +38,14 @@ const API = {
     user: {
         async account(token) {
             return axios.get("/account", {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async getAccounts(token) {
+            return axios.get("/account/all", {
                 headers: {
                     "x-auth-token": token,
                 },

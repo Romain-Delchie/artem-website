@@ -1,0 +1,30 @@
+@use 'src/styles/variables.scss' as var;
+
+.user-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    & th,
+    td {
+        padding: 10px;
+        text-align: center;
+    }
+
+    & .export-excel-button {
+        background-color: var.$primaryColor;
+        color: var.$secondaryColor;
+        padding: 20px;
+        margin: 50px;
+        border-radius: 7px;
+        font-weight: 700;
+        box-shadow: 7px 7px 4px rgba(0, 0, 0, 0.25);
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+            background-color: var.$secondaryColor;
+            color: var.$primaryColor;
+        }
+    }
+}

@@ -23,21 +23,21 @@ import Quote from "../pages/Quote/Quote";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
 import TeTool from "../pages/TeTool/TeTool";
 import AppContext from "../context/AppContext";
-import { useContext, useState, useEffect } from "react";
+import { useContext } from "react";
 import './App.scss'
 import ValidationEmail from "../pages/ValidationEmail/ValidationEmail";
 import ConfirmEmail from "../pages/ConfirmEmail/ConfirmEmail";
 import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword/ResetPassword";
-import API from "../utils/api/api";
 import SearchProduct from "../components/SearchProduct/SearchProduct";
 import AddRange from "../pages/AddRange/AddRange";
 import UpdateRange from "../pages/UpdateRange/UpdateRange";
 import AddTechsheet from "../pages/AddTechsheet/AddTechsheet";
+import UserList from "../pages/UserList/UserList";
 
 function App() {
 
-  const { user, updateUser } = useContext(AppContext);
+  const { user } = useContext(AppContext);
 
   return (
     <>
@@ -85,6 +85,7 @@ function App() {
             <Route path="/delete-product/:id" element={<DeleteProduct />} />
             <Route path="/add-techsheet" element={<AddTechsheet />} />
             <Route path="/role-validation" element={<RoleValidation />} />
+            <Route path="/user-list" element={<UserList />} />
           </>
         }
 
