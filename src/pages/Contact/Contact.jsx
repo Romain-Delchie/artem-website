@@ -12,6 +12,11 @@ export default function Contact() {
                     <p>16 rue de Berlin</p>
                     <p>77144 Montévrain</p>
                 </div>
+                <div className="contact-item contact-item-open">
+                    <h3>Horaires d'ouverture</h3>
+                    <p>du lundi au vendredi 9h-13h 14h-18h</p>
+                    <p>Ouvert toute l'année</p>
+                </div>
                 <div className="contact-item contact-item-phone">
                     <h3>Téléphone</h3>
                     <Link to={`tel:${artem.tel}`}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
@@ -21,11 +26,6 @@ export default function Contact() {
                     <Link to={`mailto:${artem.email}`}> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" d="M16.5 12a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 10-2.636 6.364M16.5 12V8.25" />
                     </svg>{artem.email}</Link>
-                </div>
-                <div className="contact-item contact-item-open">
-                    <h3>Horaires d'ouverture</h3>
-                    <p>du lundi au vendredi 9h-13h 14h-18h</p>
-                    <p>Ouvert toute l'année</p>
                 </div>
             </div>
         </main>

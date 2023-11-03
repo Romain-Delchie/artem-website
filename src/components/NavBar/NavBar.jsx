@@ -23,24 +23,29 @@ export default function NavBar() {
             </div>
             <ul className={`navbar-links ${isBurgerOpen ? "show-navbar" : "hide-navbar"}`}>
 
+                <li className='navbar-item slideInDown1'>
+                    <Link onClick={closeBurger} className='navbar-link' to="/home">Page d'accueil</Link>
+                </li>
                 {user.token === '' &&
                     <>
-                        <li className='navbar-item slideInDown1'>
-                            <Link onClick={closeBurger} className='navbar-link' to="/">Se connecter</Link>
-
+                        <li className='navbar-item slideInDown2'>
+                            <Link onClick={closeBurger} className='navbar-link' to="/signin">Se connecter</Link>
                         </li>
-                        <li className='navbar-item slideInDown1'>
+                        <li className='navbar-item slideInDown2'>
                             <Link onClick={closeBurger} className='navbar-link' to="/signup">Créer un compte</Link>
                         </li>
                     </>
                 }
-                <li className='navbar-item slideInDown2'>
+                <li className='navbar-item slideInDown3'>
+                    <Link onClick={closeBurger} className='navbar-link' to="/company">Notre entreprise</Link>
+                </li>
+                <li className='navbar-item slideInDown4'>
                     <Link onClick={closeBurger} className='navbar-link' to="/products">Nos produits</Link>
                 </li>
-                <li className='navbar-item slideInDown2'>
+                <li className='navbar-item slideInDown5'>
                     <Link onClick={closeBurger} className='navbar-link' to='https://pay-pro.monetico.fr/artem/paiementenligne' target='_blank' >Payer une facture</Link>
                 </li>
-                <li className='navbar-item slideInDown3'>
+                <li className='navbar-item slideInDown6'>
                     <Link onClick={closeBurger} className='navbar-link' to="/contact">Contact</Link>
                 </li>
 

@@ -38,10 +38,12 @@ export default function UserInformations() {
         delete dataUser.deliveries;
         delete dataUser.delivery_standard;
         delete dataUser.billing_address;
+        delete dataUser.verified;
+        delete dataUser.email_token;
         API.user.update(user.token, dataUser).then((response) => {
             alert('Vos informations ont bien été modifiées');
         }).catch((error) => {
-            console.error(error);
+            alert("Une erreur est survenue, la modification de vos informations n'a pas été prise en compte");
         }).finally(() => {
             setModification({ ...modification, profil: false });
 

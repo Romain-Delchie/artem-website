@@ -129,15 +129,23 @@
 }
 
 .show-navbar .slideInDown2 {
-    transition: all 0.7s ease-in-out;
+    transition: all 0.65s ease-in-out;
 }
 
 .show-navbar .slideInDown3 {
-    transition: all 0.8s ease-in-out;
+    transition: all 0.7s ease-in-out;
 }
 
 .show-navbar .slideInDown4 {
-    transition: all 0.9s ease-in-out;
+    transition: all 0.75s ease-in-out;
+}
+
+.show-navbar .slideInDown5 {
+    transition: all 0.8s ease-in-out;
+}
+
+.show-navbar .slideInDown6 {
+    transition: all 0.85s ease-in-out;
 }
 
 .navbar-presentation {
@@ -147,19 +155,30 @@
 @media (min-width:801px) {
     .navbar {
         align-items: center;
+
+        &-logo {
+            flex-grow: 1;
+        }
+
+        &-link {
+            font-size: 3rem;
+        }
     }
 
     .navbar-burger {
-        display: none;
+        // display: none;
+        top: 0;
+        order: 2;
     }
 
     .navbar-presentation {
-        display: inline;
+        // display: inline;
+        display: flex;
         color: var.$secondaryColor;
         font-size: 1.2rem;
         width: 420px;
         text-align: end;
-        margin-right: 1rem;
+        margin-right: 60px;
 
     }
 

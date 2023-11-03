@@ -27,6 +27,7 @@ export default function SignUp() {
         street_address: '',
         zip_code: '',
         city: '',
+        country: 'France',
         profile_id: 3, // Set a default value
     });
     const [passwordValidation, setPasswordValidation] = useState({
@@ -66,7 +67,8 @@ export default function SignUp() {
         // Utilisez une API pour récupérer la liste des pays
         axios.get('https://restcountries.com/v3.1/all')
             .then(response => {
-                const countries = response.data.map(country => ({
+                console.log(response.data);
+                const countries = response.data.sort((a, b) => a.name.common.localeCompare(b.name.common)).map(country => ({
                     label: country.name.common,
                     value: country.name.common,
                 }));
@@ -142,20 +144,20 @@ export default function SignUp() {
                 name_address: formData.company,
                 street_address: formData.street_address,
                 zip_code: formData.zip_code,
-                city: formData.city
+                city: formData.city,
+                country: selectedCountry.label,
             }
 
             API.address.create(dataAddress).then((response) => {
                 const lastForm = formData
                 lastForm.billing_address_id = response.data.newAddress.generatedId
                 lastForm.delivery_standard_id = response.data.newAddress.generatedId
-
                 lastForm.country = selectedCountry.label
-
                 delete lastForm.street_address
                 delete lastForm.name_address
                 delete lastForm.zip_code
                 delete lastForm.city
+                console.log(lastForm);
                 setFormData({ ...formData, ...dataAddress })
                 API.user
                     .create(lastForm)
@@ -180,7 +182,11 @@ export default function SignUp() {
                         }
 
                     })
+            }).catch((error) => {
+                setIsLoading(false)
+                alert("Une erreur est survenue lors de la création de votre compte, veuillez nous contacter svp")
             })
+
         }
 
 

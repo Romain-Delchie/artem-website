@@ -64,21 +64,5 @@
         font-size: 1rem;
         align-items: center;
         justify-content: space-around;
-
-
-        &-links {
-            flex-direction: row;
-            flex-wrap: wrap;
-            height: 50%;
-
-
-            & li {
-                width: 50%;
-                display: flex;
-                justify-content: start;
-                align-items: end;
-            }
-        }
     }
-
 }

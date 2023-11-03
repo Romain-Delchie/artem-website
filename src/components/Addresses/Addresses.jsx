@@ -72,7 +72,7 @@ export default function Addresses({ type, modification, setModification, quoteId
         // Utilisez une API pour récupérer la liste des pays
         axios.get('https://restcountries.com/v3.1/all')
             .then(response => {
-                const countries = response.data.map(country => ({
+                const countries = response.data.sort((a, b) => a.name.common.localeCompare(b.name.common)).map(country => ({
                     label: country.name.common,
                     value: country.name.common,
                 }));
