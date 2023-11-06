@@ -44,6 +44,7 @@ export default function AddRange() {
             formData.delete('image');
             setIsLoading(false);
             API.range.create(user.token, formData).then((res) => {
+                alert('Gamme ajoutée avec succès');
                 navigate('/products');
             }
             ).catch((err) => {
