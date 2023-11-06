@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import AppContext from '../../context/AppContext'
 import API from '../../utils/api/api'
 import Loading from '../../components/Loading/Loading';
+import moment from 'moment/moment';
 import { CSVLink } from "react-csv";
 import './UserList.scss'
 
@@ -65,11 +66,30 @@ export default function UserList() {
         if (name === 'alphabetic') {
             accounts.sort((a, b) => a.company.localeCompare(b.company));
         } else if (name === 'connection') {
-            accounts.sort((a, b) => a.last_connection.localeCompare(b.last_connection));
+            accounts.sort((a, b) => {
+                const dateA = moment(a.last_connection, 'DD/MM/YYYY');
+                const dateB = moment(b.last_connection, 'DD/MM/YYYY');
+                return dateA - dateB;
+            });
         } else if (name === 'profile') {
             accounts.sort((a, b) => a.profile_name.localeCompare(b.profile_name));
         }
         setAccounts([...accounts]); // Mettez à jour les données triées
+    }
+
+    const handleOpenConfirmDelete = (e) => {
+        const confirmDelete = window.confirm('Voulez-vous vraiment supprimer cet utilisateur ?');
+        if (confirmDelete) {
+            // Supprimer l'utilisateur
+            API.user.delete(user.token, e.target.value)
+                .then(res => {
+                    alert('Utilisateur supprimé avec succès !');
+                    // Mettez à jour les données (rechargez la page ou utilisez un autre moyen pour mettre à jour les données)
+                    setAccounts(accounts.filter(account => account.id !== parseInt(e.target.value)));
+
+                })
+                .catch(err => alert(err.message)); // Mettez à jour les données (rechargez la page ou utilisez un autre moyen pour mettre à jour les données)
+        }
     }
 
     return (
@@ -124,6 +144,7 @@ export default function UserList() {
                                 <td>{account.siret}</td>
                                 <td>{account.role}</td>
                                 <td>{account.last_connection}</td>
+                                <td><button value={account.id} onClick={handleOpenConfirmDelete}>Supprimer</button></td>
                             </tr>
                         )
 

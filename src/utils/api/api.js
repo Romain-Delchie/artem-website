@@ -64,6 +64,14 @@ const API = {
             });
         },
 
+        async delete(token, id) {
+            return axios.delete(`/account/${id}`, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
         async updatePassword(data) {
             return axios.patch("/account/update-password", data);
         },
