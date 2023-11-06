@@ -59,9 +59,10 @@ export default function AddTechsheet() {
         e.preventDefault();
         setIsDataLoaded(false);
         const data = new FormData();
-        console.log(e.target.pdf.files[0]);
+        const fileName = e.target.pdf.files[0].name;
+        const cleanedFileName = fileName.replace('.pdf', '');
         data.append('name', e.target.name.value);
-        data.append('link', e.target.pdf.files[0].name);
+        data.append('link', cleanedFileName);
         data.append('pdf', e.target.pdf.files[0]);
         API.upload.pdf(user.token, data).then((res) => {
             console.log(res.data);
@@ -70,6 +71,7 @@ export default function AddTechsheet() {
             console.error(err);
         }).finally(() => {
             data.delete('pdf');
+            console.log(data);
             API.techsheet.create(user.token, data).then((res) => {
                 setIsDataLoaded(true);
                 setPdfSended(!pdfSended);
@@ -88,6 +90,7 @@ export default function AddTechsheet() {
         data.append('techsheet_id', e.target.techsheet.value);
         data.append('range_id', e.target.range.value);
         data.append('name', e.target.name.value);
+        console.log(data);
         API.rangeHasTechsheet.create(user.token, data).then((res) => {
             alert('Le lien a bien été créé');
             window.location.reload();
