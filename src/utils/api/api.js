@@ -3,7 +3,7 @@ import Axios from "axios";
 let alertDisplayed = false;
 
 const axios = Axios.create({
-    baseURL: "http://85.215.34.177:3305/api",
+    baseURL: "http://localhost:3305/api",
     headers: {
         "Content-Type": "application/json",
     },
@@ -291,6 +291,14 @@ const API = {
 
         async update(token, id, data) {
             return axios.patch(`/range/${id}`, data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async delete(token, id) {
+            return axios.delete(`/range/${id}`, {
                 headers: {
                     "x-auth-token": token,
                 },

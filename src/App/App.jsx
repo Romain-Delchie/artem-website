@@ -34,6 +34,7 @@ import AddRange from "../pages/AddRange/AddRange";
 import UpdateRange from "../pages/UpdateRange/UpdateRange";
 import AddTechsheet from "../pages/AddTechsheet/AddTechsheet";
 import UserList from "../pages/UserList/UserList";
+import DeleteRange from "../pages/DeleteRange/DeleteRange";
 
 function App() {
 
@@ -80,6 +81,7 @@ function App() {
             <Route path="/add-range" element={<AddRange />} />
             <Route path="/update-product" element={<SearchProduct />} />
             <Route path="/update-range" element={<UpdateRange />} />
+            <Route path="/delete-range" element={<DeleteRange />} />
             <Route path="/update-product/:id" element={<UpdateProduct />} />
             <Route path="/delete-product" element={<SearchProduct />} />
             <Route path="/delete-product/:id" element={<DeleteProduct />} />
