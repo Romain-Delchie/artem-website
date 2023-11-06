@@ -20,11 +20,26 @@ export default function AddRange() {
         formData.append('image_link', e.target.elements.image_link.value);
         formData.append('category', e.target.elements.category.value);
         formData.append('minPrice', e.target.elements.minPrice.value);
+
+        if (
+            !fileInput ||
+            !formData.get('name') ||
+            !formData.get('description') ||
+            !formData.get('image_link') ||
+            !formData.get('category') ||
+            !formData.get('minPrice')
+        ) {
+            alert('Veuillez remplir tous les champs requis.');
+            setIsLoading(false);
+            return;
+        }
+
         try {
             const response = API.upload.image(user.token, formData)
             // Une fois le fichier téléversé, vous pouvez effectuer d'autres actions, comme ajouter des données dans votre base de données.
         } catch (error) {
-            console.error('Une erreur s\'est produite lors de l\'envoi du fichier :', error);
+            alert('Une erreur s\'est produite lors de l\'envoi du fichier :', error);
+
         } finally {
             formData.delete('image');
             setIsLoading(false);
