@@ -108,7 +108,7 @@ export default function AddTechsheet() {
 
         API.rangeHasTechsheet.create(user.token, data).then((res) => {
             alert('Le lien a bien été créé');
-            window.location.reload();
+            setPdfSended(!pdfSended);
         }
         ).catch((err) => {
             console.error(err);
@@ -136,7 +136,7 @@ export default function AddTechsheet() {
         const data = { range_id: Number(e.target.range_id.value), techSheet_id: Number(e.target.techSheet_id.value) };
         API.rangeHasTechsheet.delete(user.token, data).then((res) => {
             alert('Le lien a bien été supprimé');
-            window.location.reload();
+            setPdfSended(!pdfSended);
         }
         ).catch((err) => {
             console.error(err);
@@ -166,6 +166,7 @@ export default function AddTechsheet() {
 
             API.techsheet.delete(user.token, id).then((res) => {
                 setIsDataLoaded(true);
+                setPdfSended(!pdfSended);
             }
             ).catch((err) => {
                 console.error(err);
