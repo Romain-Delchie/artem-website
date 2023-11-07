@@ -34,6 +34,17 @@ export default function AddRange() {
             return;
         }
 
+        if (fileInput.name !== formData.get('image_link')) {
+            alert('ATTENTION: le nom du fichier doit être strictement identique à "lien image" ci-dessus');
+            setIsLoading(false);
+            return;
+        }
+        if (fileInput.size > 100000) {
+            alert('ATTENTION: le fichier doit être le moins lourd possible (moins de 100 ko si possible)');
+            setIsLoading(false);
+            return;
+        }
+
         try {
             const response = API.upload.image(user.token, formData)
             // Une fois le fichier téléversé, vous pouvez effectuer d'autres actions, comme ajouter des données dans votre base de données.

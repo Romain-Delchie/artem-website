@@ -58,7 +58,6 @@ export default function AddTechsheet() {
     const handleSubmitPdf = (e) => {
         e.preventDefault();
         setIsDataLoaded(false);
-        console.log(e.target.name);
         if (!e.target.name.value || !e.target.pdf.files[0]) {
             alert('Veuillez remplir tous les champs');
             setIsDataLoaded(true);
@@ -67,6 +66,11 @@ export default function AddTechsheet() {
         const data = new FormData();
         const fileName = e.target.pdf.files[0].name;
         const cleanedFileName = fileName.replace('.pdf', '');
+        if (techsheets.find((techsheet) => techsheet.link === cleanedFileName)) {
+            alert('Ce nom de fiche technique existe déjà');
+            setIsDataLoaded(true);
+            return;
+        }
         data.append('name', e.target.name.value);
         data.append('link', cleanedFileName);
         data.append('pdf', e.target.pdf.files[0]);
