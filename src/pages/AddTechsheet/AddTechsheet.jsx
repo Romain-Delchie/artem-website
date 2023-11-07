@@ -109,6 +109,7 @@ export default function AddTechsheet() {
         API.rangeHasTechsheet.create(user.token, data).then((res) => {
             alert('Le lien a bien été créé');
             setPdfSended(!pdfSended);
+            setIsDataLoaded(true);
         }
         ).catch((err) => {
             console.error(err);
