@@ -362,6 +362,15 @@ const API = {
                     'Content-Type': 'multipart/form-data',
                 },
             });
+        },
+
+        async delete(token, filename) {
+            return axios.delete(`/upload/pdf/${filename}`, {
+                headers: {
+                    "x-auth-token": token,
+                }
+
+            });
         }
     },
 
@@ -381,7 +390,16 @@ const API = {
                     "x-auth-token": token,
                 },
             });
+        },
+
+        async delete(token, id) {
+            return axios.delete(`/techsheet/${id}`, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
         }
+
     },
 
     rangeHasTechsheet: {

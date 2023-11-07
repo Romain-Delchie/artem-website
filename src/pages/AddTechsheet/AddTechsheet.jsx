@@ -58,6 +58,12 @@ export default function AddTechsheet() {
     const handleSubmitPdf = (e) => {
         e.preventDefault();
         setIsDataLoaded(false);
+        console.log(e.target.name);
+        if (!e.target.name.value || !e.target.pdf.files[0]) {
+            alert('Veuillez remplir tous les champs');
+            setIsDataLoaded(true);
+            return;
+        }
         const data = new FormData();
         const fileName = e.target.pdf.files[0].name;
         const cleanedFileName = fileName.replace('.pdf', '');
@@ -65,14 +71,10 @@ export default function AddTechsheet() {
         data.append('link', cleanedFileName);
         data.append('pdf', e.target.pdf.files[0]);
         API.upload.pdf(user.token, data).then((res) => {
-            console.log(res.data);
-        }
-        ).catch((err) => {
-            console.error(err);
-        }).finally(() => {
             data.delete('pdf');
             console.log(data);
             API.techsheet.create(user.token, data).then((res) => {
+                alert('La fiche technique a bien été ajoutée');
                 setIsDataLoaded(true);
                 setPdfSended(!pdfSended);
             }
@@ -80,17 +82,26 @@ export default function AddTechsheet() {
                 console.error(err);
             }
             )
-        });
+        }
+        ).catch((err) => {
+            console.error(err);
+        })
     }
 
     const handleSubmitLink = (e) => {
         e.preventDefault();
         setIsDataLoaded(false);
+        if (e.target.techsheet.value === 'none' || e.target.range.value === 'none') {
+            alert('Veuillez choisir une FT et une gamme de produit');
+            setIsDataLoaded(true);
+            return;
+        }
+
         const data = new FormData();
         data.append('techsheet_id', e.target.techsheet.value);
         data.append('range_id', e.target.range.value);
         data.append('name', e.target.name.value);
-        console.log(data);
+
         API.rangeHasTechsheet.create(user.token, data).then((res) => {
             alert('Le lien a bien été créé');
             window.location.reload();
@@ -113,6 +124,11 @@ export default function AddTechsheet() {
     const handleSubmitDeleteLink = (e) => {
         e.preventDefault();
         setIsDataLoaded(false);
+        if (!e.target.range_id.value || e.target.range_id.value === 'none' || !e.target.techSheet_id.value || e.target.techSheet_id.value === 'none') {
+            alert('Veuillez choisir une FT et une gamme de produit');
+            setIsDataLoaded(true);
+            return;
+        }
         const data = { range_id: Number(e.target.range_id.value), techSheet_id: Number(e.target.techSheet_id.value) };
         API.rangeHasTechsheet.delete(user.token, data).then((res) => {
             alert('Le lien a bien été supprimé');
@@ -122,6 +138,45 @@ export default function AddTechsheet() {
             console.error(err);
             if (err.response.status === 404) {
                 alert('Ce lien n\'existe pas ou plus');
+            }
+            setIsDataLoaded(true);
+        }
+        );
+    }
+
+    const handleSubmitDeletePdf = (e) => {
+        e.preventDefault();
+        setIsDataLoaded(false);
+        if (!e.target.techSheet_id.value || e.target.techSheet_id.value === 'none') {
+            alert('Veuillez choisir une FT');
+            setIsDataLoaded(true);
+            return;
+        }
+        const link = techsheets.find((techsheet) => techsheet.id === Number(e.target.techSheet_id.value)).link;
+        const filename = `${link}.pdf`;
+        const id = Number(e.target.techSheet_id.value);
+        console.log(e.target.techSheet_id.value);
+        console.log(filename);
+        console.log(id);
+        API.upload.delete(user.token, filename).then((res) => {
+
+            API.techsheet.delete(user.token, id).then((res) => {
+                setIsDataLoaded(true);
+            }
+            ).catch((err) => {
+                console.error(err);
+                if (err.response.status === 404) {
+                    alert('Cette fiche technique n\'existe pas ou plus');
+                }
+                setIsDataLoaded(true);
+            }
+            );
+            alert('La fiche technique a bien été supprimée');
+        }
+        ).catch((err) => {
+            console.error(err);
+            if (err.response.status === 404) {
+                alert('Cette fiche technique n\'existe pas ou plus');
             }
             setIsDataLoaded(true);
         }
@@ -202,6 +257,21 @@ export default function AddTechsheet() {
                 }
                 <button type="submit">Supprimer</button>
             </form >
+
+            <h2>Supprimer une fiche technique du serveur</h2>
+            <form className="add-techsheet-form" onSubmit={handleSubmitDeletePdf}>
+                <div className="add-techsheet-form-item">
+                    <label htmlFor="techSheet_id">Fiche technique</label>
+                    <select name="techSheet_id" id="techSheet_id" defaultValue="none">
+                        <option value="none" disabled>Choisissez une fiche technique</option>
+                        {techsheets && techsheets.map((techsheet) => {
+                            return <option key={techsheet.id} value={techsheet.id}>{techsheet.link}</option>
+                        })}
+                    </select>
+                </div>
+                <button type="submit">Supprimer</button>
+            </form >
+
         </div >
     )
 }
