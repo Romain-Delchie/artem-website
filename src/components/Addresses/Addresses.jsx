@@ -141,7 +141,6 @@ export default function Addresses({ type, modification, setModification, quoteId
                 }
 
                 API.quotation.update(user.token, quoteId, dataQuotation).then((response) => {
-                    console.log(dataQuotation);
                     fetchData(user, updateUser)
                     setModification({ ...modification, [type]: false })
                 }

@@ -1,1 +1,25 @@
 @use 'src/styles/variables.scss' as var;
+
+.confirm-email {
+    text-align: center;
+
+    & h1 {
+        color: var.$secondaryColor;
+        margin-bottom: 40px;
+    }
+
+    & a {
+        background-color: var.$primaryColor;
+        color: var.$secondaryColor;
+        border-radius: 10px;
+        box-shadow: 5px 5px 5px 1px grey;
+        padding: 20px;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+            background-color: var.$secondaryColor;
+            color: var.$primaryColor;
+            box-shadow: inset 5px 5px 5px 1px rgb(19, 37, 99);
+        }
+    }
+}

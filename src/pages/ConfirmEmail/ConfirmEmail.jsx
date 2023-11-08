@@ -7,18 +7,15 @@ import Loading from '../../components/Loading/Loading';
 
 export default function ConfirmEmail() {
     const { code } = useParams();
-    const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         setIsLoading(true);
         API.email.verifyEmail({ code: code }).then((response) => {
             setIsLoading(false);
-            alert('Votre email a bien été confirmé !');
         }).catch((error) => {
             alert(error.message);
             setIsLoading(false);
-            setIsError(true);
         })
     }, [code])
 
@@ -26,19 +23,12 @@ export default function ConfirmEmail() {
         return <Loading />
     }
 
-
-
-
-
-
-
-
     return (
         <main className="confirm-email">
-            <h1>Merci d'avoir confirmer votre email</h1>
 
-            <p>Votre compte est maintenant créé</p>
+            <h1>Votre adresse email est maintenant confirmée</h1>
             <Link to="/signin">Connectez-vous afin d'accéder à tous nos outils</Link>
+
         </main>
     )
 }

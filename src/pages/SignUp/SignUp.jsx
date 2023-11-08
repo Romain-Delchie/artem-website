@@ -116,6 +116,7 @@ export default function SignUp() {
         const allFieldsFilled = Object.values(formData).every(
             (field) => field !== null && field !== ""
         );
+        console.log(allFieldsFilled);
         if (!allFieldsFilled) {
             alert("Veuillez remplir tous les champs.");
             return;
@@ -155,14 +156,20 @@ export default function SignUp() {
                 delete lastForm.name_address
                 delete lastForm.zip_code
                 delete lastForm.city
+                console.log(lastForm);
                 setFormData({ ...formData, ...dataAddress })
                 API.user
                     .create(lastForm)
                     .then((response) => {
+                        const emailToken = response.data.newAccount.email_token;
+                        console.log(emailToken);
                         API.auth.signin(formData.email, formData.password).then((response) => {
                             const tokenReceived = response.data.token;
+
+                            console.log(emailToken);
                             updateUser({ ...user, token: tokenReceived });
-                            API.email.sendConfirmationEmail(tokenReceived, { email: formData.email, firstname: formData.firstname, email_token: response.data.email_token })
+
+                            API.email.sendConfirmationEmail(tokenReceived, { email: formData.email, firstname: formData.firstname, email_token: emailToken })
                             navigate('/dashboard')
                         }
                         )

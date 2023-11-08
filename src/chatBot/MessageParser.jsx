@@ -31,7 +31,6 @@ const MessageParser = ({ children, actions }) => {
         ]
 
         if (products.some((product) => product[1].some((word) => lowercase.includes(word)))) {
-            console.log(products.find((product) => product[1].some((word) => lowercase.includes(word))))
             const product = products.find((product) => product[1].some((word) => lowercase.includes(word)));
             actions.products({ id: product[0], name: product[2] });
         } else if (contact.some((word) => lowercase.includes(word))) {
