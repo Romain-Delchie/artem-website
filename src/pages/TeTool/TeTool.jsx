@@ -73,8 +73,6 @@ export default function TeTool() {
     const handleInfoChange = (e) => {
         const { name, value } = e.target;
         setTeInfo({ ...teInfo, [name]: value });
-        console.log(name, value);
-
     };
 
     const handleValidateClick = () => {

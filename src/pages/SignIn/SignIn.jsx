@@ -34,7 +34,7 @@ export default function SignIn() {
             }
             navigate('/dashboard')
         }).catch((error) => {
-
+            console.error(error)
             if (error.response.status === 404) {
                 alert('Cette adresse email ne correspond à aucun compte. Veuillez vérifier votre adresse email et réessayer.')
             }

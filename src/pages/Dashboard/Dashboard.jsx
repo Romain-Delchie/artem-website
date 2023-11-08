@@ -21,7 +21,7 @@ export default function Dashboard() {
     if (!isDataLoaded) {
         return <Loading />
     }
-    if (isDataLoaded && !user.verified) {
+    if (isDataLoaded && !user.verified && user.token) {
         return <ValidationEmail />
     }
 

@@ -14,7 +14,7 @@ export default function UpdateProduct() {
     const product = location.state;
     const [productUpdate, setProductUpdate] = useState(product)
     const [isLoading, setIsLoading] = useState(false)
-    console.log(productUpdate);
+
     const handlechange = (event) => {
         const { name, value } = event.target
         if (name === 'stock' || name === 'active' || name === 'range_id' || name === 'price' || name === 'weight' || name === 'width' || name === 'unit' || name === 'length') {

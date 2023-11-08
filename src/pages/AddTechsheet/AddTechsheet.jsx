@@ -76,7 +76,6 @@ export default function AddTechsheet() {
         data.append('pdf', e.target.pdf.files[0]);
         API.upload.pdf(user.token, data).then((res) => {
             data.delete('pdf');
-            console.log(data);
             API.techsheet.create(user.token, data).then((res) => {
                 alert('La fiche technique a bien été ajoutée');
                 setIsDataLoaded(true);
@@ -160,9 +159,6 @@ export default function AddTechsheet() {
         const link = techsheets.find((techsheet) => techsheet.id === Number(e.target.techSheet_id.value)).link;
         const filename = `${link}.pdf`;
         const id = Number(e.target.techSheet_id.value);
-        console.log(e.target.techSheet_id.value);
-        console.log(filename);
-        console.log(id);
         API.upload.delete(user.token, filename).then((res) => {
 
             API.techsheet.delete(user.token, id).then((res) => {

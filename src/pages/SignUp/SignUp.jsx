@@ -67,7 +67,6 @@ export default function SignUp() {
         // Utilisez une API pour récupérer la liste des pays
         axios.get('https://restcountries.com/v3.1/all')
             .then(response => {
-                console.log(response.data);
                 const countries = response.data.sort((a, b) => a.name.common.localeCompare(b.name.common)).map(country => ({
                     label: country.name.common,
                     value: country.name.common,
@@ -117,7 +116,6 @@ export default function SignUp() {
         const allFieldsFilled = Object.values(formData).every(
             (field) => field !== null && field !== ""
         );
-        console.log(allFieldsFilled);
         if (!allFieldsFilled) {
             alert("Veuillez remplir tous les champs.");
             return;
@@ -157,22 +155,17 @@ export default function SignUp() {
                 delete lastForm.name_address
                 delete lastForm.zip_code
                 delete lastForm.city
-                console.log(lastForm);
                 setFormData({ ...formData, ...dataAddress })
                 API.user
                     .create(lastForm)
                     .then((response) => {
                         API.auth.signin(formData.email, formData.password).then((response) => {
                             const tokenReceived = response.data.token;
-
                             updateUser({ ...user, token: tokenReceived });
-
-                            API.email.sendConfirmationEmail(tokenReceived, { email: formData.email, firstname: formData.firstname })
+                            API.email.sendConfirmationEmail(tokenReceived, { email: formData.email, firstname: formData.firstname, email_token: response.data.email_token })
                             navigate('/dashboard')
-
                         }
                         )
-
                     }).catch((error) => {
                         setIsLoading(false)
                         if (error.response.status === 400) {
@@ -180,16 +173,12 @@ export default function SignUp() {
                         } else {
                             alert(error.message)
                         }
-
                     })
             }).catch((error) => {
                 setIsLoading(false)
                 alert("Une erreur est survenue lors de la création de votre compte, veuillez nous contacter svp")
             })
-
         }
-
-
     };
 
     if (isLoading) {

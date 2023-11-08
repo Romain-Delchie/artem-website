@@ -14,7 +14,9 @@ export default function ConfirmEmail() {
         setIsLoading(true);
         API.email.verifyEmail({ code: code }).then((response) => {
             setIsLoading(false);
+            alert('Votre email a bien été confirmé !');
         }).catch((error) => {
+            alert(error.message);
             setIsLoading(false);
             setIsError(true);
         })

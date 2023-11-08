@@ -3,7 +3,7 @@ import Axios from "axios";
 let alertDisplayed = false;
 
 const axios = Axios.create({
-    baseURL: "http://85.215.34.177:3305/api",
+    baseURL: "http://localhost:3305/api",
     headers: {
         "Content-Type": "application/json",
     },
@@ -14,11 +14,12 @@ axios.interceptors.response.use(
         return response;
     },
     (error) => {
-        if (error.response && error.response.status === 401 && !alertDisplayed) {
+        if (error.response && error.response.status === 401 && error.response.data.error !== "invalid password" && !alertDisplayed) {
             alert("Votre session a expiré, veuillez vous reconnecter");
             alertDisplayed = true;
             window.location.href = '/signin';
         }
+
         return Promise.reject(error);
     }
 );
@@ -421,8 +422,6 @@ const API = {
         },
 
         async delete(token, data) {
-            console.log(data);
-            console.log(token);
             return axios.delete("/rangeHasTechsheet/", {
                 headers: {
                     "x-auth-token": token,

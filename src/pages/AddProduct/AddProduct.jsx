@@ -17,7 +17,7 @@ export default function AddProduct() {
         API.range.getRanges().then((res) => {
             setRanges(res.data.ranges);
         }).catch((err) => {
-            console.log(err);
+            console.error(err);
         });
 
 

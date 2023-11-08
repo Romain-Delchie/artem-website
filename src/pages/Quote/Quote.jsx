@@ -67,7 +67,6 @@ export default function Quote() {
             updateUser(updatedUser);
             window.history.replaceState(null, '', '/quote-history');
             window.location.reload();
-            console.log(window.history);
         } catch (error) {
             console.error("An error occurred while deleting quotation:", error);
         }

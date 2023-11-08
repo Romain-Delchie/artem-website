@@ -47,7 +47,6 @@ export default function UserList() {
         { label: 'Date dernière connexion', key: 'last_connection' },
 
     ];
-    console.log(accounts);
     if (!isDataLoaded) {
         return <Loading />
     }
