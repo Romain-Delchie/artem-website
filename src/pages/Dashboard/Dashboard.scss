@@ -9,6 +9,7 @@
     justify-content: center;
     align-items: center;
 
+
     & h2 {
         margin-top: 40px;
         padding: 16px 0 0;
@@ -59,6 +60,10 @@
         text-align: center;
         justify-content: center;
         align-items: center;
+
+        &-attente {
+            color: red;
+        }
 
         & span {
             align-self: start;

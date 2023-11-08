@@ -33,6 +33,9 @@ export default function Dashboard() {
                 <h4>Bonjour {user.firstname}</h4>
                 {user.role === 'user' &&
                     <section className='dashboard-buttons'>
+                        {user.profile_id === 3 &&
+                            <p className='dashboard-button dashboard-button-attente'>DEVIS: Votre compte vient juste d'être créé : dans 1 jour ouvré, vous aurez accès à notre outils de devis en ligne</p>
+                        }
                         <Link className='dashboard-button' to='/search-products'>Tous les articles standard Artem</Link>
                         <Link className='dashboard-button' to='/user-informations'>Mes informations</Link>
                         <Link className='dashboard-button' to='/tools'>Mes outils</Link>
