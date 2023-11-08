@@ -93,10 +93,9 @@ export default function ResetPassword() {
             setIsLoading(true);
 
             API.user.updatePassword({ code: token, password: password }).then((response) => {
-                setMessage('Mot de passe réinitialisé avec succès !');
-                setTimeout(() => {
-                    Navigate('/signin', { replace: true })
-                }, 1500);
+                alert('Mot de passe réinitialisé avec succès !');
+                Navigate('/signin', { replace: true })
+
             }
             )
         }
