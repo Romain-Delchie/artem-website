@@ -170,6 +170,7 @@ export default function SignUp() {
                             updateUser({ ...user, token: tokenReceived });
 
                             API.email.sendConfirmationEmail(tokenReceived, { email: formData.email, firstname: formData.firstname, email_token: emailToken })
+                            API.email.newUser()
                             navigate('/dashboard')
                         }
                         )

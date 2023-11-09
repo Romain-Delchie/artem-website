@@ -342,6 +342,14 @@ const API = {
 
         async checkResetPasswordToken(token) {
             return axios.get(`/account/find-by-token/${token}`);
+        },
+
+        async newUser() {
+            return axios.post("/email/new-user");
+        },
+
+        async roleValidation(data) {
+            return axios.post("/email/role-validation", data);
         }
 
     },
