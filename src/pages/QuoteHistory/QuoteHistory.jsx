@@ -5,10 +5,17 @@ import './QuoteHistory.scss'
 
 export default function QuoteHistory() {
     const { user } = useContext(AppContext);
+    console.log(user.quotations);
     return (
         <div className='quote-history'>
             <h2>Liste des devis en cours</h2>
             <ul className='quote-history-container'>
+                {user.quotations && user.quotations.length === 0 &&
+                    <div className="quote-history-empty">
+                        <p>Vous n'avez pas encore de devis en cours</p>
+                        <Link to='/new-quote'>Cliquer ici pour créer votre premier devis</Link>
+                    </div>
+                }
                 {user.quotations && user.quotations.map((quotation, index) => (
 
                     <li key={index} className='quote-item'>
