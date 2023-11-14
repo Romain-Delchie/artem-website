@@ -25,6 +25,7 @@
         visibility: hidden;
         top: 0;
         bottom: 0;
+        padding: 300px 0;
         background-color: var.$secondaryColor;
         justify-content: center;
         transition: all 0.5s ease-in-out;
@@ -33,8 +34,8 @@
     &-link {
         color: var.$primaryColor;
         display: block;
-        padding: 1.5rem;
-        font-size: 6vw;
+        padding: 16px;
+        font-size: 2rem;
     }
 
     &-burger {
@@ -43,8 +44,8 @@
         background: none;
         cursor: pointer;
         position: relative;
-        top: 1rem;
-        right: 1rem;
+        top: 16px;
+        right: 16px;
         height: 30px;
     }
 }
@@ -57,7 +58,7 @@
     content: '';
     display: block;
     margin: 0 auto;
-    width: 3vw;
+    width: 80px;
     height: 1px;
     background-color: var.$primaryColor;
 }
@@ -97,6 +98,11 @@
 
 .show-navbar {
     display: flex;
+
+    &+.navbar-burger {
+        position: fixed;
+        top: 30px;
+    }
 }
 
 .show-navbar.navbar-links {
@@ -161,7 +167,7 @@
         }
 
         &-link {
-            font-size: 3rem;
+            font-size: 2rem;
         }
     }
 
