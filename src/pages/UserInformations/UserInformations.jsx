@@ -53,9 +53,8 @@ export default function UserInformations() {
 
 
     return (
-        <div className='user-informations'>
+        <main className='user-informations'>
             <div className="user-informations-container">
-
                 <h2>Mes informations</h2>
                 <ul>
                     {Object.keys(user).filter((key) => !key.startsWith('deliver') && !key.startsWith('billing') && key !== 'quotations' && key !== 'token' && key !== 'id' && key !== 'profile_id' && key !== 'role' && key !== 'verified' && key !== 'email_token' && key !== 'reset_token').map((key, index) => (
@@ -170,7 +169,7 @@ export default function UserInformations() {
                 <Addresses type='delivery' modification={modification} setModification={setModification} />
             }
 
-        </div >
+        </main >
     )
 }
 

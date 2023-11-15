@@ -1,8 +1,11 @@
 @use 'src/styles/variables.scss' as var;
 
 .header {
-    position: sticky;
+    height: 200px;
+    position: fixed;
     top: 0;
+    right: 0;
+    left: 0;
     background-color: white;
     z-index: 1000;
     transition: all 3s ease-in-out;
@@ -14,7 +17,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin: 10px 0;
+        margin: 0 0 10px;
 
         &-all-btn {
             display: flex;
@@ -23,7 +26,8 @@
         }
 
         &-btn {
-            height: 60px;
+            height: 50px;
+            width: 70px;
             margin-right: 16px;
             padding: 0.3rem;
             color: white;
@@ -70,7 +74,8 @@
 
 
         &-btn {
-            height: 60px;
+            width: 70px;
+            height: 50px;
             margin-bottom: 10px;
             margin-right: 1rem;
             padding: 0.5rem;
@@ -149,6 +154,30 @@
 
         & svg {
             height: 15px;
+        }
+    }
+}
+
+@media (min-width:600px) {
+    .header {
+        height: 180px;
+
+        &-connection {
+            margin: 5px 0;
+
+            &-all-btn {
+                flex-direction: row;
+            }
+
+            &-connection-btn {
+                height: 60px;
+                width: 90px;
+            }
+
+            &-disconnection-btn {
+                height: 60px;
+                width: 90px;
+            }
         }
     }
 }

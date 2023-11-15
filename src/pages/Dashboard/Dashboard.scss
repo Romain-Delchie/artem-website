@@ -1,113 +1,72 @@
 @use 'src/styles/variables.scss' as var;
 
 .dashboard {
-    background: url(/images/boul-ordi-grande.jpg) no-repeat center / cover;
-    margin-bottom: -40px;
-    flex-grow: 1;
     display: flex;
-    flex-direction: column;
+    margin-left: 350px;
+    margin-bottom: -40px;
     justify-content: center;
     align-items: center;
+    padding: 30px;
+    padding-bottom: 60px;
+    flex-grow: 1;
 
-
-    & h2 {
-        margin-top: 40px;
-        padding: 16px 0 0;
-        border-radius: 8px 8px 0 0;
-    }
-
-    & h4 {
-        padding-bottom: 16px;
-    }
-
-    & h2,
-    h3,
-    h4 {
-        // background-color: rgba(255, 255, 255, 0.479);
-        text-align: center;
-        color: var.$secondaryColor;
-        background-color: var.$primaryColorTransparent;
-        width: 80%;
-    }
-
-    &-container {
-        // background-color: rgba(255, 255, 255, 0.479);
-        padding-bottom: 60px;
+    &-section {
+        cursor: pointer;
+        width: 300px;
+        height: 280px;
+        border-radius: 50px;
+        background-color: var.$primaryColor;
+        box-shadow: 3px 3px 5px #868686,
+            -3px -3px 5px #e6e6e6;
+        border-radius: 5px;
+        padding: 20px;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        transition: all 0.3s ease-in-out;
 
-    }
-
-    &-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 80%;
-        margin: 0 auto;
-    }
-
-    &-button {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        background-color: var.$secondaryColorTransparent;
-        color: var.$primaryColorLight;
-        padding: 16px;
-        border: 1px solid var.$primaryColor;
-        width: 100%;
-        height: 80px;
-        text-align: center;
-        justify-content: center;
-        align-items: center;
-
-        &-attente {
-            color: red;
-        }
-
-        & span {
-            align-self: start;
-            margin-left: 5px;
-            background-color: red;
-            color: white;
-            border-radius: 50%;
-            padding: 10px;
+        &-title {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            width: 20px;
-            height: 20px;
+            gap: 10px;
+            margin-bottom: 20px;
+
+            & h2 {
+                color: whitesmoke;
+            }
+
+            & svg {
+                width: 30px;
+                color: whitesmoke;
+            }
         }
 
-        &-last {
-            border-radius: 0 0 8px 8px;
-        }
-    }
-}
-
-@media(min-width: 1000px) {
-    .dashboard {
-
-        & h2,
-        h3,
-        h4 {
-            width: 900px;
+        & p {
+            margin-left: 20px;
+            color: var.$secondaryColor;
+            font-weight: 700;
+            transition: all 0.3s ease-in-out;
         }
 
-        & h3,
-        h4 {
-            font-size: 1.3rem;
+        &:hover {
+            box-shadow: none;
+            background-color: var.$primaryColorLight;
+
+            & p {
+                color: var.$secondaryColorLight;
+            }
         }
 
         &-container {
-            width: 900px;
-            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            align-items: center;
+            justify-content: center;
         }
 
-        &-buttons {
-            width: 900px;
-            font-size: 1.2rem;
+        &-quotation {
+            font-weight: 400 !important;
         }
     }
+
+
 }

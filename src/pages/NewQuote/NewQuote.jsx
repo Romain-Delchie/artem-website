@@ -133,7 +133,7 @@ export default function NewQuote() {
 
 
     return (
-        <div className='new-quote' >
+        <main className='new-quote' >
             <h2>Nouveau devis</h2>
             <form className='new-quote-form' onSubmit={handleCreateQuotation}>
                 <div className="new-quote-form-item">
@@ -234,6 +234,6 @@ export default function NewQuote() {
                 </div>
             }
 
-        </div >
+        </main >
     )
 }
