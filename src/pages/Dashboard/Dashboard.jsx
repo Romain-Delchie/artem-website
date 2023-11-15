@@ -37,13 +37,13 @@ export default function Dashboard() {
 
                         <h2>Mes informations</h2>
                     </div>
-                    <p>Entreprise: {user.company}</p>
-                    <p>Contact: {user.firstname} {user.lastname}</p>
-                    <p>Email: {user.email}</p>
-                    <p>Téléphone: {user.phone_number}</p>
-                    <p>Adresse:</p>
-                    <p>{user.billing_address.street_address}</p>
-                    <p>{user.billing_address.zip_code} {user.billing_address.city}</p>
+                    <p>{user.company}</p>
+                    <p>{user.firstname} {user.lastname}</p>
+                    <p className='dashboard-section-informations'>Email: {user.email}</p>
+                    <p className='dashboard-section-informations'>Téléphone: {user.phone_number}</p>
+                    <p className='dashboard-section-informations'>Adresse:</p>
+                    <p className='dashboard-section-informations'>{user.billing_address.street_address}</p>
+                    <p className='dashboard-section-informations'>{user.billing_address.zip_code} {user.billing_address.city}</p>
                 </Link>
                 <Link to="/quote-history" className="dashboard-section">
                     <div className="dashboard-section-title">

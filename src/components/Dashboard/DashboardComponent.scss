@@ -2,7 +2,6 @@
 
 .dashboard-component {
     background-color: var.$secondaryColor;
-    margin-top: 183px;
     width: 300px;
     position: fixed;
     color: whitesmoke;
@@ -10,9 +9,8 @@
     flex-direction: column;
     left: 0;
     bottom: 0;
-    top: 0;
-    padding-left: 15px;
-    padding: 0 0 640px 15px;
+    top: 183px;
+    padding: 0 0 200px 15px;
 
     & h2 {
         padding: 20px 0 5px;
@@ -34,20 +32,27 @@
         border-radius: 0 10px;
     }
 
+    &-container {
+        flex-grow: 1;
+    }
+
     &-buttons {
+        padding-top: 15px;
+        padding-bottom: 30px;
         margin-top: 15px;
+        height: 80%;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
 
     }
 
     &-button {
-        margin-bottom: 15px;
         padding: 5px;
         padding-left: 30px;
         border-radius: 105px 0 0 105px;
         color: var.$primaryColor;
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: bold;
         cursor: pointer;
         transition: all 0.3s ease-in-out;
@@ -73,5 +78,25 @@
             justify-content: center;
             align-items: center;
         }
+    }
+}
+
+@media (max-width:600px) {
+    .dashboard-component {
+        position: static;
+        margin: 0 0 -40px;
+        padding: 20px 0 0;
+        width: 100%;
+        text-align: center;
+
+        & h2,
+        h3,
+        h4 {
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        &-container {}
     }
 }
