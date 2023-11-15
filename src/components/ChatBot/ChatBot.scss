@@ -24,7 +24,7 @@
     &-container {
         position: fixed;
         z-index: 10000;
-        bottom: 50px;
+        bottom: 100px;
         right: 10px;
         background-color: var.$primaryColor;
         width: 70px;
@@ -47,11 +47,11 @@
     right: -140px;
     transition: all 0.5s ease-out;
     opacity: 0;
-    bottom: -400px;
+    bottom: -600px;
     z-index: 10000;
 
     &-open {
-        bottom: 120px;
+        bottom: 170px;
         right: 40px;
         opacity: 1;
     }

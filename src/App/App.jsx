@@ -35,6 +35,7 @@ import UpdateRange from "../pages/UpdateRange/UpdateRange";
 import AddTechsheet from "../pages/AddTechsheet/AddTechsheet";
 import UserList from "../pages/UserList/UserList";
 import DeleteRange from "../pages/DeleteRange/DeleteRange";
+import ScrollToTopButton from "../components/ScrollToTopButton/ScrollToTopButton";
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
   return (
     <>
       <ScrollToTop />
+      <ScrollToTopButton />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/company" element={<Company />} />
