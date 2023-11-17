@@ -63,9 +63,6 @@ export default function Range() {
                 </section>
             }
 
-<<<<<<<<< Temporary merge branch 1
-=========
-
             {
                 !user.token &&
                 <div className="range-links">
@@ -77,7 +74,6 @@ export default function Range() {
                     </div>
                 </div>
             }
->>>>>>>>> Temporary merge branch 2
         </div >
     )
 }
