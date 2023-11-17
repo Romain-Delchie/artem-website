@@ -2,13 +2,14 @@ import { Link } from 'react-router-dom';
 import { useContext } from 'react'
 import AppContext from '../../context/AppContext'
 import './QuoteHistory.scss'
+import DashboardComponent from '../../components/Dashboard/DashboardComponent';
 
 export default function QuoteHistory() {
     const { user } = useContext(AppContext);
-    console.log(user.quotations);
     return (
-        <div className='quote-history'>
-            <h2>Liste des devis en cours</h2>
+        <main className='quote-history'>
+            <DashboardComponent />
+            <h2 className='quote-history-title'>Liste des devis en cours</h2>
             <ul className='quote-history-container'>
                 {user.quotations && user.quotations.length === 0 &&
                     <div className="quote-history-empty">
@@ -39,6 +40,6 @@ export default function QuoteHistory() {
                 ))
                 }
             </ul>
-        </div>
+        </main>
     )
 }

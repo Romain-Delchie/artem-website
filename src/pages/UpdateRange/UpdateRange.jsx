@@ -4,6 +4,7 @@ import AppContext from '../../context/AppContext'
 import API from '../../utils/api/api'
 import Loading from '../../components/Loading/Loading'
 import { useNavigate } from 'react-router-dom'
+import DashboardComponent from '../../components/Dashboard/DashboardComponent'
 
 export default function UpdateRange() {
     const { user } = useContext(AppContext)
@@ -54,9 +55,9 @@ export default function UpdateRange() {
     }
 
     return (
-        <div className='update-range'>
+        <main className='update-range'>
+            <DashboardComponent />
             <h2>Modifier une gamme de produit</h2>
-
             <select name="range" id="range" defaultValue="none" onChange={handleRangeChange}>
                 <option value="none" disabled>Choisissez la gamme à modifier</option>
                 {ranges.map(range => <option key={range.id} value={range.id}>{range.name}</option>)}
@@ -86,6 +87,6 @@ export default function UpdateRange() {
                     <button type='submit'>Valider les modifications</button>
                 </form>
             )}
-        </div >
+        </main>
     )
 }

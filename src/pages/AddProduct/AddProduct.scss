@@ -1,9 +1,11 @@
 @use 'src/styles/variables.scss' as var;
 
 .add-product {
+    padding-top: 50px;
+
     & h2 {
         text-align: center;
-        margin: 30px 0;
+
     }
 
     &-form {
@@ -49,5 +51,41 @@
             height: 80px;
             text-align: center;
         }
+    }
+
+    & .product-card-example {
+        position: fixed;
+        right: 50px;
+        top: 350px
+    }
+}
+
+
+@media (max-width:1200px) {
+    .add-product {
+        margin-left: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        & .product-card-example {
+            position: static;
+        }
+
+        & .input-container {
+            width: 100%;
+        }
+    }
+}
+
+@media (max-width:600px) {
+    .add-product {
+        margin-left: 0;
+
+        & .dashboard-component {
+            display: none;
+        }
+
     }
 }

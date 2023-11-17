@@ -35,7 +35,9 @@ import UpdateRange from "../pages/UpdateRange/UpdateRange";
 import AddTechsheet from "../pages/AddTechsheet/AddTechsheet";
 import UserList from "../pages/UserList/UserList";
 import DeleteRange from "../pages/DeleteRange/DeleteRange";
+import SearchUpdate from "../pages/SearchUpdate/SearchUpdate";
 import ScrollToTopButton from "../components/ScrollToTopButton/ScrollToTopButton";
+import SearchProductPage from "../pages/SearchProductPage/SearchProductPage";
 
 function App() {
 
@@ -63,11 +65,11 @@ function App() {
           <>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/validation-email" element={<ValidationEmail />} />
-            <Route path="/search-products" element={<SearchProduct />} />
+            <Route path="/search-products" element={<SearchProductPage />} />
 
           </>
         }
-        {user.role === 'user' &&
+        {(user.role === 'user' || user.role === "admin") &&
           <>
             <Route path="/user-informations" element={<UserInformations />} />
             <Route path="/tools" element={<Tools />} />
@@ -81,11 +83,11 @@ function App() {
           <>
             <Route path="/add-product" element={<AddProduct />} />
             <Route path="/add-range" element={<AddRange />} />
-            <Route path="/update-product" element={<SearchProduct />} />
+            <Route path="/update-product" element={<SearchUpdate />} />
             <Route path="/update-range" element={<UpdateRange />} />
             <Route path="/delete-range" element={<DeleteRange />} />
             <Route path="/update-product/:id" element={<UpdateProduct />} />
-            <Route path="/delete-product" element={<SearchProduct />} />
+            <Route path="/delete-product" element={<SearchUpdate />} />
             <Route path="/delete-product/:id" element={<DeleteProduct />} />
             <Route path="/add-techsheet" element={<AddTechsheet />} />
             <Route path="/role-validation" element={<RoleValidation />} />

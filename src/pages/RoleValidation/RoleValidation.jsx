@@ -4,6 +4,8 @@ import API from '../../utils/api/api'
 import { useContext } from 'react'
 import AppContext from '../../context/AppContext'
 import Loading from '../../components/Loading/Loading'
+import DashboardComponent from '../../components/Dashboard/DashboardComponent'
+
 
 export default function RoleValidation() {
 
@@ -49,7 +51,8 @@ export default function RoleValidation() {
     }
 
     return (
-        <div className='role-validation'>
+        <main className='role-validation'>
+            <DashboardComponent />
             <h2>Validation des rôles</h2>
             <ul className="role-validation-list">
                 {accountsToValidate.map((account) => {
@@ -74,6 +77,6 @@ export default function RoleValidation() {
                 })
                 }
             </ul>
-        </div>
+        </main>
     )
 }

@@ -6,6 +6,7 @@ import AppContext from '../../context/AppContext'
 import './NewQuote.scss'
 import fetchData from '../../utils/fetchData';
 import Loading from '../../components/Loading/Loading';
+import DashboardComponent from '../../components/Dashboard/DashboardComponent';
 
 export default function NewQuote() {
     const { user, updateUser } = useContext(AppContext)
@@ -47,9 +48,9 @@ export default function NewQuote() {
         setIsLoading(true)
         e.preventDefault()
         if (e.target.reference.value === '') {
+            setIsLoading(false)
             return alert('Veuillez renseigner une référence')
         }
-
         const dataQuotation = {
             account_id: user.id,
             reference: e.target.reference.value,
@@ -67,6 +68,7 @@ export default function NewQuote() {
             setIsLoading(false)
         })
     }
+
 
     const handleNewAddress = (e) => {
         e.preventDefault()
@@ -134,7 +136,8 @@ export default function NewQuote() {
 
     return (
         <main className='new-quote' >
-            <h2>Nouveau devis</h2>
+            <DashboardComponent />
+            <h1>Nouveau devis</h1>
             <form className='new-quote-form' onSubmit={handleCreateQuotation}>
                 <div className="new-quote-form-item">
                     <label htmlFor="reference">Votre référence</label>

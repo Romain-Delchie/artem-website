@@ -3,6 +3,7 @@
 .role-validation {
     color: var.$secondaryColor;
     padding-bottom: 40px;
+    margin-left: 300px;
 
     & h2 {
         text-align: center;
@@ -39,5 +40,16 @@
             }
 
         }
+    }
+}
+
+@media (max-width:600px) {
+    .role-validation {
+        margin-left: 0;
+
+        & .dashboard-component {
+            display: none;
+        }
+
     }
 }

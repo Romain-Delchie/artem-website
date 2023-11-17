@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import AppContext from '../../context/AppContext'
 import fetchData from '../../utils/fetchData'
 import Loading from '../Loading/Loading'
@@ -12,11 +12,11 @@ export default function DashboardComponent() {
     const { user, updateUser } = useContext(AppContext);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
 
+
     useEffect(() => {
         fetchData(user, updateUser); // Appeler la fonction pour récupérer les données
         setIsDataLoaded(true);
     }, [user.token, updateUser]);
-
 
     if (!isDataLoaded) {
         return <Loading />
@@ -27,43 +27,77 @@ export default function DashboardComponent() {
 
     return (
         <section className='dashboard-component'>
-            <h2>Tableau de bord </h2>
             <div className="dashboard-component-container">
-                <h3>{user.company}</h3>
+                <h2>{user.company}</h2>
                 <h4>Bonjour {user.firstname} 👋 </h4>
+                {user.profile_id === 3 &&
+                    <p className='dashboard-component-button-attente'>Votre compte vient juste d'être créé : dans 1 jour ouvré, vous aurez accès à notre outils de devis en ligne</p>
+                }
                 {user.role === 'user' &&
                     <section className='dashboard-component-buttons'>
-                        {user.profile_id === 3 &&
-                            <p className='dashboard-component-button dashboard-component-button-attente'>DEVIS: Votre compte vient juste d'être créé : dans 1 jour ouvré, vous aurez accès à notre outils de devis en ligne</p>
-                        }
-                        <Link className='dashboard-component-button' to='/search-products'>Les produits Artem</Link>
-                        <Link className='dashboard-component-button' to='/user-informations'>Mes informations</Link>
-                        <Link className='dashboard-component-button' to='/tools'>Mes outils</Link>
+                        <NavLink className={({ isActive }) =>
+                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
+                        } to='/dashboard'>Tableau de bord</NavLink>
+                        <NavLink className={({ isActive }) =>
+                            isActive ? "dashboard-component-button dashboard-component-button dashboard-link-active" : "dashboard-component-button dashboard-component-button"
+                        } to='/search-products'>Les produits Artem</NavLink>
+                        <NavLink className={({ isActive }) =>
+                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
+                        } to='/user-informations'>Mes informations</NavLink>
+                        <NavLink className={({ isActive }) =>
+                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
+                        } to='/tools'>Mes outils</NavLink>
                         {
                             user.profile_id !== 3 &&
                             <>
-                                <Link className='dashboard-component-button' to='/quote-history'>mon historique de devis
+                                <NavLink className={({ isActive }) =>
+                                    isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
+                                } to='/quote-history'>mon historique de devis
                                     {user.quotations.length > 0 &&
                                         <span>{user.quotations.length}</span>
                                     }
-                                </Link>
-                                <Link className='dashboard-component-button' to='/new-quote'>Nouveau devis</Link>
+                                </NavLink>
+                                <NavLink className={({ isActive }) =>
+                                    isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
+                                } to='/new-quote'>Nouveau devis</NavLink>
                             </>
                         }
-                        <Link className='dashboard-component-button dashboard-component-button-last' to='https://pay-pro.monetico.fr/artem/paiementenligne' target='_blank'>Régler une facture en CB</Link>
+                        <Link className="dashboard-component-button dashboard-component-button-last"
+                            to='https://pay-pro.monetico.fr/artem/paiementenligne' target='_blank'>Régler une facture en CB</Link>
                     </section>
                 }
                 {user.role === 'admin' &&
                     <section className='dashboard-component-buttons'>
-                        <Link className='dashboard-component-button' to='/add-product'>Ajouter un produit</Link>
-                        <Link className='dashboard-component-button' to='/update-product'>Modifier un produit</Link>
-                        <Link className='dashboard-component-button' to='/delete-product'>Supprimer un produit</Link>
-                        <Link className='dashboard-component-button' to='/add-range'>Ajouter une gamme (vitrine)</Link>
-                        <Link className='dashboard-component-button' to='/update-range'>Modifier une gamme (vitrine)</Link>
-                        <Link className='dashboard-component-button' to='/delete-range'>Supprimer une gamme (vitrine)</Link>
-                        <Link className='dashboard-component-button' to='/add-techsheet'>Gestion des fiches techniques</Link>
-                        <Link className='dashboard-component-button' to='/role-validation'>Valider rôle client</Link>
-                        <Link className='dashboard-component-button dashboard-component-button-last' to='/user-list'>Liste des utilisateurs</Link>
+                        <NavLink className={({ isActive }) =>
+                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
+                        } to='/dashboard'>Tableau de bord</NavLink>
+                        <NavLink className={({ isActive }) =>
+                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
+                        } to='/add-product'>Ajouter un produit</NavLink>
+                        <NavLink className={({ isActive }) =>
+                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
+                        } to='/update-product'>Modifier un produit</NavLink>
+                        <NavLink className={({ isActive }) =>
+                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
+                        } to='/delete-product'>Supprimer un produit</NavLink>
+                        <NavLink className={({ isActive }) =>
+                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
+                        } to='/add-range'>Ajouter une gamme (vitrine)</NavLink>
+                        <NavLink className={({ isActive }) =>
+                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
+                        } to='/update-range'>Modifier une gamme (vitrine)</NavLink>
+                        <NavLink className={({ isActive }) =>
+                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
+                        } to='/delete-range'>Supprimer une gamme (vitrine)</NavLink>
+                        <NavLink className={({ isActive }) =>
+                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
+                        } to='/add-techsheet'>Gestion des fiches techniques</NavLink>
+                        <NavLink className={({ isActive }) =>
+                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
+                        } to='/role-validation'>Valider rôle client</NavLink>
+                        <NavLink className={({ isActive }) =>
+                            isActive ? "dashboard-component-button dashboard-component-button-last dashboard-link-active" : "dashboard-component-button dashboard-component-button-last"
+                        } to='/user-list'>Liste des utilisateurs</NavLink>
                     </section>
                 }
 

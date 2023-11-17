@@ -3,6 +3,7 @@ import AppContext from '../../context/AppContext'
 import Addresses from '../../components/Addresses/Addresses';
 import './UserInformations.scss'
 import API from '../../utils/api/api';
+import DashboardComponent from '../../components/Dashboard/DashboardComponent';
 
 
 export default function UserInformations() {
@@ -50,125 +51,123 @@ export default function UserInformations() {
         });
     }
 
-
-
     return (
         <main className='user-informations'>
-            <div className="user-informations-container">
-                <h2>Mes informations</h2>
-                <ul>
-                    {Object.keys(user).filter((key) => !key.startsWith('deliver') && !key.startsWith('billing') && key !== 'quotations' && key !== 'token' && key !== 'id' && key !== 'profile_id' && key !== 'role' && key !== 'verified' && key !== 'email_token' && key !== 'reset_token').map((key, index) => (
-                        <li key={index}>
-                            {!modification.profil &&
-                                <div className='user-informations-item'>
-                                    <p>{labelName[key]}</p>
-                                    <p>{user[key]}</p>
-                                </div>
-                            }
-                            {modification.profil &&
-                                <div className='user-informations-item'>
-                                    <label htmlFor={key}>{labelName[key]}</label>
-                                    <input
-                                        type='text'
-                                        id={key}
-                                        value={updatedUser[key]}
-                                        onChange={(e) => handleChange(key, e.target.value)}
-                                    />
+            <DashboardComponent />
+            <div className='user-informations-container'>
+                <div className="user-informations-profile">
+                    <h2>Mes informations</h2>
+                    <ul>
+                        {Object.keys(user).filter((key) => !key.startsWith('deliver') && !key.startsWith('billing') && key !== 'quotations' && key !== 'token' && key !== 'id' && key !== 'profile_id' && key !== 'role' && key !== 'verified' && key !== 'email_token' && key !== 'reset_token').map((key, index) => (
+                            <li key={index}>
+                                {!modification.profil &&
+                                    <div className='user-informations-item'>
+                                        <p>{labelName[key]}:</p>
+                                        <p>{user[key]}</p>
+                                    </div>
+                                }
+                                {modification.profil &&
+                                    <div className='user-informations-item'>
+                                        <label htmlFor={key}>{labelName[key]}</label>
+                                        <input
+                                            type='text'
+                                            id={key}
+                                            value={updatedUser[key]}
+                                            onChange={(e) => handleChange(key, e.target.value)}
+                                        />
 
-                                </div>
-                            }
-                        </li>
-                    )
-                    )}
-                </ul>
-                {!modification.profil &&
-                    <button className='user-informations-button' onClick={() => setModification({ ...modification, profil: true })}>Modifier</button>
+                                    </div>
+                                }
+                            </li>
+                        )
+                        )}
+                    </ul>
+                    {!modification.profil &&
+                        <button className='user-informations-button' onClick={() => setModification({ ...modification, profil: true })}>Modifier</button>
+                    }
+                    {modification.profil &&
+                        <button className='user-informations-button' onClick={handleModificationProfil}>Valider</button>
+                    }
+                </div>
+                <div className="user-informations-address">
+                    <h2>Adresse de facturation</h2>
+
+
+                    {!modification.billing &&
+                        <ul>
+
+                            <li className='user-informations-item'>
+                                <p>Nom:
+                                </p>
+                                <p>{user.billing_address.name_address}</p>
+                            </li>
+                            <li className='user-informations-item'>
+                                <p>Rue:
+                                </p>
+                                <p>{user.billing_address.street_address}</p>
+                            </li>
+                            <li className='user-informations-item'>
+                                <p>Code postal:
+                                </p>
+                                <p>{user.billing_address.zip_code}</p>
+                            </li>
+                            <li className='user-informations-item'>
+                                <p>Ville:
+                                </p>
+                                <p>{user.billing_address.city}</p>
+                            </li>
+                            <li className='user-informations-item'>
+                                <p>Pays:
+                                </p>
+                                <p>{user.billing_address.country}</p>
+                            </li>
+
+                        </ul>
+                    }
+                    <button className='user-informations-button' onClick={() => setModification({ ...modification, billing: true })}>Modifier</button>
+                </div >
+                <div className="user-informations-address">
+                    <h2>Adresse de livraison standard</h2>
+
+                    {!modification.delivery &&
+                        <ul>
+                            <li className='user-informations-item'>
+                                <p>Nom:
+                                </p>
+                                <p>{user.delivery_standard.name_address}</p>
+                            </li>
+                            <li className='user-informations-item'>
+                                <p>Rue:
+                                </p>
+                                <p>{user.delivery_standard.street_address}</p>
+                            </li>
+                            <li className='user-informations-item'>
+                                <p>Code postal:
+                                </p>
+                                <p>{user.delivery_standard.zip_code}</p>
+                            </li>
+                            <li className='user-informations-item'>
+                                <p>Ville:
+                                </p>
+                                <p>{user.delivery_standard.city}</p>
+                            </li>
+                            <li className='user-informations-item'>
+                                <p>Pays:
+                                </p>
+                                <p>{user.delivery_standard.country}</p>
+                            </li>
+                        </ul>
+                    }
+                    <button className='user-informations-button' onClick={() => setModification({ ...modification, delivery: true })}>Modifier</button>
+                </div >
+                {modification.billing &&
+                    <Addresses type='billing' modification={modification} setModification={setModification} />
                 }
-                {modification.profil &&
-                    <button className='user-informations-button' onClick={handleModificationProfil}>Valider</button>
+                {modification.delivery &&
+                    <Addresses type='delivery' modification={modification} setModification={setModification} />
                 }
+
             </div>
-            <div className="user-informations-address">
-                <h2>Adresse de facturation</h2>
-
-
-                {!modification.billing &&
-                    <ul>
-
-                        <li className='user-informations-item'>
-                            <p>Nom
-                            </p>
-                            <p>{user.billing_address.name_address}</p>
-                        </li>
-                        <li className='user-informations-item'>
-                            <p>Rue
-                            </p>
-                            <p>{user.billing_address.street_address}</p>
-                        </li>
-                        <li className='user-informations-item'>
-                            <p>Code postal
-                            </p>
-                            <p>{user.billing_address.zip_code}</p>
-                        </li>
-                        <li className='user-informations-item'>
-                            <p>Ville
-                            </p>
-                            <p>{user.billing_address.city}</p>
-                        </li>
-                        <li className='user-informations-item'>
-                            <p>Pays
-                            </p>
-                            <p>{user.billing_address.country}</p>
-                        </li>
-                        <button className='user-informations-button' onClick={() => setModification({ ...modification, billing: true })}>Modifier</button>
-
-                    </ul>
-                }
-            </div >
-            <div className="user-informations-address">
-                <h2>Adresse de livraison standard</h2>
-
-
-                {!modification.delivery &&
-                    <ul>
-
-                        <li className='user-informations-item'>
-                            <p>Nom
-                            </p>
-                            <p>{user.delivery_standard.name_address}</p>
-                        </li>
-                        <li className='user-informations-item'>
-                            <p>Rue
-                            </p>
-                            <p>{user.delivery_standard.street_address}</p>
-                        </li>
-                        <li className='user-informations-item'>
-                            <p>Code postal
-                            </p>
-                            <p>{user.delivery_standard.zip_code}</p>
-                        </li>
-                        <li className='user-informations-item'>
-                            <p>Ville
-                            </p>
-                            <p>{user.delivery_standard.city}</p>
-                        </li>
-                        <li className='user-informations-item'>
-                            <p>Pays
-                            </p>
-                            <p>{user.delivery_standard.country}</p>
-                        </li>
-                        <button className='user-informations-button' onClick={() => setModification({ ...modification, delivery: true })}>Modifier</button>
-
-                    </ul>
-                }
-            </div >
-            {modification.billing &&
-                <Addresses type='billing' modification={modification} setModification={setModification} />
-            }
-            {modification.delivery &&
-                <Addresses type='delivery' modification={modification} setModification={setModification} />
-            }
-
         </main >
     )
 }

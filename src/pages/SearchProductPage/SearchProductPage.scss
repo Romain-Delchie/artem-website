@@ -1,0 +1,15 @@
+.search-product-page-container {
+    margin-left: 300px;
+}
+
+@media (max-width:600px) {
+    .search-product-page {
+        .dashboard-component {
+            display: none;
+        }
+
+        &-container {
+            margin-left: 0;
+        }
+    }
+}

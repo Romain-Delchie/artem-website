@@ -1,15 +1,15 @@
 @use 'src/styles/variables.scss' as var;
 
 .update-range {
+    margin-left: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50%;
-    margin: auto;
+    justify-content: center;
 
     & h2 {
         text-align: center;
-        margin: 32px 0;
+        padding-bottom: 30px;
     }
 
     & select {
@@ -30,13 +30,48 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 400px;
+        width: 600px;
         font-size: 1.2rem;
 
         & input {
             width: 100%;
             margin-bottom: 20px;
         }
+
+        & textarea {
+            width: 100%;
+            margin-bottom: 20px;
+        }
     }
 
+}
+
+@media (max-width: 600px) {
+    .update-range {
+        margin-left: 0;
+
+        & .dashboard-component {
+            display: none;
+        }
+    }
+}
+
+@media (max-width: 940px) {
+    .update-range {
+        &-input-container {
+            width: 90%;
+        }
+
+
+    }
+}
+
+@media (max-width: 940px) {
+    .update-range {
+        & select {
+            width: 90%;
+        }
+
+
+    }
 }

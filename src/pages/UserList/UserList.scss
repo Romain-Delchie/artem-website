@@ -1,11 +1,14 @@
 @use 'src/styles/variables.scss' as var;
 
+
 .user-list {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding-top: 50px;
+    margin-left: 300px;
+
 
     & th,
     td {
@@ -63,5 +66,76 @@
                 box-shadow: none;
             }
         }
+    }
+}
+
+@media (max-width: 1650px) {
+    .user-list {
+        & .info-hide-possibility {
+            display: none;
+        }
+
+        &-sort {
+            label {
+                width: 250px;
+            }
+        }
+    }
+}
+
+@media (max-width: 1100px) {
+    .user-list {
+        & .info-hide-possibility-2 {
+            display: none;
+        }
+
+        &-sort {
+            label {
+                width: 200px;
+                font-size: 1.2rem;
+                height: 100px;
+            }
+        }
+    }
+}
+
+@media (max-width: 800px) {
+    .user-list {
+
+        & td,
+        th {
+            padding: 2px;
+        }
+
+        & .export-excel-button {
+            margin: 10px;
+            font-size: 1rem;
+        }
+
+        &-sort {
+            flex-direction: column;
+            align-items: center;
+
+
+            label {
+                width: 90%;
+                font-size: 1.2rem;
+                height: 70px;
+                padding: 1px;
+            }
+        }
+    }
+}
+
+
+
+@media (max-width:600px) {
+    .user-list {
+        margin-left: 0;
+
+        & .dashboard-component {
+            display: none;
+        }
+
     }
 }

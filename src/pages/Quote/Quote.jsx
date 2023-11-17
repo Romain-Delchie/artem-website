@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react'
 import AppContext from '../../context/AppContext'
 import SearchProduct from '../../components/SearchProduct/SearchProduct'
@@ -6,7 +6,7 @@ import './Quote.scss'
 import API from '../../utils/api/api';
 import Quotepdf from '../../components/Quotepdf/Quotepdf.jsx';
 import fetchData from '../../utils/fetchData'
-import { PDFViewer, PDFDownloadLink, pdf } from '@react-pdf/renderer';
+import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 import QuoteUpdate from '../../components/QuoteUpdate/QuoteUpdate'
 import artemData from '../../../data/artem-data'
 import Loading from '../../components/Loading/Loading'
@@ -109,25 +109,35 @@ export default function Quote() {
     }
 
     return (
-        <div className='quote'>
+        <main className='quote'>
+            <div className='quote-title'>
+                <h1>Devis n°{quote.quotation_id}</h1>
+                <h2>Ref: {quote.reference}</h2>
+                <Link className='quote-btn' to='/quote-history'>Retour à la liste des devis
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3" />
+                    </svg>
 
-            <h2>Devis n°{quote.quotation_id} Ref: {quote.reference}</h2>
-            <div className="quote-viewer">
-                <PDFViewer width="100%" height="100%">
-                    <Quotepdf quote={quote} user={user} totalWeight={totalWeight} totalPrice={totalPrice} />
-                </PDFViewer>
+                </Link>
             </div>
-
-            <div className="quote-btn-container">
-                <div className='quote-btn'>
-                    <PDFDownloadLink document={<Quotepdf quote={quote} user={user} totalWeight={totalWeight} totalPrice={totalPrice} />} fileName={`devis_${quote.reference}`}>
-                        {({ loading }) => (loading ? 'Loading document...' : 'Télécharger en PDF')}
-                    </PDFDownloadLink>
+            <div className="quote-info">
+                <div className="quote-viewer">
+                    <PDFViewer width="100%" height="100%">
+                        <Quotepdf quote={quote} user={user} totalWeight={totalWeight} totalPrice={totalPrice} />
+                    </PDFViewer>
                 </div>
-                <button className='quote-btn' onClick={() => setOpenOrderConfirmation(true)}>Passer en commande</button>
-                <button className='quote-btn' onClick={handleOpenSearchProduct}>Ajouter un produit</button>
-                <button className='quote-btn' onClick={() => setOpenModifQuote(true)}>Modifier le devis</button>
-                <button className='quote-btn quote-btn-delete' onClick={() => setOpenDeleteQuotation(true)}>Supprimer ce devis</button>
+
+                <div className="quote-btn-container">
+                    <button className='quote-btn' onClick={handleOpenSearchProduct}>Ajouter un produit</button>
+                    <div className='quote-btn'>
+                        <PDFDownloadLink document={<Quotepdf quote={quote} user={user} totalWeight={totalWeight} totalPrice={totalPrice} />} fileName={`devis_${quote.reference}`}>
+                            {({ loading }) => (loading ? 'Loading document...' : 'Télécharger en PDF')}
+                        </PDFDownloadLink>
+                    </div>
+                    <button className='quote-btn' onClick={() => setOpenOrderConfirmation(true)}>Passer en commande</button>
+                    <button className='quote-btn' onClick={() => setOpenModifQuote(true)}>Modifier le devis</button>
+                    <button className='quote-btn quote-btn-delete' onClick={() => setOpenDeleteQuotation(true)}>Supprimer ce devis</button>
+                </div>
             </div>
             {
                 openModifQuote &&
@@ -184,6 +194,6 @@ export default function Quote() {
             }
 
 
-        </div >
+        </main>
     )
 }

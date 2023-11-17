@@ -3,7 +3,8 @@
 .dashboard-component {
     background-color: var.$secondaryColor;
     width: 300px;
-    position: fixed;
+    max-width: 100%;
+    position: absolute;
     color: whitesmoke;
     display: flex;
     flex-direction: column;
@@ -12,10 +13,12 @@
     top: 183px;
     padding: 0 0 200px 15px;
 
+    & .dashboard-link-active {
+        color: whitesmoke
+    }
+
     & h2 {
         padding: 20px 0 5px;
-
-
     }
 
     & h2,
@@ -37,14 +40,15 @@
     }
 
     &-buttons {
+        position: sticky;
+        top: 200px;
         padding-top: 15px;
         padding-bottom: 30px;
         margin-top: 15px;
-        height: 80%;
+        height: 600px;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-
+        gap: 15px;
     }
 
     &-button {
@@ -56,6 +60,15 @@
         font-weight: bold;
         cursor: pointer;
         transition: all 0.3s ease-in-out;
+
+        &-attente {
+            background-color: red;
+            color: var.$primaryColorLight;
+            margin-left: -20px;
+            padding: 20px;
+
+
+        }
 
         &:hover {
             background-color: var.$secondaryColorLight;
@@ -89,6 +102,10 @@
         width: 100%;
         text-align: center;
 
+        & .dashboard-link-active {
+            color: var.$primaryColor;
+        }
+
         & h2,
         h3,
         h4 {
@@ -96,7 +113,5 @@
             margin: 0;
             padding: 0;
         }
-
-        &-container {}
     }
 }

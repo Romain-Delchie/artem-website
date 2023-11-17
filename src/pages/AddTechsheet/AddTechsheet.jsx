@@ -3,6 +3,7 @@ import './AddTechsheet.scss'
 import API from '../../utils/api/api'
 import AppContext from '../../context/AppContext'
 import Loading from '../../components/Loading/Loading'
+import DashboardComponent from '../../components/Dashboard/DashboardComponent'
 
 export default function AddTechsheet() {
 
@@ -190,8 +191,9 @@ export default function AddTechsheet() {
     }
 
     return (
-        <div className='add-techsheet'>
-            <h2>Ajouter une fiche technique dans la base de données</h2>
+        <main className='add-techsheet'>
+            <DashboardComponent />
+            < h2 className='add-techsheet-title' > Ajouter une fiche technique dans la base de données</h2 >
             <form className='add-techsheet-form' onSubmit={handleSubmitPdf}>
 
                 <div className="add-techsheet-form-item">
@@ -206,7 +208,7 @@ export default function AddTechsheet() {
             </form>
 
 
-            <h2>Lier une fiche technique à une gamme de produit</h2>
+            <h2 className='add-techsheet-title'>Lier une fiche technique à une gamme de produit</h2>
             <form className='add-techsheet-form' onSubmit={handleSubmitLink}>
                 <div className="add-techsheet-form-item">
                     <label htmlFor="techsheet">Fiche technique</label>
@@ -233,7 +235,7 @@ export default function AddTechsheet() {
                 </div>
                 <button type="submit">Ajouter</button>
             </form>
-            <h2>Supprimer un lien entre une fiche technique et une gamme de produit</h2>
+            <h2 className='add-techsheet-title'>Supprimer un lien entre une fiche technique et une gamme de produit</h2>
             <form className="add-techsheet-form" onSubmit={handleSubmitDeleteLink}>
                 <div className="add-techsheet-form-item">
                     <label htmlFor="range_id">Gamme de produit</label>
@@ -260,7 +262,7 @@ export default function AddTechsheet() {
                 <button type="submit">Supprimer</button>
             </form >
 
-            <h2>Supprimer une fiche technique du serveur</h2>
+            <h2 className='add-techsheet-title'>Supprimer une fiche technique du serveur</h2>
             <form className="add-techsheet-form" onSubmit={handleSubmitDeletePdf}>
                 <div className="add-techsheet-form-item">
                     <label htmlFor="techSheet_id">Fiche technique</label>
@@ -274,6 +276,6 @@ export default function AddTechsheet() {
                 <button type="submit">Supprimer</button>
             </form >
 
-        </div >
+        </main>
     )
 }

@@ -8,14 +8,18 @@ html {
     background-color: rgb(221, 221, 221);
 }
 
+body {
+    max-width: 2100px;
+    margin: auto;
+    position: relative;
+}
+
 #root {
     background-color: white;
     min-width: 320px;
-    max-width: 2100px;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    margin: auto;
     min-height: 100vh;
     overflow: hidden;
 }

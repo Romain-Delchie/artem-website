@@ -5,12 +5,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 50%;
-    margin: auto;
+    margin-left: 300px;
+    height: calc(100vh - 310px);
+    margin-bottom: 50px;
+
 
     & h2 {
         text-align: center;
-        margin: 32px 0;
+        padding: 32px 0;
     }
 
     & select {
@@ -34,6 +36,24 @@
         &:hover {
             background-color: var.$secondaryColor;
             color: var.$primaryColor;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .delete-range {
+        margin-left: 0;
+
+        & .dashboard-component {
+            display: none;
+        }
+    }
+}
+
+@media (max-width: 970px) {
+    .delete-range {
+        & select {
+            width: 95%;
         }
     }
 }

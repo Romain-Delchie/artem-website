@@ -1,16 +1,17 @@
 @use 'src/styles/variables.scss' as var;
 
 .new-quote {
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: url('/images/quotation.jpg') no-repeat center;
-    margin-bottom: -60px;
-    padding: 50px 0 80px;
+    background: url("/public/images/boulangegrand.jpg") center/cover fixed no-repeat;
+    margin-bottom: -160px;
+    padding: 50px 0 320px;
+    flex-grow: 1;
+    margin-left: 300px;
 
-    & h2 {
+    & h1 {
         background-color: var.$primaryColorTransparent;
         width: 80%;
         padding: 16px;
@@ -142,6 +143,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        min-width: 320px;
     }
 
     &-new-address {
@@ -177,12 +179,14 @@
             flex-direction: column;
             justify-content: space-around;
             align-items: center;
+            width: 80%;
+            min-width: 220px;
 
         }
 
         & input,
         select {
-            width: 90%;
+            width: 100%;
         }
 
         &-btn {
@@ -194,14 +198,32 @@
     }
 }
 
-@media (min-width: 800px) {
+@media (min-width: 860px) {
     .new-quote {
-        & h2 {
+        & h1 {
             width: 550px;
         }
 
         &-form {
             width: 550px;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .new-quote {
+        margin-left: 0;
+
+        & .dashboard-component {
+            display: none;
+        }
+    }
+}
+
+@media (min-width:600px) {
+    .new-quote {
+        &-select-shipment {
+            width: 590px;
         }
     }
 }

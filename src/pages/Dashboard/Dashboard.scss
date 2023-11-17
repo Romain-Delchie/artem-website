@@ -11,6 +11,7 @@
     padding: 30px;
     padding-bottom: 60px;
     flex-grow: 1;
+    min-height: 780px;
 
     &-section {
         cursor: pointer;
@@ -18,13 +19,25 @@
         height: 240px;
         border-radius: 50px;
         background-color: rgba(245, 245, 245, 0.88);
-        box-shadow: 3px 3px 2px #868686,
-            -3px -3px 2px #e6e6e6;
+        box-shadow: 2px 2px 2px #505050;
         border-radius: 5px;
         padding: 20px;
         display: flex;
         flex-direction: column;
         transition: all 0.3s ease-in-out;
+
+        &-new-user {
+            background-color: whitesmoke;
+            width: 80%;
+            padding: 20px;
+            border-radius: 5px;
+
+            & p {
+                font-size: 1.1rem;
+                color: red;
+                text-align: center;
+            }
+        }
 
         &-title {
             display: flex;
@@ -81,5 +94,19 @@
         &-section-container {
             display: none;
         }
+    }
+}
+
+@media (min-width: 1629px) {
+    .dashboard-section {
+        width: 350px;
+        height: 300px;
+    }
+}
+
+@media (min-width: 1908px) {
+    .dashboard-section {
+        width: 400px;
+        height: 300px;
     }
 }

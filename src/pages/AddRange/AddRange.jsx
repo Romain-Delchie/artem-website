@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import Loading from '../../components/Loading/Loading'
 import API from '../../utils/api/api'
 import AppContext from '../../context/AppContext'
+import '../AddProduct/AddProduct.scss'
+import DashboardComponent from '../../components/Dashboard/DashboardComponent'
 
 export default function AddRange() {
     const navigate = useNavigate();
@@ -70,7 +72,8 @@ export default function AddRange() {
     }
 
     return (
-        <div className='add-product'>
+        <main className='add-product'>
+            <DashboardComponent />
             <h2>Ajouter une gamme</h2>
             <form className="add-product-form" onSubmit={handleRangeSubmit}>
                 <div className='add-product-form-container'>
@@ -111,6 +114,6 @@ export default function AddRange() {
                 </div>
                 <button type='submit' className='add-product-form-btn'>Valider</button>
             </form>
-        </div>
+        </main>
     )
 }
