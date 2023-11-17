@@ -10,6 +10,22 @@
     bottom: 0;
     overflow: hidden;
 
+    &-btn-cross {
+        position: fixed;
+        right: 10px;
+        top: 10px;
+        width: 50px;
+    }
+
+    &-button {
+        background-color: var.$primaryColorLight;
+        padding: 10px;
+        border-radius: 10px;
+        margin-top: 20px;
+        width: 100%;
+        font-weight: 700;
+        color: var.$secondaryColor;
+    }
 
     &-change {
         position: fixed;
@@ -46,36 +62,70 @@
         }
 
         & select {
+
             font-size: 1.2rem;
         }
     }
 
     &-new {
+        border-radius: 10px;
+        border: 2px solid var.$primaryColorLight;
         margin-top: 60px;
-        width: 80%;
+        padding: 20px;
+        width: 98%;
+
+        & option {
+            color: var.$secondaryColor;
+        }
+
+        &-button {
+            background-color: var.$primaryColorLight;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 20px;
+            width: 100%;
+            font-weight: 700;
+            color: var.$secondaryColor;
+        }
 
         &-item {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            margin: 16px 0;
+
 
             & label {
-                width: 40%;
                 font-size: 1.1rem;
+                margin-bottom: 0;
             }
 
             & input,
-            select {
-                width: 60%;
+            select,
+            #country {
+                width: 80%;
+                margin-bottom: 20px;
                 font-size: 1.1rem;
+                height: 38px;
+            }
+
+            & .css-art2ul-ValueContainer2 {
+                padding: 0;
+                height: 38px;
             }
         }
     }
 }
 
+
+#country {
+    color: var.$secondaryColor;
+
+}
+
 #shipment {
-    width: 90%;
+    width: 100%;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     font-size: 1rem;
@@ -85,5 +135,28 @@
     & option {
         font-size: 0.9rem;
         width: 100% !important;
+    }
+}
+
+@media (min-width:600px) {
+    .addresses {
+        &-button {
+            width: 550px;
+        }
+
+        &-new {
+            width: 550px;
+        }
+    }
+
+    #shipment {
+
+        width: 550px;
+        font-size: 1.6rem;
+
+        & option {
+            font-size: 1.5rem;
+        }
+
     }
 }

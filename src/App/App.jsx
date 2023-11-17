@@ -22,37 +22,76 @@ import DeleteProduct from "../pages/DeleteProduct/DeleteProduct";
 import Quote from "../pages/Quote/Quote";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
 import TeTool from "../pages/TeTool/TeTool";
+import AppContext from "../context/AppContext";
+import { useContext } from "react";
 import './App.scss'
+import ValidationEmail from "../pages/ValidationEmail/ValidationEmail";
+import ConfirmEmail from "../pages/ConfirmEmail/ConfirmEmail";
+import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword/ResetPassword";
+import SearchProduct from "../components/SearchProduct/SearchProduct";
+import AddRange from "../pages/AddRange/AddRange";
+import UpdateRange from "../pages/UpdateRange/UpdateRange";
+import AddTechsheet from "../pages/AddTechsheet/AddTechsheet";
+import UserList from "../pages/UserList/UserList";
+import DeleteRange from "../pages/DeleteRange/DeleteRange";
 
 function App() {
+
+  const { user } = useContext(AppContext);
 
   return (
     <>
       <ScrollToTop />
       <Routes>
-        <Route path="/vitrine/" element={<Home />} />
-        <Route path="/vitrine/company" element={<Company />} />
-        <Route path="/vitrine/products" element={<Products />} />
-        <Route path="/vitrine/range/:rangeId" element={<Range />} />
-        <Route path="/vitrine/contact" element={<Contact />} />
-        <Route path="/vitrine/signin" element={<SignIn />} />
-        <Route path="/vitrine/signup" element={<SignUp />} />
-        <Route path="/vitrine/legal-terms" element={<LegalTerms />} />
-        <Route path="/vitrine/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/vitrine/terms-of-sales" element={<TermsOfSales />} />
-        <Route path="/vitrine/dashboard" element={<Dashboard />} />
-        <Route path="/vitrine/user-informations" element={<UserInformations />} />
-        <Route path="/vitrine/tools" element={<Tools />} />
-        <Route path="/vitrine/quote-history/" element={<QuoteHistory />} />
-        <Route path="/vitrine/quote-history/:quoteId" element={<Quote />} />
-        <Route path="/vitrine/new-quote" element={<NewQuote />} />
-        <Route path="/vitrine/add-product" element={<AddProduct />} />
-        <Route path="/vitrine/update-product" element={<UpdateProduct />} />
-        <Route path="/vitrine/delete-product" element={<DeleteProduct />} />
-        <Route path="/vitrine/role-validation" element={<RoleValidation />} />
-        <Route path="/vitrine/te-tool" element={<TeTool />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/company" element={<Company />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/range/:rangeId" element={<Range />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/legal-terms" element={<LegalTerms />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-sales" element={<TermsOfSales />} />
+        <Route path="/confirm-email/:code" element={<ConfirmEmail />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+        {user.token &&
+          <>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/validation-email" element={<ValidationEmail />} />
+            <Route path="/search-products" element={<SearchProduct />} />
 
+          </>
+        }
+        {user.role === 'user' &&
+          <>
+            <Route path="/user-informations" element={<UserInformations />} />
+            <Route path="/tools" element={<Tools />} />
+            <Route path="/quote-history/" element={<QuoteHistory />} />
+            <Route path="/quote-history/:quoteId" element={<Quote />} />
+            <Route path="/new-quote" element={<NewQuote />} />
+            <Route path="/te-tool" element={<TeTool />} />
+          </>
+        }
+        {user.role === 'admin' &&
+          <>
+            <Route path="/add-product" element={<AddProduct />} />
+            <Route path="/add-range" element={<AddRange />} />
+            <Route path="/update-product" element={<SearchProduct />} />
+            <Route path="/update-range" element={<UpdateRange />} />
+            <Route path="/delete-range" element={<DeleteRange />} />
+            <Route path="/update-product/:id" element={<UpdateProduct />} />
+            <Route path="/delete-product" element={<SearchProduct />} />
+            <Route path="/delete-product/:id" element={<DeleteProduct />} />
+            <Route path="/add-techsheet" element={<AddTechsheet />} />
+            <Route path="/role-validation" element={<RoleValidation />} />
+            <Route path="/user-list" element={<UserList />} />
+          </>
+        }
 
+        <Route path="*" element={<Home />} />
       </Routes>
     </>
   )

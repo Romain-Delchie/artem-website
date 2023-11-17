@@ -4,11 +4,12 @@ import priceData from '../../../data/price-data';
 import Price from '../../components/Price/Price';
 import API from '../../utils/api/api';
 import './TeTool.scss';
-
+import reference from '../../../data/te-data';
+import Loading from '../../components/Loading/Loading';
 
 export default function TeTool() {
     const { user } = useContext(AppContext);
-    const [teInfo, setTeInfo] = useState({ brand: '', width: '', eaLength: '', closing: '', length: '', row: '', hole: '', sameOrNot: '', entraxe: '', entraxeA: '', entraxeB: '', entraxeC: '', entraxeD: '', entraxeE: '', entraxeF: '', entraxeG: '', entraxeH: '', sangle: '', sangleNS: "", holeForBar: "", holeForRope: "", holeForBarEntraxe: "", priceTE: "" });
+    const [teInfo, setTeInfo] = useState({ brand: '', width: '', reference: '', eaLength: '', closing: '', length: '', row: '', hole: '', sameOrNot: '', entraxe: '', entraxeA: '', entraxeB: '', entraxeC: '', entraxeD: '', entraxeE: '', entraxeF: '', entraxeG: '', entraxeH: '', sangle: '', sangleNS: "", holeForBar: "", holeForRope: "", holeForBarEntraxe: "", priceTE: "" });
     const [slide, setSlide] = useState(1);
     const [isLoaded, setIsLoaded] = useState(false);
     const [teList, setTeList] = useState([]);
@@ -23,6 +24,7 @@ export default function TeTool() {
         const fetchTE = async () => {
             try {
                 const result = await API.product.getAllTE(user.token);
+                setTeInfo({ ...teInfo, minPrice: result.data[0].minPrice, coeff: result.data[0].coeff })
                 result.data.map((te) => {
                     te.closing = te.image_link.includes('sangle') ? 'sangle' : te.image_link.includes('cordon') ? 'cordon' : 'barre';
                 });
@@ -34,314 +36,6 @@ export default function TeTool() {
         fetchTE();
         setIsLoaded(true);
     }, []);
-
-    const reference = {
-        bongard: [
-            ['cs1t', 'TE_56X19_3S_B', 'sangle'],
-            ['cs2t', 'TE_56X23_3S_B', 'sangle'],
-            ['cs3t', 'TE_56X26_3S_B', 'sangle'],
-            ['cs4t', 'TE_56X30_3S_B', 'sangle'],
-            ['cs5t', 'TE_70X19_3S_B', 'sangle'],
-            ['cs6t', 'TE_70X23_3S_B', 'sangle'],
-            ['cs7t', 'TE_70X26_3S_B', 'sangle'],
-            ['cs8t', 'TE_70X30_3S_B', 'sangle'],
-            ['csv800 long toile 1940', 'TE_75X19_3S_B', 'sangle'],
-            ['csv800 long toile 2310', 'TE_75X23_3S_B', 'sangle'],
-            ['csv800 long toile 2680', 'TE_75X26_3S_B', 'sangle'],
-            ['csv800 long toile 3050', 'TE_75X30_3S_B', 'sangle']
-        ],
-        fringand: [
-            ['28.1.101', 'TEE_56X23_5O_13', 'barre'],
-            ['28.1.102', 'TEE_56X31_5O_13', 'barre'],
-            ['28.1.104', 'TEE_56X32_5O_13', 'barre'],
-            ['28.1.109', 'TEE_56X42_5O_13', 'barre'],
-            ['28.1.110', 'TEE_56X30_5O_13', 'barre'],
-            ['28.1.111', 'TEE_56X57_5O_13', 'barre'],
-            ['28.112', 'TEE_56X54_5O_13', 'barre'],
-            ['28.1.113', 'TEE_56X402_5O_13', 'barre'],
-            ['28.1.114', 'TEE_56X36_5O_13', 'barre'],
-            ['28.1.115', 'TEE_56X47_5O_13', 'barre'],
-            ['28.1.118', 'TEE_56X50_5O_13', 'barre'],
-            ['28.1.119', 'TEE_56X55_5O_13', 'barre'],
-            ['28.1.121', 'TEE_56X62_5O_13', 'barre'],
-            ['28.1.123', 'TEE_55X60_5O_13_FRI', 'barre'],
-            ['28.1.131', 'TEE_56X67_5O_13', 'barre'],
-            ['28.1.141', 'TEE_56X73_5O_13', 'barre'],
-            ['28.1.209', 'TEE_71X42_5O_13', 'barre'],
-            ['28.1.210', 'TEE_71X30_5O_13', 'barre'],
-            ['28.1.211', 'TEE_71X57_5O_13', 'barre'],
-            ['28.1.212', 'TEE_71X54_5O_13', 'barre'],
-            ['28.1.213', 'TEE_71X40_5O_13', 'barre'],
-            ['28.1.214', 'TEE_71X36_5O_13', 'barre'],
-            ['28.1.215', 'TEE_71X47_5O_13', 'barre'],
-            ['28.1.216 avant 2013', 'TEE_71X43_5O_13', 'barre'],
-            ['28.1.216 après 2013', 'TEE_71X438_5O_13', 'barre'],
-            ['28.1.217', 'TEE_71X51_5O_13', 'barre'],
-            ['28.1.218', 'TEE_71X50_5O_13', 'barre'],
-            ['28.1.219', 'TEE_71X55_5O_13', 'barre'],
-            ['28.1.221', 'TEE_71X62_5O_13', 'barre'],
-            ['28.1.223', 'TEE_71X60_5O_13', 'barre'],
-            ['28.1.231', 'TEE_71X67_5O_13', 'barre'],
-            ['28.1.232', 'TEE_71X64_5O_13', 'barre'],
-            ['28.1.241', 'TEE_71X73_5O_13', 'barre'],
-            ['28.1.302', 'TEE_87X31_5O_13', 'barre'],
-            ['28.1.309', 'TEE_87X42_5O_13', 'barre'],
-            ['28.1.310', 'TEE_87X30_5O_13', 'barre'],
-            ['28.1.311', 'TEE_87X57_5O_13', 'barre'],
-            ['28.1.313', 'TEE_87X40_5O_13', 'barre'],
-            ['28.1.314', 'TEE_87X36_5O_13', 'barre'],
-            ['28.1.315', 'TEE_87X47_5O_13', 'barre'],
-            ['28.1.316', 'TEE_87X44_5O_13', 'barre'],
-            ['28.1.317', 'TEE_87X51_5O_13', 'barre'],
-            ['28.1.318', 'TEE_87X50_5O_13', 'barre'],
-            ['28.1.319', 'TEE_87X55_5O_13', 'barre'],
-            ['28.1.401', 'TE_114X23_14O_12', 'barre']
-        ],
-
-        map: [
-            ['ME80C', 'TE_122X20_14O', 'cordon'],
-            ['TE60', 'TE_57X21_7O_P', 'cordon'],
-            ['ME130', 'TE_58X28_7O', 'cordon'],
-            ['MT160', 'TE_58X34_7O', 'cordon'],
-            ['ME180/80L', 'TE_58X365_7O', 'cordon'],
-            ['ME190', 'TE_58X44_7O', 'cordon'],
-            ['E40', 'TE_59X21_7O', 'cordon'],
-            ['E50', 'TE_78X21_7O', 'cordon'],
-            ['ME80M', 'TE_78X28_8O', 'cordon'],
-            ['MT/ME120/200', 'TE_78X36_8O', 'cordon'],
-            ['ME140/280', 'TE_78X45_8O', 'cordon']
-        ],
-
-        polin: [
-            ['voie 600, sole 1260', 'TEE_56X34_7O_33', 'barre'],
-            ['voie 600, sole 1400', 'TEE_56X37_7O_33', 'barre'],
-            ['voie 600, sole 1700', 'TEE_56X43_7O_33', 'barre'],
-            ['voie 600, sole 2140', 'TEE_56X52_7O_33', 'barre'],
-            ['voie 750, sole 1260', 'TEE_72X34_7O_33', 'barre'],
-            ['voie 750, sole 1400', 'TEE_72X37_7O_33', 'barre'],
-            ['voie 750, sole 1700', 'TEE_72X43_7O_33', 'barre'],
-            ['voie 750, sole 2140', 'TEE_72X52_7O_33', 'barre'],
-            ['voie 750, sole 2580', 'TEE_72X61_7O_33', 'barre'],
-            ['voie 840, sole 1260', 'TEE_78X34_7O_33', 'barre'],
-            ['voie 840, sole 1400', 'TEE_78X37_7O_33', 'barre'],
-            ['voie 840, sole 1700', 'TEE_78X43_7O_33', 'barre'],
-            ['voie 840, sole 2140', 'TEE_78X52_7O_33', 'barre'],
-            ['voie 840, sole 2580', 'TEE_78X61_7O_33', 'barre']
-        ],
-
-        real: [
-            ['AT4c 6.20', 'TE_56X35_7O_13_E', 'barre'],
-            ['AT5c 7.70', 'TE_56X35_7O_13_E', 'barre'],
-            ['AE3C 4.60', 'TE_56X35_7O_13_E', 'barre'],
-            ['AE4c 6.20', 'TE_56X35_7O_13_E', 'barre'],
-            ['AE5c 7.70', 'TE_56X35_7O_13_E', 'barre'],
-            ['AE3c 5.10', 'TE_56X41_7O_13_E', 'barre'],
-            ['AE4c 6.80', 'TE_56X41_7O_13_E', 'barre'],
-            ['AE5C 8.60', 'TE_56X41_7O_13_E', 'barre'],
-            ['AT4c 8.20', 'TE_56X43_7O_13_E', 'barre'],
-            ['AT5c 10.20', 'TE_56X43_7O_13_E', 'barre'],
-            ['AE3C 6.10', 'TE_56X43_7O_13_E', 'barre'],
-            ['AE4c 8.20', 'TE_56X43_7O_13_E', 'barre'],
-            ['AE5c 10.20', 'TE_56X43_7O_13_E', 'barre'],
-            ['AE3c 6.30', 'TE_56X47_7O_13_E', 'barre'],
-            ['AE4c 8.40', 'TE_56X47_7O_13_E', 'barre'],
-            ['AE5C 10.50', 'TE_56X47_7O_13_E', 'barre'],
-            ['AE3c 6.90', 'TE_56X50_7O_13_E', 'barre'],
-            ['AE4c 9.20', 'TE_56X50_7O_13_E', 'barre'],
-            ['AE5C 11.50', 'TE_56X50_7O_13_E', 'barre'],
-            ['AT4c 10.20', 'TE_56X51_7O_13_E', 'barre'],
-            ['AT5c 12.70', 'TE_56X51_7O_13_E', 'barre'],
-            ['AE3C 7.60', 'TE_56X51_7O_13_E', 'barre'],
-            ['AE4c 10.20', 'TE_56X51_7O_13_E', 'barre'],
-            ['AE5c 12.70', 'TE_56X51_7O_13_E', 'barre'],
-            ['AE3c 8.10', 'TE_56X57_7O_13_E', 'barre'],
-            ['AE4c 10.80', 'TE_56X57_7O_13_E', 'barre'],
-            ['AE5c 13.50', 'TE_56X57_7O_13_E', 'barre'],
-            ['AE3c 9.10', 'TE_56X59_7O_13_E', 'barre'],
-            ['AE4c 12.10', 'TE_56X59_7O_13_E', 'barre'],
-            ['AE5c 15.20', 'TE_56X59_7O_13_E', 'barre'],
-            ['AE3c 9.30', 'TE_56X63_7O_13_E', 'barre'],
-            ['AE4c 12.40', 'TE_56X63_7O_13_E', 'barre'],
-            ['AE5c 15.40', 'TE_56X63_7O_13_E', 'barre'],
-            ['FE3C 5.80', 'TE_72X34_7O_13_E', 'barre'],
-            ['FE4C 7.80', 'TE_72X34_7O_13_E', 'barre'],
-            ['FE5C 9.70', 'TE_72X34_7O_13_E', 'barre'],
-            ['FE3C 7.70', 'TE_72X42_7O_13_E', 'barre'],
-            ['FE4C 10.30', 'TE_72X42_7O_13_E', 'barre'],
-            ['FE5C 12.90', 'TE_72X42_7O_13_E', 'barre'],
-            ['FE3C 9.60', 'TE_72X50_7O_13_E', 'barre'],
-            ['FE4C 12.80', 'TE_72X50_7O_13_E', 'barre'],
-            ['FE5C 16.00', 'TE_72X50_7O_13_E', 'barre'],
-            ['FE3C 11.50', 'TE_72X58_7O_13_E', 'barre'],
-            ['FE4C 15.30', 'TE_72X58_7O_13_E', 'barre'],
-            ['FE5C 19.10', 'TE_72X58_7O_13_E', 'barre'],
-            ['ZE5c 4.10', 'TE_76X29_7O_13_E', 'barre'],
-            ['ZE3c 3.10', 'TE_76X35_7O_13_E', 'barre'],
-            ['ZT4c 4.10', 'TE_76X35_7O_13_E', 'barre'],
-            ['ZT5c 5.10', 'TE_76X35_7O_13_E', 'barre'],
-            ['ZE4c 4.10', 'TE_76X35_7O_13_E', 'barre'],
-            ['ZE5c 5.10', 'TE_76X35_7O_13_E', 'barre'],
-            ['ZE3c 3.40', 'TE_76X41_7O_13_E', 'barre'],
-            ['ZE4c 4.50', 'TE_76X41_7O_13_E', 'barre'],
-            ['ZE5c 5.70', 'TE_76X41_7O_13_E', 'barre'],
-            ['ZE3c 4.00', 'TE_76X43_7O_13_E', 'barre'],
-            ['ZT4c 5.40', 'TE_76X43_7O_13_E', 'barre'],
-            ['ZT5c 6.80', 'TE_76X43_7O_13_E', 'barre'],
-            ['ZE4c 5.40', 'TE_76X43_7O_13_E', 'barre'],
-            ['ZE5c 6.80', 'TE_76X43_7O_13_E', 'barre'],
-            ['ZE3c 4.20', 'TE_76X47_7O_13_E', 'barre'],
-            ['ZE4c 5.60', 'TE_76X47_7O_13_E', 'barre'],
-            ['ZE5c 7.00', 'TE_76X47_7O_13_E', 'barre'],
-            ['ZE3c 4.60', 'TE_76X50_7O_13_E', 'barre'],
-            ['ZE4c 6.10', 'TE_76X50_7O_13_E', 'barre'],
-            ['ZE5c 7.60', 'TE_76X50_7O_13_E', 'barre'],
-            ['ZE3c 5.00', 'TE_76X51_7O_13_E', 'barre'],
-            ['ZT4c 6.70', 'TE_76X51_7O_13_E', 'barre'],
-            ['ZT5c 8.40', 'TE_76X51_7O_13_E', 'barre'],
-            ['ZE4c 6.70', 'TE_76X51_7O_13_E', 'barre'],
-            ['ZE5c 8.40', 'TE_76X51_7O_13_E', 'barre'],
-            ['ZE3c 5.40', 'TE_76X57_7O_13_E', 'barre'],
-            ['ZE4c 7.10', 'TE_76X57_7O_13_E', 'barre'],
-            ['ZE5c 8.90', 'TE_76X57_7O_13_E', 'barre'],
-            ['ZE3c 6.00', 'TE_76X59_7O_13_E', 'barre'],
-            ['ZE4c 8.00', 'TE_76X59_7O_13_E', 'barre'],
-            ['ZE5c 10.00', 'TE_76X59_7O_13_E', 'barre']
-        ],
-
-
-        tagliavini: [
-            ['ET73/C pour élévateur intégré', 'TE_71X43_7O_13', 'barre'],
-            ['ET73/C pour élévateur non intégré', 'TE_71X44_7O_33', 'barre'],
-            ['ET73/M pour élévateur intégré', 'TE_71X51_7O_13', 'barre'],
-            ['ET73/M pour élévateur non intégré', 'TE_71X52_7O_13', 'barre'],
-            ['ET73/L pour élévateur intégré', 'TE_71X598_7O_13', 'barre'],
-            ['ET73/L pour élévateur non intégré', 'TE_71X60_7O_13', 'barre'],
-            ['ET74/C pour élévateur intégré', 'TE_71X43_7O_13', 'barre'],
-            ['ET74/C pour élévateur non intégré', 'TE_71X44_7O_33', 'barre'],
-            ['ET74/M pour élévateur intégré', 'TE_71X51_7O_13', 'barre'],
-            ['ET74/M pour élévateur non intégré', 'TE_71X52_7O_13', 'barre'],
-            ['ET74/L pour élévateur intégré', 'TE_71X598_7O_13', 'barre'],
-            ['ET74/L pour élévateur non intégré', 'TE_71X60_7O_13', 'barre'],
-            ['ET93/SC', 'TE_87X36_7O_33', 'barre'],
-            ['ET93/C pour élévateur intégré', 'TE_87X43_7O_13', 'barre'],
-            ['ET93/C pour élévateur non intégré', 'TE_87X44_7O_13', 'barre'],
-            ['ET93/M pour élévateur intégré', 'TE_87X51_7O_13', 'barre'],
-            ['ET93/M pour élévateur non intégré', 'TE_87X52_7O_13', 'barre'],
-            ['ET93/L pour élévateur intégré', 'TE_87X59_7O_13', 'barre'],
-            ['ET93/L pour élévateur non intégré', 'TE_87X60_7O_13', 'barre'],
-            ['ET94/SC', 'TE_87X36_7O_33', 'barre'],
-            ['ET94/C pour élévateur intégré', 'TE_87X43_7O_13', 'barre'],
-            ['ET94/C pour élévateur non intégré', 'TE_87X44_7O_13', 'barre'],
-            ['ET94/M pour élévateur intégré', 'TE_87X51_7O_13', 'barre'],
-            ['ET94/M pour élévateur non intégré', 'TE_87X52_7O_13', 'barre'],
-            ['ET94/L pour élévateur intégré', 'TE_87X59_7O_13', 'barre'],
-            ['ET94/L pour élévateur non intégré', 'TE_87X60_7O_13', 'barre'],
-            ['ET95/SC', 'TE_87X36_7O_33', 'barre'],
-            ['ET95/C pour élévateur intégré', 'TE_87X43_7O_13', 'barre'],
-            ['ET95/C pour élévateur non intégré', 'TE_87X44_7O_13', 'barre'],
-            ['ET95/M pour élévateur intégré', 'TE_87X51_7O_13', 'barre'],
-            ['ET95/M pour élévateur non intégré', 'TE_87X52_7O_13', 'barre'],
-            ['ET95/L pour élévateur intégré', 'TE_87X59_7O_13', 'barre'],
-            ['ET95/L pour élévateur non intégré', 'TE_87X60_7O_13', 'barre'],
-            ['ET123/SC', 'TE_57X362_7O_13', 'barre'],
-            ['ET123/C pour élévateur intégré', 'TE_57X438_7O_13', 'barre'],
-            ['ET123/C pour élévateur non intégré', 'TE_57X444_7O_13', 'barre'],
-            ['ET123/M pour élévateur intégré', 'TE_57X518_7O_13', 'barre'],
-            ['ET123/M pour élévateur non intégré', 'TE_57X524_7O_13', 'barre'],
-            ['ET123/L pour élévateur intégré', 'TE_57X598_7O_13', 'barre'],
-            ['ET123/L pour élévateur non intégré', 'TE_57X604_7O_13', 'barre'],
-            ['ET124/SC', 'TE_57X362_7O_33', 'barre'],
-            ['ET124/C pour élévateur intégré', 'TE_57X438_7O_13', 'barre'],
-            ['ET124/C pour élévateur non intégré', 'TE_57X444_7O_13', 'barre'],
-            ['ET124/M pour élévateur intégré', 'TE_57X518_7O_13', 'barre'],
-            ['ET124/M pour élévateur non intégré', 'TE_57X524_7O_13', 'barre'],
-            ['ET124/L pour élévateur intégré', 'TE_57X598_7O_13', 'barre'],
-            ['ET124/L pour élévateur non intégré', 'TE_57X604_7O_13', 'barre'],
-            ['ET125/SC', 'TE_57X362_7O_33', 'barre'],
-            ['ET125/C pour élévateur intégré', 'TE_57X438_7O_13', 'barre'],
-            ['ET125/C pour élévateur non intégré', 'TE_57X444_7O_13', 'barre'],
-            ['ET125/M pour élévateur intégré', 'TE_57X518_7O_13', 'barre'],
-            ['ET125/M pour élévateur non intégré', 'TE_57X524_7O_13', 'barre'],
-            ['ET125/L pour élévateur intégré', 'TE_57X598_7O_13', 'barre'],
-            ['ET125/L pour élévateur non intégré', 'TE_57X604_7O_13', 'barre'],
-            ['ET153/C pour élévateur intégré', 'TE_71X43_7O_13', 'barre'],
-            ['ET153/C pour élévateur non intégré', 'TE_71X44_7O_33', 'barre'],
-            ['ET153/M pour élévateur intégré', 'TE_71X51_7O_13', 'barre'],
-            ['ET153/M pour élévateur non intégré', 'TE_71X52_7O_13', 'barre'],
-            ['ET153/L pour élévateur intégré', 'TE_71X598_7O_13', 'barre'],
-            ['ET153/L pour élévateur non intégré', 'TE_71X60_7O_13', 'barre'],
-            ['ET154/C pour élévateur intégré', 'TE_71X43_7O_13', 'barre'],
-            ['ET154/C pour élévateur non intégré', 'TE_71X44_7O_33', 'barre'],
-            ['ET154/M pour élévateur intégré', 'TE_71X51_7O_13', 'barre'],
-            ['ET154/M pour élévateur non intégré', 'TE_71X52_7O_13', 'barre'],
-            ['ET154/L pour élévateur intégré', 'TE_71X598_7O_13', 'barre'],
-            ['ET154/L pour élévateur non intégré', 'TE_71X60_7O_13', 'barre'],
-            ['ET155/C pour élévateur intégré', 'TE_71X43_7O_13', 'barre'],
-            ['ET155/C pour élévateur non intégré', 'TE_71X44_7O_33', 'barre'],
-            ['ET155/M pour élévateur intégré', 'TE_71X51_7O_13', 'barre'],
-            ['ET155/M pour élévateur non intégré', 'TE_71X52_7O_13', 'barre'],
-            ['ET155/L pour élévateur intégré', 'TE_71X598_7O_13', 'barre'],
-            ['ET155/L pour élévateur non intégré', 'TE_71X60_7O_13', 'barre'],
-            ['ET183/C pour élévateur intégré', 'TE_57X438_7O_13', 'barre'],
-            ['ET183/C pour élévateur non intégré', 'TE_57X444_7O_13', 'barre'],
-            ['ET183/M pour élévateur intégré', 'TE_57X518_7O_13', 'barre'],
-            ['ET183/M pour élévateur non intégré', 'TE_57X524_7O_13', 'barre'],
-            ['ET183/L pour élévateur intégré', 'TE_57X598_7O_13', 'barre'],
-            ['ET183/L pour élévateur non intégré', 'TE_57X604_7O_13', 'barre'],
-            ['ET184/C pour élévateur intégré', 'TE_57X438_7O_13', 'barre'],
-            ['ET184/C pour élévateur non intégré', 'TE_57X444_7O_13', 'barre'],
-            ['ET184/M pour élévateur intégré', 'TE_57X518_7O_13', 'barre'],
-            ['ET184/M pour élévateur non intégré', 'TE_57X524_7O_13', 'barre'],
-            ['ET184/L pour élévateur intégré', 'TE_57X598_7O_13', 'barre'],
-            ['ET184/L pour élévateur non intégré', 'TE_57X604_7O_13', 'barre'],
-            ['ET185/C pour élévateur intégré', 'TE_57X438_7O_13', 'barre'],
-            ['ET185/C pour élévateur non intégré', 'TE_57X444_7O_13', 'barre'],
-            ['ET185/M pour élévateur intégré', 'TE_57X518_7O_13', 'barre'],
-            ['ET185/M pour élévateur non intégré', 'TE_57X524_7O_13', 'barre'],
-            ['ET185/L pour élévateur intégré', 'TE_57X598_7O_13', 'barre'],
-            ['ET185/L pour élévateur non intégré', 'TE_57X604_7O_13', 'barre'],
-            ['ET243/M pour élévateur intégré', 'TE_57X518_7O_13', 'barre'],
-            ['ET243/M pour élévateur non intégré', 'TE_57X524_7O_13', 'barre'],
-            ['ET243/L pour élévateur intégré', 'TE_57X598_7O_13', 'barre'],
-            ['ET243/L pour élévateur non intégré', 'TE_57X604_7O_13', 'barre'],
-            ['ET244/M pour élévateur intégré', 'TE_57X518_7O_13', 'barre'],
-            ['ET244/M pour élévateur non intégré', 'TE_57X524_7O_13', 'barre'],
-            ['ET244/L pour élévateur intégré', 'TE_57X598_7O_13', 'barre'],
-            ['ET244/L pour élévateur non intégré', 'TE_57X604_7O_13', 'barre']
-        ],
-
-        technodif: [
-            ['V60D900', 'TE_58X13_3S_B', 'sangle'],
-            ['V60D1250', 'TE_58X16_3S_B', 'sangle'],
-            ['V60D1400', 'TE_58X18_3S_B', 'sangle'],
-            ['V60D1650', 'TE_58X20_3S_B', 'sangle'],
-            ['V60D1850', 'TE_58X22_3S_B', 'sangle'],
-            ['V60D2050', 'TE_58X24_3S_B', 'sangle'],
-            ['V60D2250', 'TE_58X26_3S_B', 'sangle'],
-            ['V60D2450', 'TE_58X28_3S_B', 'sangle'],
-            ['V75D800', 'TE_70X12_3S_B', 'sangle'],
-            ['V75D1250', 'TE_70X16_3S_B', 'sangle'],
-            ['V75D1400', 'TE_70X18_3S_B', 'sangle'],
-            ['V75D1650', 'TE_70X20_3S_B', 'sangle'],
-            ['V75D1850', 'TE_70X226_3S_B', 'sangle'],
-            ['V75D2050', 'TE_70X246_3S_B', 'sangle'],
-            ['V75D2250', 'TE_70X266_3S_B', 'sangle'],
-            ['V75D2450', 'TE_70X28_3S_B', 'sangle'],
-            ['V90D900', 'TE_87X13_3S_B', 'sangle'],
-            ['V90D1250', 'TE_87X16_3S_B', 'sangle'],
-            ['V90D1400', 'TE_87X18_3S_B', 'sangle'],
-            ['V90D1650', 'TE_87X20_3S_B', 'sangle'],
-            ['V90D1850', 'TE_87X22_3S_B', 'sangle'],
-            ['V90D2050', 'TE_87X24_3S_B', 'sangle'],
-            ['V90D2250', 'TE_87X26_3S_B', 'sangle'],
-            ['V90D2450', 'TE_87X28_3S_B', 'sangle']
-        ]
-    }
-
-
-    console.log(teInfo)
-    console.log(teList)
-    console.log("slide", slide)
 
     const searchWithEA = (ea) => {
         ea = Number(ea)
@@ -379,7 +73,6 @@ export default function TeTool() {
     const handleInfoChange = (e) => {
         const { name, value } = e.target;
         setTeInfo({ ...teInfo, [name]: value });
-
     };
 
     const handleValidateClick = () => {
@@ -439,9 +132,9 @@ export default function TeTool() {
         // SLIDE 5 LENGTH
 
         if (slide === 5 && teInfo.eaLength === '') {
-            alert('Veuillez renseigner la longueur de rouleau à rouleau')
+            alert("Veuillez renseigner la longueur d'axe à axe des rouleaux")
         } else if (slide === 5 && teInfo.eaLength < 800 || teInfo.eaLength > 5000) {
-            alert('La longueur de rouleau à rouleau doit être comprise entre 800mm et 5000mm')
+            alert("La longueur d'axe à axe des rouleaux doit être comprise entre 800mm et 5000mm")
         } else if (slide === 5) {
             searchWithEA(teInfo.eaLength)
             searchMatch()
@@ -574,7 +267,7 @@ export default function TeTool() {
     }
 
     if (!isLoaded) {
-        return <div className="loading">Chargement...</div>
+        return <Loading />
     }
 
     return (
@@ -606,32 +299,20 @@ export default function TeTool() {
                 {slide === 2 &&
                     <div className='each-slide-effect each-slide-effect-reference'>
                         <h4>Choisissez une référence :</h4>
-                        <ul className="te-tool-input-reference-container">
-                            <input
-                                type="radio"
-                                value='none'
-                                id='none'
-                                name="reference"
-                                onChange={handleInfoChange} />
-                            <label htmlFor='none' className="reference-radio-label"> Je n'ai pas de référence
-                            </label>
-                            {reference[teInfo.brand].map((ref, index) => {
-                                return (
-                                    <li key={index}>
-                                        <input
-                                            type="radio"
-                                            value={ref[1]}
-                                            name="reference"
-                                            id={ref[1]}
+                        <select
+                            name="reference"
+                            onChange={handleInfoChange}
+                            value={teInfo.reference}
+                        >
+                            <option disabled value=''>Choisissez une référence</option>
+                            <option value="none">Je n'ai pas de référence</option>
+                            {reference[teInfo.brand].map((ref, index) => (
+                                <option key={index} value={ref[1]}>
+                                    {ref[0]}
+                                </option>
+                            ))}
+                        </select>
 
-                                            onChange={handleInfoChange} />
-                                        <label htmlFor={ref[1]} className="reference-radio-label" >{ref[0]}
-                                        </label>
-                                    </li>
-                                )
-                            }
-                            )}
-                        </ul>
                     </div>
 
                 }
@@ -672,7 +353,7 @@ export default function TeTool() {
                 }
                 {slide === 5 &&
                     <div className='each-slide-effect'>
-                        <label htmlFor="eaLength">Longueur de rouleau à rouleau en mm</label>
+                        <label htmlFor="eaLength">Longueur d'axe à axe des rouleaux en mm</label>
                         <input type="number" name='eaLength' defaultValue={teInfo.eaLength} placeholder="ex: 2000" onChange={handleInfoChange} />
                     </div>
                 }
@@ -870,7 +551,7 @@ export default function TeTool() {
                         <p>largeur de la toile : {teListFiltered[0].width}</p>
                         <p>longueur de la toile : {teListFiltered[0].length}</p>
                         <p>{teListFiltered[0].designation}</p>
-                        <Price price={teListFiltered[0].price} category='t3' />
+                        <Price product={teListFiltered[0]} />
                         <p>Délai : {teListFiltered[0].stock ? 'En stock' : '24/48h'}</p>
                     </div>
                 </div>
@@ -894,7 +575,7 @@ export default function TeTool() {
                                     <p>largeur de la toile : {te.width}</p>
                                     <p>longueur de la toile : {te.length}</p>
                                     <p>{te.designation}</p>
-                                    <Price price={te.price} category='t3' />
+                                    <Price product={te} />
                                     <p>Délai : {te.stock ? 'En stock' : '24/48h'}</p>
                                 </div>
                             )
@@ -949,7 +630,7 @@ export default function TeTool() {
                             </>
                         }
                         <h5>Et voici le prix de votre toile personnalisée:</h5>
-                        <Price price={teInfo.t1} category='t1' />
+                        <Price product={teInfo} />
                         <p>Délai : 24/48h</p>
                     </div>
                 </div>

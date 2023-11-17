@@ -16,11 +16,16 @@
         align-items: center;
         margin: 10px 0;
 
+        &-all-btn {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
         &-btn {
-            margin: auto;
-            margin-right: 1rem;
-            padding: 0.5rem;
+            height: 60px;
+            margin-right: 16px;
+            padding: 0.3rem;
             color: white;
             border: none;
             text-align: center;
@@ -43,8 +48,9 @@
             }
 
             & p {
-                margin-top: 0.5rem;
-                line-height: 14px;
+                margin-top: 0.1rem;
+                line-height: 12px;
+                font-size: 0.7rem;
             }
 
             &:hover {
@@ -62,8 +68,10 @@
         align-items: center;
         margin: 2rem 0;
 
+
         &-btn {
-            margin: auto;
+            height: 60px;
+            margin-bottom: 10px;
             margin-right: 1rem;
             padding: 0.5rem;
             color: white;
@@ -74,7 +82,7 @@
             transition: all 0.3s ease-in-out;
             display: flex;
             flex-direction: column;
-            line-height: 20px;
+            line-height: 16px;
             justify-content: center;
             border-radius: 5px;
             align-items: center;
@@ -84,12 +92,13 @@
 
             & svg {
                 height: 25px;
-                margin-bottom: 0.2rem;
+
             }
 
             & p {
-                margin-top: 0.5rem;
-                line-height: 14px;
+                margin-top: 0.2rem;
+                line-height: 10px;
+                font-size: 0.7rem;
             }
 
             &:hover {

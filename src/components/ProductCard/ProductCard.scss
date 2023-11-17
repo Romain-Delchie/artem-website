@@ -3,7 +3,7 @@
 .product-card {
     background-color: var.$secondaryColor;
     width: 250px;
-    height: 350px;
+    height: 370px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -35,12 +35,16 @@
     &-btn {
 
 
-        & button {
+        & button,
+        a {
             width: 100%;
             border: none;
             border-top: 2px solid gray;
-
+            display: flex;
+            justify-content: center;
             font-size: 0.9rem;
+            border-radius: 0 0 15px 15px;
+            border: 1px solid var.$secondaryColorDark;
             padding: 4px;
             color: var.$secondaryColorDark;
             background-color: white;

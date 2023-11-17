@@ -1,11 +1,13 @@
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import artemData from '../../../data/artem-data';
+import goodPrice from '../../utils/goodPrice';
 
 export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
 
 
     const transportCost = quote.transport && typeof quote.transport === 'number' ? quote.transport : 0;
-
+    const tvaCoeff = quote.country?.toLowerCase() !== "france" || quote.zip_code.startsWith("97") ? 0 : 0.2;
+    const ttcCoeff = quote.country?.toLowerCase() !== "france" || quote.zip_code.startsWith("97") ? 1 : 1.2;
     const styles = StyleSheet.create({
         page: {
             fontFamily: 'Helvetica',
@@ -311,7 +313,6 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
             borderTop: '2px double black',
         }
     });
-
     return (
         <Document>
             <Page size="A4" style={styles.page}>
@@ -345,12 +346,14 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                         <Text>{user.billing_address.name_address}</Text>
                         <Text>{user.billing_address.street_address}</Text>
                         <Text>{user.billing_address.zip_code} {user.billing_address.city}</Text>
+                        <Text>{user.billing_address.country}</Text>
                     </View>
                     <View style={styles.address}>
                         <Text style={styles.subtitle}>Adresse de Livraison</Text>
                         <Text>{quote.name_address}</Text>
                         <Text>{quote.street_address}</Text>
                         <Text>{quote.zip_code} {quote.city}</Text>
+                        <Text>{quote.country}</Text>
                     </View>
 
                 </View>
@@ -374,23 +377,35 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                         <Text style={styles.tableHeaderCell.totalPrice}>Total</Text>
                     </View>
 
-                    {quote.products && Array.isArray(quote.products) && quote.products.map(product => (
-                        <View style={styles.tableRow} key={product.id}>
-                            <Text style={styles.tableCell.reference}>{product.reference}</Text>
-                            <Text style={styles.tableCell.designation}>{product.designation}</Text>
-                            <Text style={styles.tableCell.price}>{product.price} €</Text>
-                            <Text style={styles.tableCell.quantite}>{product.quantity}</Text>
-                            <Text style={styles.tableCell}>{product.weight} kg</Text>
-                            <Text style={styles.tableCell}>{product.delivery_time.startsWith("0") ? "stock" : product.delivery_time}</Text>
-                            <Text style={styles.tableCell.totalPrice}>{(product.price * product.quantity).toFixed(2)} € HT</Text>
+                    {quote.products && Array.isArray(quote.products) && quote.products.map(product => {
+                        const price = goodPrice(user.profile_id, product);
+                        product.priceWithCoeff = product.price;
+                        if (product.reference.startsWith('TB') && product.quantity < 20) {
+                            product.priceWithCoeff = product.price * 1.1;
+                        }
+                        return (
+                            <View style={styles.tableRow} key={product.id}>
+                                <Text style={styles.tableCell.reference}>{product.reference}</Text>
+                                <Text style={styles.tableCell.designation}>{product.designation}</Text>
+                                <Text style={styles.tableCell.price}>{goodPrice(user.profile_id, product, product.quantity)} €</Text>
+                                <Text style={styles.tableCell.quantite}>{product.quantity}</Text>
+                                <Text style={styles.tableCell}>{product.weight} kg</Text>
+                                <Text style={styles.tableCell}>{product.delivery_time.startsWith("0") ? "stock" : product.delivery_time}</Text>
+                                <Text style={styles.tableCell.totalPrice}>{(goodPrice(user.profile_id, product, product.quantity) * product.quantity).toFixed(2)} € HT</Text>
 
-                        </View>
-                    ))}
+                            </View>
+                        )
+                    })}
                     {quote.transport &&
                         <View style={styles.tableRow}>
                             <Text style={styles.tableCell.port}>Poids net total : {totalWeight.toFixed(2)} kg</Text>
                             <Text style={styles.tableCell.portTitle}>Port et emballage :</Text>
-                            <Text style={styles.tableCell.totalPrice}>{typeof quote.transport === "string" ? "Nous consulter" : `${quote.transport.toFixed(2)} € HT`}</Text>
+                            {quote.delivery_id === 1 &&
+                                <Text style={styles.tableCell.port}>Enlèvement à Montévrain</Text>
+                            }
+                            {quote.delivery_id !== 1 &&
+                                <Text style={styles.tableCell.totalPrice}>{typeof quote.transport === "string" ? "Nous consulter" : `${quote.transport.toFixed(2)} € HT`}</Text>
+                            }
                         </View>
                     }
 
@@ -400,8 +415,16 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                             <Text style={styles.tableCell.clicliPrice}>{quote.clicli.toFixed(2)} € HT</Text>
                         </View>
                     }
+                    {
+                        quote.zip_code.startsWith("20") || quote.zip_code.startsWith("2A") || quote.zip_code.startsWith("2B") &&
+                        <View style={styles.tableRow}>
+                            <Text style={styles.tableCell.clicli}>Supplément livraison en Corse</Text>
+                            <Text style={styles.tableCell.clicliPrice}>{artemData.corse.toFixed(2)} € HT</Text>
+                        </View>
+                    }
+
                     <View style={styles.tableRow}>
-                        {typeof quote.transport === "string" &&
+                        {typeof quote.transport === "string" && quote.delivery_id !== 1 &&
                             <View style={styles.tableCell.redFlagPort}>
                                 <Text>Attention port à ajouter : nous consulter</Text>
                             </View>
@@ -412,11 +435,11 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                     </View>
                     <View style={styles.tableRow}>
                         <Text style={styles.tableCell.total}>TVA :</Text>
-                        <Text style={styles.tableCell.totalPrice}>{((totalPrice + transportCost + quote.clicli) * 0.2).toFixed(2)} €</Text>
+                        <Text style={styles.tableCell.totalPrice}>{((totalPrice + transportCost + quote.clicli) * tvaCoeff).toFixed(2)} €</Text>
                     </View>
                     <View style={styles.tableRow}>
                         <Text style={styles.tableCell.total}>Total TTC</Text>
-                        <Text style={styles.tableCell.lastTotalPrice}>{((totalPrice + transportCost + quote.clicli) * 1.2).toFixed(2)} € TTC</Text>
+                        <Text style={styles.tableCell.lastTotalPrice}>{((totalPrice + transportCost + quote.clicli) * ttcCoeff).toFixed(2)} € TTC</Text>
                     </View>
                 </View>
 

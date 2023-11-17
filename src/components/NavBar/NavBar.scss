@@ -25,6 +25,7 @@
         visibility: hidden;
         top: 0;
         bottom: 0;
+        padding: 300px 0;
         background-color: var.$secondaryColor;
         justify-content: center;
         transition: all 0.5s ease-in-out;
@@ -33,8 +34,8 @@
     &-link {
         color: var.$primaryColor;
         display: block;
-        padding: 1.5rem;
-        font-size: 6vw;
+        padding: 16px;
+        font-size: 2rem;
     }
 
     &-burger {
@@ -43,8 +44,8 @@
         background: none;
         cursor: pointer;
         position: relative;
-        top: 1rem;
-        right: 1rem;
+        top: 16px;
+        right: 16px;
         height: 30px;
     }
 }
@@ -57,7 +58,7 @@
     content: '';
     display: block;
     margin: 0 auto;
-    width: 3vw;
+    width: 80px;
     height: 1px;
     background-color: var.$primaryColor;
 }
@@ -97,6 +98,11 @@
 
 .show-navbar {
     display: flex;
+
+    &+.navbar-burger {
+        position: fixed;
+        top: 30px;
+    }
 }
 
 .show-navbar.navbar-links {
@@ -129,15 +135,23 @@
 }
 
 .show-navbar .slideInDown2 {
-    transition: all 0.7s ease-in-out;
+    transition: all 0.65s ease-in-out;
 }
 
 .show-navbar .slideInDown3 {
-    transition: all 0.8s ease-in-out;
+    transition: all 0.7s ease-in-out;
 }
 
 .show-navbar .slideInDown4 {
-    transition: all 0.9s ease-in-out;
+    transition: all 0.75s ease-in-out;
+}
+
+.show-navbar .slideInDown5 {
+    transition: all 0.8s ease-in-out;
+}
+
+.show-navbar .slideInDown6 {
+    transition: all 0.85s ease-in-out;
 }
 
 .navbar-presentation {
@@ -147,19 +161,30 @@
 @media (min-width:801px) {
     .navbar {
         align-items: center;
+
+        &-logo {
+            flex-grow: 1;
+        }
+
+        &-link {
+            font-size: 2rem;
+        }
     }
 
     .navbar-burger {
-        display: none;
+        // display: none;
+        top: 0;
+        order: 2;
     }
 
     .navbar-presentation {
-        display: inline;
+        // display: inline;
+        display: flex;
         color: var.$secondaryColor;
         font-size: 1.2rem;
         width: 420px;
         text-align: end;
-        margin-right: 1rem;
+        margin-right: 60px;
 
     }
 

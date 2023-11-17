@@ -1,9 +1,9 @@
 import './ProductCard.scss';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import API from '../../utils/api/api';
 import AppContext from '../../context/AppContext';
-import fetchData from '../../utils/function';
+import fetchData from '../../utils/fetchData';
 import Price from '../Price/Price';
 
 
@@ -25,11 +25,10 @@ export default function ProductCard({ product }) {
                 } else {
                     setProducts([...products, { ...product, quantity: quantityToAdd, quotation_has_product_id: res.data.generatedId }])
                 }
-                console.log(products);
                 fetchData(user, updateUser);
 
 
-            }).catch((err) => console.log(err)).finally(
+            }).catch((err) => console.error(err)).finally(
                 setOpenAddProductForm(false)
 
             )
@@ -39,17 +38,23 @@ export default function ProductCard({ product }) {
     return (
         <>
             <div className="product-card" >
-                <Link className='product-card-container' to={`/product/${product.id}`}>
+                <div className='product-card-container'>
                     <div className="product-card-image">
                         <img src={`/images/products/${product.image_link}`} alt={product.description} />
                     </div>
                     <div className="product-card-description">
+                        {
+                            product.brand?.toLowerCase() !== 'artem' &&
+                            <h3>Adaptable {product.brand}</h3>
+                        }
                         <h3>{product.description}</h3>
                         <p>Ref: {product.reference}</p>
                         <p>Délai: {product.delivery_time.startsWith('0') ? 'en stock' : product.delivery_time}</p>
-                        <Price price={product.price} category='t3' />
+                        {user.profile_id !== 3 &&
+                            <Price product={product} />
+                        }
                     </div>
-                </Link>
+                </div>
 
             </div >
             {

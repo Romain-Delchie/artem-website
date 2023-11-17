@@ -1,1 +1,43 @@
 @use 'src/styles/variables.scss' as var;
+
+.role-validation {
+    color: var.$secondaryColor;
+    padding-bottom: 40px;
+
+    & h2 {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    &-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+
+        &-item {
+            background-color: var.$primaryColor;
+            padding: 20px;
+            list-style: none;
+            font-weight: 700;
+            border-radius: 5px;
+            border: 1px solid var.$secondaryColor;
+
+            & form {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+
+            }
+
+            &-button {
+                background-color: var.$secondaryColor;
+                color: whitesmoke;
+                letter-spacing: 3px;
+                border-radius: 5px;
+                font-size: 1.5rem;
+            }
+
+        }
+    }
+}

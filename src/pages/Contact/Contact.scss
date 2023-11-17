@@ -3,9 +3,12 @@
 .contact {
     background: url(/images/contact.jpg) right/cover no-repeat;
     flex-grow: 1;
+    min-height: 600px;
     margin-bottom: -40px;
-    min-height: calc(100vh - 150px);
-    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     & h2 {
         text-align: center;
@@ -21,10 +24,10 @@
         color: var.$primaryColor;
         background-color: var.$secondaryColorTransparent;
         width: 80%;
-        margin: auto;
         border-radius: 0 0 10px 10px;
         padding: 16px;
-        display: column;
+        display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         text-align: center;
@@ -41,6 +44,40 @@
         & svg {
             height: 18px;
             margin-right: 5px;
+        }
+    }
+}
+
+@media (min-width:1100px) {
+    .contact {
+        min-height: 700px;
+
+        & h2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 1000px;
+            height: 180px;
+            font-size: 2rem;
+        }
+
+        &-container {
+            height: 350px;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            padding: 50px;
+            width: 1000px;
+
+            & .contact-item {
+                font-size: 1.2rem;
+
+                &-phone {
+                    & h3:nth-child(3) {
+                        margin-top: 20px;
+                    }
+                }
+            }
         }
     }
 }

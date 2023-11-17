@@ -13,6 +13,7 @@ const artemData = {
     intracom: 'FR53 3228042',
     slogan: 'Bandes transporteuses et textiles',
     clicli: 6,
+    corse: 26,
     tansportFunction: (weight) => {
         if (weight === 0) {
             return 0;

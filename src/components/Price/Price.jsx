@@ -1,15 +1,26 @@
 import React, { useContext } from 'react';
 import AppContext from '../../context/AppContext';
 
-export default function Price({ price, category }) {
+export default function Price({ product }) {
     const { user } = useContext(AppContext);
-    const userPrice = category.toLowerCase() === 't1' ? price : (price / 2) * 3;
-    const resellerPrice = category.toLowerCase() === 't3' ? price : (price / 3) * 2;
-    const goodPrice = user.profil_id === 1 ? userPrice.toFixed(2) : resellerPrice.toFixed(2);
+    product.price = product.t1 ? (product.t1 / 3) * 2 : Number(product.price).toFixed(2);
+    const t1Price = (product.price * product.coeff);
 
+    const price = user.profile_id !== 2 ? Number(t1Price).toFixed(2) : Number(product.price).toFixed(2);
+    const goodPrice = user.profile_id === 2 ? price : price < product.minPrice ? Number(product.minPrice).toFixed(2) : price;
+    const bakerPrice = t1Price < product.minPrice ? product.minPrice.toFixed(2) : Number(t1Price).toFixed(2);
     return (
         <div className="price">
-            <p>PUHT: {goodPrice} €</p>
+            {user.profile_id !== 4 &&
+                <p>PUHT: {goodPrice} €</p>
+            }
+            {user.profile_id === 4 &&
+                <>
+                    <p>PUHT revendeur: {product.price} €</p>
+                    <p>PUHT boulanger: {bakerPrice} €</p>
+                </>
+
+            }
         </div>
     )
 }

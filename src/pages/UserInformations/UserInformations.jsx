@@ -15,6 +15,7 @@ export default function UserInformations() {
         'invoice_address': 'Adresse',
         'company': 'Société',
         'siret': 'Siret',
+        "country": "Pays",
     }
 
     const { user, updateUser } = useContext(AppContext);
@@ -37,10 +38,12 @@ export default function UserInformations() {
         delete dataUser.deliveries;
         delete dataUser.delivery_standard;
         delete dataUser.billing_address;
+        delete dataUser.verified;
+        delete dataUser.email_token;
         API.user.update(user.token, dataUser).then((response) => {
             alert('Vos informations ont bien été modifiées');
         }).catch((error) => {
-            console.error(error);
+            alert("Une erreur est survenue, la modification de vos informations n'a pas été prise en compte");
         }).finally(() => {
             setModification({ ...modification, profil: false });
 
@@ -55,15 +58,13 @@ export default function UserInformations() {
 
                 <h2>Mes informations</h2>
                 <ul>
-                    {Object.keys(user).filter((key) => !key.startsWith('deliver') && !key.startsWith('billing') && key !== 'quotations' && key !== 'token' && key !== 'id' && key !== 'profile_id' && key !== 'role').map((key, index) => (
+                    {Object.keys(user).filter((key) => !key.startsWith('deliver') && !key.startsWith('billing') && key !== 'quotations' && key !== 'token' && key !== 'id' && key !== 'profile_id' && key !== 'role' && key !== 'verified' && key !== 'email_token' && key !== 'reset_token').map((key, index) => (
                         <li key={index}>
                             {!modification.profil &&
-
                                 <div className='user-informations-item'>
                                     <p>{labelName[key]}</p>
                                     <p>{user[key]}</p>
                                 </div>
-
                             }
                             {modification.profil &&
                                 <div className='user-informations-item'>
@@ -82,13 +83,13 @@ export default function UserInformations() {
                     )}
                 </ul>
                 {!modification.profil &&
-                    <button onClick={() => setModification({ ...modification, profil: true })}>Modifier</button>
+                    <button className='user-informations-button' onClick={() => setModification({ ...modification, profil: true })}>Modifier</button>
                 }
                 {modification.profil &&
-                    <button onClick={handleModificationProfil}>Valider</button>
+                    <button className='user-informations-button' onClick={handleModificationProfil}>Valider</button>
                 }
             </div>
-            <div className="user-informations-billing">
+            <div className="user-informations-address">
                 <h2>Adresse de facturation</h2>
 
 
@@ -115,12 +116,17 @@ export default function UserInformations() {
                             </p>
                             <p>{user.billing_address.city}</p>
                         </li>
-                        <button onClick={() => setModification({ ...modification, billing: true })}>Modifier</button>
+                        <li className='user-informations-item'>
+                            <p>Pays
+                            </p>
+                            <p>{user.billing_address.country}</p>
+                        </li>
+                        <button className='user-informations-button' onClick={() => setModification({ ...modification, billing: true })}>Modifier</button>
 
                     </ul>
                 }
             </div >
-            <div className="user-informations-delivery">
+            <div className="user-informations-address">
                 <h2>Adresse de livraison standard</h2>
 
 
@@ -147,7 +153,12 @@ export default function UserInformations() {
                             </p>
                             <p>{user.delivery_standard.city}</p>
                         </li>
-                        <button onClick={() => setModification({ ...modification, delivery: true })}>Modifier</button>
+                        <li className='user-informations-item'>
+                            <p>Pays
+                            </p>
+                            <p>{user.delivery_standard.country}</p>
+                        </li>
+                        <button className='user-informations-button' onClick={() => setModification({ ...modification, delivery: true })}>Modifier</button>
 
                     </ul>
                 }

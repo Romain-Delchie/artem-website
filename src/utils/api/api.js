@@ -1,22 +1,52 @@
 import Axios from "axios";
 
+let alertDisplayed = false;
+
 const axios = Axios.create({
-    baseURL: "http://localhost:3305/api",
+    baseURL: "https://www.artem-fr.com/api",
     headers: {
         "Content-Type": "application/json",
     },
 });
+
+axios.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        if (error.response && error.response.status === 401 && error.response.data.error !== "invalid password" && !alertDisplayed) {
+            alert("Votre session a expiré, veuillez vous reconnecter");
+            alertDisplayed = true;
+            window.location.href = '/signin';
+        }
+
+        return Promise.reject(error);
+    }
+);
+
 
 const API = {
     auth: {
         async signin(email, password) {
             return axios.post("/auth/signin", { email, password });
         },
+
+        async refreshToken({ id, email, firstname, lastname, role }) {
+            return axios.post("/auth/refresh-token", { id, firstname, lastname, email, role });
+        }
     },
 
     user: {
         async account(token) {
             return axios.get("/account", {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async getAccounts(token) {
+            return axios.get("/account/all", {
                 headers: {
                     "x-auth-token": token,
                 },
@@ -35,8 +65,20 @@ const API = {
             });
         },
 
-        async updatePassword(token, data) {
-            return axios.patch("/account/password", data, {
+        async delete(token, id) {
+            return axios.delete(`/account/${id}`, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async updatePassword(data) {
+            return axios.patch("/account/update-password", data);
+        },
+
+        async accountToValidate(token) {
+            return axios.get("/account/validation", {
                 headers: {
                     "x-auth-token": token,
                 },
@@ -128,12 +170,8 @@ const API = {
             });
         },
 
-        async create(token, data) {
-            return axios.post("/address", data, {
-                headers: {
-                    "x-auth-token": token,
-                },
-            });
+        async create(data) {
+            return axios.post("/address", data);
         },
 
         async update(token, id, data) {
@@ -242,19 +280,167 @@ const API = {
 
         async getRange(id) {
             return axios.get(`/range/${id}`);
-        }
-    },
+        },
 
-    email: {
-        async sendEmail(token, data) {
-            return axios.post("/email-order", data, {
+        async create(token, data) {
+            return axios.post("/range", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async update(token, id, data) {
+            return axios.patch(`/range/${id}`, data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async delete(token, id) {
+            return axios.delete(`/range/${id}`, {
                 headers: {
                     "x-auth-token": token,
                 },
             });
         }
-    }
+    },
 
+    email: {
+        async sendEmail(token, data) {
+            return axios.post("/email/order", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async sendConfirmationEmail(token, data) {
+            return axios.post("/email/validation", data, {
+                headers: {
+                    "x-auth-token": token,
+                }
+            });
+        },
+
+        async verifyEmail(data) {
+            return axios.post("/account/verify-email", data);
+        },
+
+        async reset(token, data) {
+            return axios.post("/email/reset", data, {
+                headers: {
+                    "x-auth-token": token,
+                }
+            });
+        },
+
+        async forgotPassword(data) {
+            return axios.post("/email/forgot-password", data);
+        },
+
+        async checkResetPasswordToken(token) {
+            return axios.get(`/account/find-by-token/${token}`);
+        },
+
+        async newUser() {
+            return axios.post("/email/new-user");
+        },
+
+        async roleValidation(data) {
+            return axios.post("/email/role-validation", data);
+        }
+
+    },
+
+    upload: {
+        async image(token, data) {
+            return axios.post("/upload/image", data, {
+                headers: {
+                    "x-auth-token": token,
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+        },
+
+        async pdf(token, data) {
+            return axios.post("/upload/pdf", data, {
+                headers: {
+                    "x-auth-token": token,
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+        },
+
+        async delete(token, filename) {
+            return axios.delete(`/upload/pdf/${filename}`, {
+                headers: {
+                    "x-auth-token": token,
+                }
+
+            });
+        }
+    },
+
+    techsheet: {
+
+        async getTechsheets(token) {
+            return axios.get("/techsheet", {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async create(token, data) {
+            return axios.post("/techsheet", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async delete(token, id) {
+            return axios.delete(`/techsheet/${id}`, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        }
+
+    },
+
+    rangeHasTechsheet: {
+
+        async getRangeHasTechsheets(token) {
+            return axios.get("/rangeHasTechsheet", {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async create(token, data) {
+            return axios.post("/rangeHasTechsheet", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async delete(token, data) {
+            return axios.delete("/rangeHasTechsheet/", {
+                headers: {
+                    "x-auth-token": token,
+                },
+                params: {
+                    range_id: data.range_id,
+                    techsheet_id: data.techSheet_id
+                }
+            });
+        }
+    },
 
 };
 

@@ -9,11 +9,11 @@
     padding-bottom: 60px;
 
     &-button-container {
+        max-width: 910px;
         margin: 30px auto;
         border-radius: 8px;
         overflow: hidden;
         box-shadow: 0px 0px 5px 1px var.$secondaryColor;
-
         display: flex;
         flex-direction: column;
         width: 90%;
@@ -75,17 +75,13 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        height: 250px;
+        height: 200px;
         background-color: rgba(245, 245, 245, 0.97);
         width: 90%;
         border-radius: 8px;
         padding: 16px;
-        margin: 20px auto;
+        margin: 0 auto;
 
-    }
-
-    &-products-list-container {
-        display: none
     }
 
     &-description-container {
@@ -99,8 +95,7 @@
         color: var.$secondaryColor;
 
         & h2 {
-            text-decoration: underline;
-            margin-bottom: 2rem;
+            margin: 32px 0;
         }
     }
 
@@ -169,18 +164,21 @@
 
     }
 
+    .hero .swiper {
+        width: 350px;
+    }
 }
+
 
 @media (min-width:1050px) {
     .hero {
         justify-content: center;
         align-items: center;
-        gap: 70px;
-        padding: 50px;
-        padding-bottom: 100px;
+        gap: 30px;
+        padding: 50px 30px 100px;
 
         &-button-container {
-            width: 40vw;
+            width: calc(50% - 15px);
             height: 300px;
             margin: 0;
         }
@@ -195,13 +193,11 @@
 
         &-products-container {
             height: 300px;
-            width: 40vw;
+            width: calc(50% - 15px);
             margin: 0;
 
 
             & .swiper {
-                width: 100%;
-
                 &-slide {
                     width: 50px;
                 }
@@ -209,33 +205,23 @@
         }
 
         &-description-container {
-            width: calc(80vw + 70px);
+            justify-self: center;
+            width: 100%;
             margin: 0;
+            // margin: 0 calc(100% - 1018px);
             padding: 50px;
         }
     }
 }
 
-@media (min-width:1500px) {
+
+@media (min-width:1200px) {
     .hero {
-        &-button-container {
-            height: 400px;
+        padding: 80px 10%;
+
+        & .swiper {
+            width: 350px;
         }
-
-        &-button {
-            font-size: 1.5rem;
-
-            &:hover {
-                font-size: 1.7rem;
-            }
-        }
-
-        &-products-container {
-
-            height: 400px;
-        }
-
-
 
         &-service {
             & p {
@@ -243,5 +229,75 @@
 
             }
         }
+    }
+}
+
+@media (min-width:1400px) {
+    .hero {
+        &-button-container {
+
+            height: 400px;
+        }
+
+        &-products-container {
+            height: 400px;
+        }
+
+        & .swiper {
+            width: 400px;
+        }
+    }
+}
+
+@media (min-width:1800px) {
+    .hero {
+        // width: 1800px;
+        padding-left: calc(calc(100vw - 1800px)/2);
+        padding-right: calc(calc(100vw - 1800px)/2);
+        margin: auto;
+        margin-bottom: -60px;
+
+        &-button {
+            font-size: 2rem;
+
+            &:hover {
+                font-size: 2.2rem;
+            }
+
+            &-container {
+                height: 450px;
+
+            }
+        }
+
+        &-products-container {
+            height: 450px;
+
+            & .swiper {
+                & p {
+                    font-size: 2rem;
+                }
+            }
+        }
+
+        &-description-container {
+            margin-top: 20px;
+            font-size: 1.5rem;
+
+        }
+
+        &-service {
+            & p {
+                font-size: 1.5rem;
+            }
+        }
+    }
+
+}
+
+@media (min-width:2100px) {
+    .hero {
+        padding-left: 150px;
+        padding-right: 150px;
     }
 }

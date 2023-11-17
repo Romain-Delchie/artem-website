@@ -1,49 +1,26 @@
 import { Link } from 'react-router-dom'
-import { useEffect, useContext } from 'react'
-import AppContext from '../../context/AppContext'
-import API from '../../utils/api/api'
 import './Home.scss'
 import ImageSlider from '../../components/Slider/ImageSlider'
 import TextSlider from '../../components/Slider/TextSlider'
+import ChatBot from '../../components/ChatBot/ChatBot'
 
 export default function Home() {
-    const { ranges, setRanges } = useContext(AppContext)
-    useEffect(() => {
-        API.range.getRanges()
-            .then(res => setRanges(res.data.ranges))
-            .catch(err => console.log(err))
-    }, [])
+
     return (
         <main className='hero'>
             <section className='hero-button-container'>
-                <Link className='hero-button hero-button-one' to='/vitrine/company'><p>Notre entreprise</p></Link>
-                <Link className='hero-button hero-button-two' to='/vitrine/products'><p>Notre gamme</p></Link>
-                <Link className='hero-button hero-button-three' to='/vitrine/contact'><p>Contact</p></Link>
-                <Link className='hero-button hero-button-four' to='https://pay-pro.monetico.fr/artem/paiementenligne' target='_blank' ><p>Régler une facture</p></Link>
+                <Link className='hero-button hero-button-one' to='/company'><p>Notre entreprise</p></Link>
+                <Link className='hero-button hero-button-two' to='/products'><p>Notre gamme</p></Link>
+                <Link className='hero-button hero-button-three' to='/contact'><p>Contact</p></Link>
+                <Link className='hero-button hero-button-four' to='/signup'><p>Créer un compte</p></Link>
             </section>
-            <section className='hero-products-container'>
-                <div className="hero-products-list-container">
-                    <h2>Nous proposons :</h2>
-                    <ul className="hero-products-list">
-                        {
-                            ranges.map(range => {
-                                return (
-                                    <li className="hero-products-list-item" key={range.id}>
-                                        <Link className='hero-products-list-item-link' to={`/range/${range.id}`}><p>{range.name}</p></Link>
-                                    </li>
-
-                                )
-                            }
-                            )
-                        }
-                    </ul>
-                </div>
+            <Link to='/products' className='hero-products-container'>
                 <TextSlider />
                 <ImageSlider />
-            </section>
+            </Link>
 
-            <section className='hero-description-container'>
-                <h2> A VENIR : Bientôt il sera possible sur ce même site de créer un compte et bénéficier ainsi de nos services :</h2>
+            <Link to='/signup' className='hero-description-container'>
+                <h2> Créer un compte et bénéficier ainsi de nos services :</h2>
                 <div className='hero-service-container'>
                     <div className='hero-service'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 7.756a4.5 4.5 0 100 8.488M7.5 10.5h5.25m-5.25 3h5.25M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -60,11 +37,10 @@ export default function Home() {
                     <div className='hero-service'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9zm3.75 11.625a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                     </svg>
-
                         <p>Garder un historique de ses devis</p></div>
-
                 </div>
-            </section>
+            </Link>
+            <ChatBot />
 
         </main>
     )

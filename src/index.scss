@@ -4,10 +4,14 @@
     font-family: var.$font;
 }
 
+html {
+    background-color: rgb(221, 221, 221);
+}
 
 #root {
+    background-color: white;
     min-width: 320px;
-    max-width: 2000px;
+    max-width: 2100px;
     display: flex;
     justify-content: space-between;
     flex-direction: column;

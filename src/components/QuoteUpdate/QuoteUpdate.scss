@@ -5,7 +5,6 @@
     &-update {
         position: fixed;
         overflow: scroll;
-
         top: 0;
         left: 0;
         right: 0;
@@ -16,20 +15,41 @@
         color: white;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
 
+        & h3 {
+            margin-top: 15px;
+            padding: 15px 0;
+        }
+
+        & .quote-btn-cross {
+            width: 50px;
+            z-index: 5000;
+            position: fixed;
+            top: 15px;
+            right: 1px;
+        }
+
+        &-element {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            & p {
+                color: var.$primaryColor
+            }
+        }
+
         & svg {
+
             margin-left: 5px;
             color: var.$primaryColor;
         }
 
+
         & .red {
             color: red;
-        }
-
-        & .product-list {
-            height: 65%;
         }
     }
 
@@ -39,11 +59,57 @@
         align-items: center;
         padding: 10px;
         width: 90%;
+
+        border-top: 1px solid var.$secondaryColorDark;
+
+        &-input {
+            display: flex;
+        }
+    }
+
+    &-address {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 0;
+        margin: 10px 0;
+        width: 90%;
         border-bottom: 1px solid var.$secondaryColorDark;
         border-top: 1px solid var.$secondaryColorDark;
 
         &-input {
             display: flex;
+        }
+    }
+
+    & .product-list {
+        width: 90%;
+        margin: 10px 0;
+        padding: 10px 0;
+        border-bottom: 1px solid var.$secondaryColorDark;
+        border-top: 1px solid var.$secondaryColorDark;
+    }
+
+    & .product-item {
+        padding: 10px 0;
+        border-top: 1px solid var.$secondaryColorDark;
+
+        &:first-child {
+            border-top: none;
+        }
+    }
+
+    & .shipping-info {
+        margin-top: 10px;
+        padding: 10px 0;
+        border-top: 1px solid var.$secondaryColorDark;
+    }
+}
+
+@media (min-width: 600px) {
+    .quote-update {
+        & .quote-btn-cross {
+            right: 30px;
         }
     }
 }

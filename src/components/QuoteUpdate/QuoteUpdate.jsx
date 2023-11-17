@@ -3,7 +3,8 @@ import { useContext, useState } from 'react'
 import AppContext from '../../context/AppContext'
 import API from '../../utils/api/api';
 import Addresses from '../Addresses/Addresses'
-import fetchData from '../../utils/function'
+import fetchData from '../../utils/fetchData'
+import goodPrice from '../../utils/goodPrice';
 
 
 export default function QuoteUpdate({ quote, totalPrice, setOpenModifQuote, setQuote }) {
@@ -93,12 +94,19 @@ export default function QuoteUpdate({ quote, totalPrice, setOpenModifQuote, setQ
 
     return (
         <div className="quote-update">
-            <button className='quote-btn-cross' onClick={() => setOpenModifQuote(false)}>X</button>
-            <p>Devis n°{quote.quotation_id}</p>
+            <svg onClick={() => setOpenModifQuote(false)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 quote-btn-cross">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+
+            <h3>DEVIS N°{quote.quotation_id}</h3>
+
             {!refInputIsOpen &&
                 <div className="quote-reference">
-                    <p>Ref : {quote.reference}</p>
-                    <svg onClick={() => setRefInputIsOpen(true)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                    <div className="quote-update-element">
+                        <p>Référence: </p>
+                        <span> {quote.reference}</span>
+                    </div>
+                    <svg onClick={() => setRefInputIsOpen(true)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 svg-span">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                     </svg>
                 </div>
@@ -116,12 +124,16 @@ export default function QuoteUpdate({ quote, totalPrice, setOpenModifQuote, setQ
                 </div>
             }
             <div className="quote-address">
-                <p>Adresse de livraison : {quote.name_address} {quote.street_address} {quote.zip_code} {quote.city}</p>
-                <svg onClick={() => setAddressIsOpen({ quote: true })} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 green">
+                <div className="quote-update-element">
+                    <p>Adresse de livraison :</p>
+                    <span>{quote.name_address} {quote.street_address} {quote.zip_code} {quote.city} {quote.country}</span>
+                </div>
+                <svg onClick={() => setAddressIsOpen({ quote: true })} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 green svg-span">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                 </svg>
             </div>
-            {addressIsOpen.quote &&
+            {
+                addressIsOpen.quote &&
                 <div className="quote-address-input">
                     <Addresses type="quote" modification={addressIsOpen} setModification={setAddressIsOpen} quoteId={quote.quotation_id} title="Adresse de livraison" />
                 </div>
@@ -135,7 +147,7 @@ export default function QuoteUpdate({ quote, totalPrice, setOpenModifQuote, setQ
                             <div className="product-info">
                                 <div className="product-details">
                                     <p><strong>Produit:</strong> {product.quotation_has_product_id}</p>
-                                    <p><strong>Prix:</strong> {product.price} €</p>
+                                    <p><strong>Prix:</strong> {goodPrice(user.profile_id, product, product.quantity)} €</p>
                                     <p><strong>Poids:</strong> {product.weight} kg</p>
                                     <p><strong>Référence:</strong> {product.reference}</p>
                                     <p><strong>Désignation:</strong> {product.designation}</p>
@@ -165,7 +177,7 @@ export default function QuoteUpdate({ quote, totalPrice, setOpenModifQuote, setQ
                                 </div>
                             </div>
                             <div className="product-total">
-                                <p><strong>Total:</strong> {(product.price * (quantityInput[product.quotation_has_product_id] || product.quantity)).toFixed(2)} € HT</p>
+                                <p><strong>Total:</strong> {(goodPrice(user.profile_id, product, product.quantity) * (quantityInput[product.quotation_has_product_id] || product.quantity)).toFixed(2)} € HT</p>
                                 {!deleteLine[product.quotation_has_product_id] &&
                                     <span className="delete-product-icon" onClick={() => handleDeleteLine(product.quotation_has_product_id)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
@@ -202,12 +214,12 @@ export default function QuoteUpdate({ quote, totalPrice, setOpenModifQuote, setQ
                     </div>
                 }
                 <div className="totals">
-                    <p><strong>Total HT :</strong> {typeof quote.transport === "string" ? `${totalPrice.toFixed(2)} € HT hors transport` : `${(quote.transport + totalPrice).toFixed(2)} € HT`}</p>
-                    <p><strong>Total TTC :</strong> {(totalPrice * 1.2).toFixed(2)} € TTC</p>
+                    <p><strong>Total HT :</strong> {typeof quote.transport === "string" ? `${totalPrice.toFixed(2)} € HT hors transport` : `${(quote.transport + totalPrice + quote.clicli).toFixed(2)} € HT`}</p>
+
                 </div>
             </div>
 
-        </div>
+        </div >
 
     )
 }
