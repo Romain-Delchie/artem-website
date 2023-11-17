@@ -4,8 +4,9 @@
     color: var.$secondaryColor;
     padding-bottom: 40px;
     margin-left: 300px;
+    min-height: 600px;
 
-    & h2 {
+    &-title {
         text-align: center;
         margin: 20px 0;
     }

@@ -53,7 +53,7 @@ export default function RoleValidation() {
     return (
         <main className='role-validation'>
             <DashboardComponent />
-            <h2>Validation des rôles</h2>
+            <h2 className='role-validation-title'>Validation des rôles</h2>
             <ul className="role-validation-list">
                 {accountsToValidate.map((account) => {
                     return (
