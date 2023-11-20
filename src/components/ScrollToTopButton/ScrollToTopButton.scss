@@ -3,13 +3,19 @@
 .bouton-remonter {
     position: fixed;
     bottom: 40px;
-    right: 10px;
+    right: 4px;
     background-color: transparent;
-    color: rgb(206, 191, 191);
+    color: var.$secondaryColorLight;
+    opacity: 0.3;
     border: none;
     cursor: pointer;
     border-radius: 5px;
-    width: 80px;
+    width: 60px;
     height: 50px;
     z-index: 1000;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        opacity: 1;
+    }
 }

@@ -25,7 +25,7 @@ export default function Range() {
     }
 
     return (
-        <div className='range'>
+        <main className='range'>
             <h2>{range.name}</h2>
             <img className='range-img' src={`/images/products/${range.image_link}`} alt={`photo de ${range.name}`} />
             <p className='range-description'>{range.description}</p>
@@ -75,6 +75,6 @@ export default function Range() {
                     </div>
                 </div>
             }
-        </div >
+        </main>
     )
 }
