@@ -37,8 +37,8 @@ export default function Header() {
             <NavBar />
             <div className='header-connection'>
                 <div className='header-title-container'>
-                    <h1 className='header-title'>ARTEM</h1>
-                    <h2 className='header-subtitle'>Les supports d'avenir pour la pâte traditionnelle</h2>
+                    <p className='header-title'>ARTEM</p>
+                    <p className='header-subtitle'>Les supports d'avenir pour la pâte traditionnelle</p>
                 </div>
                 <div className="header-connection-all-btn">
                     {user.token === '' &&

@@ -127,10 +127,16 @@
         color: var.$secondaryColor;
     }
 
+    &-title {
+        font-size: 1.7rem;
+        font-weight: 700;
+    }
+
     &-subtitle {
         width: 92%;
         font-style: italic;
         font-size: 1rem;
+        font-weight: 500;
         line-height: 19px;
     }
 
@@ -161,6 +167,10 @@
 @media (min-width:600px) {
     .header {
         height: 180px;
+
+        &-subtitle {
+            font-size: 1.2rem;
+        }
 
         &-connection {
             margin: 5px 0;

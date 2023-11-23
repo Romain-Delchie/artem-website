@@ -7,6 +7,7 @@
     align-items: center;
     flex-grow: 1;
     margin-bottom: -40px;
+    min-height: 600px;
     padding-bottom: 40px;
     margin-left: 300px;
     background: url("/public/images/boulangegrand.jpg") center/cover fixed no-repeat;
@@ -37,17 +38,23 @@
     }
 
     &-empty {
+        border-radius: 5px;
+        width: 300px;
+        background-color: rgba(245, 245, 245, 0.9);
         margin: auto;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        text-align: center;
+        padding: 20px;
 
         & p {
             width: 100%;
         }
 
         & a {
+            font-weight: 700;
             margin-top: 20px;
             background-color: var.$primaryColor;
             align-self: center;
@@ -113,6 +120,10 @@
 @media (min-width: 800px) {
     .quote-history {
         &-title {
+            width: 400px;
+        }
+
+        &-empty {
             width: 400px;
         }
 

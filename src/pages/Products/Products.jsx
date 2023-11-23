@@ -23,6 +23,7 @@ export default function Products() {
 
     return (
         <main className='products'>
+            <h1>LA GAMME ARTEM</h1>
             <div onClick={() => setIsOpen({ ...isOpen, artisanal: !isOpen.artisanal })} className='products-range-title'>
                 {
                     !isOpen.artisanal &&

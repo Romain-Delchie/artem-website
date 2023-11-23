@@ -26,14 +26,14 @@ export default function Range() {
 
     return (
         <main className='range'>
-            <h2>{range.name}</h2>
+            <h1>{range.name}</h1>
             <img className='range-img' src={`/images/products/${range.image_link}`} alt={`photo de ${range.name}`} />
             <p className='range-description'>{range.description}</p>
             {
                 range.techSheets &&
                 <section className="range-sheet">
 
-                    <h3>Fiche technique des différentes matières à télécharger :</h3>
+                    <h2>Fiche technique des différentes matières à télécharger :</h2>
                     <div className="range-sheet-legende">
                         <img className='range-sheet-img' src={`/images/clean.png`} alt={`photo de lavage}`} />
                         <p>: Facilité de nettoyage</p>
@@ -67,7 +67,7 @@ export default function Range() {
             {
                 !user.token &&
                 <div className="range-links">
-                    <h3>Pour voir tous nos produits plus en détails :</h3>
+                    <h2>Pour voir tous nos produits plus en détails :</h2>
                     <div className="range-link">
                         <Link className='range-link-btn' to='/signin'>Connectez-vous</Link>
                         <p>ou</p>

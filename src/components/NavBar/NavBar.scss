@@ -178,10 +178,10 @@
     }
 
     .navbar-presentation {
-        // display: inline;
         display: flex;
         color: var.$secondaryColor;
         font-size: 1.2rem;
+        font-weight: 700;
         width: 420px;
         text-align: end;
         margin-right: 60px;
