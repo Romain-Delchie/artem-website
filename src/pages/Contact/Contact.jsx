@@ -10,6 +10,7 @@ export default function Contact() {
                 <div className="contact-item contact-item-adress">
                     <h2>Adresse</h2>
                     <p>16 rue de Berlin</p>
+                    <p>Innovespace Val d'Europe II</p>
                     <p>77144 Montévrain</p>
                 </div>
                 <div className="contact-item contact-item-open">

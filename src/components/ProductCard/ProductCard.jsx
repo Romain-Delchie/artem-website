@@ -59,7 +59,6 @@ export default function ProductCard({ product }) {
             </div >
             {
                 openAddProductForm[product.id] &&
-
                 <div className="product-card-add-form">
                     <label htmlFor="quantity">indiquer la quantité</label>
                     <input type="number" onChange={(e) => setQuantityToAdd(e.target.value)} min="1" step="1" value={quantityToAdd} name='quantity' />

@@ -19,7 +19,7 @@ export default function Company() {
                 <div className="company-description-item">
                     <h2>Nos produits</h2>
                     <img className='right-img' src="/images/te-general.jpg" alt="facade artem" />
-                    <p>Avec plus de 5000 références que nous produisons pour la quasi totalité dans notre entrepôt de Montévrain en seine et marne proche d'Eurodisney, Artem est capable de répondre à tout vos besoin en textiles :  Toiles d'enfourneur, de couche, balancelles, tapis de laminoir et façonneuses, de transport, feutre divers., manche à farine et plus encore.. Mais plus encore avec notre partie méca :  grilles, séchoir  et machines d"enfournement.</p>
+                    <p>Avec plus de 5000 références que nous produisons pour la quasi totalité dans notre entrepôt de Montévrain en Seine et Marne proche du parc Eurodisney, Artem est capable de répondre à tout vos besoins en textiles :  Toiles d'enfourneur, de couche, de balancelles, tapis de laminoir et façonneuses, bande de transport, feutres divers., manches à farine et plus encore... S'ajoute à cela notre partie mécanique :  grilles, séchoirs  et machines d"enfournement.</p>
                     <Link className='company-description-item-link' to='/products'>Découvrir notre gamme plus en détails</Link>
                 </div>
                 <hr />
@@ -33,7 +33,7 @@ export default function Company() {
                         par Schenker avec une livraison sous 48/72h. Nous n'avons pas de minimum de commande. Nous assurons une permanence téléphonique de 8H30 à 12H30 et
                         14H à 18H du lundi au vendredi pour vous aider à
                         définir les produits. Nous pouvons envoyer des modèles gratuits pour les toiles de faible
-                        coût unitaire et fabriquées en quantité.</p>
+                        coût unitaire (Toile de balancelle, toile de couche).</p>
                 </div>
                 <hr />
             </section>
@@ -41,25 +41,22 @@ export default function Company() {
                 <h2>Notre histoire</h2>
                 <ul className="company-history-list">
                     <li className="company-history-item">
-                        1982 - M. Bellanger et Sauvaneau quittent la société NERVUS pour créer la SARL ARTEM à Paris (12eme).
+                        1982 - M. Bellanger et M. Sauvaneau quittent la société NERVUS pour créer la SARL ARTEM à Paris (12eme).
                     </li>
                     <li className="company-history-item">
                         1983 - Démarrage de l’activité grâce à un partenaire européen qui accepte de produire des manchons de boulangerie en laine sur les spécifications d’ARTEM.
                     </li>
                     <li className="company-history-item">
-                        1994 - Jean marie TOURY prends le contrôle d’ARTEM qui comporte 6 personnes et réalise 6 MF de chiffre d’affaire. ARTEM devient une SA.
+                        1994 - M. Jean marie TOURY prend le contrôle d’ARTEM qui comporte 6 personnes et réalise 6 MF de chiffre d’affaire. ARTEM devient une SA.
                     </li>
                     <li className="company-history-item">
-                        1995 - Déménagement d’ARTEM à Torcy, les locaux de Paris ne permettant pas de répondre aux besoins de développement. Accentuation de la production interne qui prends plus d’importance.
-                    </li>
-                    <li className="company-history-item">
-                        1998 - Entrée dans le groupe d’ART-SOCOM spécialisé dans la fabrication de mécanique sur mesure. Implantation d’un réseau commercial sur toute la France, pour être au plus proche des clients.
+                        1995 - Déménagement d’ARTEM à Torcy, les locaux de Paris ne permettant pas de répondre aux besoins de développement. Augmentation de la production interne qui prends plus d’importance.
                     </li>
                     <li className="company-history-item">
                         2001 - Introduction du premier accessoire mécanique à destination des boulangers, l’enfourneur, développé et fabriqué par le groupe.
                     </li>
                     <li className="company-history-item">
-                        2011 - ARTEM déménage à Montévrain dans des locaux de 1500 m² pour répondre à la demande croissante de ses clients.
+                        2011 - ARTEM déménage à Montévrain dans des locaux de 1500 m² pour permettre la mise en stock de nombreuses références supplémentaires afin de satisfaire ses clients.
                     </li>
                 </ul>
                 <img src="/images/continued.jpg" alt="photo to be continued" />
