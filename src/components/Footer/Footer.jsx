@@ -16,9 +16,6 @@ export default function Footer() {
                 <li>
                     <Link className='footer-link' to='/privacy-policy'>Politique de confidentialité</Link>
                 </li>
-                {/* <li>
-                    <Link className='footer-link'>Plan du site</Link>
-                </li> */}
             </ul>
             <div className='footer-contact'>
                 <div className='footer-contact-line'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
