@@ -41,7 +41,7 @@
 <br />
 ## About The Project
 
-This Frontend application is a modern user interface interacting with a database through an API. The interface allows users to learn about the Artem company and its products. Additionally, users can create an account to conduct searches for specific products, generate quotes, and/or place orders. Prices a
+This Frontend application is a modern user interface interacting with a database through an API. The interface allows users to learn about the Artem company and its products. Additionally, users can create an account to conduct searches for specific products, generate quotes, and/or place orders.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
