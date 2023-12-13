@@ -23,6 +23,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            gap: 10px;
         }
 
         &-btn {
@@ -66,53 +67,46 @@
         }
     }
 
-    &-disconnection {
-        display: flex;
-        justify-content: space-between;
+    &-disconnection-btn {
+        display: none;
+        width: 70px;
+        height: 50px;
+        margin-bottom: 10px;
+        margin-right: 1rem;
+        padding: 0.5rem;
+        color: white;
+        border: none;
+        text-align: center;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        flex-direction: column;
+        line-height: 16px;
+        justify-content: center;
+        border-radius: 5px;
         align-items: center;
-        margin: 2rem 0;
+        background: rgb(160, 46, 46);
+        box-shadow: 3px 3px 5px var.$secondaryColor,
+            -3px -3px 5px #ffffff;
 
+        & svg {
+            height: 25px;
 
-        &-btn {
-            width: 70px;
-            height: 50px;
-            margin-bottom: 10px;
-            margin-right: 1rem;
-            padding: 0.5rem;
-            color: white;
-            border: none;
-            text-align: center;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-            display: flex;
-            flex-direction: column;
-            line-height: 16px;
-            justify-content: center;
-            border-radius: 5px;
-            align-items: center;
-            background: rgb(160, 46, 46);
-            box-shadow: 3px 3px 5px var.$secondaryColor,
-                -3px -3px 5px #ffffff;
-
-            & svg {
-                height: 25px;
-
-            }
-
-            & p {
-                margin-top: 0.2rem;
-                line-height: 10px;
-                font-size: 0.7rem;
-            }
-
-            &:hover {
-                background: rgba(160, 46, 46);
-                box-shadow: inset 5px 5px 5px rgb(160, 46, 46),
-                    inset -5px -5px 5px rgb(160, 46, 46);
-                transform: scale(0.98);
-            }
         }
+
+        & p {
+            margin-top: 0.2rem;
+            line-height: 10px;
+            font-size: 0.7rem;
+        }
+
+        &:hover {
+            background: rgba(160, 46, 46);
+            box-shadow: inset 5px 5px 5px rgb(160, 46, 46),
+                inset -5px -5px 5px rgb(160, 46, 46);
+            transform: scale(0.98);
+        }
+
     }
 
     &-title-container {
@@ -177,17 +171,20 @@
 
             &-all-btn {
                 flex-direction: row;
+                gap: 0;
             }
 
-            &-connection-btn {
+            &-btn {
                 height: 60px;
                 width: 90px;
             }
 
-            &-disconnection-btn {
-                height: 60px;
-                width: 90px;
-            }
+        }
+
+        &-disconnection-btn {
+            display: flex;
+            height: 60px;
+            width: 90px;
         }
     }
 }

@@ -47,7 +47,9 @@ export default function NavBar() {
                 <li className='navbar-item slideInDown6'>
                     <Link onClick={closeBurger} className='navbar-link' to="/contact">Contact</Link>
                 </li>
-
+                <li className='navbar-item slideInDown7'>
+                    <Link onClick={handleDisconnection} className='navbar-link' to="/">Déconnexion</Link>
+                </li>
             </ul>
             <button onClick={() => setIsBurgerOpen(!isBurgerOpen)} className='navbar-burger'>
                 <span className='burger-line'></span>
