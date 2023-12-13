@@ -36,10 +36,10 @@ export default function NavBar() {
                     </>
                 }
                 <li className='navbar-item slideInDown3'>
-                    <Link onClick={closeBurger} className='navbar-link' to="/company">Notre entreprise</Link>
+                    <Link onClick={closeBurger} className='navbar-link' to="/entreprise">Notre entreprise</Link>
                 </li>
                 <li className='navbar-item slideInDown4'>
-                    <Link onClick={closeBurger} className='navbar-link' to="/products">Nos produits</Link>
+                    <Link onClick={closeBurger} className='navbar-link' to="/gamme">Nos produits</Link>
                 </li>
                 <li className='navbar-item slideInDown5'>
                     <Link onClick={closeBurger} className='navbar-link' to='https://pay-pro.monetico.fr/artem/paiementenligne' target='_blank' >Payer une facture</Link>

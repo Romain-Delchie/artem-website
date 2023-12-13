@@ -9,8 +9,8 @@ export default function Home() {
     return (
         <main className='hero'>
             <section className='hero-button-container'>
-                <Link className='hero-button hero-button-one' to='/company'><p>Notre entreprise</p></Link>
-                <Link className='hero-button hero-button-two' to='/products'><p>Notre gamme</p></Link>
+                <Link className='hero-button hero-button-one' to='/entreprise'><p>Notre entreprise</p></Link>
+                <Link className='hero-button hero-button-two' to='/gamme'><p>Notre gamme</p></Link>
                 <Link className='hero-button hero-button-three' to='/contact'><p>Contact</p></Link>
                 <Link className='hero-button hero-button-four' to='/signup'><p>Créer un compte</p></Link>
             </section>

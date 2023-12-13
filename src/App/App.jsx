@@ -49,9 +49,9 @@ function App() {
       <ScrollToTopButton />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/company" element={<Company />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/range/:rangeId" element={<Range />} />
+        <Route path="/entreprise" element={<Company />} />
+        <Route path="/gamme" element={<Products />} />
+        <Route path="/gamme/:rangeId" element={<Range />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />

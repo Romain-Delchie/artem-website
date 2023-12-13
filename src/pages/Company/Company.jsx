@@ -20,7 +20,7 @@ export default function Company() {
                     <h2>Nos produits</h2>
                     <img className='right-img' src="/images/te-general.jpg" alt="facade artem" />
                     <p>Avec plus de 5000 références que nous produisons pour la quasi totalité dans notre entrepôt de Montévrain en Seine et Marne proche du parc Eurodisney, Artem est capable de répondre à tout vos besoins en textiles :  Toiles d'enfourneur, de couche, de balancelles, tapis de laminoir et façonneuses, bande de transport, feutres divers., manches à farine et plus encore... S'ajoute à cela notre partie mécanique :  grilles, séchoirs  et machines d"enfournement.</p>
-                    <Link className='company-description-item-link' to='/products'>Découvrir notre gamme plus en détails</Link>
+                    <Link className='company-description-item-link' to='/gamme'>Découvrir notre gamme plus en détails</Link>
                 </div>
                 <hr />
                 <div className="company-description-item">

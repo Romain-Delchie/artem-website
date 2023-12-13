@@ -4,6 +4,7 @@ import { useState, useEffect, useContext } from 'react'
 import AppContext from '../../context/AppContext'
 import Loading from '../../components/Loading/Loading'
 import API from '../../utils/api/api'
+import RangeCard from '../../components/RangeCard'
 
 export default function Products() {
     const { ranges, setRanges } = useContext(AppContext)
@@ -62,14 +63,7 @@ export default function Products() {
                         {isOpen.textile &&
                             <ul className="products-section-list">
                                 {
-                                    ranges.filter(range => range.category === 'textile').map(range => {
-                                        return (
-
-                                            <li className="products-section-list-item" key={range.id}>
-                                                <Link className='products-section-list-item-link' to={`/range/${range.id}`}><img src={`/images/products/${range.image_link}`} alt={`photo de ${range.name}`} /><p>{range.name}</p></Link>
-                                            </li>
-                                        )
-                                    })
+                                    ranges.filter(range => range.category === 'textile').map(range => <RangeCard range={range} />)
                                 }
                             </ul>
                         }
@@ -96,14 +90,7 @@ export default function Products() {
                         {isOpen.bande &&
                             <ul className="products-section-list">
                                 {
-                                    ranges.filter(range => range.category === 'bande').map(range => {
-                                        return (
-
-                                            <li className="products-section-list-item" key={range.id}>
-                                                <Link className='products-section-list-item-link' to={`/range/${range.id}`}><img src={`/images/products/${range.image_link}`} alt={`photo de ${range.name}`} /><p>{range.name}</p></Link>
-                                            </li>
-                                        )
-                                    })
+                                    ranges.filter(range => range.category === 'bande').map(range => <RangeCard range={range} />)
                                 }
                             </ul>
                         }
@@ -129,14 +116,7 @@ export default function Products() {
                         {isOpen.inox &&
                             <ul className="products-section-list">
                                 {
-                                    ranges.filter(range => range.category === 'inox').map(range => {
-                                        return (
-
-                                            <li className="products-section-list-item" key={range.id}>
-                                                <Link className='products-section-list-item-link' to={`/range/${range.id}`}><img src={`/images/products/${range.image_link}`} alt={`photo de ${range.name}`} /><p>{range.name}</p></Link>
-                                            </li>
-                                        )
-                                    })
+                                    ranges.filter(range => range.category === 'inox').map(range => <RangeCard range={range} />)
                                 }
                             </ul>
                         }
@@ -164,14 +144,7 @@ export default function Products() {
                             isOpen.meca &&
                             <ul className="products-section-list">
                                 {
-                                    ranges.filter(range => range.category === 'meca').map(range => {
-                                        return (
-
-                                            <li className="products-section-list-item" key={range.id}>
-                                                <Link className='products-section-list-item-link' to={`/range/${range.id}`}><img src={`/images/products/${range.image_link}`} alt={`photo de ${range.name}`} /><p>{range.name}</p></Link>
-                                            </li>
-                                        )
-                                    })
+                                    ranges.filter(range => range.category === 'meca').map(range => <RangeCard range={range} />)
                                 }
                             </ul>
                         }
@@ -202,14 +175,7 @@ export default function Products() {
                 <section className='products-section products-section-meca'>
                     <ul className="products-section-list">
                         {
-                            ranges.filter(range => range.category === 'indus').map(range => {
-                                return (
-
-                                    <li className="products-section-list-item" key={range.id}>
-                                        <Link className='products-section-list-item-link' to={`/range/${range.id}`}><img src={`/images/products/${range.image_link}`} alt={`photo de ${range.name}`} /><p>{range.name}</p></Link>
-                                    </li>
-                                )
-                            })
+                            ranges.filter(range => range.category === 'indus').map(range => <RangeCard range={range} />)
                         }
                     </ul>
 
@@ -240,14 +206,7 @@ export default function Products() {
                 <section className='products-section products-section-textile'>
                     <ul className="products-section-list">
                         {
-                            ranges.filter(range => range.category === 'autre').map(range => {
-                                return (
-
-                                    <li className="products-section-list-item" key={range.id}>
-                                        <Link className='products-section-list-item-link' to={`/range/${range.id}`}><img src={`/images/products/${range.image_link}`} alt={`photo de ${range.name}`} /><p>{range.name}</p></Link>
-                                    </li>
-                                )
-                            })
+                            ranges.filter(range => range.category === 'autre').map(range => <RangeCard range={range} />)
                         }
                     </ul>
 
@@ -277,14 +236,7 @@ export default function Products() {
                 <section className='products-section products-section-textile'>
                     <ul className="products-section-list">
                         {
-                            ranges.filter(range => range.category === 'feutre').map(range => {
-                                return (
-
-                                    <li className="products-section-list-item" key={range.id}>
-                                        <Link className='products-section-list-item-link' to={`/range/${range.id}`}><img src={`/images/products/${range.image_link}`} alt={`photo de ${range.name}`} /><p>{range.name}</p></Link>
-                                    </li>
-                                )
-                            })
+                            ranges.filter(range => range.category === 'feutre').map(range => <RangeCard range={range} />)
                         }
                     </ul>
 
@@ -314,14 +266,7 @@ export default function Products() {
                 <section className='products-section products-section-textile'>
                     <ul className="products-section-list">
                         {
-                            ranges.filter(range => range.category === 'chocolat').map(range => {
-                                return (
-
-                                    <li className="products-section-list-item" key={range.id}>
-                                        <Link className='products-section-list-item-link' to={`/range/${range.id}`}><img src={`/images/products/${range.image_link}`} alt={`photo de ${range.name}`} /><p>{range.name}</p></Link>
-                                    </li>
-                                )
-                            })
+                            ranges.filter(range => range.category === 'chocolat').map(range => <RangeCard range={range} />)
                         }
                     </ul>
 
@@ -352,14 +297,7 @@ export default function Products() {
                     isOpen.service &&
                     <ul className="products-section-list">
                         {
-                            ranges.filter(range => range.category === 'service').map(range => {
-                                return (
-
-                                    <li className="products-section-list-item" key={range.id}>
-                                        <Link className='products-section-list-item-link' to={`/range/${range.id}`}><img src={`/images/products/${range.image_link}`} alt={`photo de ${range.name}`} /><p>{range.name}</p></Link>
-                                    </li>
-                                )
-                            })
+                            ranges.filter(range => range.category === 'service').map(range => <RangeCard range={range} />)
                         }
                     </ul>
                 }
