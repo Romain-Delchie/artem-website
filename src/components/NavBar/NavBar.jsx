@@ -28,10 +28,10 @@ export default function NavBar() {
                 {user.token === '' &&
                     <>
                         <li className='navbar-item slideInDown2'>
-                            <Link onClick={closeBurger} className='navbar-link' to="/signin">Se connecter</Link>
+                            <Link onClick={closeBurger} className='navbar-link' to="/connexion">Se connecter</Link>
                         </li>
                         <li className='navbar-item slideInDown2'>
-                            <Link onClick={closeBurger} className='navbar-link' to="/signup">Créer un compte</Link>
+                            <Link onClick={closeBurger} className='navbar-link' to="/creer-un-compte">Créer un compte</Link>
                         </li>
                     </>
                 }

@@ -12,14 +12,28 @@ export default function Home() {
                 <Link className='hero-button hero-button-one' to='/entreprise'><p>Notre entreprise</p></Link>
                 <Link className='hero-button hero-button-two' to='/gamme'><p>Notre gamme</p></Link>
                 <Link className='hero-button hero-button-three' to='/contact'><p>Contact</p></Link>
-                <Link className='hero-button hero-button-four' to='/signup'><p>Créer un compte</p></Link>
+                <Link className='hero-button hero-button-four' to='/creer-un-compte'><p>Créer un compte</p></Link>
             </section>
             <Link to='/products' className='hero-products-container'>
                 <TextSlider />
                 <ImageSlider />
             </Link>
+            <section className='hero-description-container'>
+                <h2>Artem, fabricant de textiles techniques et machines d'enfournement pour la boulangerie</h2>
+                <p>Artem produit des textiles pour les boulangeries pâtisseries qui répondront à tous types d'usages.
+                    Que ce soit pour la pâte fraiche, les baguettes cuites et même la farine, nous saurons vous conseiller sur la matière idéale à utiliser.
+                    Notre gamme est très large et propose des tapis et toiles en coton, en polyester, en lin, en feutre laine, tissée ou non-tissée, en PU, en PVC, en nylon et bien plus encore.</p>
+                <br />
+                <p>Adaptable toutes marques et toutes machines que vous pouvez trouver dans un fournil: tapis enfourneur, toile de balancelle ou repose pâtons, tapis de laminoir, toile de lin, bande de transport, manchons de façonnage, tapis de boulage, bande de peseuses diviseuses ou trancheuses, housse à chariot, manche à farine (silo) sont notre spécialité et le coeur de notre gamme.</p>
+                <br />
+                <p>Nous proposons aussi des solutions pour les biscuiteries, les chocolateries et même pour les secteurs non alimentaire </p>
+                <br />
+                <p>Nous fabriquons également des machines d'enfournement pour vos fours à sole.
+                    Nos enfourneurs défourneurs standard sont en acier inoxydable mais peuvent être également conçus en aluminium sur demande.
+                    Notre gamme d'élévateur propose à la fois du manuel (ciseaux, colonne, tréteau, intégré) et de l'automatique (colonne motorisé). Les barres de toiles enfourneur, les grilles inox et séchoir à couche complètent notre gamme inox</p>
+            </section>
 
-            <Link to='/signup' className='hero-description-container'>
+            <Link to='/creer-un-compte' className='hero-description-container'>
                 <h2> Créer un compte et bénéficier ainsi de nos services :</h2>
                 <div className='hero-service-container'>
                     <div className='hero-service'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">

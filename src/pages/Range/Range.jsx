@@ -76,9 +76,9 @@ export default function Range() {
                 <div className="range-links">
                     <h2>Pour voir tous nos produits plus en détails :</h2>
                     <div className="range-link">
-                        <Link className='range-link-btn' to='/signin'>Connectez-vous</Link>
+                        <Link className='range-link-btn' to='/connexion'>Connectez-vous</Link>
                         <p>ou</p>
-                        <Link className='range-link-btn' to='/signup'>Créez un compte</Link>
+                        <Link className='range-link-btn' to='/creer-un-compte'>Créez un compte</Link>
                     </div>
                 </div>
             }

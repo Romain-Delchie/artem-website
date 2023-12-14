@@ -8,13 +8,13 @@ export default function Footer() {
         <footer className='footer'>
             <ul className='footer-links'>
                 <li>
-                    <Link className='footer-link' to='/legal-terms' >Mentions légales</Link>
+                    <Link className='footer-link' to='/mentions-legales' >Mentions légales</Link>
                 </li>
                 <li>
-                    <Link className='footer-link' to='/terms-of-sales'>Conditions générales de vente</Link>
+                    <Link className='footer-link' to='/cgv'>Conditions générales de vente</Link>
                 </li>
                 <li>
-                    <Link className='footer-link' to='/privacy-policy'>Politique de confidentialité</Link>
+                    <Link className='footer-link' to='/politique-confidentialite'>Politique de confidentialité</Link>
                 </li>
             </ul>
             <div className='footer-contact'>

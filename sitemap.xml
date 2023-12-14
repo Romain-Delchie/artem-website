@@ -2,128 +2,160 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://www.artem-fr.com/</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
     </url>
     <url>
         <loc>https://www.artem-fr.com/entreprise</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
     </url>
     <url>
         <loc>https://www.artem-fr.com/gamme</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/gamme/1/Toile%20enfourneur</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/gamme/2/Toile%20de%20couche</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/gamme/3/Tapis%20de%20façonneuse</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/gamme/4/Tapis%20de%20laminoir</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/5/Toile%20de%20repose%20pâtons</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/gamme/6/Tapis%20de%20transport</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/gamme/7/Housse%20à%20chariot</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/gamme/8/Manche%20à%20farine</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/gamme/9/Feutre%20industriel</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/gamme/10/Bande%20de%20boulage</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/gamme/11/Bande%20de%20peseuses%20diviseuses</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/gamme/12/Bande%20de%20trancheuse</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/gamme/13/Enfourneur</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/gamme/14/Elévateur%20ciseaux</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/gamme/15/Elévateur%20colonne</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/gamme/16/Elévateur%20colonne%20automatique</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/gamme/17/Elévateur%20intégré</loc>
         <lastmod>2023-11-09T09:03:27+00:00</lastmod>
     </url>
     <url>
-        <loc>https://www.artem-fr.com/range/1</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
+        <loc>https://www.artem-fr.com/gamme/18/Séchoir%20à%20couche</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
     </url>
     <url>
-        <loc>https://www.artem-fr.com/range/2</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
+        <loc>https://www.artem-fr.com/gamme/19/Grille%20inox</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
     </url>
     <url>
-        <loc>https://www.artem-fr.com/range/3</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
+        <loc>https://www.artem-fr.com/gamme/20/Bande%20pour%20ligne%20industrielle</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
     </url>
     <url>
-        <loc>https://www.artem-fr.com/range/4</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
+        <loc>https://www.artem-fr.com/gamme/21/Bande%20d'écarteuse</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
     </url>
     <url>
-        <loc>https://www.artem-fr.com/range/5</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
+        <loc>https://www.artem-fr.com/gamme/22/Bande%20pour%20chocolaterie</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
     </url>
     <url>
-        <loc>https://www.artem-fr.com/range/6</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
+        <loc>https://www.artem-fr.com/gamme/23/Jonction%20de%20bande%20sur%20site</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
     </url>
     <url>
-        <loc>https://www.artem-fr.com/range/7</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
+        <loc>https://www.artem-fr.com/gamme/24/Produit%20bleu%20lavable</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
     </url>
     <url>
-        <loc>https://www.artem-fr.com/range8/</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
+        <loc>https://www.artem-fr.com/gamme/25/Transipat</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
     </url>
     <url>
-        <loc>https://www.artem-fr.com/range/9</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
+        <loc>https://www.artem-fr.com/gamme/26/Bande%20pour%20industrie%20non%20alimentaire</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
     </url>
     <url>
-        <loc>https://www.artem-fr.com/range/10</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
+        <loc>https://www.artem-fr.com/gamme/27/Montage%20d'élévateur%20enfourneur</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
     </url>
     <url>
-        <loc>https://www.artem-fr.com/range/11</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
+        <loc>https://www.artem-fr.com/gamme/28/Tréteau%20inox</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
     </url>
     <url>
-        <loc>https://www.artem-fr.com/range/12</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
+        <loc>https://www.artem-fr.com/gamme/29/Barre%20de%20toile</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
     </url>
     <url>
-        <loc>https://www.artem-fr.com/range/13</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://www.artem-fr.com/range/14</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://www.artem-fr.com/range/15</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://www.artem-fr.com/range/16</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://www.artem-fr.com/range/17</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://www.artem-fr.com/range/18</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://www.artem-fr.com/range/19</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://www.artem-fr.com/range/20</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://www.artem-fr.com/range/21</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://www.artem-fr.com/range/22</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://www.artem-fr.com/range/23</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://www.artem-fr.com/range/24</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://www.artem-fr.com/range/25</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://www.artem-fr.com/range/26</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
-    </url>
-    <url>
-        <loc>https://www.artem-fr.com/range/27</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
+        <loc>https://www.artem-fr.com/30/Bande%20pour%20biscuiterie</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
     </url>
    
     <url>
         <loc>https://www.artem-fr.com/contact/</loc>
-        <lastmod>2023-11-09T09:03:27+00:00</lastmod>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/cgv/</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/mentions-legales/</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/politique-confidentialite/</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/creer-un-compte/</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://www.artem-fr.com/connexion/</loc>
+        <lastmod>2023-12-09T09:03:27+00:00</lastmod>
     </url>
     
 </urlset>

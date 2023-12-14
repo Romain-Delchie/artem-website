@@ -41,8 +41,8 @@ export default function Header() {
                     <p className='header-subtitle'>Les supports d'avenir pour la pâte traditionnelle</p>
                 </div>
                 <div className="header-connection-all-btn">
-                    {user.token === '' &&
-                        <Link to='/signin' className='header-connection-btn'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                    {user.token === '' && location.pathname !== '/connexion' &&
+                        <Link to='/connexion' className='header-connection-btn'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg><p>Se connecter</p>
                         </Link>

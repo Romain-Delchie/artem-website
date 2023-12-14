@@ -51,13 +51,13 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/entreprise" element={<Company />} />
         <Route path="/gamme" element={<Products />} />
-        <Route path="/gamme/:rangeId" element={<Range />} />
+        <Route path="/gamme/:rangeId/*" element={<Range />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/legal-terms" element={<LegalTerms />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms-of-sales" element={<TermsOfSales />} />
+        <Route path="/connexion" element={<SignIn />} />
+        <Route path="/creer-un-compte" element={<SignUp />} />
+        <Route path="/mentions-legales" element={<LegalTerms />} />
+        <Route path="/politique-confidentialite" element={<PrivacyPolicy />} />
+        <Route path="/cgv" element={<TermsOfSales />} />
         <Route path="/confirm-email/:code" element={<ConfirmEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />

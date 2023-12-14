@@ -63,7 +63,7 @@ export default function Products() {
                         {isOpen.textile &&
                             <ul className="products-section-list">
                                 {
-                                    ranges.filter(range => range.category === 'textile').map(range => <RangeCard range={range} />)
+                                    ranges.filter(range => range.category === 'textile').map(range => <RangeCard key={range.id} range={range} />)
                                 }
                             </ul>
                         }
@@ -90,7 +90,7 @@ export default function Products() {
                         {isOpen.bande &&
                             <ul className="products-section-list">
                                 {
-                                    ranges.filter(range => range.category === 'bande').map(range => <RangeCard range={range} />)
+                                    ranges.filter(range => range.category === 'bande').map(range => <RangeCard key={range.id} range={range} />)
                                 }
                             </ul>
                         }
@@ -116,7 +116,7 @@ export default function Products() {
                         {isOpen.inox &&
                             <ul className="products-section-list">
                                 {
-                                    ranges.filter(range => range.category === 'inox').map(range => <RangeCard range={range} />)
+                                    ranges.filter(range => range.category === 'inox').map(range => <RangeCard key={range.id} range={range} />)
                                 }
                             </ul>
                         }
@@ -144,7 +144,7 @@ export default function Products() {
                             isOpen.meca &&
                             <ul className="products-section-list">
                                 {
-                                    ranges.filter(range => range.category === 'meca').map(range => <RangeCard range={range} />)
+                                    ranges.filter(range => range.category === 'meca').map(range => <RangeCard key={range.id} range={range} />)
                                 }
                             </ul>
                         }
@@ -175,7 +175,7 @@ export default function Products() {
                 <section className='products-section products-section-meca'>
                     <ul className="products-section-list">
                         {
-                            ranges.filter(range => range.category === 'indus').map(range => <RangeCard range={range} />)
+                            ranges.filter(range => range.category === 'indus').map(range => <RangeCard key={range.id} range={range} />)
                         }
                     </ul>
 
@@ -206,7 +206,7 @@ export default function Products() {
                 <section className='products-section products-section-textile'>
                     <ul className="products-section-list">
                         {
-                            ranges.filter(range => range.category === 'autre').map(range => <RangeCard range={range} />)
+                            ranges.filter(range => range.category === 'autre').map(range => <RangeCard key={range.id} range={range} />)
                         }
                     </ul>
 
@@ -236,7 +236,7 @@ export default function Products() {
                 <section className='products-section products-section-textile'>
                     <ul className="products-section-list">
                         {
-                            ranges.filter(range => range.category === 'feutre').map(range => <RangeCard range={range} />)
+                            ranges.filter(range => range.category === 'feutre').map(range => <RangeCard key={range.id} range={range} />)
                         }
                     </ul>
 
@@ -266,7 +266,7 @@ export default function Products() {
                 <section className='products-section products-section-textile'>
                     <ul className="products-section-list">
                         {
-                            ranges.filter(range => range.category === 'chocolat').map(range => <RangeCard range={range} />)
+                            ranges.filter(range => range.category === 'chocolat').map(range => <RangeCard key={range.id} range={range} />)
                         }
                     </ul>
 
@@ -297,7 +297,7 @@ export default function Products() {
                     isOpen.service &&
                     <ul className="products-section-list">
                         {
-                            ranges.filter(range => range.category === 'service').map(range => <RangeCard range={range} />)
+                            ranges.filter(range => range.category === 'service').map(range => <RangeCard key={range.id} range={range} />)
                         }
                     </ul>
                 }
