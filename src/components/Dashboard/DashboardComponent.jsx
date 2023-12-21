@@ -98,6 +98,9 @@ export default function DashboardComponent() {
                         <NavLink className={({ isActive }) =>
                             isActive ? "dashboard-component-button dashboard-component-button-last dashboard-link-active" : "dashboard-component-button dashboard-component-button-last"
                         } to='/user-list'>Liste des utilisateurs</NavLink>
+                        <NavLink className={({ isActive }) =>
+                            isActive ? "dashboard-component-button dashboard-component-button-last dashboard-link-active" : "dashboard-component-button dashboard-component-button-last"
+                        } to='/handle-home'>Gerer page d'accueil</NavLink>
                     </section>
                 }
 

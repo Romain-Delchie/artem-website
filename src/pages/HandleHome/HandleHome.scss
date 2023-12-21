@@ -1,0 +1,36 @@
+@use 'src/styles/variables.scss' as var;
+
+.handle-home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 300px;
+
+    & h2 {
+        margin-top: 15px;
+    }
+
+    &-form {
+        margin: 5px 0 30px;
+        display: flex;
+        flex-direction: column;
+
+        & select {
+            width: 80%;
+            margin: auto;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .handle-home {
+        margin-left: 0;
+
+        & .dashboard-component {
+            display: none;
+        }
+
+
+    }
+}

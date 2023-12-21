@@ -38,6 +38,7 @@ import DeleteRange from "../pages/DeleteRange/DeleteRange";
 import SearchUpdate from "../pages/SearchUpdate/SearchUpdate";
 import ScrollToTopButton from "../components/ScrollToTopButton/ScrollToTopButton";
 import SearchProductPage from "../pages/SearchProductPage/SearchProductPage";
+import HandleHome from "../pages/HandleHome/HandleHome";
 
 function App() {
 
@@ -92,6 +93,7 @@ function App() {
             <Route path="/add-techsheet" element={<AddTechsheet />} />
             <Route path="/role-validation" element={<RoleValidation />} />
             <Route path="/user-list" element={<UserList />} />
+            <Route path="handle-home" element={<HandleHome />} />
           </>
         }
 
