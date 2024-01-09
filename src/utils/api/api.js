@@ -3,7 +3,7 @@ import Axios from "axios";
 let alertDisplayed = false;
 
 const axios = Axios.create({
-    baseURL: "http://localhost:3305/api",
+    baseURL: "https://www.artem-fr.com/api",
     headers: {
         "Content-Type": "application/json",
     },

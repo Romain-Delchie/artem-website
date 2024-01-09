@@ -88,13 +88,14 @@ export default function Addresses({ type, modification, setModification, quoteId
         const dataAddress = {
             name_address: e.target.name_address.value,
             street_address: e.target.street_address.value,
+            street_other: e.target.street_other.value,
             zip_code: e.target.zip_code.value,
             city: e.target.city.value,
             country: selectedCountry.label,
         }
 
         if (dataAddress.name_address === '' || dataAddress.street_address === '' || dataAddress.zip_code === '' || dataAddress.city === '') {
-            return alert('Veuillez renseigner tous les champs')
+            return alert('Veuillez renseigner tous les champs ("Autre" qui est facultatif)')
         }
 
         try {
@@ -150,6 +151,7 @@ export default function Addresses({ type, modification, setModification, quoteId
                 )
             }
         }
+        location.reload()
     }
 
     const handleValidateAddress = async () => {
@@ -203,6 +205,10 @@ export default function Addresses({ type, modification, setModification, quoteId
                         <div className="addresses-new-item">
                             <label htmlFor="street_address">Rue</label>
                             <input type="text" name="street_address" id="street_address" placeholder="ex : 1 rue de la Paix" />
+                        </div>
+                        <div className="addresses-new-item">
+                            <label htmlFor="street_other">Complément</label>
+                            <input type="text" name="street_other" id="street_other" placeholder="Facultatif / ex : lieu dit" />
                         </div>
                         <div className="addresses-new-item">
                             <label htmlFor="country">Pays</label>

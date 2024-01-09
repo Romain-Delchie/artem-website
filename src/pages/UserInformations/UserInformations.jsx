@@ -50,7 +50,8 @@ export default function UserInformations() {
 
         });
     }
-
+    console.log(user);
+    console.log(!user.delivery_standard.street_other);
     return (
         <main className='user-informations'>
             <DashboardComponent />
@@ -106,6 +107,14 @@ export default function UserInformations() {
                                 </p>
                                 <p>{user.billing_address.street_address}</p>
                             </li>
+                            {
+                                user.billing_address.street_other !== null &&
+                                <li className='user-informations-item'>
+                                    <p>Autre:
+                                    </p>
+                                    <p>{user.billing_address.street_other}</p>
+                                </li>
+                            }
                             <li className='user-informations-item'>
                                 <p>Code postal:
                                 </p>
@@ -141,6 +150,14 @@ export default function UserInformations() {
                                 </p>
                                 <p>{user.delivery_standard.street_address}</p>
                             </li>
+                            {
+                                user.delivery_standard.street_other !== null &&
+                                <li className='user-informations-item'>
+                                    <p>Autre:
+                                    </p>
+                                    <p>{user.delivery_standard.street_other}</p>
+                                </li>
+                            }
                             <li className='user-informations-item'>
                                 <p>Code postal:
                                 </p>

@@ -22,7 +22,6 @@ export default function Quote() {
     const [openOrderConfirmation, setOpenOrderConfirmation] = useState(false);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
     const [openModifQuote, setOpenModifQuote] = useState(false);
-
     useEffect(() => {
         fetchData(user, updateUser); // Appeler la fonction pour récupérer les données
         setQuote(user.quotations.find(quote => quote.quotation_id === Number(quoteId)))

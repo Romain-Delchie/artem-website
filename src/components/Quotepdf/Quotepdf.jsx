@@ -4,7 +4,6 @@ import goodPrice from '../../utils/goodPrice';
 
 export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
 
-
     const transportCost = quote.transport && typeof quote.transport === 'number' ? quote.transport : 0;
     const tvaCoeff = quote.country?.toLowerCase() !== "france" || quote.zip_code.startsWith("97") ? 0 : 0.2;
     const ttcCoeff = quote.country?.toLowerCase() !== "france" || quote.zip_code.startsWith("97") ? 1 : 1.2;
@@ -345,6 +344,7 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                         <Text style={styles.subtitle}>Adresse de Facturation</Text>
                         <Text>{user.billing_address.name_address}</Text>
                         <Text>{user.billing_address.street_address}</Text>
+                        <Text>{user.billing_address.street_other}</Text>
                         <Text>{user.billing_address.zip_code} {user.billing_address.city}</Text>
                         <Text>{user.billing_address.country}</Text>
                     </View>
@@ -352,6 +352,7 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                         <Text style={styles.subtitle}>Adresse de Livraison</Text>
                         <Text>{quote.name_address}</Text>
                         <Text>{quote.street_address}</Text>
+                        <Text>{quote.street_other}</Text>
                         <Text>{quote.zip_code} {quote.city}</Text>
                         <Text>{quote.country}</Text>
                     </View>

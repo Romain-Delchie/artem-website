@@ -91,7 +91,6 @@ export default function QuoteUpdate({ quote, totalPrice, setOpenModifQuote, setQ
         await API.quotation.update(user.token, quote.quotation_id, { reference: quote.reference });
         setRefInputIsOpen(false);
     }
-
     return (
         <div className="quote-update">
             <svg onClick={() => setOpenModifQuote(false)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 quote-btn-cross">
@@ -126,7 +125,7 @@ export default function QuoteUpdate({ quote, totalPrice, setOpenModifQuote, setQ
             <div className="quote-address">
                 <div className="quote-update-element">
                     <p>Adresse de livraison :</p>
-                    <span>{quote.name_address} {quote.street_address} {quote.zip_code} {quote.city} {quote.country}</span>
+                    <span>{quote.name_address} {quote.street_address} {quote.street_other} {quote.zip_code} {quote.city} {quote.country}</span>
                 </div>
                 <svg onClick={() => setAddressIsOpen({ quote: true })} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 green svg-span">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />

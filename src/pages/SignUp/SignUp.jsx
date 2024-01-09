@@ -25,6 +25,7 @@ export default function SignUp() {
         repeat_password: '',
         siret: '', // Changed to string type
         street_address: '',
+        street_other: '',
         zip_code: '',
         city: '',
         country: 'France',
@@ -116,7 +117,6 @@ export default function SignUp() {
         const allFieldsFilled = Object.values(formData).every(
             (field) => field !== null && field !== ""
         );
-        console.log(allFieldsFilled);
         if (!allFieldsFilled) {
             alert("Veuillez remplir tous les champs.");
             return;
@@ -146,7 +146,9 @@ export default function SignUp() {
                 city: formData.city,
                 country: selectedCountry.label,
             }
-
+            if (formData.street_other !== "") {
+                dataAddress.street_other = formData.street_other;
+            }
             API.address.create(dataAddress).then((response) => {
                 const lastForm = formData
                 lastForm.billing_address_id = response.data.newAddress.generatedId
@@ -154,9 +156,11 @@ export default function SignUp() {
                 lastForm.country = selectedCountry.label
                 delete lastForm.street_address
                 delete lastForm.name_address
+                if (lastForm.street_other !== null) {
+                    delete lastForm.street_other
+                }
                 delete lastForm.zip_code
                 delete lastForm.city
-                console.log(lastForm);
                 setFormData({ ...formData, ...dataAddress })
                 API.user
                     .create(lastForm)
@@ -165,10 +169,7 @@ export default function SignUp() {
                         console.log(emailToken);
                         API.auth.signin(formData.email, formData.password).then((response) => {
                             const tokenReceived = response.data.token;
-
-                            console.log(emailToken);
                             updateUser({ ...user, token: tokenReceived });
-
                             API.email.sendConfirmationEmail(tokenReceived, { email: formData.email, firstname: formData.firstname, email_token: emailToken })
                             API.email.newUser()
                             navigate('/dashboard')
@@ -274,6 +275,15 @@ export default function SignUp() {
                             name="street_address"
                             id="street_address"
                             value={formData.street_address}
+                            onChange={handleChange}
+                        />
+                        <label htmlFor='street_other'>Complément adresse</label>
+                        <input
+                            placeholder='Facultatif : ex: lieu dit'
+                            type="text"
+                            name="street_other"
+                            id="street_other"
+                            value={formData.street_other}
                             onChange={handleChange}
                         />
 

@@ -35,20 +35,6 @@ export default function Home() {
                     <TextSlider />
                     <ImageSlider />
                 </Link>
-                {/* <section className='hero-description-container'>
-                    <h2>Artem, fabricant de textiles techniques et machines d'enfournement pour la boulangerie</h2>
-                    <p>Artem produit des textiles pour les boulangeries pâtisseries qui répondront à tous types d'usages.
-                    Que ce soit pour la pâte fraiche, les baguettes cuites et même la farine, nous saurons vous conseiller sur la matière idéale à utiliser.
-                    Notre gamme est très large et propose des tapis et toiles en coton, en polyester, en lin, en feutre laine, tissée ou non-tissée, en PU, en PVC, en nylon et bien plus encore.</p>
-                    <br />
-                    <p>Adaptable toutes marques et toutes machines que vous pouvez trouver dans un fournil: tapis enfourneur, toile de balancelle ou repose pâtons, tapis de laminoir, toile de lin, bande de transport, manchons de façonnage, tapis de boulage, bande de peseuses diviseuses ou trancheuses, housse à chariot, manche à farine (silo) sont notre spécialité et le coeur de notre gamme.</p>
-                    <br />
-                    <p>Nous proposons aussi des solutions pour les biscuiteries, les chocolateries et même pour les secteurs non alimentaire </p>
-                    <br />
-                    <p>Nous fabriquons également des machines d'enfournement pour vos fours à sole.
-                    Nos enfourneurs défourneurs standard sont en acier inoxydable mais peuvent être également conçus en aluminium sur demande.
-                    Notre gamme d'élévateur propose à la fois du manuel (ciseaux, colonne, tréteau, intégré) et de l'automatique (colonne motorisé). Les barres de toiles enfourneur, les grilles inox et séchoir à couche complètent notre gamme inox</p>
-                </section> */}
                 <Presentation presentations={presentations} />
 
                 <Link to='/creer-un-compte' className='hero-description-container'>
