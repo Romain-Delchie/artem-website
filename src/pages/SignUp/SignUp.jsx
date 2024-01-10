@@ -114,8 +114,9 @@ export default function SignUp() {
             passwordValidation.digit &&
             passwordValidation.specialChar;
         formData.siret = formData.country !== 'France' ? '00000000000000' : String(formData.siret)
-        const allFieldsFilled = Object.values(formData).every(
-            (field) => field !== null && field !== ""
+
+        const allFieldsFilled = Object.entries(formData).every(
+            ([key, value]) => key === 'street_other' || (value !== null && value !== "")
         );
         if (!allFieldsFilled) {
             alert("Veuillez remplir tous les champs.");
