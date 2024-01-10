@@ -125,6 +125,7 @@ export default function SignUp() {
 
         const phonePattern = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/;
         const siretPattern = /^[0-9]{14}$/
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (!isPasswordValid) {
             alert("Le mot de passe ne respecte pas les critères de sécurité.");
@@ -138,7 +139,11 @@ export default function SignUp() {
         } else if (formData.password !== formData.repeat_password) {
             alert("Les mots de passe ne correspondent pas.");
             return;
-        } else {
+        } else if (!emailPattern.test(formData.email)) {
+            alert("L'adresse e-mail n'est pas valide.");
+            return;
+        }
+        else {
             setIsLoading(true)
             const dataAddress = {
                 name_address: formData.company,
