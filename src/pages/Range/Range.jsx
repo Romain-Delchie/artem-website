@@ -4,11 +4,27 @@ import API from '../../utils/api/api'
 import AppContext from '../../context/AppContext'
 import './Range.scss'
 import Loading from '../../components/Loading/Loading'
+import TechSheetPdf from '../../components/TechSheetPdf/TechSheetPdf'
 
 export default function Range() {
     const { user } = useContext(AppContext);
     const { rangeId } = useParams()
     const [range, setRange] = useState(null);
+    const [modalOpenState, setModalOpenState] = useState({});
+
+    const openModal = (techSheetId) => {
+        setModalOpenState((prevState) => ({
+            ...prevState,
+            [techSheetId]: true,
+        }));
+    };
+
+    const closeModal = (techSheetId) => {
+        setModalOpenState((prevState) => ({
+            ...prevState,
+            [techSheetId]: false,
+        }));
+    };
 
     useEffect(() => {
         // Chargez les données en fonction de rangeId
@@ -50,7 +66,7 @@ export default function Range() {
                             range.techSheets.map((techSheet) => {
                                 return (
                                     <li className="range-sheet-container-item" key={techSheet.id}>
-                                        <Link className='range-sheet-container-item-link' to={`/technicalSheet/${techSheet.link}.pdf`} target='_blank' download rel="noreferrer">
+                                        <button className='range-sheet-container-item-link' to={`/technicalSheet/${techSheet.link}.pdf`} onClick={() => openModal(techSheet.id)}>
                                             <img className='range-sheet-container-item-link-pdf' src={`/images/pdf.png`} alt={`fiche technique pour ${techSheet.name}`} />
                                             {
                                                 techSheet.description.includes('lavable') &&
@@ -60,7 +76,15 @@ export default function Range() {
                                                 <p>{techSheet.name}</p>
                                                 <p>{techSheet.description}</p>
                                             </div>
-                                        </Link>
+                                        </button>
+                                        {modalOpenState[techSheet.id] && (
+                                            <div className="range-modal">
+                                                <TechSheetPdf techSheet={techSheet} />
+                                                <button className="range-modal-close" onClick={() => closeModal(techSheet.id)}>
+                                                    X
+                                                </button>
+                                            </div>
+                                        )}
                                     </li>
                                 )
                             })
@@ -69,7 +93,6 @@ export default function Range() {
 
                 </section>
             }
-
 
             {
                 !user.token &&
