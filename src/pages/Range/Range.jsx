@@ -61,36 +61,163 @@ export default function Range() {
                         <img className='range-sheet-img' src={`/images/clean.png`} alt={`photo de lavage}`} />
                         <p>: Facilité de nettoyage</p>
                     </div>
-                    <ul className="range-sheet-container">
-                        {
-                            range.techSheets.map((techSheet) => {
-                                return (
-                                    <li className="range-sheet-container-item" key={techSheet.id}>
-                                        <button className='range-sheet-container-item-link' to={`/technicalSheet/${techSheet.link}.pdf`} onClick={() => openModal(techSheet.id)}>
-                                            <img className='range-sheet-container-item-link-pdf' src={`/images/pdf.png`} alt={`fiche technique pour ${techSheet.name}`} />
-                                            {
-                                                techSheet.description.includes('lavable') &&
-                                                <img className='range-sheet-container-item-link-img' src={`/images/clean.png`} alt={`photo de nettoyage`} />
-                                            }
-                                            <div className='range-sheet-container-item-link-text'>
-                                                <p>{techSheet.name}</p>
-                                                <p>{techSheet.description}</p>
-                                            </div>
-                                        </button>
-                                        {modalOpenState[techSheet.id] && (
-                                            <div className="range-modal">
-                                                <TechSheetPdf techSheet={techSheet} />
-                                                <button className="range-modal-close" onClick={() => closeModal(techSheet.id)}>
-                                                    X
+                    {
+                        window.location.pathname.includes("Tapis%20de%20fa%C3%A7onneuse") &&
+                        <div className='range-dought'>
+                            <h3>Feutre sous tapis lourd et réception :</h3>
+                            <ul className="range-sheet-container">
+                                {
+                                    range.techSheets.filter(ts => ts.description.toLowerCase().includes("bavette")).map((techSheet) => {
+                                        return (
+                                            <li className="range-sheet-container-item" key={techSheet.id}>
+                                                <button className='range-sheet-container-item-link' to={`/technicalSheet/${techSheet.link}.pdf`} onClick={() => openModal(techSheet.id)}>
+                                                    <img className='range-sheet-container-item-link-pdf' src={`/images/pdf.png`} alt={`fiche technique pour ${techSheet.name}`} />
+                                                    {
+                                                        techSheet.description.includes('lavable') &&
+                                                        <img className='range-sheet-container-item-link-img' src={`/images/clean.png`} alt={`photo de nettoyage`} />
+                                                    }
+                                                    <div className='range-sheet-container-item-link-text'>
+                                                        <p>{techSheet.name}</p>
+                                                        <p>{techSheet.description}</p>
+                                                    </div>
                                                 </button>
-                                            </div>
-                                        )}
-                                    </li>
-                                )
-                            })
-                        }
-                    </ul>
-
+                                                {modalOpenState[techSheet.id] && (
+                                                    <div className="range-modal">
+                                                        <TechSheetPdf techSheet={techSheet} />
+                                                        <button className="range-modal-close" onClick={() => closeModal(techSheet.id)}>
+                                                            X
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                            <h3>Tapis lourd :</h3>
+                            <ul className="range-sheet-container">
+                                {
+                                    range.techSheets.filter(ts => ts.description.toLowerCase().includes("lourd")).map((techSheet) => {
+                                        return (
+                                            <li className="range-sheet-container-item" key={techSheet.id}>
+                                                <button className='range-sheet-container-item-link' to={`/technicalSheet/${techSheet.link}.pdf`} onClick={() => openModal(techSheet.id)}>
+                                                    <img className='range-sheet-container-item-link-pdf' src={`/images/pdf.png`} alt={`fiche technique pour ${techSheet.name}`} />
+                                                    {
+                                                        techSheet.description.includes('lavable') &&
+                                                        <img className='range-sheet-container-item-link-img' src={`/images/clean.png`} alt={`photo de nettoyage`} />
+                                                    }
+                                                    <div className='range-sheet-container-item-link-text'>
+                                                        <p>{techSheet.name}</p>
+                                                        <p>{techSheet.description}</p>
+                                                    </div>
+                                                </button>
+                                                {modalOpenState[techSheet.id] && (
+                                                    <div className="range-modal">
+                                                        <TechSheetPdf techSheet={techSheet} />
+                                                        <button className="range-modal-close" onClick={() => closeModal(techSheet.id)}>
+                                                            X
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                            <h3>Manchon de façonneuse artisanale :</h3>
+                            <ul className="range-sheet-container">
+                                {
+                                    range.techSheets.filter(ts => ts.description.toLowerCase().includes("manchon")).map((techSheet) => {
+                                        return (
+                                            <li className="range-sheet-container-item" key={techSheet.id}>
+                                                <button className='range-sheet-container-item-link' to={`/technicalSheet/${techSheet.link}.pdf`} onClick={() => openModal(techSheet.id)}>
+                                                    <img className='range-sheet-container-item-link-pdf' src={`/images/pdf.png`} alt={`fiche technique pour ${techSheet.name}`} />
+                                                    {
+                                                        techSheet.description.includes('lavable') &&
+                                                        <img className='range-sheet-container-item-link-img' src={`/images/clean.png`} alt={`photo de nettoyage`} />
+                                                    }
+                                                    <div className='range-sheet-container-item-link-text'>
+                                                        <p>{techSheet.name}</p>
+                                                        <p>{techSheet.description}</p>
+                                                    </div>
+                                                </button>
+                                                {modalOpenState[techSheet.id] && (
+                                                    <div className="range-modal">
+                                                        <TechSheetPdf techSheet={techSheet} />
+                                                        <button className="range-modal-close" onClick={() => closeModal(techSheet.id)}>
+                                                            X
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                            <h3>Bande pour façonneuse horizontale:</h3>
+                            <ul className="range-sheet-container">
+                                {
+                                    range.techSheets.filter(ts => ts.description.toLowerCase().includes("bande")).map((techSheet) => {
+                                        return (
+                                            <li className="range-sheet-container-item" key={techSheet.id}>
+                                                <button className='range-sheet-container-item-link' to={`/technicalSheet/${techSheet.link}.pdf`} onClick={() => openModal(techSheet.id)}>
+                                                    <img className='range-sheet-container-item-link-pdf' src={`/images/pdf.png`} alt={`fiche technique pour ${techSheet.name}`} />
+                                                    {
+                                                        techSheet.description.includes('lavable') &&
+                                                        <img className='range-sheet-container-item-link-img' src={`/images/clean.png`} alt={`photo de nettoyage`} />
+                                                    }
+                                                    <div className='range-sheet-container-item-link-text'>
+                                                        <p>{techSheet.name}</p>
+                                                        <p>{techSheet.description}</p>
+                                                    </div>
+                                                </button>
+                                                {modalOpenState[techSheet.id] && (
+                                                    <div className="range-modal">
+                                                        <TechSheetPdf techSheet={techSheet} />
+                                                        <button className="range-modal-close" onClick={() => closeModal(techSheet.id)}>
+                                                            X
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                        </div>
+                    }
+                    {
+                        !window.location.pathname.includes("Tapis%20de%20fa%C3%A7onneuse") &&
+                        <ul className="range-sheet-container">
+                            {
+                                range.techSheets.map((techSheet) => {
+                                    return (
+                                        <li className="range-sheet-container-item" key={techSheet.id}>
+                                            <button className='range-sheet-container-item-link' to={`/technicalSheet/${techSheet.link}.pdf`} onClick={() => openModal(techSheet.id)}>
+                                                <img className='range-sheet-container-item-link-pdf' src={`/images/pdf.png`} alt={`fiche technique pour ${techSheet.name}`} />
+                                                {
+                                                    techSheet.description.includes('lavable') &&
+                                                    <img className='range-sheet-container-item-link-img' src={`/images/clean.png`} alt={`photo de nettoyage`} />
+                                                }
+                                                <div className='range-sheet-container-item-link-text'>
+                                                    <p>{techSheet.name}</p>
+                                                    <p>{techSheet.description}</p>
+                                                </div>
+                                            </button>
+                                            {modalOpenState[techSheet.id] && (
+                                                <div className="range-modal">
+                                                    <TechSheetPdf techSheet={techSheet} />
+                                                    <button className="range-modal-close" onClick={() => closeModal(techSheet.id)}>
+                                                        X
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul>
+                    }
                 </section>
             }
 

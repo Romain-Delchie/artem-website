@@ -138,6 +138,7 @@ export default function AddTechsheet() {
         API.rangeHasTechsheet.delete(user.token, data).then((res) => {
             alert('Le lien a bien été supprimé');
             setPdfSended(!pdfSended);
+            setIsDataLoaded(true);
         }
         ).catch((err) => {
             console.error(err);

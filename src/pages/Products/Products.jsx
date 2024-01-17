@@ -175,7 +175,7 @@ export default function Products() {
                 <section className='products-section products-section-meca'>
                     <ul className="products-section-list">
                         {
-                            ranges.filter(range => range.category === 'indus').map(range => <RangeCard key={range.id} range={range} />)
+                            ranges.filter(range => range.category === 'indus' || range.name === "Tapis de laminoir" || range.name === "Tapis de façonneuse").map(range => <RangeCard key={range.id} range={range} />)
                         }
                     </ul>
 
@@ -198,7 +198,7 @@ export default function Products() {
                     </svg>
 
                 }
-                <h2>Notre Gamme bande transporteuse autre secteur</h2>
+                <h2>Notre Gamme bande transporteuse tout secteur</h2>
 
             </div>
             {
