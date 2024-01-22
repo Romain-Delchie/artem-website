@@ -11,7 +11,7 @@ export default function Addresses({ type, modification, setModification, quoteId
     const typeKey = type === 'billing' ? 'billing_address' : 'delivery_standard';
 
     const { user, updateUser } = useContext(AppContext)
-    const [addressSelected, setAddressSelected] = useState({ new: false, ...user[typeKey], zip_code: "" })
+    const [addressSelected, setAddressSelected] = useState({ new: false, ...user[typeKey], zip_code: "", city: "" })
     const [isOpenAddresses, setIsOpenAddresses] = useState(false)
     const [availableCities, setAvailableCities] = useState([])
     const [countryOptions, setCountryOptions] = useState([]);
@@ -29,7 +29,6 @@ export default function Addresses({ type, modification, setModification, quoteId
         }
 
         user.deliveries.filter((delivery) => delivery.id === Number(e.target.value)).map((delivery) => {
-
             setAddressSelected({ ...addressSelected, ...delivery, new: false })
             setIsOpenAddresses(false)
         }

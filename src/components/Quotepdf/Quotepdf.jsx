@@ -7,6 +7,7 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
     const transportCost = quote.transport && typeof quote.transport === 'number' ? quote.transport : 0;
     const tvaCoeff = quote.country?.toLowerCase() !== "france" || quote.zip_code.startsWith("97") ? 0 : 0.2;
     const ttcCoeff = quote.country?.toLowerCase() !== "france" || quote.zip_code.startsWith("97") ? 1 : 1.2;
+    quote.corse = quote.zip_code.startsWith("20") || quote.zip_code.startsWith("2A") || quote.zip_code.startsWith("2B") ? artemData.corse : 0;
     const styles = StyleSheet.create({
         page: {
             fontFamily: 'Helvetica',
@@ -312,6 +313,7 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
             borderTop: '2px double black',
         }
     });
+    console.log(quote);
     return (
         <Document>
             <Page size="A4" style={styles.page}>
@@ -417,7 +419,7 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                         </View>
                     }
                     {
-                        quote.zip_code.startsWith("20") || quote.zip_code.startsWith("2A") || quote.zip_code.startsWith("2B") &&
+                        (quote.zip_code.startsWith("20") || quote.zip_code.startsWith("2A") || quote.zip_code.startsWith("2B")) &&
                         <View style={styles.tableRow}>
                             <Text style={styles.tableCell.clicli}>Supplément livraison en Corse</Text>
                             <Text style={styles.tableCell.clicliPrice}>{artemData.corse.toFixed(2)} € HT</Text>
@@ -432,15 +434,15 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
                         }
                         <Text style={styles.tableCell.total}>
                             Total HT :</Text>
-                        <Text style={styles.tableCell.totalPrice}>{(totalPrice + transportCost + quote.clicli).toFixed(2)} € HT</Text>
+                        <Text style={styles.tableCell.totalPrice}>{(totalPrice + transportCost + quote.clicli + quote.corse).toFixed(2)} € HT</Text>
                     </View>
                     <View style={styles.tableRow}>
                         <Text style={styles.tableCell.total}>TVA :</Text>
-                        <Text style={styles.tableCell.totalPrice}>{((totalPrice + transportCost + quote.clicli) * tvaCoeff).toFixed(2)} €</Text>
+                        <Text style={styles.tableCell.totalPrice}>{((totalPrice + transportCost + quote.clicli + quote.corse) * tvaCoeff).toFixed(2)} €</Text>
                     </View>
                     <View style={styles.tableRow}>
                         <Text style={styles.tableCell.total}>Total TTC</Text>
-                        <Text style={styles.tableCell.lastTotalPrice}>{((totalPrice + transportCost + quote.clicli) * ttcCoeff).toFixed(2)} € TTC</Text>
+                        <Text style={styles.tableCell.lastTotalPrice}>{((totalPrice + transportCost + quote.clicli + quote.corse) * ttcCoeff).toFixed(2)} € TTC</Text>
                     </View>
                 </View>
 

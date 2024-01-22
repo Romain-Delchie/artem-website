@@ -208,13 +208,14 @@ export default function QuoteUpdate({ quote, totalPrice, setOpenModifQuote, setQ
                         <p><strong>Port et emballage :</strong> {quote.transport} € HT</p>
                         {quote.clicli === 6 &&
                             <p><strong>Supplément livraison en dépôt ou chez votre client :</strong> 6 € HT</p>
-
+                        }
+                        {quote.corse !== 0 &&
+                            <p><strong>Supplément livraison en Corse :</strong> {quote.corse} € HT</p>
                         }
                     </div>
                 }
                 <div className="totals">
-                    <p><strong>Total HT :</strong> {typeof quote.transport === "string" ? `${totalPrice.toFixed(2)} € HT hors transport` : `${(quote.transport + totalPrice + quote.clicli).toFixed(2)} € HT`}</p>
-
+                    <p><strong>Total HT :</strong> {typeof quote.transport === "string" ? `${totalPrice.toFixed(2)} € HT hors transport` : `${(quote.transport + totalPrice + quote.clicli + quote.corse).toFixed(2)} € HT`}</p>
                 </div>
             </div>
 
