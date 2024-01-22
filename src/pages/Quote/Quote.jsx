@@ -89,6 +89,8 @@ export default function Quote() {
                 Navigate('/dashboard', { replace: true });
             } catch (emailError) {
                 console.error("An error occurred while sending the email:", emailError);
+                alert("Votre devis est vide, veuillez ajouter des produits avant de passer commande.")
+                setOpenOrderConfirmation(false);
             }
 
         } catch (error) {
