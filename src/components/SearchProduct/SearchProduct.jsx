@@ -93,7 +93,7 @@ export default function SearchProduct() {
                     <h3>Filtrer par gamme</h3>
                     <select name="range" id="range" onChange={handleChangeSort}>
                         <option value="all">Toutes les gammes</option>
-                        {ranges && ranges.map((range) => (
+                        {ranges && ranges.filter((oneRange) => oneRange.searchFilter).map((range) => (
                             <option value={range.id} key={range.id}>{range.name}</option>
                         ))}
                     </select>

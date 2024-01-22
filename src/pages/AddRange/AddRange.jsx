@@ -105,6 +105,11 @@ export default function AddRange() {
                         <input type='number' step="0.01" name='minPrice' id='minPrice' placeholder='ex: 120.00 (2chiffres après la virgule)' />
                     </div>
                     <div className="input-container">
+                        <label htmlFor="searchFilter">Filtre de recherche</label>
+                        <input type='number' name='searchFilter' id='searchFilter' placeholder='ex: 1' />
+                        <p>Si la gamme doit être affichée dans les filtres de recherche tapez 1 sinon 0</p>
+                    </div>
+                    <div className="input-container">
                         <label htmlFor="image">Fichier image</label>
                         <input type='file' name='image' id='image' />
                         <p>ATTENTION: le nom du fichier doit être strictement identique à "lien image" ci-dessus</p>

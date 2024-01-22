@@ -70,6 +70,7 @@ export default function UpdateRange() {
                             return (
                                 <div className="update-range-input-container" key={key}>
                                     <label htmlFor={key}>{key}</label>
+                                    {key === 'searchFilter' && <p>Si la gamme doit être affichée dans les filtres de recherche tapez 1 sinon 0</p>}
                                     <input type="text" name={key} id={key} value={rangeToUpdate[key]} onChange={handleChangeForm} />
                                 </div>
                             )
