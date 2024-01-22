@@ -50,8 +50,6 @@ export default function UserInformations() {
 
         });
     }
-    console.log(user);
-    console.log(!user.delivery_standard.street_other);
     return (
         <main className='user-informations'>
             <DashboardComponent />

@@ -1,7 +1,6 @@
 import React from 'react';
 
 export default function Presentation({ presentations }) {
-    console.log(presentations);
     return (
         <>
             {presentations.map((item) => (

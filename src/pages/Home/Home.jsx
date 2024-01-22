@@ -25,6 +25,7 @@ export default function Home() {
     } else {
         return (
             <main className='hero'>
+                <link rel="preload" as="image" href="/images/bgg.jpg" />
                 <section className='hero-button-container'>
                     <Link className='hero-button hero-button-one' to='/entreprise'><p>Notre entreprise</p></Link>
                     <Link className='hero-button hero-button-two' to='/gamme'><p>Notre gamme</p></Link>

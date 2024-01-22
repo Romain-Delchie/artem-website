@@ -65,7 +65,6 @@ export default function HandleHome() {
         e.preventDefault()
         API.presentation.delete(user.token, presentationToDelete)
             .then(res => {
-                console.log(typeof presentationToDelete);
                 const newPresentations = presentations.filter(item => item.id !== Number(presentationToDelete))
                 setPresentations(newPresentations)
                 setPresentationToDelete()

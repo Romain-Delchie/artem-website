@@ -172,7 +172,6 @@ export default function SignUp() {
                     .create(lastForm)
                     .then((response) => {
                         const emailToken = response.data.newAccount.email_token;
-                        console.log(emailToken);
                         API.auth.signin(formData.email, formData.password).then((response) => {
                             const tokenReceived = response.data.token;
                             updateUser({ ...user, token: tokenReceived });

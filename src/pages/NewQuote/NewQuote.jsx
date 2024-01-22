@@ -7,6 +7,7 @@ import './NewQuote.scss'
 import fetchData from '../../utils/fetchData';
 import Loading from '../../components/Loading/Loading';
 import DashboardComponent from '../../components/Dashboard/DashboardComponent';
+import Select from 'react-select';
 
 export default function NewQuote() {
     const { user, updateUser } = useContext(AppContext)
@@ -16,14 +17,30 @@ export default function NewQuote() {
     const [availableCities, setAvailableCities] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [newQuoteId, setNewQuoteId] = useState()
-
-
-
+    const [selectedCountry, setSelectedCountry] = useState({ label: 'France', value: 'France' });
+    const [countryOptions, setCountryOptions] = useState([]);
+    const [apiError, setApiError] = useState(false);
+    console.log(addressSelected);
     useEffect(() => {
         if (user.quotations.filter((quotation) => quotation.quotation_id === newQuoteId).length > 0) {
             navigate(`/quote-history/${user.quotations.slice(-1)[0].quotation_id}`)
         }
     }, [user])
+
+    useEffect(() => {
+        // Utilisez une API pour récupérer la liste des pays
+        axios.get('https://restcountries.com/v3.1/all')
+            .then(response => {
+                const countries = response.data.sort((a, b) => a.name.common.localeCompare(b.name.common)).map(country => ({
+                    label: country.name.common,
+                    value: country.name.common,
+                }));
+                setCountryOptions(countries);
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des pays', error);
+            });
+    }, []);
 
     const handleOpenAddresses = (e) => {
         e.preventDefault()
@@ -76,7 +93,8 @@ export default function NewQuote() {
             name_address: e.target.name_address.value,
             street_address: e.target.street_address.value,
             zip_code: e.target.zip_code.value,
-            city: e.target.city.value
+            city: e.target.city.value,
+            country: selectedCountry.value,
         }
         API.address.create(dataAddress).then((response) => {
             response.data.newAddress.id = response.data.newAddress.generatedId
@@ -86,6 +104,7 @@ export default function NewQuote() {
             setAddressSelected({ ...response.data.newAddress, new: false })
             setIsOpenAddresses(false)
             API.delivery.create(user.token, { delivery_address_id: response.data.newAddress.id, account_id: user.id }).then((response) => {
+                console.log(response);
                 fetchData(user, updateUser)
             }
             ).catch((error) => {
@@ -117,6 +136,7 @@ export default function NewQuote() {
                 }
             } catch (error) {
                 console.error('Error fetching cities:', error);
+                setApiError(true);
             }
         } else {
             setAvailableCities([]);
@@ -155,6 +175,7 @@ export default function NewQuote() {
                                 <p>{addressSelected.zip_code}</p>
                                 <p>{addressSelected.city}</p>
                             </div>
+                            <p>{addressSelected.country}</p>
                         </div>
                     </div>
                     <button className='new-quote-shipment-btn' onClick={handleOpenAddresses}>Modifier livraison</button>
@@ -179,8 +200,6 @@ export default function NewQuote() {
                                     )
                                 })
                                 }
-
-
                             </select>
                         </div>
                     </div>
@@ -205,6 +224,17 @@ export default function NewQuote() {
                             <input type="text" name="street_address" id="street_address" placeholder="ex : 1 rue de la Paix" />
                         </div>
                         <div className="new-quote-new-address-item">
+                            <label htmlFor="country">Pays</label>
+                            <Select
+                                id="country"
+                                options={countryOptions}
+                                value={selectedCountry}
+                                onChange={option => setSelectedCountry(option)}
+                                placeholder="Sélectionnez un pays"
+                                isSearchable={true}
+                            />
+                        </div>
+                        <div className="new-quote-new-address-item">
                             <label htmlFor="zip_code">C.P.</label>
                             <input
                                 type="text"
@@ -217,19 +247,27 @@ export default function NewQuote() {
                         </div>
                         <div className="new-quote-new-address-item">
                             <label htmlFor="city">Ville</label>
-                            <select
-                                name="city"
-                                id="city"
-                                defaultValue={addressSelected.city || 'none'}
-                                onChange={handleCityChange}
-                            >
-                                <option value="none" key='none'>Sélectionnez une ville</option>
-                                {availableCities.map((city, index) => (
-                                    <option key={`${city}_${index}`} value={city}>
-                                        {city}
-                                    </option>
-                                ))}
-                            </select>
+                            {
+                                (apiError || (selectedCountry.label !== 'France')) ? (
+                                    <input type='text' name='city' id='city' placeholder='Ville' value={addressSelected.city} onChange={handleCityChange} />
+                                ) : (
+                                    !apiError && (selectedCountry.label === 'France') ? (
+                                        <select
+                                            name="city"
+                                            id="city"
+                                            defaultValue={addressSelected.city || 'none'}
+                                            onChange={handleCityChange}
+                                        >
+                                            <option value="none" key='none'>Sélectionnez une ville</option>
+                                            {availableCities.map((city, index) => (
+                                                <option key={`${city}_${index}`} value={city}>
+                                                    {city}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : null // Ajout de null pour éviter un rendu inattendu
+                                )
+                            }
                         </div>
 
                         <button className='new-quote-new-address-btn' type='submit'>Valider la nouvelle adresse</button>

@@ -32,7 +32,6 @@ export default function RoleValidation() {
             profile_id: event.target.profile_id.value
         }
         const acountToValidate = accountsToValidate.find((account) => account.id === parseInt(dataToSend.idToValidate))
-        console.log(acountToValidate);
         API.user.update(user.token, dataToSend).then((res) => {
             setIsLoading(false)
             alert('Le rôle a bien été validé')
