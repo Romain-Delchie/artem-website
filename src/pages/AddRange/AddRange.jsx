@@ -22,6 +22,7 @@ export default function AddRange() {
         formData.append('image_link', e.target.elements.image_link.value);
         formData.append('category', e.target.elements.category.value);
         formData.append('minPrice', e.target.elements.minPrice.value);
+        formData.set('searchFilter', e.target.elements.searchFilter.checked ? 1 : 0);
 
         if (
             !fileInput ||
@@ -105,9 +106,9 @@ export default function AddRange() {
                         <input type='number' step="0.01" name='minPrice' id='minPrice' placeholder='ex: 120.00 (2chiffres après la virgule)' />
                     </div>
                     <div className="input-container">
-                        <label htmlFor="searchFilter">Filtre de recherche</label>
-                        <input type='number' name='searchFilter' id='searchFilter' placeholder='ex: 1' />
-                        <p>Si la gamme doit être affichée dans les filtres de recherche tapez 1 sinon 0</p>
+                        <label htmlFor="searchFilter">Filtre de recherche produit</label>
+                        <input type='checkbox' name='searchFilter' id='searchFilter' />
+                        <p>Si la gamme doit être affichée dans les filtres de recherche cochez la case</p>
                     </div>
                     <div className="input-container">
                         <label htmlFor="image">Fichier image</label>

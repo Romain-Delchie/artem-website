@@ -24,11 +24,11 @@ export default function UpdateRange() {
     useEffect(() => {
         if (idToUpdate) {
             API.range.getRange(idToUpdate)
-                .then(res => setRangeToUpdate(res.data.oneRange))
+                .then(res => setRangeToUpdate({ ...res.data.oneRange, searchFilter: res.data.oneRange.searchFilter === 1 ? true : false }))
                 .catch(err => console.error(err))
         }
     }, [idToUpdate])
-
+    console.log(rangeToUpdate);
     if (!isDataLoaded) {
         return <Loading />
     }
@@ -37,6 +37,11 @@ export default function UpdateRange() {
     }
 
     const handleChangeForm = (e) => {
+        if (e.target.name === 'searchFilter') {
+            console.log(e.target.checked);
+            setRangeToUpdate({ ...rangeToUpdate, [e.target.name]: e.target.checked })
+            return
+        }
         setRangeToUpdate({ ...rangeToUpdate, [e.target.name]: e.target.value })
     }
 
@@ -66,12 +71,19 @@ export default function UpdateRange() {
             {rangeToUpdate && (
                 <form onSubmit={handleSubmitRangeUpdated}>
                     {Object.keys(rangeToUpdate).map(key => {
-                        if (key !== 'id' && key !== 'description' && key !== 'created_at' && key !== 'updated_at' && key !== 'techSheets') {
+                        if (key !== 'id' && key !== 'description' && key !== 'searchFilter' && key !== 'created_at' && key !== 'updated_at' && key !== 'techSheets') {
                             return (
                                 <div className="update-range-input-container" key={key}>
                                     <label htmlFor={key}>{key}</label>
-                                    {key === 'searchFilter' && <p>Si la gamme doit être affichée dans les filtres de recherche tapez 1 sinon 0</p>}
                                     <input type="text" name={key} id={key} value={rangeToUpdate[key]} onChange={handleChangeForm} />
+                                </div>
+                            )
+                        }
+                        if (key === 'searchFilter') {
+                            return (
+                                <div className="update-range-input-container" key={key}>
+                                    <label htmlFor={key}>{key}</label>
+                                    <input type="checkbox" name={key} id={key} checked={rangeToUpdate[key]} onChange={handleChangeForm} />
                                 </div>
                             )
                         }
@@ -87,7 +99,8 @@ export default function UpdateRange() {
                     })}
                     <button type='submit'>Valider les modifications</button>
                 </form>
-            )}
+            )
+            }
         </main>
     )
 }
