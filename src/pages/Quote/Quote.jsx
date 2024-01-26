@@ -39,7 +39,7 @@ export default function Quote() {
         setIsDataLoaded(true);
     }, [user]);
 
-    const totalPrice = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + goodPrice(user.profile_id, product, product.quatity) * product.quantity, 0);
+    const totalPrice = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + goodPrice(user.profile_id, product, product.quantity) * product.quantity, 0);
     const totalWeight = quote.products === null ? 0 : quote.products.reduce((acc, product) => acc + product.weight * product.quantity, 0);
     quote.totalPrice = totalPrice;
     quote.totalWeight = totalWeight;

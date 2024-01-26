@@ -39,6 +39,8 @@ import SearchUpdate from "../pages/SearchUpdate/SearchUpdate";
 import ScrollToTopButton from "../components/ScrollToTopButton/ScrollToTopButton";
 import SearchProductPage from "../pages/SearchProductPage/SearchProductPage";
 import HandleHome from "../pages/HandleHome/HandleHome";
+import QuotationList from "../pages/QuotationList/QuotationList";
+import QuoteAdmin from "../pages/QuoteAdmin/QuoteAdmin";
 
 function App() {
 
@@ -93,7 +95,9 @@ function App() {
             <Route path="/add-techsheet" element={<AddTechsheet />} />
             <Route path="/role-validation" element={<RoleValidation />} />
             <Route path="/user-list" element={<UserList />} />
-            <Route path="handle-home" element={<HandleHome />} />
+            <Route path="/handle-home" element={<HandleHome />} />
+            <Route path="/Quotation-list" element={<QuotationList />} />
+            <Route path="/Quotation-list/:id" element={<QuoteAdmin />} />
           </>
         }
 

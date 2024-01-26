@@ -118,6 +118,7 @@ export default function SignUp() {
         const allFieldsFilled = Object.entries(formData).every(
             ([key, value]) => key === 'street_other' || (value !== null && value !== "")
         );
+        console.log(allFieldsFilled);
         if (!allFieldsFilled) {
             alert("Veuillez remplir tous les champs.");
             return;
@@ -186,6 +187,7 @@ export default function SignUp() {
                             alert('Cet email est déjà utilisé')
                         } else {
                             alert(error.message)
+                            console.log(error);
                         }
                     })
             }).catch((error) => {

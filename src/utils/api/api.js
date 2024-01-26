@@ -93,7 +93,14 @@ const API = {
                 headers: {
                     "x-auth-token": token,
                 },
+            });
+        },
 
+        async getAllQuotations(token) {
+            return axios.get("/quotation/all", {
+                headers: {
+                    "x-auth-token": token,
+                },
             });
         },
 

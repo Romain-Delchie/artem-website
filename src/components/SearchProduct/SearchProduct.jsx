@@ -108,7 +108,12 @@ export default function SearchProduct() {
                     </select>
                 </div>
             </section>
-            <form className="search-product-form">
+            <form className="search-product-form" onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                }
+            }
+            }>
                 <h3>Recherche un produit par :</h3>
                 <div className="input-radio">
                     <div className="input-container">
