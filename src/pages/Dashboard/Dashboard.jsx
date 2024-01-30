@@ -57,12 +57,10 @@ export default function Dashboard() {
                     </div>
                     {user.quotations.length === 0 ? <p>Vous n'avez pas de devis en cours</p> : <p>vous avez {user.quotations.length} devis en cours :</p>}
                     {user.quotations.length > 0 &&
-                        <div>
+                        <div className='dashboard-section-quotation-list'>
                             {user.quotations.map((quotation, index) => {
                                 return (
-                                    <div key={index}>
-                                        <p className='dashboard-section-information'>-  {quotation.creation_date} - Réf: {quotation.reference}</p>
-                                    </div>
+                                    <p key={index} className='dashboard-section-information'>-  {quotation.creation_date} - Réf: {quotation.reference}</p>
                                 )
                             })}
                         </div>

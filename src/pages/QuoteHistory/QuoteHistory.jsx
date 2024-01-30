@@ -6,10 +6,11 @@ import DashboardComponent from '../../components/Dashboard/DashboardComponent';
 
 export default function QuoteHistory() {
     const { user } = useContext(AppContext);
+    console.log(user.quotations[0]);
     return (
         <main className='quote-history'>
             <DashboardComponent />
-            <h2 className='quote-history-title'>Liste des devis en cours</h2>
+            <h2 className='quote-history-title'>Liste des devis en cours ({user.quotations.length})</h2>
             <ul className='quote-history-container'>
                 {user.quotations && user.quotations.length === 0 &&
                     <div className="quote-history-empty">
@@ -18,8 +19,13 @@ export default function QuoteHistory() {
                     </div>
                 }
                 {user.quotations && user.quotations.map((quotation, index) => (
-
-                    <li key={index} className='quote-item'>
+                    < li key={index} className='quote-item' >
+                        <div className={`quote-item-ordered ${quotation.ordered == false ? 'not-ordered' : 'ordered'}`}>
+                            <p>{
+                                quotation.ordered == false ? 'Pas encore mis en commande' : 'Devis déjà commandé'
+                            }
+                            </p>
+                        </div>
                         <h3>Devis n°{quotation.quotation_id}</h3>
                         <p>Reference : {quotation.reference}</p>
                         <p>Créé le : {quotation.creation_date}</p>
@@ -40,6 +46,6 @@ export default function QuoteHistory() {
                 ))
                 }
             </ul>
-        </main>
+        </main >
     )
 }

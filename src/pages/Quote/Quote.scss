@@ -17,9 +17,24 @@
         padding: 20px;
 
         & h1,
-        h2 {
+        h2,
+        h3 {
             order: 2;
             color: whitesmoke
+        }
+
+        & h3 {
+            border-radius: 10px;
+            padding: 5px;
+            width: 70%;
+        }
+
+        & .ordered {
+            background-color: var.$primaryColor;
+        }
+
+        & .not-ordered {
+            background-color: rgb(255, 66, 66);
         }
 
         & a {

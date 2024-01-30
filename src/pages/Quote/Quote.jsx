@@ -46,7 +46,8 @@ export default function Quote() {
     quote.transport = quote.delivery_id === 1 ? 0 : artemData.tansportFunction(totalWeight);
     quote.transport = quote.zip_code.startsWith('97') || quote.country?.toLowerCase() !== 'france' ? "Nous consulter" : quote.transport;
     quote.clicli = quote.delivery_id !== user.delivery_standard.id ? artemData.clicli : 0;
-    quote.totalPrice = quote.totalPrice + quote.transport + quote.clicli + quote.corse;
+    quote.totalPrice = quote.transport === "Nous consulter" ? quote.totalPrice + quote.clicli + quote.corse : quote.totalPrice + quote.transport + quote.clicli + quote.corse;
+    console.log(quote.totalPrice);
     if (openSearchProduct || openDeleteQuotation || openOrderConfirmation || openModifQuote) {
         document.body.style.overflow = 'hidden';
     } else {
@@ -86,7 +87,9 @@ export default function Quote() {
                 // Envoyez l'e-mail avec les données du PDF
                 await API.email.sendEmail(user.token, orderData);
                 alert('Votre commande a bien été prise en compte, vous serez en copie du mail de commande qui nous sera envoyé dans les prochaines minutes.');
-                Navigate('/dashboard', { replace: true });
+                API.quotation.update(user.token, quoteId, { ordered: true }).catch(error => console.error("An error occurred while updating quotation:", error));
+                setIsDataLoaded(true);
+                window.location.reload();
             } catch (emailError) {
                 console.error("An error occurred while sending the email:", emailError);
                 alert("Votre devis est vide, veuillez ajouter des produits avant de passer commande.")
@@ -95,8 +98,6 @@ export default function Quote() {
 
         } catch (error) {
             console.error("An error occurred while creating order:", error);
-        } finally {
-            setIsDataLoaded(true);
         }
     }
 
@@ -114,6 +115,7 @@ export default function Quote() {
             <div className='quote-title'>
                 <h1>Devis n°{quote.quotation_id}</h1>
                 <h2>Ref: {quote.reference}</h2>
+                <h3 className={quote.ordered == false ? 'not-ordered' : 'ordered'}>{quote.ordered == false ? 'Pas encore mis en commande' : 'Devis déjà commandé'}</h3>
                 <Link className='quote-btn' to='/quote-history'>Retour à la liste des devis
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3" />

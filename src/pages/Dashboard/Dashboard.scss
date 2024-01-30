@@ -26,6 +26,10 @@
         flex-direction: column;
         transition: all 0.3s ease-in-out;
 
+        &-quotation-list {
+            overflow-y: scroll;
+        }
+
         &-new-user {
             background-color: whitesmoke;
             width: 80%;
