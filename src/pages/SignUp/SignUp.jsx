@@ -28,6 +28,7 @@ export default function SignUp() {
         street_other: '',
         zip_code: '',
         city: '',
+        otherCity: '',
         country: 'France',
         profile_id: 3, // Set a default value
     });
@@ -118,9 +119,14 @@ export default function SignUp() {
         const allFieldsFilled = Object.entries(formData).every(
             ([key, value]) => key === 'street_other' || (value !== null && value !== "")
         );
-        console.log(allFieldsFilled);
+
         if (!allFieldsFilled) {
             alert("Veuillez remplir tous les champs.");
+            return;
+        }
+
+        if ((formData.city === "other" && formData.otherCity === "")) {
+            alert("Veuillez indiquer votre ville dans le champs approprié.");
             return;
         }
 
@@ -146,6 +152,10 @@ export default function SignUp() {
         }
         else {
             setIsLoading(true)
+            if (formData.city === "other") {
+                formData.city = formData.otherCity
+                delete formData.otherCity
+            }
             const dataAddress = {
                 name_address: formData.company,
                 street_address: formData.street_address,
@@ -201,6 +211,7 @@ export default function SignUp() {
         return <Loading />
     }
 
+    console.log(formData);
 
     return (
         <main className='signup'>
@@ -307,7 +318,7 @@ export default function SignUp() {
                         <label htmlFor="city">Ville</label>
                         {
                             (apiError || (selectedCountry.label !== 'France')) ? (
-                                <input type='text' name='city' id='city' placeholder='Ville' value={formData.city} onChange={handleChange} />
+                                <input type='text' name='city' id='city' placeholder='Ville' value={formData.otherCity} onChange={handleChange} />
                             ) : (
                                 !apiError && (selectedCountry.label === 'France') ? (
                                     <select name="city" id="city" value={formData.city} onChange={handleChange}>
@@ -317,9 +328,17 @@ export default function SignUp() {
                                                 {city}
                                             </option>
                                         ))}
+                                        <option value="other" key='other'>Autre</option>
                                     </select>
                                 ) : null // Ajout de null pour éviter un rendu inattendu
                             )
+                        }
+                        {
+                            formData.city === "other" &&
+                            <>
+                                <label htmlFor="otherCity">Indiquer Ville</label>
+                                <input type='text' name='otherCity' id='otherCity' placeholder='indiquer la ville' value={formData.otherCity} onChange={handleChange} />
+                            </>
                         }
                     </div>
                     <div className="signup-form-item">

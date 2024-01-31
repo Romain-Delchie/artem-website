@@ -11,7 +11,7 @@ export default function Addresses({ type, modification, setModification, quoteId
     const typeKey = type === 'billing' ? 'billing_address' : 'delivery_standard';
 
     const { user, updateUser } = useContext(AppContext)
-    const [addressSelected, setAddressSelected] = useState({ new: false, ...user[typeKey], zip_code: "", city: "" })
+    const [addressSelected, setAddressSelected] = useState({ new: false, ...user[typeKey], zip_code: "", city: "", otherCity: "" })
     const [isOpenAddresses, setIsOpenAddresses] = useState(false)
     const [availableCities, setAvailableCities] = useState([])
     const [countryOptions, setCountryOptions] = useState([]);
@@ -67,6 +67,13 @@ export default function Addresses({ type, modification, setModification, quoteId
         });
     };
 
+    const handleotherCityChange = (event) => {
+        setAddressSelected({
+            ...addressSelected,
+            otherCity: event.target.value
+        });
+    };
+
     useEffect(() => {
         // Utilisez une API pour récupérer la liste des pays
         axios.get('https://restcountries.com/v3.1/all')
@@ -90,11 +97,17 @@ export default function Addresses({ type, modification, setModification, quoteId
             street_other: e.target.street_other.value,
             zip_code: e.target.zip_code.value,
             city: e.target.city.value,
+            otherCity: e.target.otherCity.value,
             country: selectedCountry.label,
         }
 
         if (dataAddress.name_address === '' || dataAddress.street_address === '' || dataAddress.zip_code === '' || dataAddress.city === '') {
-            return alert('Veuillez renseigner tous les champs ("Autre" qui est facultatif)')
+            return alert('Veuillez renseigner tous les champs ("Complément" est facultatif)')
+        }
+
+        if (dataAddress.city === 'other') {
+            dataAddress.city = dataAddress.otherCity
+            delete dataAddress.otherCity
         }
 
         try {
@@ -110,7 +123,6 @@ export default function Addresses({ type, modification, setModification, quoteId
                     updateUser(newUser)
 
                 }
-
                 ).catch((error) => {
                     console.error(error);
                 }
@@ -149,8 +161,8 @@ export default function Addresses({ type, modification, setModification, quoteId
                 }
                 )
             }
+            location.reload()
         }
-        location.reload()
     }
 
     const handleValidateAddress = async () => {
@@ -187,6 +199,7 @@ export default function Addresses({ type, modification, setModification, quoteId
                         )
                     })
                     }
+
 
 
                 </select>
@@ -247,6 +260,7 @@ export default function Addresses({ type, modification, setModification, quoteId
                                             {city}
                                         </option>
                                     ))}
+                                    <option value="other" key='other'>Autre</option>
                                 </select>
                             </div>
                         }
@@ -261,6 +275,21 @@ export default function Addresses({ type, modification, setModification, quoteId
                                     placeholder="ex : Paris"
                                     value={addressSelected.city}
                                     onChange={handleCityChange}
+                                />
+                            </div>
+                        }
+                        {
+                            addressSelected.city === 'other' &&
+                            <div className="addresses-new-item">
+                                <label htmlFor="city">Indiquer la
+                                    ville</label>
+                                <input
+                                    type="text"
+                                    name="otherCity"
+                                    id="otherCity"
+                                    placeholder="ex : Paris"
+                                    value={addressSelected.otherCity}
+                                    onChange={handleotherCityChange}
                                 />
                             </div>
                         }
