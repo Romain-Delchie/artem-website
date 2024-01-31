@@ -9,7 +9,7 @@ export default function Company() {
                 <div className="company-description-item">
                     <h2>Notre savoir-faire</h2>
                     <img className='left-img' src="/images/couture.jpg" alt="facade artem" />
-                    <p>Depuis plus de 40 ans, Artem est un acteur incontournable dans le domaine des textiles techniques et des machines d'enfournement pour les professionnels de la boulangerie. Nous nous sommes engagés à fournir des solutions de qualité supérieure, conçues spécifiquement pour répondre aux besoins des acteurs de la boulangerie. Nous produisons en interne la majorité de nos produits
+                    <p>Depuis plus de 40 ans, ARTEM est présent sur le marché des bandes transporteuses et textiles techniques toutes industrie. Il est devenu un acteur incontournable dans le domaine des textiles techniques et des machines d'enfournement pour les professionnels de la boulangerie. Nous nous sommes engagés à fournir des solutions de qualité supérieure, conçues spécifiquement pour répondre aux besoins des acteurs de la boulangerie. Nous produisons en interne la majorité de nos produits
                         et en assurons le contrôle. La matière première
                         et les produits que nous ne transformons pas font
                         l’objet de critères de qualité et de contrôles rigoureux
@@ -19,7 +19,7 @@ export default function Company() {
                 <div className="company-description-item">
                     <h2>Nos produits</h2>
                     <img className='right-img' src="/images/te-general.jpg" alt="facade artem" />
-                    <p>Avec plus de 5000 références que nous produisons pour la quasi totalité dans notre entrepôt de Montévrain en Seine et Marne proche du parc Eurodisney, Artem est capable de répondre à tout vos besoins en textiles :  Toiles d'enfourneur, de couche, de balancelles, tapis de laminoir et façonneuses, bande de transport, feutres divers., manches à farine et plus encore... S'ajoute à cela notre partie mécanique :  grilles, séchoirs  et machines d"enfournement.</p>
+                    <p>Avec plus de 5000 références que nous produisons pour la quasi totalité dans notre atelier de Montévrain en Seine et Marne proche du parc Eurodisney, Artem est capable de répondre à tout vos besoins en textiles :  Toiles d'enfourneur, de couche, de balancelles, tapis de laminoir et façonneuses, bande de transport, feutres divers., manches à farine et plus encore... S'ajoute à cela notre partie mécanique :  grilles, séchoirs  et machines d"enfournement.</p>
                     <Link className='company-description-item-link' to='/gamme'>Découvrir notre gamme plus en détails</Link>
                 </div>
                 <hr />
@@ -57,6 +57,9 @@ export default function Company() {
                     </li>
                     <li className="company-history-item">
                         2011 - ARTEM déménage à Montévrain dans des locaux de 1500 m² pour permettre la mise en stock de nombreuses références supplémentaires afin de satisfaire ses clients.
+                    </li>
+                    <li className="company-history-item">
+                        2019 – Mme Carine AUTRET devient la Directrice et l’effectif comporte 12 personnes.
                     </li>
                 </ul>
                 <img src="/images/continued.jpg" alt="photo to be continued" />
