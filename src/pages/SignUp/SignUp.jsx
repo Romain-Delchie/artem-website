@@ -154,8 +154,8 @@ export default function SignUp() {
             setIsLoading(true)
             if (formData.city === "other") {
                 formData.city = formData.otherCity
-                delete formData.otherCity
             }
+            delete formData.otherCity
             const dataAddress = {
                 name_address: formData.company,
                 street_address: formData.street_address,
