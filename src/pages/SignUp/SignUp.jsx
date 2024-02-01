@@ -117,7 +117,7 @@ export default function SignUp() {
         formData.siret = formData.country !== 'France' ? '00000000000000' : String(formData.siret)
 
         const allFieldsFilled = Object.entries(formData).every(
-            ([key, value]) => key === 'street_other' || (value !== null && value !== "")
+            ([key, value]) => key === 'street_other' || key === 'otherCity' || (value !== null && value !== "")
         );
 
         if (!allFieldsFilled) {
