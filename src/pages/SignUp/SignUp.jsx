@@ -151,84 +151,92 @@ export default function SignUp() {
     const siretPattern = /^[0-9]{14}$/;
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!isPasswordValid) {
-            alert("Le mot de passe ne respecte pas les critères de sécurité.");
-            return;
-        } else if (!phonePattern.test(formData.phone_number)) {
-            alert("Le numéro de téléphone n'est pas valide.");
-            return;
-        } else if (!siretPattern.test(formData.siret)) {
-            alert("Le numéro de SIRET n'est pas valide.");
-            return;
-        } else if (formData.password !== formData.repeat_password) {
-            alert("Les mots de passe ne correspondent pas.");
-            return;
-        } else if (!emailPattern.test(formData.email)) {
-            alert("L'adresse e-mail n'est pas valide.");
-            return;
-        }
-        else {
-            setIsLoading(true)
-            if (formData.city === "other") {
-                formData.city = formData.otherCity
-            }
-            delete formData.otherCity
-            const dataAddress = {
-                name_address: formData.company,
-                street_address: formData.street_address,
-                zip_code: formData.zip_code,
-                city: formData.city,
-                country: selectedCountry.label,
-            }
-            if (formData.street_other !== "") {
-                dataAddress.street_other = formData.street_other;
-            }
-            API.address.create(dataAddress).then((response) => {
-                const lastForm = formData
-                lastForm.billing_address_id = response.data.newAddress.generatedId
-                lastForm.delivery_standard_id = response.data.newAddress.generatedId
-                lastForm.country = selectedCountry.label
-                delete lastForm.street_address
-                delete lastForm.name_address
-                if (lastForm.street_other !== null) {
-                    delete lastForm.street_other
-                }
-                delete lastForm.zip_code
-                delete lastForm.city
-                setFormData({ ...formData, ...dataAddress })
-                API.user
-                    .create(lastForm)
-                    .then((response) => {
-                        const emailToken = response.data.newAccount.email_token;
-                        API.auth.signin(formData.email, formData.password).then((response) => {
-                            const tokenReceived = response.data.token;
-                            updateUser({ ...user, token: tokenReceived });
-                            API.email.sendConfirmationEmail(tokenReceived, { email: formData.email, firstname: formData.firstname, email_token: emailToken })
-                            API.email.newUser()
-                            navigate('/dashboard')
-                        }
-                        )
-                    }).catch((error) => {
-                        setIsLoading(false)
-                        if (error.response.status === 400) {
-                            alert('Cet email est déjà utilisé')
-                        } else {
-                            alert(error.message)
-                            console.log(error);
-                        }
-                    })
-            }).catch((error) => {
-                setIsLoading(false)
-                alert("Une erreur est survenue lors de la création de votre compte, veuillez nous contacter svp")
+    if (!isPasswordValid) {
+      alert("Le mot de passe ne respecte pas les critères de sécurité.");
+      return;
+    } else if (!phonePattern.test(formData.phone_number)) {
+      alert("Le numéro de téléphone n'est pas valide.");
+      return;
+    } else if (!siretPattern.test(formData.siret)) {
+      alert("Le numéro de SIRET n'est pas valide.");
+      return;
+    } else if (formData.password !== formData.repeat_password) {
+      alert("Les mots de passe ne correspondent pas.");
+      return;
+    } else if (!emailPattern.test(formData.email)) {
+      alert("L'adresse e-mail n'est pas valide.");
+      return;
+    } else {
+      setIsLoading(true);
+      if (formData.city === "other") {
+        formData.city = formData.otherCity;
+      }
+      delete formData.otherCity;
+      const dataAddress = {
+        name_address: formData.company,
+        street_address: formData.street_address,
+        zip_code: formData.zip_code,
+        city: formData.city,
+        country: selectedCountry.label,
+      };
+      if (formData.street_other !== "") {
+        dataAddress.street_other = formData.street_other;
+      }
+      API.address
+        .create(dataAddress)
+        .then((response) => {
+          const lastForm = formData;
+          lastForm.billing_address_id = response.data.newAddress.generatedId;
+          lastForm.delivery_standard_id = response.data.newAddress.generatedId;
+          lastForm.country = selectedCountry.label;
+          delete lastForm.street_address;
+          delete lastForm.name_address;
+          if (lastForm.street_other !== null) {
+            delete lastForm.street_other;
+          }
+          delete lastForm.zip_code;
+          delete lastForm.city;
+          setFormData({ ...formData, ...dataAddress });
+          API.user
+            .create(lastForm)
+            .then((response) => {
+              const emailToken = response.data.newAccount.email_token;
+              API.auth
+                .signin(formData.email, formData.password)
+                .then((response) => {
+                  const tokenReceived = response.data.token;
+                  updateUser({ ...user, token: tokenReceived });
+                  API.email.sendConfirmationEmail(tokenReceived, {
+                    email: formData.email,
+                    firstname: formData.firstname,
+                    email_token: emailToken,
+                  });
+                  API.email.newUser();
+                  navigate("/dashboard");
+                });
             })
-        }
-    };
+            .catch((error) => {
+              setIsLoading(false);
+              if (error.response.status === 400) {
+                alert("Cet email est déjà utilisé");
+              } else {
+                alert(error.message);
+                console.log(error);
+              }
+            });
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          alert(
+            "Une erreur est survenue lors de la création de votre compte, veuillez nous contacter svp"
+          );
+        });
+    }
+  };
 
   if (isLoading) {
     return <Loading />;
   }
-
-  console.log(formData);
 
   return (
     <main className="signup">
