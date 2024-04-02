@@ -61,6 +61,7 @@ export default function Quote() {
           (acc, product) => acc + product.weight * product.quantity,
           0
         );
+  quote.profile_id = user.profile_id;
   quote.totalPrice = totalPrice;
   quote.totalWeight = totalWeight;
   quote.transport =
@@ -109,14 +110,26 @@ export default function Quote() {
   async function handleOrder() {
     setIsDataLoaded(false);
     try {
+      const products =
+        user.profile_id === 1
+          ? quote.products.map((product) => ({
+              ...product,
+              priceWithCoeff: goodPrice(
+                user.profile_id,
+                product,
+                product.quantity
+              ),
+            }))
+          : quote.products;
+
       const orderData = {
         company: user.company,
         email: user.email,
         phoneNumber: user.phone_number,
         zipCode: user.billing_address.zip_code,
-        quote: quote,
+        quote: { ...quote, products },
       };
-
+      console.log(orderData.quote);
       try {
         // Envoyez l'e-mail avec les données du PDF
         await API.email.sendEmail(user.token, orderData);
