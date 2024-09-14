@@ -35,6 +35,7 @@ export default function SignUp() {
   const [passwordValidation, setPasswordValidation] = useState({
     minLength: false,
     uppercase: false,
+    lowercase: false,
     digit: false,
     specialChar: false,
   });
@@ -53,12 +54,14 @@ export default function SignUp() {
     if (name === "password") {
       const minLength = value.length >= 8;
       const uppercase = /[A-Z]/.test(value);
+      const lowercase = /[a-z]/.test(value);
       const digit = /[0-9]/.test(value);
       const specialChar = /[!@#$%^&*()_+[\]{};':"\\|,.<>?/~`-]/.test(value);
 
       setPasswordValidation({
         minLength,
         uppercase,
+        lowercase,
         digit,
         specialChar,
       });
@@ -125,6 +128,7 @@ export default function SignUp() {
     const isPasswordValid =
       passwordValidation.minLength &&
       passwordValidation.uppercase &&
+      passwordValidation.lowercase &&
       passwordValidation.digit &&
       passwordValidation.specialChar;
     formData.siret =
@@ -407,6 +411,11 @@ export default function SignUp() {
                   <span className="valid">Au moins 1 majuscule</span>
                 ) : (
                   <span className="invalid">Au moins 1 majuscule</span>
+                )}
+                {passwordValidation.lowercase ? (
+                  <span className="valid">Au moins 1 minuscule</span>
+                ) : (
+                  <span className="invalid">Au moins 1 minuscule</span>
                 )}
                 {passwordValidation.digit ? (
                   <span className="valid">Au moins un chiffre</span>
