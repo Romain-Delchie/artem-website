@@ -12,7 +12,7 @@ export const resetLogoutState = () => {
 };
 
 const axios = Axios.create({
-    baseURL: "http://www.artem-fr.com/api/",
+    baseURL: "https://www.artem-fr.com/api/",
     headers: {
         "Content-Type": "application/json",
     },
