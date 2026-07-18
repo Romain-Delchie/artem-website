@@ -93,7 +93,14 @@ const API = {
                 headers: {
                     "x-auth-token": token,
                 },
+            });
+        },
 
+        async getAllQuotations(token) {
+            return axios.get("/quotation/all", {
+                headers: {
+                    "x-auth-token": token,
+                },
             });
         },
 
@@ -300,6 +307,39 @@ const API = {
 
         async delete(token, id) {
             return axios.delete(`/range/${id}`, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        }
+    },
+    presentation: {
+        async getPresentations() {
+            return axios.get("/presentation");
+        },
+
+        async getPresentation(id) {
+            return axios.get(`/presentation/${id}`);
+        },
+
+        async create(token, data) {
+            return axios.post("/presentation", data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async update(token, data) {
+            return axios.patch(`/presentation/${data.id}`, data, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
+        async delete(token, id) {
+            return axios.delete(`/presentation/${id}`, {
                 headers: {
                     "x-auth-token": token,
                 },

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import Loading from '../../components/Loading/Loading'
 import API from '../../utils/api/api'
 import AppContext from '../../context/AppContext'
+import '../AddProduct/AddProduct.scss'
+import DashboardComponent from '../../components/Dashboard/DashboardComponent'
 
 export default function AddRange() {
     const navigate = useNavigate();
@@ -20,6 +22,7 @@ export default function AddRange() {
         formData.append('image_link', e.target.elements.image_link.value);
         formData.append('category', e.target.elements.category.value);
         formData.append('minPrice', e.target.elements.minPrice.value);
+        formData.set('searchFilter', e.target.elements.searchFilter.checked ? 1 : 0);
 
         if (
             !fileInput ||
@@ -70,7 +73,8 @@ export default function AddRange() {
     }
 
     return (
-        <div className='add-product'>
+        <main className='add-product'>
+            <DashboardComponent />
             <h2>Ajouter une gamme</h2>
             <form className="add-product-form" onSubmit={handleRangeSubmit}>
                 <div className='add-product-form-container'>
@@ -102,6 +106,11 @@ export default function AddRange() {
                         <input type='number' step="0.01" name='minPrice' id='minPrice' placeholder='ex: 120.00 (2chiffres après la virgule)' />
                     </div>
                     <div className="input-container">
+                        <label htmlFor="searchFilter">Filtre de recherche produit</label>
+                        <input type='checkbox' name='searchFilter' id='searchFilter' />
+                        <p>Si la gamme doit être affichée dans les filtres de recherche cochez la case</p>
+                    </div>
+                    <div className="input-container">
                         <label htmlFor="image">Fichier image</label>
                         <input type='file' name='image' id='image' />
                         <p>ATTENTION: le nom du fichier doit être strictement identique à "lien image" ci-dessus</p>
@@ -111,6 +120,6 @@ export default function AddRange() {
                 </div>
                 <button type='submit' className='add-product-form-btn'>Valider</button>
             </form>
-        </div>
+        </main>
     )
 }

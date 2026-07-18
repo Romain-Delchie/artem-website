@@ -5,6 +5,7 @@ import Loading from '../../components/Loading/Loading';
 import moment from 'moment/moment';
 import { CSVLink } from "react-csv";
 import './UserList.scss'
+import DashboardComponent from '../../components/Dashboard/DashboardComponent';
 
 export default function UserList() {
     const { user } = useContext(AppContext);
@@ -92,7 +93,8 @@ export default function UserList() {
     }
 
     return (
-        <div className='user-list'>
+        <main className='user-list'>
+            <DashboardComponent />
             <form className='user-list-sort'>
                 <input onChange={handleCheck} checked={isChecked.alphabetic} type='radio' name='alphabetic' id='alphabetic' />
                 <label htmlFor='alphabetic'>Trier par ordre alphabetique </label>
@@ -114,17 +116,17 @@ export default function UserList() {
                 <thead>
                     <tr>
                         <th>Entreprise</th>
-                        <th>Prénom</th>
-                        <th>Nom</th>
-                        <th>Email</th>
-                        <th>Adresse</th>
+                        <th className='info-hide-possibility'>Prénom</th>
+                        <th className='info-hide-possibility'>Nom</th>
+                        <th className='info-hide-possibility-2'>Email</th>
+                        <th className='info-hide-possibility'>Adresse</th>
                         <th>Code postal</th>
-                        <th>Ville</th>
+                        <th className='info-hide-possibility'>Ville</th>
                         <th>Téléphone</th>
                         <th>profile_id</th>
-                        <th>siret</th>
-                        <th>role</th>
-                        <th>date dernière connexion</th>
+                        <th className='info-hide-possibility'>siret</th>
+                        <th className='info-hide-possibility'>role</th>
+                        <th className='info-hide-possibility'>date dernière connexion</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -132,24 +134,24 @@ export default function UserList() {
                         return (
                             <tr key={index}>
                                 <td>{account.company}</td>
-                                <td>{account.firstname}</td>
-                                <td>{account.lastname}</td>
-                                <td>{account.email}</td>
-                                <td>{account.billing_street_address}</td>
+                                <td className='info-hide-possibility'>{account.firstname}</td>
+                                <td className='info-hide-possibility'>{account.lastname}</td>
+                                <td className='info-hide-possibility-2'>{account.email}</td>
+                                <td className='info-hide-possibility'>{account.billing_street_address}</td>
                                 <td>{account.billing_zip_code}</td>
-                                <td>{account.billing_city}</td>
+                                <td className='info-hide-possibility'>{account.billing_city}</td>
                                 <td>{account.phone_number}</td>
                                 <td>{account.profile_name}</td>
-                                <td>{account.siret}</td>
-                                <td>{account.role}</td>
-                                <td>{account.last_connection}</td>
-                                <td><button value={account.id} onClick={handleOpenConfirmDelete}>Supprimer</button></td>
+                                <td className='info-hide-possibility'>{account.siret}</td>
+                                <td className='info-hide-possibility'>{account.role}</td>
+                                <td className='info-hide-possibility'>{account.last_connection}</td>
+                                <td className='info-hide-possibility'><button value={account.id} onClick={handleOpenConfirmDelete}>Supprimer</button></td>
                             </tr>
                         )
 
                     })}
                 </tbody>
             </table>
-        </div>
+        </main>
     )
 }

@@ -4,6 +4,8 @@ import API from '../../utils/api/api'
 import { useContext } from 'react'
 import AppContext from '../../context/AppContext'
 import Loading from '../../components/Loading/Loading'
+import DashboardComponent from '../../components/Dashboard/DashboardComponent'
+
 
 export default function RoleValidation() {
 
@@ -30,7 +32,6 @@ export default function RoleValidation() {
             profile_id: event.target.profile_id.value
         }
         const acountToValidate = accountsToValidate.find((account) => account.id === parseInt(dataToSend.idToValidate))
-        console.log(acountToValidate);
         API.user.update(user.token, dataToSend).then((res) => {
             setIsLoading(false)
             alert('Le rôle a bien été validé')
@@ -49,8 +50,9 @@ export default function RoleValidation() {
     }
 
     return (
-        <div className='role-validation'>
-            <h2>Validation des rôles</h2>
+        <main className='role-validation'>
+            <DashboardComponent />
+            <h2 className='role-validation-title'>Validation des rôles</h2>
             <ul className="role-validation-list">
                 {accountsToValidate.map((account) => {
                     return (
@@ -74,6 +76,6 @@ export default function RoleValidation() {
                 })
                 }
             </ul>
-        </div>
+        </main>
     )
 }

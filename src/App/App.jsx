@@ -35,6 +35,12 @@ import UpdateRange from "../pages/UpdateRange/UpdateRange";
 import AddTechsheet from "../pages/AddTechsheet/AddTechsheet";
 import UserList from "../pages/UserList/UserList";
 import DeleteRange from "../pages/DeleteRange/DeleteRange";
+import SearchUpdate from "../pages/SearchUpdate/SearchUpdate";
+import ScrollToTopButton from "../components/ScrollToTopButton/ScrollToTopButton";
+import SearchProductPage from "../pages/SearchProductPage/SearchProductPage";
+import HandleHome from "../pages/HandleHome/HandleHome";
+import QuotationList from "../pages/QuotationList/QuotationList";
+import QuoteAdmin from "../pages/QuoteAdmin/QuoteAdmin";
 
 function App() {
 
@@ -43,17 +49,18 @@ function App() {
   return (
     <>
       <ScrollToTop />
+      <ScrollToTopButton />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/company" element={<Company />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/range/:rangeId" element={<Range />} />
+        <Route path="/entreprise" element={<Company />} />
+        <Route path="/gamme" element={<Products />} />
+        <Route path="/gamme/:rangeId/*" element={<Range />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/legal-terms" element={<LegalTerms />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms-of-sales" element={<TermsOfSales />} />
+        <Route path="/connexion" element={<SignIn />} />
+        <Route path="/creer-un-compte" element={<SignUp />} />
+        <Route path="/mentions-legales" element={<LegalTerms />} />
+        <Route path="/politique-confidentialite" element={<PrivacyPolicy />} />
+        <Route path="/cgv" element={<TermsOfSales />} />
         <Route path="/confirm-email/:code" element={<ConfirmEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
@@ -61,11 +68,11 @@ function App() {
           <>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/validation-email" element={<ValidationEmail />} />
-            <Route path="/search-products" element={<SearchProduct />} />
+            <Route path="/search-products" element={<SearchProductPage />} />
 
           </>
         }
-        {user.role === 'user' &&
+        {(user.role === 'user' || user.role === "admin") &&
           <>
             <Route path="/user-informations" element={<UserInformations />} />
             <Route path="/tools" element={<Tools />} />
@@ -79,15 +86,18 @@ function App() {
           <>
             <Route path="/add-product" element={<AddProduct />} />
             <Route path="/add-range" element={<AddRange />} />
-            <Route path="/update-product" element={<SearchProduct />} />
+            <Route path="/update-product" element={<SearchUpdate />} />
             <Route path="/update-range" element={<UpdateRange />} />
             <Route path="/delete-range" element={<DeleteRange />} />
             <Route path="/update-product/:id" element={<UpdateProduct />} />
-            <Route path="/delete-product" element={<SearchProduct />} />
+            <Route path="/delete-product" element={<SearchUpdate />} />
             <Route path="/delete-product/:id" element={<DeleteProduct />} />
             <Route path="/add-techsheet" element={<AddTechsheet />} />
             <Route path="/role-validation" element={<RoleValidation />} />
             <Route path="/user-list" element={<UserList />} />
+            <Route path="/handle-home" element={<HandleHome />} />
+            <Route path="/Quotation-list" element={<QuotationList />} />
+            <Route path="/Quotation-list/:id" element={<QuoteAdmin />} />
           </>
         }
 

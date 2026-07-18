@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useRef } from "react";
+import { useEffect, useState, useContext } from "react";
 import AppContext from "../../context/AppContext";
 import ProductCard from "../ProductCard/ProductCard";
 import "./SearchProduct.scss";
@@ -93,7 +93,7 @@ export default function SearchProduct() {
                     <h3>Filtrer par gamme</h3>
                     <select name="range" id="range" onChange={handleChangeSort}>
                         <option value="all">Toutes les gammes</option>
-                        {ranges && ranges.map((range) => (
+                        {ranges && ranges.filter((oneRange) => oneRange.searchFilter).map((range) => (
                             <option value={range.id} key={range.id}>{range.name}</option>
                         ))}
                     </select>
@@ -108,7 +108,12 @@ export default function SearchProduct() {
                     </select>
                 </div>
             </section>
-            <form className="search-product-form">
+            <form className="search-product-form" onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                }
+            }
+            }>
                 <h3>Recherche un produit par :</h3>
                 <div className="input-radio">
                     <div className="input-container">

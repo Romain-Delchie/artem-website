@@ -4,6 +4,7 @@ import AppContext from '../../context/AppContext'
 import './AddProduct.scss'
 import API from '../../utils/api/api';
 import ProductCard from '../../components/ProductCard/ProductCard';
+import DashboardComponent from '../../components/Dashboard/DashboardComponent';
 
 export default function AddProduct() {
     const navigate = useNavigate();
@@ -113,7 +114,8 @@ export default function AddProduct() {
     }
 
     return (
-        <div className='add-product'>
+        <main className='add-product'>
+            <DashboardComponent />
             <h2>Ajouter un produit</h2>
             <form className='add-product-form' onSubmit={handleProductSubmit}>
                 <div className='add-product-form-container'>
@@ -210,7 +212,7 @@ export default function AddProduct() {
                         <label htmlFor='range_id'>catégorie</label>
                         <select onChange={handleChange} name="Catégorie" id="range_id">
                             {ranges && ranges.map((range) => {
-                                return <option value={range.id}>{range.name}</option>
+                                return <option value={range.id} key={range.id}>{range.name}</option>
                             })}
                         </select>
                     </div>
@@ -219,11 +221,11 @@ export default function AddProduct() {
             </form>
             {
                 productToCreate &&
-                <div style={{ position: 'fixed', left: 50, top: 400 }}>
+                <div className='product-card-example'>
                     <ProductCard product={productToCreate} />
                 </div>
             }
 
-        </div>
+        </main>
     )
 }

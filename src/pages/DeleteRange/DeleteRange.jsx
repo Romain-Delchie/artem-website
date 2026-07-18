@@ -4,6 +4,7 @@ import AppContext from '../../context/AppContext'
 import API from '../../utils/api/api'
 import Loading from '../../components/Loading/Loading'
 import './DeleteRange.scss'
+import DashboardComponent from '../../components/Dashboard/DashboardComponent'
 
 export default function DeleteRange() {
     const navigate = useNavigate()
@@ -47,7 +48,8 @@ export default function DeleteRange() {
     }
 
     return (
-        <div className='delete-range'>
+        <main className='delete-range'>
+            <DashboardComponent />
             <h2>Supprimer une gamme de produit</h2>
             <select name="range" id="range" defaultValue="none" onChange={handleRangeChange}>
                 <option value="none" disabled>Choisissez la gamme à supprimer</option>
@@ -58,6 +60,6 @@ export default function DeleteRange() {
                 <button onClick={handleDeleteRange}>Supprimer</button>
             }
 
-        </div>
+        </main>
     )
 }

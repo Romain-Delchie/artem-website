@@ -22,25 +22,24 @@ export default function NavBar() {
                 <Link to="/"><img className='navbar-logo' src="/images/logoCarre.jpg" alt="logo artem" /></Link>
             </div>
             <ul className={`navbar-links ${isBurgerOpen ? "show-navbar" : "hide-navbar"}`}>
-
                 <li className='navbar-item slideInDown1'>
                     <Link onClick={closeBurger} className='navbar-link' to="/home">Page d'accueil</Link>
                 </li>
                 {user.token === '' &&
                     <>
                         <li className='navbar-item slideInDown2'>
-                            <Link onClick={closeBurger} className='navbar-link' to="/signin">Se connecter</Link>
+                            <Link onClick={closeBurger} className='navbar-link' to="/connexion">Se connecter</Link>
                         </li>
                         <li className='navbar-item slideInDown2'>
-                            <Link onClick={closeBurger} className='navbar-link' to="/signup">Créer un compte</Link>
+                            <Link onClick={closeBurger} className='navbar-link' to="/creer-un-compte">Créer un compte</Link>
                         </li>
                     </>
                 }
                 <li className='navbar-item slideInDown3'>
-                    <Link onClick={closeBurger} className='navbar-link' to="/company">Notre entreprise</Link>
+                    <Link onClick={closeBurger} className='navbar-link' to="/entreprise">Notre entreprise</Link>
                 </li>
                 <li className='navbar-item slideInDown4'>
-                    <Link onClick={closeBurger} className='navbar-link' to="/products">Nos produits</Link>
+                    <Link onClick={closeBurger} className='navbar-link' to="/gamme">Nos produits</Link>
                 </li>
                 <li className='navbar-item slideInDown5'>
                     <Link onClick={closeBurger} className='navbar-link' to='https://pay-pro.monetico.fr/artem/paiementenligne' target='_blank' >Payer une facture</Link>
@@ -48,12 +47,14 @@ export default function NavBar() {
                 <li className='navbar-item slideInDown6'>
                     <Link onClick={closeBurger} className='navbar-link' to="/contact">Contact</Link>
                 </li>
-
+                <li className='navbar-item slideInDown7'>
+                    <Link onClick={handleDisconnection} className='navbar-link' to="/">Déconnexion</Link>
+                </li>
             </ul>
             <button onClick={() => setIsBurgerOpen(!isBurgerOpen)} className='navbar-burger'>
                 <span className='burger-line'></span>
             </button>
-            <h2 className='navbar-presentation'>Fabricant de textiles techniques et machines d'enfournement pour la boulangerie</h2>
+            <p className='navbar-presentation'>Fabricant de textiles techniques et machines d'enfournement pour la boulangerie</p>
         </nav >
     )
 }

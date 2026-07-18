@@ -1,0 +1,121 @@
+@use 'src/styles/variables.scss' as var;
+
+.dashboard-component {
+    background-color: var.$secondaryColor;
+    width: 300px;
+    max-width: 100%;
+    position: absolute;
+    color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    bottom: 0;
+    top: 183px;
+    padding: 0 0 200px 15px;
+
+    & .dashboard-link-active {
+        color: whitesmoke
+    }
+
+    & h2 {
+        padding: 20px 0 5px;
+    }
+
+    & h2,
+    h3,
+    h4 {
+        text-align: center;
+        border-left: 3px solid var.$secondaryColorLight;
+    }
+
+    & h4 {
+        padding-bottom: 10px;
+        border-bottom: 3px solid var.$secondaryColorLight;
+        border-left: 3px solid var.$secondaryColorLight;
+        border-radius: 0 10px;
+    }
+
+    &-container {
+        flex-grow: 1;
+    }
+
+    &-buttons {
+        position: sticky;
+        top: 200px;
+        padding-top: 15px;
+        padding-bottom: 30px;
+        margin-top: 15px;
+        height: 600px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    &-button {
+        padding: 5px;
+        padding-left: 30px;
+        border-radius: 105px 0 0 105px;
+        color: var.$primaryColor;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+
+        &-attente {
+            background-color: red;
+            color: var.$primaryColorLight;
+            margin-left: -20px;
+            padding: 20px;
+
+
+        }
+
+        &:hover {
+            background-color: var.$secondaryColorLight;
+            color: var.$primaryColorLight;
+        }
+
+        & span {
+            background-color: rgb(199, 51, 51);
+            color: whitesmoke;
+            padding: 3px;
+            margin-left: 5px;
+            position: relative;
+            top: -8px;
+            border-radius: 50px;
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            font-size: 8px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
+@media (max-width:600px) {
+    .dashboard-component {
+        position: static;
+        margin: 0 0 -40px;
+        padding: 20px 0 0;
+        width: 100%;
+        text-align: center;
+
+        &-button {
+            border-radius: 0;
+        }
+
+        & .dashboard-link-active {
+            color: var.$primaryColor;
+        }
+
+        & h2,
+        h3,
+        h4 {
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+    }
+}

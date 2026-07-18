@@ -6,6 +6,7 @@ import { useContext } from 'react'
 import './UpdateProduct.scss'
 import Loading from '../../components/Loading/Loading'
 
+
 export default function UpdateProduct() {
     const { user } = useContext(AppContext)
     const navigate = useNavigate()
@@ -50,7 +51,8 @@ export default function UpdateProduct() {
     }
 
     return (
-        <div className="update-product">
+        <main className="update-product">
+
             <h2>Modifier un produit</h2>
 
             <form className="update-product-form" onSubmit={handleSubmit}>
@@ -85,6 +87,6 @@ export default function UpdateProduct() {
                 </div>
                 <button type='submit'>Valider les modifications</button>
             </form>
-        </div>
+        </main>
     )
 }

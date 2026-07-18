@@ -16,6 +16,17 @@
 
     }
 
+    &-image {
+        height: 170px;
+        overflow: hidden;
+
+        & img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
     &-description {
         padding: 5px;
 

@@ -16,6 +16,7 @@ export default function ChatBot() {
             <Chatbot
                 config={config}
                 headerText='Votre assistant virtuel'
+                ariaLabelText='Votre assistant virtuel'
                 placeholderText='Posez votre question ici'
                 messageParser={MessageParser}
                 actionProvider={ActionProvider}

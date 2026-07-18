@@ -1,8 +1,11 @@
 @use 'src/styles/variables.scss' as var;
 
 .header {
-    position: sticky;
+    height: 200px;
+    position: fixed;
     top: 0;
+    right: 0;
+    left: 0;
     background-color: white;
     z-index: 1000;
     transition: all 3s ease-in-out;
@@ -14,16 +17,18 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin: 10px 0;
+        margin: 0 0 10px;
 
         &-all-btn {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            gap: 10px;
         }
 
         &-btn {
-            height: 60px;
+            height: 50px;
+            width: 70px;
             margin-right: 16px;
             padding: 0.3rem;
             color: white;
@@ -62,52 +67,46 @@
         }
     }
 
-    &-disconnection {
-        display: flex;
-        justify-content: space-between;
+    &-disconnection-btn {
+        display: none;
+        width: 70px;
+        height: 50px;
+        margin-bottom: 10px;
+        margin-right: 1rem;
+        padding: 0.5rem;
+        color: white;
+        border: none;
+        text-align: center;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        flex-direction: column;
+        line-height: 16px;
+        justify-content: center;
+        border-radius: 5px;
         align-items: center;
-        margin: 2rem 0;
+        background: rgb(160, 46, 46);
+        box-shadow: 3px 3px 5px var.$secondaryColor,
+            -3px -3px 5px #ffffff;
 
+        & svg {
+            height: 25px;
 
-        &-btn {
-            height: 60px;
-            margin-bottom: 10px;
-            margin-right: 1rem;
-            padding: 0.5rem;
-            color: white;
-            border: none;
-            text-align: center;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-            display: flex;
-            flex-direction: column;
-            line-height: 16px;
-            justify-content: center;
-            border-radius: 5px;
-            align-items: center;
-            background: rgb(160, 46, 46);
-            box-shadow: 3px 3px 5px var.$secondaryColor,
-                -3px -3px 5px #ffffff;
-
-            & svg {
-                height: 25px;
-
-            }
-
-            & p {
-                margin-top: 0.2rem;
-                line-height: 10px;
-                font-size: 0.7rem;
-            }
-
-            &:hover {
-                background: rgba(160, 46, 46);
-                box-shadow: inset 5px 5px 5px rgb(160, 46, 46),
-                    inset -5px -5px 5px rgb(160, 46, 46);
-                transform: scale(0.98);
-            }
         }
+
+        & p {
+            margin-top: 0.2rem;
+            line-height: 10px;
+            font-size: 0.7rem;
+        }
+
+        &:hover {
+            background: rgba(160, 46, 46);
+            box-shadow: inset 5px 5px 5px rgb(160, 46, 46),
+                inset -5px -5px 5px rgb(160, 46, 46);
+            transform: scale(0.98);
+        }
+
     }
 
     &-title-container {
@@ -122,10 +121,16 @@
         color: var.$secondaryColor;
     }
 
+    &-title {
+        font-size: 1.7rem;
+        font-weight: 700;
+    }
+
     &-subtitle {
         width: 92%;
         font-style: italic;
         font-size: 1rem;
+        font-weight: 500;
         line-height: 19px;
     }
 
@@ -149,6 +154,37 @@
 
         & svg {
             height: 15px;
+        }
+    }
+}
+
+@media (min-width:600px) {
+    .header {
+        height: 180px;
+
+        &-subtitle {
+            font-size: 1.2rem;
+        }
+
+        &-connection {
+            margin: 5px 0;
+
+            &-all-btn {
+                flex-direction: row;
+                gap: 0;
+            }
+
+            &-btn {
+                height: 60px;
+                width: 90px;
+            }
+
+        }
+
+        &-disconnection-btn {
+            display: flex;
+            height: 60px;
+            width: 90px;
         }
     }
 }

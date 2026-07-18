@@ -154,6 +154,10 @@
     transition: all 0.85s ease-in-out;
 }
 
+.show-navbar .slideInDown7 {
+    transition: all 0.9s ease-in-out;
+}
+
 .navbar-presentation {
     display: none;
 }
@@ -178,10 +182,10 @@
     }
 
     .navbar-presentation {
-        // display: inline;
         display: flex;
         color: var.$secondaryColor;
         font-size: 1.2rem;
+        font-weight: 700;
         width: 420px;
         text-align: end;
         margin-right: 60px;

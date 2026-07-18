@@ -3,18 +3,34 @@
 .quote-history {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    margin-bottom: -40px;
+    min-height: 600px;
+    padding-bottom: 40px;
+    margin-left: 300px;
+    background: url("/public/images/boulangegrand.jpg") center/cover fixed no-repeat;
 
     &-container {
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
         gap: 20px;
 
     }
 
-    & h2 {
-        text-align: center;
-        margin: 15px 0;
+    &-title {
+        background-color: rgba(245, 245, 245, 0.9);
         color: var.$secondaryColor;
+        margin: 20px;
+        width: 300px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
     }
 
     &-product-list {
@@ -22,17 +38,23 @@
     }
 
     &-empty {
+        border-radius: 5px;
+        width: 300px;
+        background-color: rgba(245, 245, 245, 0.9);
         margin: auto;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        text-align: center;
+        padding: 20px;
 
         & p {
             width: 100%;
         }
 
         & a {
+            font-weight: 700;
             margin-top: 20px;
             background-color: var.$primaryColor;
             align-self: center;
@@ -45,27 +67,43 @@
     .quote-item {
         display: flex;
         flex-direction: column;
-        background-color: var.$secondaryColorTransparent;
-        border: 1px solid var.$primaryColorLight;
+        background-color: rgba(245, 245, 245, 0.88);
+        box-shadow: 2px 2px 2px #505050;
         border-radius: 5px;
         padding: 20px;
-        color: whitesmoke;
+        color: var.$secondaryColorTransparent;
         width: 90%;
-        margin: 0 auto 20px;
         list-style: none;
         width: 300px;
         height: 500px;
+        font-weight: 700;
+        overflow: hidden;
+
+        &-ordered {
+            width: 70%;
+            border-radius: 20px 0 0 20px;
+            align-self: flex-end;
+            margin-right: -20px;
+            margin-bottom: 20px;
+            background-color: var.$primaryColor;
+            text-align: center;
+
+            &.not-ordered {
+                background-color: rgb(255, 66, 66);
+                color: whitesmoke;
+            }
+        }
 
         & h3 {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
+            color: var.$secondaryColor;
         }
 
         & ul {
             display: flex;
             flex-direction: column;
             margin-top: 10px;
-
         }
 
         & li {
@@ -96,6 +134,14 @@
 
 @media (min-width: 800px) {
     .quote-history {
+        &-title {
+            width: 400px;
+        }
+
+        &-empty {
+            width: 400px;
+        }
+
         & ul {
             display: flex;
             flex-wrap: wrap;
@@ -105,9 +151,19 @@
                 width: 400px;
 
                 & p {
-                    margin: 5px 0;
+                    margin: 5px 0 0;
                 }
             }
+        }
+    }
+}
+
+@media (max-width:600px) {
+    .quote-history {
+        margin-left: 0;
+
+        & .dashboard-component {
+            display: none;
         }
     }
 }

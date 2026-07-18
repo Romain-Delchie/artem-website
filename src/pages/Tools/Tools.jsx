@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom'
 import './Tools.scss'
+import DashboardComponent from '../../components/Dashboard/DashboardComponent'
 
 export default function Tools() {
     return (
-        <div className='tools'>
-            <h2>OUTILS</h2>
+        <main className='tools'>
+            <DashboardComponent />
+            <h2 className='tools-title'>OUTILS</h2>
             <div className='tools-container'>
                 <div className='tools-container-item'>
                     <h3>Outils pour définir vos :</h3>
@@ -27,7 +29,7 @@ export default function Tools() {
                     <Link className='tools-container-item-link' to='/pdf/plan-cote-integre.pdf' target='_blank' download rel="noreferrer"><img className='tools-container-item-link-pdf' src="/images/pdf.png" alt="pdf-icon" /><p>Elevateur intégré</p></Link>
                 </div>
             </div>
-        </div>
+        </main>
 
     )
 }

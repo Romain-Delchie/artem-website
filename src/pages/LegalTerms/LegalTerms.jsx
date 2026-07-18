@@ -6,7 +6,7 @@ export default function LegalTerms() {
             <h2>Mentions légales</h2>
 
             <h3>Définitions</h3>
-            <p><b>Client :</b> tout professionnel ou personne physique capable au sens des articles 1123 et suivants du Code civil, ou personne morale, qui visite le Site objet des présentes conditions générales.<br />
+            <p><b>Client :</b> tout professionnel ou personne physique capable au sens des articles 1145 et suivants du Code civil, ou personne morale, qui visite le Site objet des présentes.<br />
                 <b>Prestations et Services :</b> <a href="https://www.artem-fr.com">https://www.artem-fr.com</a> met à disposition des Clients :</p>
 
             <p><b>Contenu :</b> Ensemble des éléments constituants l’information présente sur le Site, notamment textes – images – vidéos.</p>
@@ -20,11 +20,11 @@ export default function LegalTerms() {
 
             <h3>1. Présentation du site internet.</h3>
             <p>En vertu de l'article 6 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique, il est précisé aux utilisateurs du site internet <a href="https://www.artem-fr.com">https://www.artem-fr.com</a> l'identité des différents intervenants dans le cadre de sa réalisation et de son suivi:
-            </p><p><strong>Propriétaire</strong> :  SAS ARTEM Capital social de 100 000 € Numéro de TVA: FR 53 322 804 212 – 16 rue de Berlin 77144 Montévrain<br />
+            </p><p><strong>Propriétaire</strong> :  SAS ARTEM Capital social de 100 000 € Numéro de TVA: FR 53 322 804 212 – 16 rue de Berlin Innovespace Val d’Europe II 77144 Montévrain<br />
 
                 <strong>Responsable publication</strong> : Artem – com@artem-fr.com<br />
                 Le responsable publication est une personne physique ou une personne morale.<br />
-                <strong>Webmaster</strong> : Delchie – romain.delchie@artem-fr.com<br />
+                <strong>Webmaster</strong> : Delchie – romaindelchie@yahoo.fr<br />
                 <strong>Hébergeur</strong> : 1and1 – 7 Place de la Gare 57200 Sarreguemines 0970 808 911<br />
                 <strong>Délégué à la protection des données</strong> : Artem – com@artem-fr.com<br />
             </p>
@@ -46,7 +46,7 @@ export default function LegalTerms() {
             <h3>3. Description des services fournis.</h3>
 
             <p>Le site internet <a href="https://www.artem-fr.com">https://www.artem-fr.com</a> a pour objet de fournir une information concernant l’ensemble des activités de la société.
-                <a href="https://www.artem-fr.com">https://www.artem-fr.com</a> s’efforce de fournir sur le site <a href="https://www.artem-fr.com">https://www.artem-fr.com</a> des informations aussi précises que possible. Toutefois, il ne pourra être tenu responsable des oublis, des inexactitudes et des carences dans la mise à jour, qu’elles soient de son fait ou du fait des tiers partenaires qui lui fournissent ces informations.</p>
+                <a href="https://www.artem-fr.com"> https://www.artem-fr.com</a> s’efforce de fournir sur le site <a href="https://www.artem-fr.com">https://www.artem-fr.com</a> des informations aussi précises que possible. Toutefois, il ne pourra être tenu responsable des oublis, des inexactitudes et des carences dans la mise à jour, qu’elles soient de son fait ou du fait des tiers partenaires qui lui fournissent ces informations.</p>
 
             <p>Toutes les informations indiquées sur le site <a href="https://www.artem-fr.com">https://www.artem-fr.com</a> sont données à titre indicatif, et sont susceptibles d’évoluer. Par ailleurs, les renseignements figurant sur le site <a href="https://www.artem-fr.com">https://www.artem-fr.com</a> ne sont pas exhaustifs. Ils sont donnés sous réserve de modifications ayant été apportées depuis leur mise en ligne.</p>
 
@@ -83,7 +83,7 @@ export default function LegalTerms() {
 
             <h4>7.1 Responsables de la collecte des données personnelles</h4>
 
-            <p>Pour les Données Personnelles collectées dans le cadre de la création du compte personnel de l’Utilisateur et de sa navigation sur le Site, le responsable du traitement des Données Personnelles est : ARTEM. <a href="https://www.artem-fr.com">https://www.artem-fr.com</a>est représenté par Autret, son représentant légal</p>
+            <p>Pour les Données Personnelles collectées dans le cadre de la création du compte personnel de l’Utilisateur et de sa navigation sur le Site, le responsable du traitement des Données Personnelles est : ARTEM. <a href="https://www.artem-fr.com">https://www.artem-fr.com</a>est représenté par Mme Autret, son représentant légal</p>
 
             <p>En tant que responsable du traitement des données qu’il collecte, <a href="https://www.artem-fr.com">https://www.artem-fr.com</a> s’engage à respecter le cadre des dispositions légales en vigueur. Il lui appartient notamment au Client d’établir les finalités de ses traitements de données, de fournir à ses prospects et clients, à partir de la collecte de leurs consentements, une information complète sur le traitement de leurs données personnelles et de maintenir un registre des traitements conforme à la réalité.
                 Chaque fois que <a href="https://www.artem-fr.com">https://www.artem-fr.com</a> traite des Données Personnelles, <a href="https://www.artem-fr.com">https://www.artem-fr.com</a> prend toutes les mesures raisonnables pour s’assurer de l’exactitude et de la pertinence des Données Personnelles au regard des finalités pour lesquelles <a href="https://www.artem-fr.com">https://www.artem-fr.com</a> les traite.</p>
@@ -132,7 +132,7 @@ export default function LegalTerms() {
             <p>Si l’Utilisateur souhaite savoir comment <a href="https://www.artem-fr.com">https://www.artem-fr.com</a> utilise ses Données Personnelles, demander à les rectifier ou s’oppose à leur traitement, l’Utilisateur peut contacter <a href="https://www.artem-fr.com">https://www.artem-fr.com</a> par écrit à l’adresse suivante : </p>
 
             ARTEM – DPO, Artem <br />
-            16 rue de Berlin 77144 Montévrain.
+            16 rue de Berlin Innovespace Val d’Europe II  77144 Montévrain.
 
             <p>Dans ce cas, l’Utilisateur doit indiquer les Données Personnelles qu’il souhaiterait que <a href="https://www.artem-fr.com">https://www.artem-fr.com</a> corrige, mette à jour ou supprime, en s’identifiant précisément avec une copie d’une pièce d’identité (carte d’identité ou passeport). </p>
 
@@ -152,7 +152,7 @@ export default function LegalTerms() {
             <p>
                 Dans la limite de leurs attributions respectives et pour les finalités rappelées ci-dessus, les principales personnes susceptibles d’avoir accès aux données des Utilisateurs de <a href="https://www.artem-fr.com">https://www.artem-fr.com</a> sont principalement les agents de notre service client.</p>
 
-            <div ng-bind-html="rgpdHTML"><h3>7.5 Types de données collectées</h3><p><a href="https://www.artem-fr.com">https://www.artem-fr.com</a> collecte en outre des informations qui permettent d’améliorer l’expérience utilisateur et de proposer des conseils contextualisés&nbsp;:<br />nom de l'entreprise, nom, prénom, adresse de facturation, téléphone, email, k-bis,</p><p> Ces &nbsp;données sont conservées pour une période maximale de 60 mois mois après la fin de la relation contractuelle</p></div>
+            <div ng-bind-html="rgpdHTML"><h3>7.5 Types de données collectées</h3><p><a href="https://www.artem-fr.com">https://www.artem-fr.com</a> collecte en outre des informations qui permettent d’améliorer l’expérience utilisateur et de proposer des conseils contextualisés&nbsp;:<br />nom de l'entreprise, nom, prénom, adresse de facturation, téléphone, email, k-bis,</p><p> Ces &nbsp;données sont conservées pour une période maximale de 60 mois après la fin de la relation contractuelle</p></div>
 
 
             <h3>8. Notification d’incident</h3>

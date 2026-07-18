@@ -6,6 +6,7 @@
     text-align: justify;
 
     & h2 {
+        text-align: center;
         margin: 70px 0 40px 0;
     }
 }
@@ -13,6 +14,7 @@
 @media (min-width: 600px) {
     .privacy-policy {
         width: 70%;
-        margin: 0 auto;
+        margin-left: auto;
+        margin-right: auto;
     }
 }

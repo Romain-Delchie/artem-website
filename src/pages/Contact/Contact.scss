@@ -10,7 +10,7 @@
     align-items: center;
     justify-content: center;
 
-    & h2 {
+    & h1 {
         text-align: center;
         margin: 32px auto 0;
         border-radius: 10px 10px 0 0;
@@ -52,12 +52,12 @@
     .contact {
         min-height: 700px;
 
-        & h2 {
+        & h1 {
             display: flex;
             justify-content: center;
             align-items: center;
             width: 1000px;
-            height: 180px;
+            height: 150px;
             font-size: 2rem;
         }
 
