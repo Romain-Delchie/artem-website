@@ -1,29 +1,39 @@
 import Axios from "axios";
 
-let alertDisplayed = false;
+let logoutCallback = null;
+let isLoggingOut = false;
+
+export const registerLogoutCallback = (callback) => {
+  logoutCallback = callback;
+};
+
+export const resetLogoutState = () => {
+  isLoggingOut = false;
+};
 
 const axios = Axios.create({
-    baseURL: "https://www.artem-fr.com/api/",
+    baseURL: "http://www.artem-fr.com/api/",
     headers: {
         "Content-Type": "application/json",
     },
 });
 
 axios.interceptors.response.use(
-    (response) => {
-        return response;
-    },
-    (error) => {
-        if (error.response && error.response.status === 401 && error.response.data.error !== "invalid password" && !alertDisplayed) {
-            alert("Votre session a expiré, veuillez vous reconnecter");
-            alertDisplayed = true;
-            window.location.href = '/signin';
-        }
-
-        return Promise.reject(error);
+  (response) => response,
+  (error) => {
+    if (
+      error.response?.status === 401 &&
+      error.response?.data?.error !== "invalid password"
+    ) {
+      if (!isLoggingOut) {
+        isLoggingOut = true;
+        logoutCallback?.(true);
+      }
     }
-);
 
+    return Promise.reject(error);
+  },
+);
 
 const API = {
     auth: {

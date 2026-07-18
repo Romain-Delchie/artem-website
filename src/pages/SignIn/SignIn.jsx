@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import AppContext from '../../context/AppContext';
-import API from '../../utils/api/api';
+import API, {resetLogoutState} from '../../utils/api/api';
 import './SignIn.scss';
 
 export default function SignIn() {
@@ -27,7 +27,7 @@ export default function SignIn() {
         event.preventDefault();
         API.auth.signin(email, password).then((response) => {
             // et on stock la réponse renvoyée
-
+resetLogoutState();
             const tokenReceived = response.data.token;
             if (tokenReceived) {
                 updateUser({ ...user, token: tokenReceived });

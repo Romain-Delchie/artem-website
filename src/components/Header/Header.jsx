@@ -1,14 +1,15 @@
 import NavBar from '../NavBar/NavBar'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState, useCallback, useRef } from "react";
 import AppContext from '../../context/AppContext'
 import './Header.scss'
 
 export default function Header() {
-    const { user, updateUser } = useContext(AppContext);
+    const { user, logout } = useContext(AppContext);
     const location = useLocation();
     const navigate = useNavigate();
     const [hasScrolled, setHasScrolled] = useState(false);
+const sessionExpired = useRef(false);
 
     useEffect(() => {
         // Écoute de l'événement de défilement et met à jour l'état hasScrolled
@@ -28,9 +29,29 @@ export default function Header() {
         };
     }, [hasScrolled]);
 
-    function handleDisconnection() {
-        updateUser({ token: "", email: "", firstname: "", lastname: "" });
-    }
+   function handleDisconnection() {
+     logout();
+   }
+   
+  useEffect(() => {
+    const handleSessionExpired = () => {
+    if (sessionExpired.current) return;
+
+    sessionExpired.current = true;
+
+      alert("Votre session a expiré, veuillez vous reconnecter");
+
+      handleDisconnection();
+    };
+
+    window.addEventListener("session-expired", handleSessionExpired);
+
+    return () => {
+      window.removeEventListener("session-expired", handleSessionExpired);
+    };
+  }, [handleDisconnection]);
+
+
 
     return (
         <header className={hasScrolled ? 'header header-scrolled' : 'header'}>
