@@ -11,6 +11,8 @@ import QuoteUpdate from "../../components/QuoteUpdate/QuoteUpdate";
 import artemData from "../../../data/artem-data";
 import Loading from "../../components/Loading/Loading";
 import goodPrice from "../../utils/goodPrice";
+import TermsOfSales from "../TermsOfSales/TermsOfSales";
+import { createPortal } from "react-dom";
 
 export default function Quote() {
   const { user, updateUser, setProducts } = useContext(AppContext);
@@ -30,6 +32,8 @@ export default function Quote() {
   const [quote, setQuote] = useState(
     user.quotations.find((quote) => quote.quotation_id === Number(quoteId))
   );
+const [acceptedTerms, setAcceptedTerms] = useState(false);
+const [showTerms, setShowTerms] = useState(false);
 
   useEffect(() => {
     if (quote) {
@@ -315,26 +319,39 @@ export default function Quote() {
       {openOrderConfirmation && (
         <section className="quote-confirmation">
           <div className="quote-confirmation-container">
-            <svg
-              onClick={() => setOpenOrderConfirmation(false)}
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6 quote-btn-cross"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+
             <p>Confirmer la commande ?</p>
+
+            <div className="quote-terms">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={acceptedTerms}
+                  onChange={(e) => setAcceptedTerms(e.target.checked)}
+                />
+
+                <span>
+                  J'ai lu et j'accepte les{" "}
+                  <button
+                    type="button"
+                    className="terms-link"
+                    onClick={() => setShowTerms(true)}
+                  >
+                    Conditions Générales de Vente
+                  </button>
+                </span>
+              </label>
+            </div>
+
             <div className="quote-btn-confirmation-container">
-              <button className="quote-btn" onClick={handleOrder}>
+              <button
+                className="quote-btn"
+                disabled={!acceptedTerms}
+                onClick={handleOrder}
+              >
                 Oui
               </button>
+
               <button
                 className="quote-btn"
                 onClick={() => setOpenOrderConfirmation(false)}
@@ -342,6 +359,22 @@ export default function Quote() {
                 Non
               </button>
             </div>
+
+            {showTerms && createPortal(
+              <div className="terms-overlay">
+                <div className="terms-modal">
+                  <button
+                    className="terms-close"
+                    onClick={() => setShowTerms(false)}
+                  >
+                    ✕
+                  </button>
+
+                  <TermsOfSales />
+                </div>
+              </div>,
+              document.body
+            )}
           </div>
         </section>
       )}
