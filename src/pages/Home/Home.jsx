@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import './Home.scss'
 import API from '../../utils/api/api'
@@ -7,10 +7,12 @@ import TextSlider from '../../components/Slider/TextSlider'
 import ChatBot from '../../components/ChatBot/ChatBot'
 import Presentation from '../../components/Presentation/Presentation'
 import Loading from '../../components/Loading/Loading'
+import AppContext from '../../context/AppContext';
 
 export default function Home() {
     const [isLoaded, setIsLoaded] = useState(false)
     const [presentations, setPresentations] = useState()
+    const { user } = useContext(AppContext);
 
     useEffect(() => {
         API.presentation.getPresentations()
@@ -38,7 +40,7 @@ export default function Home() {
                 </Link>
                 <Presentation presentations={presentations} />
 
-                <Link to='/creer-un-compte' className='hero-description-container'>
+                <Link to={user.token ===""? '/creer-un-compte':'/dashboard'} className='hero-description-container'>
                     <h2> Créer un compte et bénéficier ainsi de nos services :</h2>
                     <div className='hero-service-container'>
                         <div className='hero-service'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
