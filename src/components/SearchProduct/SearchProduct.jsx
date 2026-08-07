@@ -3,7 +3,7 @@ import AppContext from "../../context/AppContext";
 import ProductCard from "../ProductCard/ProductCard";
 import "./SearchProduct.scss";
 import API from "../../utils/api/api";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ModalTeTool from "../ModalTeTool/ModalTeTool";
 
 export default function SearchProduct() {
@@ -17,6 +17,8 @@ export default function SearchProduct() {
     const [searchValue, setSearchValue] = useState([]);
     const [sort, setSort] = useState({ brand: 'all', range: 'all' });
     const [active, setActive] = useState(true)
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -75,6 +77,23 @@ export default function SearchProduct() {
         const { value, name } = event.target;
         setSort({ ...sort, [name]: value });
     }
+
+const handleClick = (product) => {
+  if (location.includes("quote-history")) {
+    setOpenAddProductForm({ [product.id]: true });
+    return;
+  }
+
+  if (
+    location === "/update-product" ||
+    location === "/update-product/inactive"
+  ) {
+    navigate(`/update-product/${product.id}`, {
+      state: product,
+    });
+    return;
+  }
+};
 
     return (
       <div className="search-product">
@@ -192,40 +211,49 @@ export default function SearchProduct() {
                 <li
                   className="search-product-result"
                   key={product.id}
-                  onClick={() => {
-                    if (location.includes("quote-history")) {
-                      setOpenAddProductForm({ [product.id]: true });
-                    }
-                  }}
+                  onClick={() => handleClick(product)}
                 >
                   <ProductCard product={product} />
+
                   {location.includes("quote-history") && (
                     <div className="product-card-btn">
-                      <button>
+                      <button onClick={(e) => e.stopPropagation()}>
                         Ajouter au devis
                       </button>
                     </div>
                   )}
+
                   {location === "/search-products" && user.profile_id !== 3 && (
                     <div className="product-card-btn">
-                      <Link to={`/new-quote`}>Créer un devis</Link>
+                      <Link
+                        to="/new-quote"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Créer un devis
+                      </Link>
                     </div>
                   )}
+
                   {(location === "/update-product" ||
                     location === "/update-product/inactive") && (
                     <div className="product-card-btn">
                       <Link
                         state={product}
                         to={`/update-product/${product.id}`}
+                        onClick={(e) => e.stopPropagation()}
                       >
                         Modifier le produit
                       </Link>
                     </div>
                   )}
+
                   {(location === "/delete-product" ||
                     location === "/delete-product/inactive") && (
                     <div className="product-card-btn">
-                      <Link to={`/delete-product/${product.id}`}>
+                      <Link
+                        to={`/delete-product/${product.id}`}
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         Supprimer le produit
                       </Link>
                     </div>

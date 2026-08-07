@@ -18,7 +18,7 @@ export default function DeleteProduct() {
         }).catch((err) => {
             console.error(err);
         }).finally(() => {
-            navigate('/dashboard', { replace: true })
+            navigate('/delete-product', { replace: true })
         })
     }
 
@@ -29,7 +29,7 @@ export default function DeleteProduct() {
             <h2>Etes-vous sur de vouloir supprimer ce produit?</h2>
             <div className="delete-product-btn">
                 <button onClick={handleDelete} className='delete-product-choice'>Oui</button>
-                <Link className='delete-product-choice' to='/dashboard'>Non</Link>
+                <Link className='delete-product-choice' to='/delete-product'>Non</Link>
             </div>
 
 
