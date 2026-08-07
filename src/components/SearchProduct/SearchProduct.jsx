@@ -77,93 +77,163 @@ export default function SearchProduct() {
     }
 
     return (
-
-        <div className="search-product">
-            <ModalTeTool />
-            <section className="search-product-sorting">
-                {user.role === 'admin' &&
-                    <div className="search-product-sorting-active">
-                        <label htmlFor="active">Produits actif</label>
-                        <input type="radio" value="active" name="active" id="active" checked={active} onChange={handleChangeActive} />
-                        <label htmlFor="inactive">Produits inactif</label>
-                        <input type="radio" value='inactive' name="inactive" id="inactive" checked={!active} onChange={handleChangeActive} />
-                    </div>
-                }
-                <div className="search-product-sorting-range">
-                    <h3>Filtrer par gamme</h3>
-                    <select name="range" id="range" onChange={handleChangeSort}>
-                        <option value="all">Toutes les gammes</option>
-                        {ranges && ranges.filter((oneRange) => oneRange.searchFilter).map((range) => (
-                            <option value={range.id} key={range.id}>{range.name}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className="search-product-sorting-brand">
-                    <h3>Filtrer par marque</h3>
-                    <select name="brand" id="brand" onChange={handleChangeSort}>
-                        <option value="all">Toutes les marques</option>
-                        {brands && brands.map((brand) => (
-                            <option value={brand} key={brand}>{brand}</option>
-                        ))}
-                    </select>
-                </div>
-            </section>
-            <form className="search-product-form" onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                }
-            }
-            }>
-                <h3>Recherche un produit par :</h3>
-                <div className="input-radio">
-                    <div className="input-container">
-                        <label htmlFor="description">
-                            <input type="radio" id="description" name="description" value="description" checked={searchBy === 'description'} onChange={handleChangeSearchBy} />Mots clés</label>
-                    </div>
-                    <div className="input-container">
-                        <label htmlFor="reference">
-                            <input type="radio" id="reference" name="reference" value="reference" checked={searchBy === 'reference'} onChange={handleChangeSearchBy} />Référence ARTEM</label>
-                    </div>
-
-                </div>
-                <div className="input-container input-container-text">
-                    <input type="text" id="search" name="search" placeholder={searchBy === 'reference' ? 'ex: MP_1280_X_790 / NB : avec des _ à la place des espaces' : 'ex: abry toile enfourneur'} onChange={handleSearch} />
-                </div>
-
-            </form>
-            <div className="search-product-results-container">
-                <h4>{productsSorted.length} {productsSorted.length < 2 ? "produit trouvé" : "produits trouvés"} :</h4>
-                <ul className="search-product-results">
-                    {productsSorted && productsSorted.map((product) => (
-                        <li className="search-product-result" key={product.id}>
-                            <ProductCard product={product} />
-                            {location.includes('quote-history') &&
-                                <div className="product-card-btn">
-                                    <button onClick={() => setOpenAddProductForm({ [product.id]: true })}>Ajouter au devis</button>
-                                </div>
-                            }
-                            {location === '/search-products' && user.profile_id !== 3 &&
-                                <div className="product-card-btn">
-                                    <Link to={`/new-quote`}>Créer un devis</Link>
-                                </div>
-                            }
-                            {(location === '/update-product' || location === '/update-product/inactive') &&
-                                <div className="product-card-btn">
-                                    <Link state={product} to={`/update-product/${product.id}`}>Modifier le produit</Link>
-                                </div>
-                            }
-                            {(location === '/delete-product' || location === '/delete-product/inactive') &&
-                                <div className="product-card-btn">
-                                    <Link to={`/delete-product/${product.id}`}>Supprimer le produit</Link>
-                                </div>
-                            }
-                        </li>
-                    ))}
-                </ul>
+      <div className="search-product">
+        <ModalTeTool />
+        <section className="search-product-sorting">
+          {user.role === "admin" && (
+            <div className="search-product-sorting-active">
+              <label htmlFor="active">Produits actif</label>
+              <input
+                type="radio"
+                value="active"
+                name="active"
+                id="active"
+                checked={active}
+                onChange={handleChangeActive}
+              />
+              <label htmlFor="inactive">Produits inactif</label>
+              <input
+                type="radio"
+                value="inactive"
+                name="inactive"
+                id="inactive"
+                checked={!active}
+                onChange={handleChangeActive}
+              />
             </div>
-
+          )}
+          <div className="search-product-sorting-range">
+            <h3>Filtrer par gamme</h3>
+            <select name="range" id="range" onChange={handleChangeSort}>
+              <option value="all">Toutes les gammes</option>
+              {ranges &&
+                ranges
+                  .filter((oneRange) => oneRange.searchFilter)
+                  .map((range) => (
+                    <option value={range.id} key={range.id}>
+                      {range.name}
+                    </option>
+                  ))}
+            </select>
+          </div>
+          <div className="search-product-sorting-brand">
+            <h3>Filtrer par marque</h3>
+            <select name="brand" id="brand" onChange={handleChangeSort}>
+              <option value="all">Toutes les marques</option>
+              {brands &&
+                brands.map((brand) => (
+                  <option value={brand} key={brand}>
+                    {brand}
+                  </option>
+                ))}
+            </select>
+          </div>
+        </section>
+        <form
+          className="search-product-form"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+            }
+          }}
+        >
+          <h3>Recherche un produit par :</h3>
+          <div className="input-radio">
+            <div className="input-container">
+              <label htmlFor="description">
+                <input
+                  type="radio"
+                  id="description"
+                  name="description"
+                  value="description"
+                  checked={searchBy === "description"}
+                  onChange={handleChangeSearchBy}
+                />
+                Mots clés
+              </label>
+            </div>
+            <div className="input-container">
+              <label htmlFor="reference">
+                <input
+                  type="radio"
+                  id="reference"
+                  name="reference"
+                  value="reference"
+                  checked={searchBy === "reference"}
+                  onChange={handleChangeSearchBy}
+                />
+                Référence ARTEM
+              </label>
+            </div>
+          </div>
+          <div className="input-container input-container-text">
+            <input
+              type="text"
+              id="search"
+              name="search"
+              placeholder={
+                searchBy === "reference"
+                  ? "ex: MP_1280_X_790 / NB : avec des _ à la place des espaces"
+                  : "ex: abry toile enfourneur"
+              }
+              onChange={handleSearch}
+            />
+          </div>
+        </form>
+        <div className="search-product-results-container">
+          <h4>
+            {productsSorted.length}{" "}
+            {productsSorted.length < 2 ? "produit trouvé" : "produits trouvés"}{" "}
+            :
+          </h4>
+          <ul className="search-product-results">
+            {productsSorted &&
+              productsSorted.map((product) => (
+                <li
+                  className="search-product-result"
+                  key={product.id}
+                  onClick={() => {
+                    if (location.includes("quote-history")) {
+                      setOpenAddProductForm({ [product.id]: true });
+                    }
+                  }}
+                >
+                  <ProductCard product={product} />
+                  {location.includes("quote-history") && (
+                    <div className="product-card-btn">
+                      <button>
+                        Ajouter au devis
+                      </button>
+                    </div>
+                  )}
+                  {location === "/search-products" && user.profile_id !== 3 && (
+                    <div className="product-card-btn">
+                      <Link to={`/new-quote`}>Créer un devis</Link>
+                    </div>
+                  )}
+                  {(location === "/update-product" ||
+                    location === "/update-product/inactive") && (
+                    <div className="product-card-btn">
+                      <Link
+                        state={product}
+                        to={`/update-product/${product.id}`}
+                      >
+                        Modifier le produit
+                      </Link>
+                    </div>
+                  )}
+                  {(location === "/delete-product" ||
+                    location === "/delete-product/inactive") && (
+                    <div className="product-card-btn">
+                      <Link to={`/delete-product/${product.id}`}>
+                        Supprimer le produit
+                      </Link>
+                    </div>
+                  )}
+                </li>
+              ))}
+          </ul>
         </div>
-
-
-    )
+      </div>
+    );
 }
