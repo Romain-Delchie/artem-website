@@ -522,11 +522,11 @@ export default function Quotepdf({ quote, user, totalWeight, totalPrice }) {
         <View style={styles.text}>
           <Text>Les livraisons sont effectuées par</Text>
           <Text>
-            CHRONOPOST ou TNT pour les colis de moins de 50kg - livraison sous
+            CHRONOPOST ou Fedex pour les colis de moins de 50kg - livraison sous
             24 heures (non garantie)
           </Text>
           <Text>
-            SCHENKER pour les autres - livraison sous 24/72 heures (non
+            DSV pour les autres - livraison sous 24/72 heures (non
             garantie)
           </Text>
           <Text>Supplément : </Text>
