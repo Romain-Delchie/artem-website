@@ -63,6 +63,14 @@ const API = {
             });
         },
 
+        async getAccountByID(token, id) {
+            return axios.get(`/account/${id}`, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            });
+        },
+
         async create(data) {
             return axios.post("/account", data);
         },

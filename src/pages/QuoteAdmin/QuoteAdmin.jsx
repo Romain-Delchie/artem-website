@@ -21,7 +21,48 @@ export default function QuoteAdmin({ quote }) {
   const [openOrderConfirmation, setOpenOrderConfirmation] = useState(false);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [openModifQuote, setOpenModifQuote] = useState(false);
+  const [accountQuote, setAccountQuote] = useState(null);
 
+useEffect(() => {
+  const getAccount = async () => {
+    try {
+      const response = await API.user.getAccountByID(
+        user.token,
+        quote.account_id,
+      );
+
+      setAccountQuote(response.data);
+    } catch (error) {
+      console.error("Erreur récupération du compte :", error);
+    }
+  };
+
+  if (quote?.account_id && user?.token) {
+    getAccount();
+  }
+}, [quote]);
+  
+useEffect(() => {
+  const getAddress = async () => {
+    try {
+      const response = await API.address.getAddress(
+        user.token,
+        accountQuote.billing_address_id,
+      );
+
+      setAccountQuote((prev) => ({
+        ...prev,
+        billing_address: response.data.oneAddress,
+      }));
+    } catch (error) {
+      console.error("Erreur récupération de l'adresse :", error);
+    }
+  };
+
+  if (accountQuote?.billing_address_id && user?.token) {
+    getAddress();
+  }
+}, [accountQuote?.billing_address_id, user?.token]);
   useEffect(() => {
     if (quote) {
       setIsDataLoaded(true);
@@ -56,7 +97,9 @@ export default function QuoteAdmin({ quote }) {
       ? "Nous consulter"
       : quote.transport;
   quote.clicli =
-    quote.delivery_id !== user.delivery_standard.id ? artemData.clicli : 0;
+    quote.delivery_id !== accountQuote?.delivery_standard_id
+      ? artemData.clicli
+      : 0;
   quote.totalPrice =
     quote.totalPrice + quote.transport + quote.clicli + quote.corse;
   if (
@@ -126,9 +169,9 @@ export default function QuoteAdmin({ quote }) {
     location.reload();
   }
 
-  if (!isDataLoaded) {
-    return <Loading />;
-  }
+if (!isDataLoaded || !accountQuote?.billing_address) {
+  return <Loading />;
+}
 
   return (
     <main className="quote quote-admin">
@@ -141,7 +184,7 @@ export default function QuoteAdmin({ quote }) {
           <PDFViewer width="100%" height="100%">
             <Quotepdf
               quote={quote}
-              user={user}
+              user={accountQuote}
               totalWeight={totalWeight}
               totalPrice={totalPrice}
             />
