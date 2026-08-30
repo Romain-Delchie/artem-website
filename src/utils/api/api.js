@@ -374,6 +374,10 @@ const API = {
             });
         },
 
+        async sendEmailContact(data) {
+            return axios.post("/email/contact", data)
+        },
+
         async sendConfirmationEmail(token, data) {
             return axios.post("/email/validation", data, {
                 headers: {

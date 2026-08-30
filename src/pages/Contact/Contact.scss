@@ -24,26 +24,43 @@
         color: var.$primaryColor;
         background-color: var.$secondaryColorTransparent;
         width: 80%;
-        border-radius: 0 0 10px 10px;
+        margin: 24px auto 80px;
+        border-radius: 10px;
         padding: 16px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         text-align: center;
+        box-sizing: border-box;
     }
 
     &-item {
         margin-bottom: 16px;
 
-        & a {
-            display: flex;
-            justify-content: center;
+        &:last-child {
+            margin-bottom: 0;
         }
 
-        & svg {
-            height: 18px;
-            margin-right: 5px;
+        h2:not(:first-child) {
+            margin-top: 20px;
+        }
+    }
+
+    &-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4em;
+        line-height: 1;
+        color: inherit;
+
+        svg {
+            display: block;
+            width: 1.15em;
+            height: 1.15em;
+            flex-shrink: 0;
+            transform: translateY(-0.1em);
         }
     }
 }
@@ -57,12 +74,12 @@
             justify-content: center;
             align-items: center;
             width: 1000px;
-            height: 150px;
+            padding: 32px 25px 12px;
             font-size: 2rem;
         }
 
         &-container {
-            height: 350px;
+            min-height: 280px;
             flex-direction: row;
             justify-content: space-around;
             align-items: center;
@@ -70,13 +87,8 @@
             width: 1000px;
 
             & .contact-item {
+                margin-bottom: 0;
                 font-size: 1.2rem;
-
-                &-phone {
-                    & h3:nth-child(3) {
-                        margin-top: 20px;
-                    }
-                }
             }
         }
     }
