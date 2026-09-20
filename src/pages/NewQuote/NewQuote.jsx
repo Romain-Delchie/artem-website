@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import API from "../../utils/api/api";
 import axios from "axios";
 import AppContext from "../../context/AppContext";
@@ -12,6 +12,11 @@ import Select from "react-select";
 export default function NewQuote() {
   const { user, updateUser } = useContext(AppContext);
   const navigate = useNavigate();
+  const routerLocation = useLocation();
+  // Produit transmis depuis la liste de produits par le bouton "Créer un devis"
+  // via <Link to="/new-quote" state={{ product }} />.
+  const productToAdd = routerLocation.state?.product ?? null;
+  const [quantityToAdd, setQuantityToAdd] = useState(1);
   const [addressSelected, setAddressSelected] = useState({
     new: false,
     ...user.delivery_standard,
@@ -33,9 +38,9 @@ export default function NewQuote() {
         (quotation) => quotation.quotation_id === newQuoteId
       ).length > 0
     ) {
-      navigate(`/quote-history/${user.quotations.slice(-1)[0].quotation_id}`);
+      navigate(`/quote-history/${newQuoteId}`);
     }
-  }, [user]);
+  }, [user, newQuoteId]);
 
   useEffect(() => {
     // Utilisez une API pour récupérer la liste des pays
@@ -74,31 +79,55 @@ export default function NewQuote() {
       });
   };
 
-  const handleCreateQuotation = (e) => {
-    setIsLoading(true);
+  const handleCreateQuotation = async (e) => {
     e.preventDefault();
-    if (e.target.reference.value === "") {
-      setIsLoading(false);
+    const reference = e.target.reference.value;
+    if (reference === "") {
       return alert("Veuillez renseigner une référence");
     }
+    const quantity = Math.max(1, Math.floor(Number(quantityToAdd) || 1));
+    setIsLoading(true);
     const dataQuotation = {
       account_id: user.id,
-      reference: e.target.reference.value,
+      reference,
       shipment: addressSelected.id !== 1,
       delivery_id: addressSelected.id,
     };
-    API.quotation
-      .create(dataQuotation)
-      .then((response) => {
-        fetchData(user, updateUser);
-        setNewQuoteId(response.data.newQuotation.generatedId);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    try {
+      const response = await API.quotation.create(dataQuotation);
+      const createdQuotationId = response.data.newQuotation.generatedId;
+
+      // Si l'utilisateur arrive depuis la liste de produits, on rattache ce
+      // produit au devis fraîchement créé avant de rafraîchir les données,
+      // pour qu'il soit déjà présent à l'ouverture du devis.
+      if (productToAdd) {
+        try {
+          await API.quotation.addProduct(user.token, {
+            product_id: productToAdd.id,
+            quotation_id: createdQuotationId,
+            quantity,
+          });
+        } catch (error) {
+          console.error(
+            "Erreur lors de l'ajout du produit au nouveau devis",
+            error
+          );
+          alert(
+            "Le devis a été créé mais le produit n'a pas pu y être ajouté. Vous pouvez l'ajouter depuis le devis."
+          );
+        }
+      }
+
+      // On mémorise l'identifiant avant de rafraîchir les données : la
+      // redirection est déclenchée par l'effet qui observe user et newQuoteId,
+      // une fois le nouveau devis présent dans le contexte.
+      setNewQuoteId(createdQuotationId);
+      await fetchData(user, updateUser);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleNewAddress = (e) => {
@@ -184,6 +213,38 @@ export default function NewQuote() {
       <DashboardComponent />
       <h1>Nouveau devis</h1>
       <form className="new-quote-form" onSubmit={handleCreateQuotation}>
+        {productToAdd && (
+          <div className="new-quote-product">
+            <h3>Produit ajouté à ce devis</h3>
+            <div className="new-quote-product-container">
+              <div className="new-quote-product-image">
+                <img
+                  src={`/images/products/${productToAdd.image_link}`}
+                  alt={productToAdd.description}
+                />
+              </div>
+              <div className="new-quote-product-description">
+                {productToAdd.brand?.toLowerCase() !== "artem" && (
+                  <p>Adaptable {productToAdd.brand}</p>
+                )}
+                <p>{productToAdd.description}</p>
+                <p>Ref: {productToAdd.reference}</p>
+              </div>
+            </div>
+            <div className="new-quote-product-quantity">
+              <label htmlFor="quantity">Quantité</label>
+              <input
+                type="number"
+                name="quantity"
+                id="quantity"
+                min="1"
+                step="1"
+                value={quantityToAdd}
+                onChange={(e) => setQuantityToAdd(e.target.value)}
+              />
+            </div>
+          </div>
+        )}
         <div className="new-quote-form-item">
           <label htmlFor="reference">Votre référence</label>
           <input

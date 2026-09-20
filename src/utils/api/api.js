@@ -12,10 +12,11 @@ export const resetLogoutState = () => {
 };
 
 const axios = Axios.create({
-    baseURL: "https://www.artem-fr.com/api/",
-    headers: {
-        "Content-Type": "application/json",
-    },
+  baseURL: "https://www.artem-fr.com/api/",
+//   baseURL: "http://localhost:3000/api/",
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 axios.interceptors.response.use(

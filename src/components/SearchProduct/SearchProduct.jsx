@@ -227,6 +227,7 @@ const handleClick = (product) => {
                     <div className="product-card-btn">
                       <Link
                         to="/new-quote"
+                        state={{ product }}
                         onClick={(e) => e.stopPropagation()}
                       >
                         Créer un devis
