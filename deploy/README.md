@@ -42,16 +42,60 @@ ARTEM_API_URL=http://localhost:3000/api npm run build
 l'application reste celle de `VITE_API_URL`, ce qui est bien le comportement
 voulu : le navigateur d'un visiteur ne peut pas appeler `localhost`.
 
-### L'API doit être joignable pendant le build
+### Si l'API n'est pas joignable pendant le build
 
-Si l'API ne répond pas, `generate-sitemap` interrompt le build avec un message
-explicite. Le pré-rendu, lui, n'échoue pas : il signale les pages qu'il n'a pas
-pu rendre, et celles-ci restent servies en rendu navigateur.
+Le build ne s'interrompt pas. `generate-sitemap` conserve le `public/sitemap.xml`
+versionné et le prévient dans la console ; le pré-rendu se limite alors aux pages
+statiques, les pages gamme restant servies en rendu navigateur. Les deux étapes
+sont volontairement non bloquantes : un sitemap légèrement daté vaut mieux qu'une
+mise en production impossible.
 
 Après un build, une vérification rapide que l'URL compilée est la bonne :
 
 ```bash
 grep -o "https://www.artem-fr.com/api/" dist/assets/index-*.js
+```
+
+## Dépannage : `npm run build` échoue sur le serveur
+
+`npm run build` enchaîne trois étapes, dont deux dépendent de l'environnement.
+La première chose à faire est d'isoler l'étape fautive :
+
+```bash
+npm run build:app        # le bundle seul, sans sitemap ni pré-rendu
+```
+
+`build:app` est exactement ce que faisait `npm run build` avant la mise en place
+du référencement. S'il passe, le `dist/` produit est déployable en l'état : le
+site est complet et fonctionnel, seul le pré-rendu manque.
+
+Causes les plus fréquentes, dans l'ordre :
+
+- **Node trop ancien.** `vite` 4 et `puppeteer` 24 demandent Node 18 au minimum
+  (`node -v`). C'est la seule cause qui fait aussi échouer `npm install`.
+- **Installation sans les devDependencies.** `vite`, `sass` et `puppeteer` y
+  vivent : un `npm ci --omit=dev` ne permet pas de construire le site. Utilisez
+  `npm ci` tout court.
+- **Chrome non téléchargé.** `puppeteer` récupère son propre Chrome (environ
+  180 Mo) à l'installation, ce qui échoue sur un serveur sans espace disque ou
+  sans accès sortant. Pour installer le reste sans lui :
+
+  ```bash
+  PUPPETEER_SKIP_DOWNLOAD=true npm ci
+  ```
+
+  Le pré-rendu s'annoncera alors ignoré, et le build réussira quand même.
+- **Chrome présent mais incapable de démarrer**, faute de bibliothèques système.
+  Sur Debian ou Ubuntu :
+
+  ```bash
+  sudo npx puppeteer browsers install chrome --install-deps
+  ```
+
+Pour désactiver le pré-rendu sans rien désinstaller :
+
+```bash
+SKIP_PRERENDER=1 npm run build
 ```
 
 ## Déployer

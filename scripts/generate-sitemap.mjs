@@ -8,7 +8,7 @@
  * entre les anciennes URLs /gamme/:id/:nom et les nouvelles URLs en slug,
  * consommée par nginx pour les redirections 301.
  */
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SITE_URL, staticRoutes, fetchRangeRoutes } from './routes.mjs';
@@ -34,8 +34,24 @@ function urlEntry({ path, lastmod, priority, changefreq }) {
     ].join('\n');
 }
 
+/**
+ * Sitemap et table de redirections sont régénérés à chaque build, mais ils sont
+ * aussi versionnés. Si l'API n'est pas joignable depuis la machine de build, on
+ * conserve donc la version précédente plutôt que d'interrompre le build : un
+ * sitemap légèrement daté vaut mieux qu'une mise en production impossible.
+ */
 async function main() {
-    const rangeRoutes = await fetchRangeRoutes();
+    let rangeRoutes;
+    try {
+        rangeRoutes = await fetchRangeRoutes();
+    } catch (error) {
+        const existing = resolve(projectRoot, 'public', 'sitemap.xml');
+        if (!existsSync(existing)) throw error;
+        console.warn('API injoignable (' + error.message + ').');
+        console.warn("public/sitemap.xml et deploy/redirects-gammes.map sont conservés en l’état.");
+        return;
+    }
+
     const buildDate = new Date().toISOString();
 
     const entries = [

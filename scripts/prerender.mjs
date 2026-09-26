@@ -23,7 +23,6 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { dirname, resolve, extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import puppeteer from 'puppeteer';
 import { staticRoutes, fetchRangeRoutes } from './routes.mjs';
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -94,22 +93,65 @@ async function waitForRender(page) {
     );
 }
 
+/**
+ * Charge puppeteer et ouvre un navigateur, sans jamais lever d'exception.
+ *
+ * Le pré-rendu est un bonus : il rend le site lisible par les robots qui
+ * n'exécutent pas JavaScript, mais un dist/ non pré-rendu reste parfaitement
+ * fonctionnel. Sur un serveur où puppeteer n'est pas installé, où Chrome n'a
+ * pas été téléchargé, où les bibliothèques système lui manquent, on préfère
+ * donc prévenir et laisser le build réussir.
+ */
+async function launchBrowser() {
+    let puppeteer;
+    try {
+        ({ default: puppeteer } = await import('puppeteer'));
+    } catch {
+        return { error: "puppeteer n'est pas installé (installation sans les devDependencies ?)" };
+    }
+
+    try {
+        const browser = await puppeteer.launch({
+            headless: 'new',
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        });
+        return { browser };
+    } catch (error) {
+        return { error: "Chrome n'a pas pu démarrer : " + error.message.split('\n')[0] };
+    }
+}
+
 async function main() {
+    if (process.env.SKIP_PRERENDER === '1') {
+        console.log('Pré-rendu ignoré (SKIP_PRERENDER=1).');
+        return;
+    }
+
     if (!existsSync(join(distDir, 'index.html'))) {
         throw new Error('dist/index.html introuvable — lancez d\'abord "npm run build:app".');
     }
 
-    const rangeRoutes = await fetchRangeRoutes();
+    // Sans l'API, on pré-rend au moins les pages statiques.
+    let rangeRoutes = [];
+    try {
+        rangeRoutes = await fetchRangeRoutes();
+    } catch (error) {
+        console.warn('Gammes non récupérées (' + error.message + ') : seules les pages statiques seront pré-rendues.');
+    }
+
     const routes = [
         ...staticRoutes.map((route) => route.path),
         ...rangeRoutes.map((route) => route.path),
     ];
 
+    const { browser, error: browserError } = await launchBrowser();
+    if (browserError) {
+        console.warn('Pré-rendu ignoré : ' + browserError);
+        console.warn("dist/ reste utilisable, le site fonctionne ; mais les robots qui n'exécutent pas JavaScript n'en verront pas le contenu.");
+        return;
+    }
+
     const server = await startServer();
-    const browser = await puppeteer.launch({
-        headless: 'new',
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    });
 
     let rendered = 0;
     const failures = [];
