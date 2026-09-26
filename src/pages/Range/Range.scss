@@ -291,3 +291,72 @@
         }
     }
 }
+/* Contenu éditorial et questions fréquentes ajoutés pour le référencement. */
+.range-content {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    text-align: left;
+
+    &-block {
+        margin-bottom: 1.8rem;
+
+        & h2 {
+            font-size: 1.1rem;
+            margin-bottom: 0.6rem;
+        }
+
+        & p {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+    }
+}
+
+.range-faq {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    text-align: left;
+
+    & h2 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    &-list {
+        &-item {
+            margin-bottom: 1.2rem;
+
+            & dt {
+                font-weight: 700;
+                margin-bottom: 0.3rem;
+            }
+
+            & dd {
+                margin: 0;
+                line-height: 1.6;
+            }
+        }
+    }
+}
+
+/* Contenu en attente de validation, visible du seul administrateur connecté.
+   Le rouge lui permet de distinguer immédiatement les textes qu'il doit
+   relire de ceux déjà publiés. Un visiteur ne voit jamais cette mise en forme :
+   ce contenu ne lui est pas rendu du tout. */
+$pendingColor: #b3261e;
+
+.range-pending {
+    padding-left: 1rem;
+    border-left: 4px solid $pendingColor;
+    color: $pendingColor;
+
+    & h2,
+    & h3,
+    & p,
+    & dt,
+    & dd {
+        color: $pendingColor;
+    }
+}

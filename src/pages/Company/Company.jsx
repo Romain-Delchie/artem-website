@@ -1,14 +1,31 @@
 import { Link } from 'react-router-dom'
 import './Company.scss'
+import Seo from '../../components/Seo/Seo'
+import Breadcrumb from '../../components/Breadcrumb/Breadcrumb'
+import { breadcrumbJsonLd } from '../../utils/seo/siteConfig'
+
+const breadcrumbItems = [
+    { name: 'Accueil', path: '/' },
+    { name: 'Notre entreprise', path: '/entreprise' },
+]
 
 export default function Company() {
 
     return (
+        <>
+            <Seo
+                title="Notre entreprise : 40 ans de textiles techniques"
+                description="ARTEM fabrique depuis plus de 40 ans des textiles techniques et bandes transporteuses pour la boulangerie. Production interne, contrôle qualité et savoir-faire sur mesure."
+                path="/entreprise"
+                jsonLd={breadcrumbJsonLd(breadcrumbItems)}
+            />
         <main className='company'>
+            <Breadcrumb items={breadcrumbItems} />
+            <h1 className="sr-only">Notre entreprise</h1>
             <section className='company-description'>
                 <div className="company-description-item">
                     <h2>Notre savoir-faire</h2>
-                    <img className='left-img' src="/images/couture.jpg" alt="facade artem" />
+                    <img className='left-img' src="/images/couture.jpg" alt="Atelier de couture ARTEM : confection de textiles techniques pour la boulangerie" loading="lazy" />
                     <p>Depuis plus de 40 ans, ARTEM est présent sur le marché des bandes transporteuses et textiles techniques toutes industrie. Il est devenu un acteur incontournable dans le domaine des textiles techniques et des machines d'enfournement pour les professionnels de la boulangerie. Nous nous sommes engagés à fournir des solutions de qualité supérieure, conçues spécifiquement pour répondre aux besoins des acteurs de la boulangerie. Nous produisons en interne la majorité de nos produits
                         et en assurons le contrôle. La matière première
                         et les produits que nous ne transformons pas font
@@ -62,9 +79,10 @@ export default function Company() {
                         2019 – Mme Carine AUTRET devient la Directrice et l’effectif comporte 12 personnes.
                     </li>
                 </ul>
-                <img src="/images/continued.jpg" alt="photo to be continued" />
+                <img src="/images/continued.jpg" alt="ARTEM poursuit son développement" loading="lazy" />
             </section>
 
         </main>
+        </>
     )
 }

@@ -34,3 +34,19 @@ main {
         margin-top: 180px;
     }
 }
+/* Rend un élément lisible par les moteurs de recherche et les lecteurs d'écran
+   sans l'afficher. Sert aux titres de niveau 1 que le référencement réclame sur
+   des pages dont la maquette n'en prévoit pas, comme l'accueil dont l'accroche
+   est une image. Contrairement à `display: none`, ce procédé laisse le texte
+   dans l'arbre d'accessibilité et dans le contenu indexé. */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

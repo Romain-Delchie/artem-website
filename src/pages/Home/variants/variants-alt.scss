@@ -1,0 +1,813 @@
+@use 'src/styles/variables.scss' as var;
+
+/**
+ * Styles des propositions 2, 3 et 4.
+ *
+ * Chacune a son monde visuel, et le contraste entre les trois est voulu :
+ *
+ *   2 — le noir de studio. Accroche sur fond noir, grille de vignettes dense.
+ *       Une allure de catalogue de fabricant.
+ *   3 — l'éditorial. Titre seul en ouverture sur fond blanc, photographies
+ *       contenues et légendées ensuite, texte en colonne étroite.
+ *   4 — la lumière. Seule proposition à ne pas ouvrir sur du sombre :
+ *       accroche en deux colonnes sur fond clair.
+ *
+ * Les jetons sont redéclarés ici parce que Sass isole les variables par
+ * fichier ; ils reprennent les valeurs de variants.scss, qui reste la
+ * référence du monde visuel commun.
+ */
+
+$ink: #1a2142;
+$inkSoft: #4a5470;
+$paper: #ffffff;
+$paperAlt: #f2f4f8;
+$line: #dde2ec;
+$action: #6f9412;
+$actionBright: var.$primaryColor;
+$studio: #0b0b0d;    // le noir de la photographie de studio
+$brandGreen: #7ba516; // vert de marque à peine assombri, lisible sous du texte bleu
+$radius: 14px;
+$maxWidth: 1180px;
+$reading: 38rem;
+$gutter: 20px;
+
+$shadowCard: 0 2px 4px rgba(26, 33, 66, 0.06), 0 12px 28px rgba(26, 33, 66, 0.1);
+$shadowLift: 0 4px 8px rgba(26, 33, 66, 0.08), 0 20px 44px rgba(26, 33, 66, 0.16);
+
+/* ==================================================================
+   Proposition 2 — Le catalogue, monde noir de studio
+   ================================================================== */
+
+.hr-cat-hero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: flex-end;
+    // L'accroche occupe tout le premier écran, barre déduite, moins la part
+    // du champ de recherche qui la chevauche : celui-ci doit rester visible
+    // sans avoir à défiler, c'est le premier geste attendu de la page.
+    min-height: calc(100vh - var(--hd-height, 7rem) - 2.2rem);
+    min-height: calc(100svh - var(--hd-height, 7rem) - 2.2rem);
+    background-color: $studio;
+    overflow: hidden;
+
+    &-img {
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        // La nature morte est décentrée vers la droite : on cadre dessus et
+        // on laisse le fond noir de la photo accueillir le texte.
+        object-position: 70% center;
+    }
+
+    // Le voile couvre toute l'accroche, et non la seule hauteur du texte :
+    // porté par le bloc de texte, il dessinait un rectangle sombre flottant
+    // au milieu de la photographie.
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: linear-gradient(to top, rgba(11, 11, 13, 0.96) 26%, rgba(11, 11, 13, 0) 78%);
+    }
+
+    // Le texte occupe toute la largeur en bandeau bas plutôt qu'une colonne
+    // latérale : sur une fenêtre moyenne, une colonne de moitié de page
+    // réduisait la ligne à une quarantaine de caractères, illisible pour un
+    // titre de cette taille.
+    &-text {
+        position: relative;
+        width: 100%;
+        padding: 110px $gutter 32px;
+        color: #fff;
+    }
+
+    &-inner {
+        max-width: $maxWidth;
+        margin: 0 auto;
+
+        h1 {
+            max-width: 22ch;
+            font-size: clamp(2rem, 6.4vw, 3.5rem);
+            line-height: 1.05;
+            margin-bottom: 16px;
+
+            em {
+                font-style: normal;
+                color: $actionBright;
+            }
+        }
+
+        p {
+            max-width: 64ch;
+            font-size: clamp(0.97rem, 2.2vw, 1.1rem);
+            color: rgba(255, 255, 255, 0.84);
+        }
+    }
+}
+
+.hr-searchbar {
+    position: relative;
+    z-index: 2;
+    max-width: $maxWidth;
+    margin: -28px auto 0;
+    padding: 0 $gutter;
+}
+
+.hr-search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 36rem;
+    padding: 4px 4px 4px 18px;
+    border-radius: 999px;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(8, 10, 20, 0.16), 0 18px 40px rgba(8, 10, 20, 0.22);
+
+    .hr-icon { color: $inkSoft; }
+
+    input {
+        flex: 1;
+        min-width: 0;
+        padding: 14px 18px 14px 0;
+        border: none;
+        background: none;
+        font-family: var.$font;
+        font-size: 1rem;
+        color: $ink;
+
+        &::placeholder { color: #8a93a8; }
+        &:focus { outline: none; }
+        &::-webkit-search-cancel-button { cursor: pointer; }
+    }
+}
+
+.hr-search-results {
+    max-width: 36rem;
+    margin-top: 16px;
+}
+
+.hr-search-count {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: $action;
+    margin-bottom: 8px;
+}
+
+.hr-search-empty {
+    color: $inkSoft;
+
+    a { color: $action; }
+}
+
+.hr-search-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid $line;
+    border-radius: $radius;
+    overflow: hidden;
+    background-color: #fff;
+
+    li + li { border-top: 1px solid $line; }
+
+    a {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 9px 14px;
+        color: $ink;
+        text-decoration: none;
+        transition: background-color 0.18s ease;
+
+        &:hover { background-color: $paperAlt; }
+    }
+
+    img {
+        width: 56px;
+        height: 42px;
+        object-fit: cover;
+        border-radius: 6px;
+        flex-shrink: 0;
+    }
+
+    span { flex: 1; font-size: 0.97rem; }
+    .hr-icon { width: 17px; color: $action; }
+}
+
+.hr-families {
+    max-width: $maxWidth;
+    margin: 0 auto;
+    padding: 20px $gutter 40px;
+}
+
+.hr-family {
+    padding-top: 46px;
+
+    &-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        padding-bottom: 12px;
+        margin-bottom: 22px;
+        border-bottom: 2px solid $ink;
+
+        h2 { font-size: clamp(1.2rem, 3.2vw, 1.5rem); }
+    }
+
+    &-count {
+        flex-shrink: 0;
+        font-size: 0.82rem;
+        color: $inkSoft;
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+.hr-range-grid--dense {
+    gap: 14px;
+    margin-bottom: 0;
+
+    .hr-range-card {
+        border-radius: 10px;
+
+        &-name {
+            padding: 34px 14px 13px;
+            font-size: 0.95rem;
+        }
+    }
+}
+
+.hr-cta-band {
+    max-width: $maxWidth;
+    margin: 0 auto;
+    padding: 72px $gutter;
+    text-align: center;
+
+    h2 {
+        font-size: clamp(1.5rem, 4vw, 2.1rem);
+        margin-bottom: 14px;
+    }
+
+    p {
+        max-width: 46rem;
+        margin: 0 auto 28px;
+        color: $inkSoft;
+    }
+}
+
+/* ==================================================================
+   Proposition 3 — La maison, monde éditorial
+   ================================================================== */
+
+/* Ouverture de magazine : la photographie en bandeau muet, puis le titre sur
+   un aplat bleu. Séparer les deux, plutôt que de poser le texte sur l'image,
+   est ce qui distingue cette proposition des trois autres. L'aplat évite aussi
+   le haut de page entièrement blanc, qui laissait la photo flotter.
+
+   Les deux forment un seul bloc qui occupe tout le premier écran : le bandeau
+   prend une part fixe, le titre s'étire sur ce qui reste et se centre. */
+.hr-opening {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - var(--hd-height, 7rem));
+    min-height: calc(100svh - var(--hd-height, 7rem));
+    background-color: $ink;
+
+    .hr-cover { flex: 0 0 auto; }
+
+    .hr-masthead {
+        flex: 1 1 auto;
+        display: flex;
+        align-items: center;
+    }
+
+    .hr-masthead-inner { width: 100%; }
+}
+
+.hr-cover {
+    margin: 0;
+    background-color: $ink;
+
+    img {
+        display: block;
+        width: 100%;
+        // Le bandeau prend une part fixe du premier écran, pour que l'image et
+        // le titre y tiennent ensemble. Plafonné, car le fichier source fait
+        // 868 px de large : trop haut, il remonterait en flou.
+        height: min(30vh, 17rem);
+        min-height: 9rem;
+        object-fit: cover;
+        object-position: center 55%;
+    }
+}
+
+.hr-masthead {
+    padding: 52px $gutter 56px;
+    background-color: $ink;
+    color: #fff;
+
+    &-inner {
+        max-width: $reading;
+        margin: 0 auto;
+    }
+
+    h1 {
+        font-size: clamp(2rem, 6.4vw, 3.3rem);
+        line-height: 1.06;
+        color: #fff;
+        margin-bottom: 24px;
+    }
+
+    &-lede {
+        font-size: clamp(1.04rem, 2.5vw, 1.22rem);
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.82);
+        margin-bottom: 22px;
+    }
+}
+
+/* Variante du lien sur fond sombre. */
+.hr-link--onDark {
+    color: $actionBright;
+
+    &:hover { border-bottom-color: $actionBright; }
+}
+
+.hr-timeline {
+    max-width: $reading;
+    margin: 0 auto;
+    padding: 64px $gutter 24px;
+
+    .hr-section-head {
+        max-width: none;
+        margin-bottom: 28px;
+    }
+
+    &-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        border-left: 1px solid $line;
+
+        li {
+            position: relative;
+            padding: 0 0 30px 26px;
+
+            &::before {
+                content: '';
+                position: absolute;
+                left: -5px;
+                top: 9px;
+                width: 9px;
+                height: 9px;
+                border-radius: 50%;
+                background-color: $action;
+            }
+
+            &:last-child { padding-bottom: 0; }
+        }
+
+        p { color: $inkSoft; }
+    }
+
+    &-year {
+        display: block;
+        font-family: var.$font1;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: $ink;
+        margin-bottom: 5px;
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+.hr-proof-photo {
+    max-width: $maxWidth;
+    margin: 48px auto 0;
+    padding: 0 $gutter;
+
+    img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        border-radius: $radius;
+    }
+
+    figcaption {
+        max-width: $reading;
+        margin: 14px auto 0;
+        font-size: 0.89rem;
+        line-height: 1.55;
+        color: $inkSoft;
+        text-align: center;
+    }
+}
+
+.hr-commit {
+    margin-top: 72px;
+    padding: 72px $gutter;
+    background-color: $ink;
+
+    &-list {
+        max-width: $maxWidth;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 34px;
+        list-style: none;
+        padding: 0;
+
+        li { color: #fff; }
+
+        .hr-icon {
+            width: 30px;
+            color: $actionBright;
+            margin-bottom: 14px;
+        }
+
+        h3 {
+            font-size: 1.12rem;
+            margin-bottom: 8px;
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.78);
+            font-size: 0.97rem;
+        }
+    }
+}
+
+.hr-statement {
+    max-width: $reading;
+    margin: 0 auto;
+    padding: 72px $gutter;
+
+    h2 {
+        font-size: clamp(1.45rem, 4vw, 2rem);
+        line-height: 1.2;
+        margin-bottom: 24px;
+    }
+
+    &-body p {
+        color: $inkSoft;
+        margin-bottom: 18px;
+    }
+}
+
+.hr-range-more {
+    margin-top: 36px;
+    text-align: center;
+}
+
+/* ==================================================================
+   Proposition 4 — L'espace client, monde clair
+   ================================================================== */
+
+.hr-split {
+    display: grid;
+    grid-template-columns: 1fr;
+    // Comme les autres propositions, l'accroche occupe tout le premier écran.
+    min-height: calc(100vh - var(--hd-height, 7rem));
+    min-height: calc(100svh - var(--hd-height, 7rem));
+    // Aplat du vert de marque, avec du texte bleu. Le premier essai assombrissait
+    // le vert pour tenir du texte blanc, ce qui le faisait virer au kaki : garder
+    // le vert franc et inverser le texte en bleu donne un contraste de 5,4:1 tout
+    // en conservant la couleur du logo.
+    background-color: $brandGreen;
+
+    &-text {
+        // Le bloc occupe toute la hauteur de sa colonne et centre son contenu :
+        // c'est lui qui gère le centrage vertical, pas la grille, sans quoi la
+        // colonne image cesserait de s'étirer.
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 44px $gutter 40px;
+        color: $ink;
+
+        h1 {
+            font-size: clamp(1.95rem, 6vw, 3rem);
+            line-height: 1.1;
+            color: $ink;
+            margin-bottom: 20px;
+
+            em {
+                display: block;
+                font-style: normal;
+                color: #fff;
+            }
+        }
+    }
+
+    &-lead {
+        max-width: 52ch;
+        font-size: clamp(1rem, 2.4vw, 1.12rem);
+        color: rgba(26, 33, 66, 0.82);
+        margin-bottom: 30px;
+    }
+
+    // Le bouton reprend le bleu : sur le vert, c'est lui le plus contrasté.
+    .hr-btn--primary {
+        background-color: $ink;
+        color: #fff;
+        box-shadow: 0 2px 4px rgba(20, 34, 6, 0.18), 0 12px 28px rgba(20, 34, 6, 0.26);
+
+        &:hover {
+            background-color: #262f5c;
+            box-shadow: 0 4px 8px rgba(20, 34, 6, 0.2), 0 18px 38px rgba(20, 34, 6, 0.3);
+        }
+    }
+
+    &-media {
+        margin: 0;
+        order: -1;
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            aspect-ratio: 3 / 2;
+            max-height: 24vh;
+            object-fit: cover;
+        }
+    }
+}
+
+.hr-btn--outline {
+    color: $ink;
+    border: 1.5px solid rgba(26, 33, 66, 0.34);
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.28);
+        border-color: $ink;
+    }
+}
+
+.hr-compare {
+    max-width: $maxWidth;
+    margin: 0 auto;
+    padding: 76px $gutter 40px;
+
+    &-cols {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        align-items: start;
+    }
+
+    &-col {
+        padding: 26px 24px;
+        border-radius: $radius;
+        background-color: $paperAlt;
+
+        h3 {
+            font-size: 1rem;
+            margin-bottom: 14px;
+            color: $inkSoft;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 11px 0;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            color: $inkSoft;
+        }
+
+        li + li { border-top: 1px solid $line; }
+
+        &--good {
+            background-color: $ink;
+            box-shadow: $shadowLift;
+
+            h3 { color: $actionBright; }
+
+            li { color: rgba(255, 255, 255, 0.92); }
+            li + li { border-top-color: rgba(255, 255, 255, 0.14); }
+
+            .hr-icon {
+                width: 20px;
+                margin-top: 2px;
+                color: $actionBright;
+            }
+        }
+    }
+}
+
+.hr-features {
+    padding: 72px $gutter;
+    background-color: $ink;
+
+    &-list {
+        max-width: $maxWidth;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 30px;
+        list-style: none;
+        padding: 0;
+
+        li {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            color: #fff;
+        }
+
+        .hr-icon {
+            width: 28px;
+            margin-top: 2px;
+            color: $actionBright;
+        }
+
+        h3 {
+            font-size: 1.06rem;
+            margin-bottom: 6px;
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.78);
+            font-size: 0.95rem;
+        }
+    }
+}
+
+/* Bandeau de demande de devis. Sur l'aplat vert de la proposition 4, il se
+   détache du reste de la page, qui alterne blanc et bleu : le devis garde
+   ainsi une présence pleine page malgré une accroche tournée vers le compte. */
+.hr-quote-band {
+    padding: 72px $gutter;
+    background-color: $brandGreen;
+    text-align: center;
+
+    &-inner {
+        max-width: 46rem;
+        margin: 0 auto;
+    }
+
+    h2 {
+        font-size: clamp(1.5rem, 4vw, 2.1rem);
+        line-height: 1.2;
+        color: $ink;
+        margin-bottom: 14px;
+    }
+
+    p {
+        color: rgba(26, 33, 66, 0.82);
+        margin-bottom: 28px;
+    }
+
+    .hr-btn--primary {
+        background-color: $ink;
+        color: #fff;
+        box-shadow: 0 2px 4px rgba(20, 34, 6, 0.18), 0 12px 28px rgba(20, 34, 6, 0.26);
+
+        &:hover {
+            background-color: #262f5c;
+            box-shadow: 0 4px 8px rgba(20, 34, 6, 0.2), 0 18px 38px rgba(20, 34, 6, 0.3);
+        }
+    }
+}
+
+/* ------------------------------------------------------------- Communs 2–4 */
+
+/* Déclinaison pâle du bandeau marques, pour une page déjà très sombre
+   ou dont le bloc voisin est sombre. */
+.hr-compat--pale {
+    background-color: $paperAlt;
+
+    .hr-section-head {
+        h2 { color: $ink; }
+        p { color: $inkSoft; }
+    }
+
+    .hr-compat-group {
+        h3 { color: $action; }
+        p { color: $inkSoft; }
+    }
+}
+
+.hr-section-head--left {
+    margin-left: 0;
+    margin-right: auto;
+    text-align: left;
+}
+
+
+
+/* ------------------------------------------------------ Respirations (2–4) */
+
+@media (min-width: 640px) {
+    .hr-compare-cols { grid-template-columns: repeat(2, 1fr); }
+    .hr-range-grid--dense { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 860px) {
+    /* 2 — le catalogue */
+    .hr-cat-hero {
+        &-img { object-position: center 42%; }
+
+        &-text { padding: 150px 40px 46px; }
+    }
+
+    .hr-searchbar { margin-top: -34px; }
+    .hr-families { padding-top: 34px; }
+    .hr-family { padding-top: 58px; }
+    .hr-range-grid--dense { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+    /* 3 — la maison */
+    .hr-masthead { padding: 68px $gutter 76px; }
+    .hr-proof-photo { margin-top: 72px; }
+    .hr-commit-list { grid-template-columns: repeat(3, 1fr); gap: 40px; }
+
+    /* 4 — l'espace client */
+    .hr-split {
+        grid-template-columns: 1.05fr 1fr;
+        grid-template-rows: 1fr;
+        // Les deux colonnes occupent toute la hauteur ; c'est le bloc de texte
+        // qui centre son contenu, pas la grille qui centre ses colonnes.
+        align-items: stretch;
+
+        &-text { padding: 72px 20px 72px 48px; }
+
+        &-media {
+            order: 0;
+
+            img {
+                height: 100%;
+                // Le plafond posé pour la colonne unique en mobile ne doit pas
+                // survivre ici, sinon l'image cesse de suivre la colonne.
+                max-height: none;
+                aspect-ratio: auto;
+            }
+        }
+    }
+
+    .hr-features-list { grid-template-columns: repeat(2, 1fr); gap: 36px 48px; }
+}
+
+@media (min-width: 1240px) {
+    .hr-cat-hero-text { padding-left: calc((100vw - #{$maxWidth}) / 2); }
+}
+
+/* ------------------------------------------------------------------------
+   Ajustements en hauteur d'écran.
+
+   Placés en fin de feuille à dessein : les blocs `min-width` plus haut
+   emploient le raccourci `padding`, qui écrase les valeurs verticales. À
+   spécificité égale, seule la position dans le fichier départage.
+   ------------------------------------------------------------------------ */
+
+/* Écrans peu hauts : on resserre les accroches pour qu'elles tiennent dans le
+   premier écran au lieu d'être coupées. */
+@media (max-height: 900px) {
+    .hr-masthead { padding-top: 34px; padding-bottom: 38px; }
+    .hr-masthead h1 { font-size: clamp(1.8rem, 4.8vw, 2.5rem); margin-bottom: 16px; }
+    .hr-masthead-lede { font-size: 1.02rem; margin-bottom: 16px; }
+}
+
+@media (max-height: 820px) {
+    .hr-cat-hero-text { padding-top: 84px; padding-bottom: 24px; }
+    .hr-cat-hero-inner h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); }
+    .hr-cover img { height: min(26vh, 14rem); min-height: 8rem; }
+    .hr-masthead { padding-top: 26px; padding-bottom: 30px; }
+    .hr-masthead h1 { font-size: clamp(1.6rem, 4.2vw, 2.1rem); margin-bottom: 14px; }
+    .hr-masthead-lede { font-size: 0.98rem; margin-bottom: 14px; }
+    .hr-split-text { padding-top: 40px; padding-bottom: 32px; }
+}
+
+@media (max-height: 640px) {
+    .hr-cat-hero-inner p { display: none; }
+    .hr-cover img { height: min(20vh, 9.5rem); min-height: 6rem; }
+    .hr-masthead { padding-top: 20px; padding-bottom: 24px; }
+    .hr-masthead h1 { font-size: clamp(1.45rem, 3.8vw, 1.9rem); margin-bottom: 12px; }
+    .hr-masthead-lede { font-size: 0.94rem; margin-bottom: 12px; }
+}
+
+/* Mobile : la colonne de texte de la proposition 4 est la plus chargée des
+   quatre accroches (titre, chapeau, deux boutons). On la resserre pour que
+   l'ensemble tienne exactement dans le premier écran. */
+@media (max-width: 560px) {
+    .hr-split-text {
+        padding-top: 32px;
+        padding-bottom: 30px;
+
+        h1 { font-size: clamp(1.7rem, 5.4vw, 2.2rem); margin-bottom: 16px; }
+    }
+
+    .hr-split-lead { font-size: 0.98rem; margin-bottom: 24px; }
+}

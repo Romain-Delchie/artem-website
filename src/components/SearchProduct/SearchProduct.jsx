@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useMemo, useState, useContext } from "react";
 import AppContext from "../../context/AppContext";
 import ProductCard from "../ProductCard/ProductCard";
 import "./SearchProduct.scss";
@@ -12,7 +12,6 @@ export default function SearchProduct() {
     const location = window.location.pathname;
     const [ranges, setRanges] = useState([]);
     const [searchBy, setSearchBy] = useState('description');
-    const [brands, setBrands] = useState([]);
     const [productsSorted, setProductsSorted] = useState([]);
     const [searchValue, setSearchValue] = useState([]);
     const [sort, setSort] = useState({ brand: 'all', range: 'all' });
@@ -38,15 +37,26 @@ export default function SearchProduct() {
         fetchProducts();
     }, [active]);
 
-    useEffect(() => {
+    // Le filtre gamme propose toujours toute la liste ; le filtre marque, lui,
+    // ne propose que les marques disponibles dans la gamme sélectionnée.
+    const brands = useMemo(() => {
+        const productsByRange = sort.range === 'all' ? products : products.filter((product) => product.range_id === parseInt(sort.range))
         const brandsData = []
-        products.map((product) => {
+        productsByRange.forEach((product) => {
             if (brandsData.includes(product.brand) === false) {
                 brandsData.push(product.brand)
             }
         })
-        setBrands(brandsData.sort((a, b) => a.localeCompare(b)))
-    }, [products])
+        return brandsData.sort((a, b) => a.localeCompare(b))
+    }, [products, sort.range])
+
+    // Si la gamme choisie ne contient pas la marque sélectionnée, on remet le
+    // filtre marque sur « Toutes les marques » plutôt que d'afficher 0 résultat.
+    useEffect(() => {
+        if (sort.brand !== 'all' && brands.includes(sort.brand) === false) {
+            setSort((previousSort) => ({ ...previousSort, brand: 'all' }))
+        }
+    }, [brands, sort.brand])
 
     const handleChangeSearchBy = (event) => {
         setSearchBy(event.target.value);
@@ -123,28 +133,36 @@ const handleClick = (product) => {
           )}
           <div className="search-product-sorting-range">
             <h3>Filtrer par gamme</h3>
-            <select name="range" id="range" onChange={handleChangeSort}>
+            <select
+              name="range"
+              id="range"
+              value={sort.range}
+              onChange={handleChangeSort}
+            >
               <option value="all">Toutes les gammes</option>
-              {ranges &&
-                ranges
-                  .filter((oneRange) => oneRange.searchFilter)
-                  .map((range) => (
-                    <option value={range.id} key={range.id}>
-                      {range.name}
-                    </option>
-                  ))}
+              {ranges
+                .filter((oneRange) => oneRange.searchFilter)
+                .map((range) => (
+                  <option value={range.id} key={range.id}>
+                    {range.name}
+                  </option>
+                ))}
             </select>
           </div>
           <div className="search-product-sorting-brand">
             <h3>Filtrer par marque</h3>
-            <select name="brand" id="brand" onChange={handleChangeSort}>
+            <select
+              name="brand"
+              id="brand"
+              value={sort.brand}
+              onChange={handleChangeSort}
+            >
               <option value="all">Toutes les marques</option>
-              {brands &&
-                brands.map((brand) => (
-                  <option value={brand} key={brand}>
-                    {brand}
-                  </option>
-                ))}
+              {brands.map((brand) => (
+                <option value={brand} key={brand}>
+                  {brand}
+                </option>
+              ))}
             </select>
           </div>
         </section>

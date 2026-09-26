@@ -1,0 +1,158 @@
+@use 'src/styles/variables.scss' as var;
+
+/**
+ * Sélecteur de propositions de page d'accueil.
+ *
+ * Il flotte au-dessus de la page sans en faire partie : il doit rester
+ * atteignable en permanence pendant la relecture, tout en se faisant oublier
+ * quand on regarde la maquette. D'où le bouton compact replié par défaut.
+ */
+
+$panelInk: #12172c;
+$panelLine: rgba(255, 255, 255, 0.14);
+
+.hv {
+    position: fixed;
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    z-index: 900;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    font-family: var.$font;
+
+    &-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px 10px 10px;
+        border: 1px solid $panelLine;
+        border-radius: 999px;
+        background-color: $panelInk;
+        color: #fff;
+        font-family: var.$font;
+        font-size: 0.88rem;
+        cursor: pointer;
+        box-shadow: 0 3px 6px rgba(8, 11, 24, 0.24), 0 14px 34px rgba(8, 11, 24, 0.34);
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    background-color 0.2s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            background-color: #1b2240;
+        }
+
+        svg { width: 16px; opacity: 0.7; }
+
+        &-index {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var.$primaryColor;
+            color: #14192e;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        &-label { font-weight: 600; }
+    }
+
+    &-panel {
+        width: min(24rem, calc(100vw - 32px));
+        padding: 18px;
+        border: 1px solid $panelLine;
+        border-radius: 16px;
+        background-color: $panelInk;
+        color: #fff;
+        box-shadow: 0 6px 14px rgba(8, 11, 24, 0.3), 0 26px 60px rgba(8, 11, 24, 0.44);
+
+        &-intro {
+            margin: 0 0 14px;
+            font-size: 0.8rem;
+            line-height: 1.45;
+            color: rgba(255, 255, 255, 0.62);
+        }
+    }
+
+    &-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li + li { margin-top: 4px; }
+    }
+
+    &-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        width: 100%;
+        padding: 11px 12px;
+        border: none;
+        border-radius: 10px;
+        background: none;
+        color: inherit;
+        font-family: var.$font;
+        text-align: left;
+        cursor: pointer;
+        transition: background-color 0.18s ease;
+
+        &:hover { background-color: rgba(255, 255, 255, 0.08); }
+
+        &--active {
+            background-color: rgba(139, 184, 23, 0.16);
+
+            .hv-item-index {
+                background-color: var.$primaryColor;
+                color: #14192e;
+            }
+        }
+
+        &-index {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.12);
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        &-text {
+            display: block;
+            min-width: 0;
+
+            strong {
+                display: block;
+                font-size: 0.9rem;
+                font-weight: 600;
+                margin-bottom: 3px;
+            }
+
+            em {
+                display: block;
+                font-style: normal;
+                font-size: 0.78rem;
+                line-height: 1.45;
+                color: rgba(255, 255, 255, 0.6);
+            }
+        }
+    }
+
+    button:focus-visible {
+        outline: 2px solid var.$primaryColor;
+        outline-offset: 2px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hv-toggle { transition: none; }
+}

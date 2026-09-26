@@ -1,9 +1,16 @@
 import './PrivacyPolicy.scss'
+import Seo from '../../components/Seo/Seo'
 
 export default function PrivacyPolicy() {
     return (
+        <>
+            <Seo
+                title="Politique de confidentialité"
+                description="Politique de confidentialité d'ARTEM : données collectées, finalités, durée de conservation et exercice de vos droits."
+                path="/politique-confidentialite"
+            />
         <main className='privacy-policy'>
-            <h2>Politique de confidentialité</h2>
+            <h1>Politique de confidentialité</h1>
             <p>
                 Le site web www.artem-fr.com est détenu par Artem, qui est un contrôleur de données de vos données personnelles.
             </p>
@@ -62,5 +69,6 @@ export default function PrivacyPolicy() {
             </p>
 
         </main>
+        </>
     )
 }

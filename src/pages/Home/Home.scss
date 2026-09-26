@@ -300,3 +300,40 @@
         padding-right: 150px;
     }
 }
+
+/* Titre principal de l'accueil.
+   L'image de fond bgg.jpg défile en `cover fixed` : selon la taille de la
+   fenêtre, le titre se retrouve tantôt sur la zone verte, tantôt sur la zone
+   blanche, tantôt sur la zone bleue. Une couleur de texte seule ne peut donc
+   pas rester lisible partout. Le bandeau blanc translucide règle le problème
+   dans les trois cas, et reprend le rayon et l'ombre du bloc de boutons situé
+   juste en dessous. */
+.hero-title {
+    width: 90%;
+    max-width: 910px;
+    margin: 30px auto 0;
+    padding: 16px 20px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.85);
+    box-shadow: 0px 0px 5px 1px var.$secondaryColor;
+    color: var.$secondaryColor;
+    font-family: var.$font1;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.35;
+    text-align: center;
+    text-wrap: balance;
+}
+
+@media (min-width: 500px) {
+    .hero-title {
+        font-size: 1.4rem;
+        padding: 20px 24px;
+    }
+}
+
+@media (min-width: 800px) {
+    .hero-title {
+        font-size: 1.75rem;
+    }
+}

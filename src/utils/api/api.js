@@ -11,9 +11,22 @@ export const resetLogoutState = () => {
   isLoggingOut = false;
 };
 
+/**
+ * URL de l'API, fournie par Vite au moment du build.
+ *
+ * La valeur vient des fichiers .env : `npm run dev` charge .env.development et
+ * vise donc le serveur local, tandis que `npm run build` charge .env et vise la
+ * production. Il n'y a plus de ligne à commenter avant une mise en production,
+ * ce qui évitait un oubli aux conséquences lourdes : un build pointant sur
+ * localhost produit des pages pré-rendues entièrement vides.
+ *
+ * Le repli sur l'URL de production couvre le cas d'un build lancé sans fichier
+ * .env, qui est toujours préférable à une URL locale inaccessible.
+ */
+const API_BASE_URL = import.meta.env.VITE_API_URL || "https://www.artem-fr.com/api/";
+
 const axios = Axios.create({
-  baseURL: "https://www.artem-fr.com/api/",
-//   baseURL: "http://localhost:3000/api/",
+  baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },

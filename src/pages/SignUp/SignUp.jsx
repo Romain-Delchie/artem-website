@@ -3,6 +3,7 @@ import API from "../../utils/api/api";
 import { useContext } from "react";
 import AppContext from "../../context/AppContext";
 import "./SignUp.scss";
+import Seo from "../../components/Seo/Seo";
 import PasswordInput from "../../components/PasswordInput/PasswordInput";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
@@ -243,9 +244,15 @@ export default function SignUp() {
   }
 
   return (
+    <>
+      <Seo
+        title="Créer un compte professionnel"
+        description="Créez votre compte professionnel ARTEM pour accéder aux prix, aux outils de définition produit et à l'historique de vos devis."
+        path="/creer-un-compte"
+      />
     <main className="signup">
       <div className="signup-container">
-        <h2>Créez votre compte et bénéficiez de tous nos services</h2>
+        <h1>Créez votre compte et bénéficiez de tous nos services</h1>
         <form onSubmit={handleSubmit} className="signup-form">
           <div className="signup-form-item">
             <label htmlFor="company">Nom de votre entreprise</label>
@@ -466,5 +473,6 @@ export default function SignUp() {
         </form>
       </div>
     </main>
+    </>
   );
 }

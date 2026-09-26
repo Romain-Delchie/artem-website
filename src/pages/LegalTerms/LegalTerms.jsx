@@ -1,9 +1,16 @@
 import './LegalTerms.scss'
+import Seo from '../../components/Seo/Seo'
 
 export default function LegalTerms() {
     return (
+        <>
+            <Seo
+                title="Mentions légales"
+                description="Mentions légales du site artem-fr.com : éditeur, hébergeur, propriété intellectuelle et conditions d'utilisation."
+                path="/mentions-legales"
+            />
         <main className='legal-terms'>
-            <h2>Mentions légales</h2>
+            <h1>Mentions légales</h1>
 
             <h3>Définitions</h3>
             <p><b>Client :</b> tout professionnel ou personne physique capable au sens des articles 1145 et suivants du Code civil, ou personne morale, qui visite le Site objet des présentes.<br />
@@ -214,5 +221,6 @@ export default function LegalTerms() {
                 Tout litige en relation avec l’utilisation du site <a href="https://www.artem-fr.com">https://www.artem-fr.com</a> est soumis au droit français.
                 En dehors des cas où la loi ne le permet pas, il est fait attribution exclusive de juridiction aux tribunaux compétents de Meaux</p>
         </main>
+        </>
     )
 }      

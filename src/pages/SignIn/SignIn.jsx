@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import AppContext from '../../context/AppContext';
 import API, {resetLogoutState} from '../../utils/api/api';
 import './SignIn.scss';
+import Seo from '../../components/Seo/Seo';
 
 export default function SignIn() {
 
@@ -49,6 +50,13 @@ resetLogoutState();
 
 
     return (
+        <>
+            <Seo
+                title="Connexion à votre espace client"
+                description="Connectez-vous à votre espace client ARTEM pour consulter les prix, créer vos devis et suivre vos commandes."
+                path="/connexion"
+                noindex
+            />
         <main className='signin'>
 
             <div className='signin-container'>
@@ -79,5 +87,6 @@ resetLogoutState();
                 </form>
             </div>
         </main>
+        </>
     )
 }

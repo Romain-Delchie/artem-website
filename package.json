@@ -5,10 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build:app": "vite build",
+    "build": "npm run generate-sitemap && npm run build:app && npm run prerender",
+    "generate-sitemap": "node scripts/generate-sitemap.mjs",
+    "prerender": "node scripts/prerender.mjs",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "generate-sitemap": "node generate-sitemap.js"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@react-pdf/renderer": "^3.1.12",
@@ -17,6 +19,7 @@
     "react-chatbot-kit": "^2.1.2",
     "react-csv": "^2.2.2",
     "react-dom": "^18.2.0",
+    "react-helmet-async": "^3.0.0",
     "react-router-dom": "^6.14.1",
     "react-select": "^5.7.7",
     "react-slideshow-image": "^4.2.1",
@@ -30,6 +33,7 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.1",
+    "puppeteer": "^24.43.1",
     "sass": "^1.63.6",
     "vite": "^4.4.0"
   }

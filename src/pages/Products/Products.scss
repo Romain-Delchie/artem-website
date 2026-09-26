@@ -265,3 +265,26 @@
 
 
 }
+/* Les titres d'accordéon sont des <button> pour rester accessibles au clavier
+   et aux lecteurs d'écran : on neutralise le style natif du bouton. */
+.products-range-title,
+.products-section-title {
+    width: 100%;
+    border: none;
+    font-family: inherit;
+    text-align: center;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.products-section-title {
+    background: none;
+}
+
+/* Replier un accordéon masque son contenu sans le retirer du document :
+   les liens vers les pages gamme restent ainsi explorables par les moteurs
+   de recherche, qui suivent les liens présents en display:none. */
+.products-section-list--collapsed,
+.products-family--collapsed {
+    display: none;
+}

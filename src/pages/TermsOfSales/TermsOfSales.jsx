@@ -1,10 +1,17 @@
 import './TermsOfSales.scss'
+import Seo from '../../components/Seo/Seo'
 
 export default function TermsOfSales() {
     return (
+        <>
+            <Seo
+                title="Conditions générales de vente"
+                description="Conditions générales de vente d'ARTEM : commandes, prix, livraison, garanties et règlement des litiges."
+                path="/cgv"
+            />
         <main className='terms-of-sales'>
 
-            <h2>CONDITIONS GENERALES DE VENTE</h2>
+            <h1>CONDITIONS GENERALES DE VENTE</h1>
             <h3>Article 1 : Définitions</h3>
             <p>
                 · Client : Acheteur professionnel, ou non, qui achète des Produits/Services au Vendeur. On entend par Acheteur professionnel, toute personne physique ou morale, publique ou privée, qui agit à des fins entrant dans le cadre de son activité commerciale, industrielle, artisanale, libérale ou agricole, y compris lorsqu’elle agit au nom ou pour le compte d’un autre professionnel.
@@ -264,5 +271,6 @@ export default function TermsOfSales() {
             <h3>Article 14 : Annulation et invalidité</h3>
             <p>Au cas où l’une quelconque des dispositions des présentes conditions générales de vente serait déclarée nulle ou réputée non écrite, toutes les autres dispositions resteraient applicables.</p>
         </main>
+        </>
     )
 }

@@ -1,0 +1,43 @@
+@import '../../styles/variables';
+
+.notfound {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    min-height: 50vh;
+    padding: 3rem 1rem;
+    text-align: center;
+    font-family: $font;
+
+    h1 {
+        font-family: $font1;
+        color: $secondaryColor;
+    }
+
+    &-text {
+        max-width: 40rem;
+        color: $secondaryColor;
+    }
+
+    &-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+
+        a {
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.4rem;
+            background-color: $primaryColor;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+
+            &:hover {
+                background-color: $primaryColorDark;
+            }
+        }
+    }
+}

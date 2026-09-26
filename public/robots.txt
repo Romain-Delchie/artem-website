@@ -1,0 +1,31 @@
+User-agent: *
+Allow: /
+
+# L'espace client et le back-office n'ont aucun intérêt pour un moteur de
+# recherche : les exclure économise du budget d'exploration et évite que ces
+# URLs n'apparaissent dans les résultats.
+Disallow: /dashboard
+Disallow: /user-informations
+Disallow: /tools
+Disallow: /te-tool
+Disallow: /new-quote
+Disallow: /quote-history
+Disallow: /search-products
+Disallow: /validation-email
+Disallow: /confirm-email/
+Disallow: /forgot-password
+Disallow: /reset-password/
+Disallow: /connexion
+Disallow: /add-product
+Disallow: /add-range
+Disallow: /add-techsheet
+Disallow: /update-product
+Disallow: /update-range
+Disallow: /delete-product
+Disallow: /delete-range
+Disallow: /role-validation
+Disallow: /user-list
+Disallow: /handle-home
+Disallow: /Quotation-list
+
+Sitemap: https://www.artem-fr.com/sitemap.xml

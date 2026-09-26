@@ -1,0 +1,44 @@
+@import '../../styles/variables';
+
+.breadcrumb {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    font-family: $font;
+    font-size: 0.85rem;
+    color: $secondaryColor;
+
+    &-list {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.4rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        &-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+
+            &:not(:first-child)::before {
+                content: '›';
+                color: $primaryColor;
+            }
+
+            a {
+                text-decoration: none;
+                color: inherit;
+
+                &:hover {
+                    color: $primaryColor;
+                    text-decoration: underline;
+                }
+            }
+
+            span[aria-current='page'] {
+                font-weight: 600;
+            }
+        }
+    }
+}

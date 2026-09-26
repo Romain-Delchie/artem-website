@@ -2,10 +2,26 @@ import './Contact.scss'
 import artem from '/data/artem-data'
 import { Link } from 'react-router-dom'
 import ContactForm from '../../components/ContactForm/ContactForm'
+import Seo from '../../components/Seo/Seo'
+import Breadcrumb from '../../components/Breadcrumb/Breadcrumb'
+import { breadcrumbJsonLd, localBusinessJsonLd } from '../../utils/seo/siteConfig'
+
+const breadcrumbItems = [
+    { name: 'Accueil', path: '/' },
+    { name: 'Contact', path: '/contact' },
+]
 
 export default function Contact() {
     return (
+        <>
+            <Seo
+                title="Contact : nous joindre à Montévrain (77)"
+                description="Contactez ARTEM à Montévrain (Seine-et-Marne) pour un devis de textiles techniques ou de bandes transporteuses. Ouvert du lundi au vendredi, 9h-13h et 14h-18h."
+                path="/contact"
+                jsonLd={[localBusinessJsonLd, breadcrumbJsonLd(breadcrumbItems)]}
+            />
         <main className='contact'>
+            <Breadcrumb items={breadcrumbItems} />
             <h1>Contact</h1>
             <ContactForm />
             <div className="contact-container">
@@ -38,5 +54,6 @@ export default function Contact() {
                 </div>
             </div>
         </main>
+        </>
     )
 }
