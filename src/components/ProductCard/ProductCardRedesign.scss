@@ -1,0 +1,368 @@
+@use 'src/styles/variables.scss' as var;
+
+/**
+ * Carte produit, proposition de refonte.
+ *
+ * Surface claire et contour léger plutôt qu'un aplat bleu plein : sur une
+ * grille de cinquante produits, c'est le contenu qui doit porter la couleur,
+ * pas le contenant. La seule couleur forte de la carte est celle de l'état de
+ * disponibilité, qui doit se repérer d'un coup d'œil.
+ */
+
+$ink: #1a2142;
+$inkSoft: #5b6482;
+$line: #e2e6ee;
+$surface: #ffffff;
+$action: #6f9412;
+$stockOk: #2f7a3e;   // vert de disponibilité, distinct du vert de marque
+$stockWait: #9a6b05; // ambre de délai
+
+.pcr {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid $line;
+    border-radius: 12px;
+    background-color: $surface;
+    overflow: hidden;
+    font-family: var.$font;
+    text-align: left;
+    transition: border-color 0.18s ease,
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &:hover {
+        border-color: #c9d0e0;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 4px rgba(26, 33, 66, 0.06), 0 12px 26px rgba(26, 33, 66, 0.12);
+    }
+
+    &-media {
+        position: relative;
+        background-color: #f2f4f8;
+        overflow: hidden;
+
+        img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 8 / 5;
+            object-fit: cover;
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    }
+
+    /* Étiquette de compatibilité : l'information qui décide de l'achat pour
+       une pièce adaptable, donc posée sur la photo et non noyée dans le texte. */
+    &-brand {
+        position: absolute;
+        left: 8px;
+        bottom: 8px;
+        max-width: calc(100% - 16px);
+        padding: 4px 10px;
+        border-radius: 999px;
+        background-color: rgba(26, 33, 66, 0.9);
+        color: #fff;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &-body {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        flex: 1;
+        padding: 12px 14px 14px;
+    }
+
+    /* La référence identifie le produit : elle vient en premier, en chiffres
+       tabulaires pour que les colonnes s'alignent d'une carte à l'autre. */
+    &-ref {
+        font-size: 0.74rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        color: $inkSoft;
+        font-variant-numeric: tabular-nums;
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Deux lignes reservees, ni plus ni moins : une designation courte ne
+       tasse pas la carte, une longue ne l'allonge pas, si bien que toutes les
+       cartes d'une meme liste ont la meme hauteur. */
+    &-name {
+        font-family: var.$font1;
+        font-size: 0.92rem;
+        font-weight: 600;
+        line-height: 1.35;
+        color: $ink;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: calc(2 * 1.35em);
+    }
+
+    &-stock {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: $stockWait;
+
+        &-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background-color: currentColor;
+            flex-shrink: 0;
+        }
+
+        &--now { color: $stockOk; }
+    }
+
+    &-price {
+        margin-top: auto;
+        padding-top: 10px;
+        border-top: 1px solid $line;
+
+        .price p {
+            font-family: var.$font1;
+            font-size: 1rem;
+            font-weight: 700;
+            color: $ink;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .price p + p {
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: $inkSoft;
+            margin-top: 2px;
+        }
+    }
+}
+
+/* Formulaire d'ajout au devis. Conserve le positionnement flottant de la
+   version actuelle, avec une présentation alignée sur la nouvelle carte. */
+.pcr-add-form {
+    position: absolute;
+    z-index: 20;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 12px 14px;
+    border: 1px solid $line;
+    border-radius: 12px;
+    background-color: $surface;
+    box-shadow: 0 4px 10px rgba(26, 33, 66, 0.1), 0 18px 40px rgba(26, 33, 66, 0.18);
+
+    label {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: $inkSoft;
+    }
+
+    input {
+        width: 72px;
+        padding: 8px 10px;
+        border: 1px solid $line;
+        border-radius: 8px;
+        font-family: var.$font;
+        font-size: 0.92rem;
+        color: $ink;
+        font-variant-numeric: tabular-nums;
+
+        &:focus-visible {
+            outline: 2px solid $action;
+            outline-offset: 1px;
+        }
+    }
+
+    button {
+        padding: 9px 16px;
+        border: none;
+        border-radius: 999px;
+        background-color: $action;
+        color: #fff;
+        font-family: var.$font;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+
+        &:hover { background-color: #7ea515; }
+
+        &:focus-visible {
+            outline: 2px solid $ink;
+            outline-offset: 2px;
+        }
+    }
+}
+
+/* Largeur de la carte hors de la grille de la proposition.
+ *
+ * La carte est fluide : dans la grille de `/search-products` c'est la piste de
+ * 250 px qui lui donne sa largeur. Les pages d'administration du catalogue,
+ * elles, la posent dans une simple liste en `flex` (`/update-product`,
+ * `/delete-product`) ou dans un encart fixe (l'exemple d'`/add-product`), ou
+ * rien ne la contraint : elle s'y etirait ou s'y tassait selon son contenu.
+ * On lui donne donc la meme largeur de 250 px dans ces deux contextes, pour
+ * qu'une carte soit partout la meme. */
+/* -------- La carte hors de la grille de /search-products ------------------
+ *
+ * Les pages d'administration du catalogue (`/update-product`,
+ * `/delete-product`) et l'exemple d'`/add-product` posent la carte dans une
+ * simple liste en `flex`, suivie d'un bouton d'action rendu en frere. Rien ne
+ * la contraignait : elle s'y etirait selon son contenu, et le bouton flottait
+ * sous elle.
+ *
+ * L'element qui l'entoure devient donc le cadre de la carte, comme la vignette
+ * de la grille : largeur de 250 px, bordure et ombre portee, bouton incorpore
+ * en pied. Le selecteur `:has(> .pcr)` limite tout ceci a la carte refondue :
+ * la carte actuelle, servie a tous les autres utilisateurs, n'est pas touchee.
+ */
+.search-product-result:has(> .pcr),
+.product-card-example:has(> .pcr) {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    border: 1px solid #d7dce8;
+    border-radius: 12px;
+    background-color: $surface;
+    box-shadow: 0 1px 2px rgba(26, 33, 66, 0.06), 0 8px 20px rgba(26, 33, 66, 0.08);
+    transition: border-color 0.18s ease, box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &:hover {
+        border-color: #c2cadd;
+        box-shadow: 0 2px 4px rgba(26, 33, 66, 0.08), 0 14px 30px rgba(26, 33, 66, 0.14);
+    }
+
+
+    /* Les coins arrondis sont portes par les enfants : un `overflow: hidden`
+       sur le cadre rognerait le formulaire de quantite, pose en absolu
+       par-dessus la carte sur les pages de devis. */
+    > .pcr {
+        border: 0;
+        border-radius: 11px;
+        box-shadow: none;
+
+        &:hover {
+            transform: none;
+            box-shadow: none;
+        }
+    }
+
+    &:has(> .product-card-btn) > .pcr {
+        border-radius: 11px 11px 0 0;
+    }
+
+    /* Pied de carte : le bouton « Modifier le produit », « Supprimer » ou
+       « Ajouter au devis » perd l'habillage en relief de la carte actuelle. */
+    > .product-card-btn {
+        margin-top: auto;
+
+        button,
+        a {
+            display: block;
+            width: 100%;
+            padding: 11px 14px;
+            border: 0;
+            border-top: 1px solid $line;
+            border-radius: 0 0 11px 11px;
+            background-color: #fbfcfe;
+            box-shadow: none;
+            color: $ink;
+            font-family: var.$font;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.18s ease, color 0.18s ease;
+
+            &:hover {
+                background-color: $ink;
+                color: #fff;
+            }
+
+            &:focus-visible {
+                outline: 2px solid $action;
+                outline-offset: -2px;
+            }
+        }
+    }
+}
+
+/* La liste aligne ses elements sur leur milieu, ce qui laissait a chaque carte
+   la hauteur de son contenu. Chaque cadre prend desormais la hauteur de sa
+   ligne, et la carte la remplit. */
+.search-product-result:has(> .pcr) {
+    align-self: stretch;
+
+    > .pcr {
+        flex: 1;
+    }
+
+    /* La carte entiere porte l'action de son bouton — voir le gestionnaire de
+       clic de SearchProduct.jsx, qui ouvre le formulaire du produit sur la
+       liste de modification comme le ferait « Modifier le produit ». Elle
+       prend donc le curseur de la main, que la carte actuelle avait deja, et
+       son survol allume le bouton du pied pour que la carte et son bouton se
+       lisent comme une seule cible. L'exemple d'`/add-product`, lui, ne
+       declenche rien et n'est pas concerne. */
+    cursor: pointer;
+
+    &:hover > .product-card-btn button,
+    &:hover > .product-card-btn a {
+        background-color: $ink;
+        color: #fff;
+    }
+}
+
+/* Contraste : une carte blanche sur une page blanche n'a que sa bordure pour
+   se detacher. Les pages d'administration du catalogue recoivent donc le meme
+   fond gris que la grille de /search-products, sans quoi les cartes se
+   confondent avec la page. La regle ne s'applique, la aussi, qu'en presence de
+   la carte refondue. */
+.search-product-page:has(.pcr) {
+    background-color: #f6f7fa;
+}
+
+/* Leger rapprochement de la photographie au survol de la carte.
+ *
+ * Le geste est declenche par le cadre autant que par la carte : sur les listes
+ * ou le bouton d'action forme le pied de la carte, le pointeur peut etre sur ce
+ * bouton sans etre sur la carte elle-meme, et la photographie doit repondre
+ * quand meme. Le debordement est rogne par `.pcr-media`.
+ *
+ * L'echelle reste faible : sur une liste de cinquante produits, l'effet sert a
+ * confirmer ce qui est survole, pas a faire spectacle. Il est desactive pour
+ * qui demande a reduire les animations. */
+.pcr:hover .pcr-media img,
+.spr-grid-item:hover .pcr-media img,
+.search-product-result:has(> .pcr):hover .pcr-media img,
+.product-card-example:has(> .pcr):hover .pcr-media img {
+    transform: scale(1.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pcr-media img {
+        transition: none;
+    }
+
+    .pcr:hover .pcr-media img,
+    .spr-grid-item:hover .pcr-media img,
+    .search-product-result:has(> .pcr):hover .pcr-media img,
+    .product-card-example:has(> .pcr):hover .pcr-media img {
+        transform: none;
+    }
+}

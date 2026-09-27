@@ -5,10 +5,19 @@ import API from '../../utils/api/api';
 import AppContext from '../../context/AppContext';
 import fetchData from '../../utils/fetchData';
 import Price from '../Price/Price';
+import ProductCardRedesign from './ProductCardRedesign';
 
 
 export default function ProductCard({ product }) {
     const { user, updateUser, products, setProducts, openAddProductForm, setOpenAddProductForm } = useContext(AppContext);
+
+    // Proposition de refonte soumise à validation : seul un administrateur
+    // connecté la voit. Tous les autres utilisateurs reçoivent la carte
+    // actuelle, inchangée, sur toutes les pages qui l’emploient.
+    if (user.role === 'admin') {
+        return <ProductCardRedesign product={product} />;
+    }
+
     const quotationId = Number(useParams().quoteId);
     const [quantityToAdd, setQuantityToAdd] = useState(1);
     function handleAddToQuotation() {

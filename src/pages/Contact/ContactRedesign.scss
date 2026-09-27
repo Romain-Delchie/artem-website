@@ -1,0 +1,351 @@
+@use 'src/styles/variables.scss' as var;
+
+/**
+ * Page « Contact », proposition de refonte.
+ *
+ * Mêmes jetons neutres que les autres propositions — en-tête, pied de page,
+ * gamme, entreprise, recherche produit : fond gris clair, surfaces blanches
+ * bordées, encre bleue, vert en accent. Les jetons sont redéclarés ici parce
+ * que Sass isole les variables par fichier.
+ *
+ * La seconde moitié de la feuille reprend la présentation du formulaire de
+ * contact, qui est le composant partagé avec la page actuelle : ses règles
+ * sont neutralisées dans le seul cadre de `.ct`, sans toucher au composant,
+ * pour que la page en production reste strictement inchangée.
+ */
+
+$ink: #1a2142;
+$inkSoft: #5b6482;
+$inkFaint: #8a93ab;
+$line: #e2e6ee;
+$surface: #ffffff;
+$ground: #f6f7fa;
+$green: var.$primaryColor;
+$action: #6f9412; // vert assombri, lisible en texte sur fond clair
+
+.ct {
+    font-family: var.$font;
+    color: $ink;
+    background-color: $ground;
+    padding-bottom: 64px;
+
+    &-shell {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 16px;
+    }
+
+    /* ---------------------------------------------------------------- En-tête */
+
+    &-hero {
+        padding: 28px 0 4px;
+
+        &-eyebrow {
+            font-size: 0.74rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: $green;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-family: var.$font1;
+            font-size: 1.7rem;
+            font-weight: 700;
+            line-height: 1.15;
+            max-width: 24ch;
+            margin-bottom: 14px;
+        }
+
+        &-lead {
+            max-width: 44rem;
+            font-size: 1rem;
+            line-height: 1.65;
+            color: $inkSoft;
+        }
+    }
+
+    /* ------------------------------------------------------------ Deux colonnes */
+
+    &-body {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-top: 28px;
+        align-items: start;
+    }
+
+    &-panel {
+        border: 1px solid $line;
+        border-radius: 18px;
+        background-color: $surface;
+        padding: 20px 18px;
+
+        > h2 {
+            font-family: var.$font1;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+
+            &::after {
+                content: '';
+                display: block;
+                width: 42px;
+                height: 3px;
+                margin-top: 10px;
+                border-radius: 3px;
+                background-color: $green;
+            }
+        }
+    }
+
+    /* -------------------------------------------------------- Les coordonnées */
+
+    &-info-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        svg {
+            width: 19px;
+            height: 19px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            color: $green;
+        }
+    }
+
+    &-info-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: $inkFaint;
+        margin-bottom: 2px;
+    }
+
+    &-info-value {
+        font-family: var.$font1;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: $ink;
+        text-decoration: none;
+
+        &:hover {
+            color: $action;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+    }
+
+    &-info-text {
+        font-size: 0.95rem;
+        line-height: 1.55;
+        color: $inkSoft;
+        font-style: normal;
+    }
+
+    &-info-map {
+        display: inline-block;
+        margin-top: 6px;
+        font-size: 0.86rem;
+        font-weight: 600;
+        color: $action;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    &-info-note {
+        margin-top: 20px;
+        padding-top: 16px;
+        border-top: 1px solid $line;
+        font-size: 0.92rem;
+        line-height: 1.6;
+        color: $inkSoft;
+    }
+
+    /* ---------------------------------------------------------------- Bouton */
+
+    &-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 14px;
+        padding: 11px 20px;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        background-color: $ink;
+        color: #fff;
+        font-size: 0.92rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background-color 0.18s ease;
+
+        &:hover { background-color: $action; }
+
+        &:focus-visible {
+            outline: 2px solid $action;
+            outline-offset: 2px;
+        }
+    }
+}
+
+/* ==========================================================================
+   Le formulaire de contact dans le cadre de cette page
+   ==========================================================================
+
+   Le composant est partagé avec la page en production : ses aplats verts et
+   bleus semi-transparents, sa largeur de 80 % puis de 1000 px et ses champs
+   blancs à texte gras sont donc neutralisés ici, et nulle part ailleurs. */
+
+.ct {
+    .contact-form {
+        width: 100%;
+        margin: 0;
+
+        &-header {
+            padding: 0 0 18px;
+            background-color: transparent;
+            color: $inkSoft;
+            text-align: left;
+
+            p {
+                font-size: 0.98rem;
+                line-height: 1.6;
+            }
+        }
+
+        &-form {
+            padding: 0;
+            border-radius: 0;
+            background-color: transparent;
+            color: $ink;
+            gap: 0;
+        }
+    }
+
+    .form-row {
+        gap: 0;
+    }
+
+    .form-group {
+        margin-bottom: 14px;
+
+        label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: $inkSoft;
+            margin-bottom: 6px;
+        }
+
+        input,
+        textarea {
+            background-color: $surface;
+            color: $ink;
+            font-size: 0.95rem;
+            font-weight: 400;
+            border: 1px solid $line;
+            border-radius: 10px;
+            transition: border-color 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        input {
+            height: 44px;
+            padding: 0 12px;
+        }
+
+        textarea {
+            min-height: 170px;
+            padding: 10px 12px;
+        }
+
+        input:focus,
+        textarea:focus {
+            background-color: $surface;
+            border-color: $action;
+            box-shadow: 0 0 0 3px rgba(111, 148, 18, 0.16);
+        }
+    }
+
+    .message-info {
+        color: $inkFaint;
+        opacity: 1;
+    }
+
+    .contact-submit {
+        align-self: flex-start;
+        margin-top: 6px;
+        padding: 12px 24px;
+        border-radius: 999px;
+        background-color: $ink;
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 600;
+        transition: background-color 0.18s ease;
+
+        &:hover {
+            background-color: $action;
+            color: #fff;
+        }
+
+        &:focus-visible {
+            outline: 2px solid $action;
+            outline-offset: 2px;
+        }
+    }
+
+    .form-message {
+        text-align: left;
+
+        &.success { color: $action; }
+        &.error { color: #b3261e; }
+    }
+}
+
+@media (min-width: 600px) {
+    .ct .form-row {
+        gap: 14px;
+    }
+}
+
+@media (min-width: 900px) {
+    .ct-body {
+        grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+        gap: 24px;
+    }
+
+    .ct-panel {
+        padding: 26px 24px;
+
+        > h2 { font-size: 1.25rem; }
+    }
+}
+
+@media (min-width: 768px) {
+    .ct-shell { padding: 0 28px; }
+
+    .ct-hero {
+        padding: 40px 0 8px;
+
+        h1 { font-size: 2.3rem; }
+        &-lead { font-size: 1.05rem; }
+    }
+}
+
+@media (min-width: 1100px) {
+    /* Le composant passe à une largeur fixe de 1000 px sur grand écran : dans
+       la colonne de cette page, il doit rester fluide. */
+    .ct .contact-form {
+        width: 100%;
+    }
+}

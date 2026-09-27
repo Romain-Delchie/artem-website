@@ -7,6 +7,7 @@ import Loading from '../../components/Loading/Loading'
 import NotFound from '../NotFound/NotFound'
 import Seo from '../../components/Seo/Seo'
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb'
+import RangeRedesign from './RangeRedesign'
 import { getRangeSeo } from '/data/seo'
 import { slugify } from '../../utils/seo/slugify'
 import { SITE_URL, breadcrumbJsonLd } from '../../utils/seo/siteConfig'
@@ -187,15 +188,43 @@ export default function Range() {
         { heading: 'Bande pour façonneuse horizontale :', keyword: 'bande' },
     ];
 
+    // Les balises et les données structurées sont communes aux deux rendus :
+    // seule la mise en page change pour l'administrateur.
+    const head = (
+        <Seo
+            title={seo.title || range.name}
+            description={seo.description || range.description?.slice(0, 160)}
+            path={path}
+            image={imageUrl}
+            jsonLd={[productJsonLd, breadcrumbJsonLd(breadcrumbItems), faqJsonLd].filter(Boolean)}
+        />
+    );
+
+    // Proposition de refonte soumise à validation : seul un administrateur
+    // connecté la voit. Le chargement de la gamme, le contenu et les balises
+    // restent ceux de la page en production, y compris le signalement en rouge
+    // des textes qui attendent une validation.
+    if (isAdmin) {
+        return (
+            <>
+                {head}
+                <RangeRedesign
+                    range={range}
+                    seo={seo}
+                    slug={canonicalSlug}
+                    imageUrl={imageUrl}
+                    imageAlt={imageAlt}
+                    breadcrumbItems={breadcrumbItems}
+                    pending={seo.published === false}
+                    isLogged={Boolean(user.token)}
+                />
+            </>
+        );
+    }
+
     return (
         <>
-            <Seo
-                title={seo.title || range.name}
-                description={seo.description || range.description?.slice(0, 160)}
-                path={path}
-                image={imageUrl}
-                jsonLd={[productJsonLd, breadcrumbJsonLd(breadcrumbItems), faqJsonLd].filter(Boolean)}
-            />
+            {head}
             <main className='range'>
                 <Breadcrumb items={breadcrumbItems} />
                 <h1>{range.name}</h1>

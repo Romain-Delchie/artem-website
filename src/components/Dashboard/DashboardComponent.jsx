@@ -3,9 +3,66 @@ import { Link, NavLink } from 'react-router-dom'
 import AppContext from '../../context/AppContext'
 import fetchData from '../../utils/fetchData'
 import Loading from '../Loading/Loading'
+import { ADMIN_GROUPS, ADMIN_HOME, Icon } from './adminNav'
 import './DashboardComponent.scss'
 import ValidationEmail from '../../pages/ValidationEmail/ValidationEmail'
 
+
+/**
+ * Colonne de navigation des espaces connectés, client comme administrateur.
+ *
+ * La version administrateur est refaite : elle alignait douze liens à plat
+ * dans une hauteur fixe de 600 px qu'ils dépassaient, et se calait sur un
+ * `top: 183px` correspondant à la hauteur de l'ancien en-tête. L'en-tête des
+ * administrateurs n'ayant pas cette hauteur, la colonne se décrochait et son
+ * défilement collant restait sans effet, `#root` portant un `overflow: hidden`
+ * qui empêche tout `position: sticky` de s'accrocher à la fenêtre.
+ *
+ * Elle est désormais fixée à la fenêtre, calée sous l'en-tête grâce à la
+ * hauteur que celui-ci publie en variable CSS, et défile pour son propre
+ * compte. La colonne du client, elle, n'est pas touchée.
+ */
+
+/** Classe d'un lien de la barre administrateur, selon qu'il est actif ou non. */
+const adminLinkClass = ({ isActive }) =>
+    isActive ? 'admin-nav-link admin-nav-link--active' : 'admin-nav-link';
+
+function AdminNav({ user }) {
+    return (
+        <section className='dashboard-component dashboard-component--admin'>
+            <div className="dashboard-component-container admin-nav">
+                <header className="admin-nav-head">
+                    <p className="admin-nav-head-eyebrow">Back-office</p>
+                    <p className="admin-nav-head-company">{user.company}</p>
+                    <p className="admin-nav-head-hello">Bonjour {user.firstname} 👋</p>
+                </header>
+
+                <nav className="admin-nav-body" aria-label="Administration du site">
+                    <NavLink end className={adminLinkClass} to={ADMIN_HOME.to}>
+                        <Icon name={ADMIN_HOME.icon} />
+                        <span>{ADMIN_HOME.label}</span>
+                    </NavLink>
+
+                    {ADMIN_GROUPS.map((group) => (
+                        <div className="admin-nav-group" key={group.title}>
+                            <p className="admin-nav-group-title">{group.title}</p>
+                            <ul>
+                                {group.links.map((link) => (
+                                    <li key={link.to + link.label}>
+                                        <NavLink className={adminLinkClass} to={link.to}>
+                                            <Icon name={link.icon} />
+                                            <span>{link.label}</span>
+                                        </NavLink>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
+                </nav>
+            </div>
+        </section>
+    )
+}
 
 
 export default function DashboardComponent() {
@@ -23,6 +80,10 @@ export default function DashboardComponent() {
     }
     if (isDataLoaded && !user.verified && user.token) {
         return <ValidationEmail />
+    }
+
+    if (user.role === 'admin') {
+        return <AdminNav user={user} />
     }
 
     return (
@@ -64,46 +125,6 @@ export default function DashboardComponent() {
                         }
                         <Link className="dashboard-component-button dashboard-component-button-last"
                             to='https://pay-pro.monetico.fr/artem/paiementenligne' target='_blank'>Régler une facture en CB</Link>
-                    </section>
-                }
-                {user.role === 'admin' &&
-                    <section className='dashboard-component-buttons'>
-                        <NavLink className={({ isActive }) =>
-                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
-                        } to='/dashboard'>Tableau de bord</NavLink>
-                        <NavLink className={({ isActive }) =>
-                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
-                        } to='/add-product'>Ajouter un produit</NavLink>
-                        <NavLink className={({ isActive }) =>
-                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
-                        } to='/update-product'>Modifier un produit</NavLink>
-                        <NavLink className={({ isActive }) =>
-                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
-                        } to='/delete-product'>Supprimer un produit</NavLink>
-                        <NavLink className={({ isActive }) =>
-                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
-                        } to='/add-range'>Ajouter une gamme (vitrine)</NavLink>
-                        <NavLink className={({ isActive }) =>
-                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
-                        } to='/update-range'>Modifier une gamme (vitrine)</NavLink>
-                        <NavLink className={({ isActive }) =>
-                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
-                        } to='/delete-range'>Supprimer une gamme (vitrine)</NavLink>
-                        <NavLink className={({ isActive }) =>
-                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
-                        } to='/add-techsheet'>Gestion des fiches techniques</NavLink>
-                        <NavLink className={({ isActive }) =>
-                            isActive ? "dashboard-component-button dashboard-link-active" : "dashboard-component-button"
-                        } to='/role-validation'>Valider rôle client</NavLink>
-                        <NavLink className={({ isActive }) =>
-                            isActive ? "dashboard-component-button dashboard-component-button-last dashboard-link-active" : "dashboard-component-button dashboard-component-button-last"
-                        } to='/user-list'>Liste des utilisateurs</NavLink>
-                        <NavLink className={({ isActive }) =>
-                            isActive ? "dashboard-component-button dashboard-component-button-last dashboard-link-active" : "dashboard-component-button dashboard-component-button-last"
-                        } to='/quotation-list'>Liste des devis</NavLink>
-                        <NavLink className={({ isActive }) =>
-                            isActive ? "dashboard-component-button dashboard-component-button-last dashboard-link-active" : "dashboard-component-button dashboard-component-button-last"
-                        } to='/handle-home'>Gerer page d'accueil</NavLink>
                     </section>
                 }
 

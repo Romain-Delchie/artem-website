@@ -1,0 +1,465 @@
+@use 'src/styles/variables.scss' as var;
+
+/**
+ * Page gamme, proposition de refonte.
+ *
+ * Mêmes jetons neutres que les autres propositions — en-tête, pied de page,
+ * catalogue, entreprise, contact : fond gris clair, surfaces blanches bordées,
+ * encre bleue, vert en accent. Les jetons sont redéclarés ici parce que Sass
+ * isole les variables par fichier.
+ */
+
+$ink: #1a2142;
+$inkSoft: #5b6482;
+$inkFaint: #8a93ab;
+$line: #e2e6ee;
+$lineSoft: #eef1f6;
+$surface: #ffffff;
+$ground: #f6f7fa;
+$green: var.$primaryColor;
+$action: #6f9412; // vert assombri, lisible en texte sur fond clair
+
+/* Contenu en attente de validation, visible du seul administrateur connecté.
+   Le rouge est conservé de la page actuelle : c'est lui qui permet de
+   distinguer d'un coup d'œil les textes à relire de ceux déjà publiés. */
+$pending: #b3261e;
+
+.rg {
+    font-family: var.$font;
+    color: $ink;
+    background-color: $ground;
+    padding-bottom: 64px;
+
+    &-shell {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 0 16px;
+    }
+
+    /* --------------------------------------------------- Retour à la gamme
+       Un lien dans le fil du contenu : le bouton flottant de la version
+       actuelle était calé sur la hauteur de l'ancien en-tête et se retrouvait
+       au milieu de la page. */
+    &-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 4px 0 18px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: $inkSoft;
+        text-decoration: none;
+
+        svg {
+            width: 17px;
+            height: 17px;
+            transition: transform 0.18s ease;
+        }
+
+        &:hover {
+            color: $action;
+
+            svg { transform: translateX(-3px); }
+        }
+
+        &:focus-visible {
+            outline: 2px solid $action;
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+    }
+
+    /* ---------------------------------------------------------- Ouverture */
+
+    &-hero {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+        align-items: center;
+        padding: 18px;
+        border: 1px solid $line;
+        border-radius: 18px;
+        background-color: $surface;
+
+        &-media {
+            margin: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: $lineSoft;
+
+            img {
+                display: block;
+                width: 100%;
+                aspect-ratio: 3 / 2;
+                object-fit: cover;
+            }
+        }
+
+        &-eyebrow {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: $green;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-family: var.$font1;
+            font-size: 1.6rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+
+        /* La description remplaçait l'aplat vert pleine largeur par du texte
+           simple : c'est une phrase de présentation, pas une alerte. */
+        &-desc {
+            max-width: 42rem;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: $inkSoft;
+        }
+    }
+
+    /* ------------------------------------------------------------ Panneaux */
+
+    &-panel {
+        margin-top: 22px;
+        padding: 20px 18px;
+        border: 1px solid $line;
+        border-radius: 18px;
+        background-color: $surface;
+
+        > h2 {
+            font-family: var.$font1;
+            font-size: 1.2rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 14px;
+
+            &::after {
+                content: '';
+                display: block;
+                width: 42px;
+                height: 3px;
+                margin-top: 10px;
+                border-radius: 3px;
+                background-color: $green;
+            }
+        }
+    }
+
+    /* ---------------------------------------------------- Contenu éditorial */
+
+    &-content {
+        &-block {
+            max-width: 42rem;
+
+            + .rg-content-block {
+                margin-top: 22px;
+                padding-top: 22px;
+                border-top: 1px solid $lineSoft;
+            }
+
+            h2 {
+                font-family: var.$font1;
+                font-size: 1.1rem;
+                font-weight: 700;
+                line-height: 1.35;
+                margin-bottom: 10px;
+            }
+
+            p {
+                font-size: 0.98rem;
+                line-height: 1.75;
+                color: $inkSoft;
+
+                + p { margin-top: 10px; }
+            }
+        }
+    }
+
+    /* ----------------------------------------------------- Fiches techniques */
+
+    &-sheets {
+        &-legend {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            font-size: 0.86rem;
+            color: $inkSoft;
+
+            img {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        h3 {
+            font-family: var.$font1;
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 18px 0 10px;
+        }
+
+        &-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    &-sheet {
+        &-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            height: 100%;
+            padding: 12px 14px;
+            border: 1px solid $line;
+            border-radius: 12px;
+            background-color: $surface;
+            font-family: var.$font;
+            text-align: left;
+            cursor: pointer;
+            transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+
+            &:hover {
+                transform: translateY(-2px);
+                border-color: $action;
+                box-shadow: 0 6px 18px rgba(26, 33, 66, 0.1);
+            }
+
+            &:focus-visible {
+                outline: 2px solid $action;
+                outline-offset: 2px;
+            }
+        }
+
+        &-icon {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+
+        &-text {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+            padding-right: 30px;
+        }
+
+        &-name {
+            font-family: var.$font1;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: $ink;
+        }
+
+        &-desc {
+            font-size: 0.85rem;
+            line-height: 1.45;
+            color: $inkSoft;
+        }
+
+        &-clean {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 26px;
+            height: 26px;
+        }
+    }
+
+    /* --------------------------------------------------- Questions fréquentes */
+
+    &-faq {
+        &-list {
+            margin: 0;
+        }
+
+        &-item {
+            max-width: 46rem;
+
+            + .rg-faq-item {
+                margin-top: 16px;
+                padding-top: 16px;
+                border-top: 1px solid $lineSoft;
+            }
+
+            dt {
+                font-family: var.$font1;
+                font-size: 1rem;
+                font-weight: 700;
+                color: $ink;
+                margin-bottom: 5px;
+            }
+
+            dd {
+                margin: 0;
+                font-size: 0.96rem;
+                line-height: 1.7;
+                color: $inkSoft;
+            }
+        }
+    }
+
+    /* ------------------------------------------------------- Appel à l'action */
+
+    &-cta {
+        p {
+            max-width: 40rem;
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: $inkSoft;
+            margin-bottom: 16px;
+        }
+
+        &-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+    }
+
+    &-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 11px 20px;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        background-color: $ink;
+        color: #fff;
+        font-size: 0.92rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+
+        &:hover { background-color: $action; }
+
+        &:focus-visible {
+            outline: 2px solid $action;
+            outline-offset: 2px;
+        }
+
+        &--ghost {
+            background-color: transparent;
+            border-color: $line;
+            color: $ink;
+
+            &:hover {
+                border-color: $action;
+                background-color: $surface;
+                color: $action;
+            }
+        }
+    }
+
+    /* ------------------------------------------------------------- Visionneuse */
+
+    &-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 3000;
+        background-color: rgba(10, 13, 26, 0.92);
+
+        /* La visionneuse est une iframe en ligne : sans cela, la ligne de base
+           du texte laisse un liseré sous le document. */
+        iframe {
+            display: block;
+            width: 100%;
+            border: 0;
+        }
+
+        &-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            background-color: $surface;
+            color: $ink;
+            font-size: 1rem;
+            cursor: pointer;
+
+            &:hover { background-color: $green; }
+        }
+    }
+}
+
+/* ==========================================================================
+   Contenu en attente de validation
+   ==========================================================================
+
+   Repris tel quel de la page actuelle : filet et texte rouges sur l'ensemble
+   du bloc. Un visiteur ne voit jamais cette mise en forme, ce contenu ne lui
+   étant pas rendu du tout. S'y ajoute une étiquette qui nomme l'état, pour que
+   le rouge ne se lise pas comme une erreur d'affichage. */
+
+.rg-pending {
+    border-color: rgba(179, 38, 30, 0.35);
+    border-left: 4px solid $pending;
+
+    h2,
+    h3,
+    p,
+    dt,
+    dd {
+        color: $pending;
+    }
+
+    > h2::after {
+        background-color: $pending;
+    }
+}
+
+.rg-pending-flag {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 14px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background-color: rgba(179, 38, 30, 0.1);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: $pending;
+}
+
+@media (min-width: 700px) {
+    .rg-sheets-list {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 12px;
+    }
+}
+
+@media (min-width: 768px) {
+    .rg-shell { padding: 0 28px; }
+
+    .rg-hero {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+        gap: 28px;
+        padding: 24px;
+
+        h1 { font-size: 2.1rem; }
+    }
+
+    .rg-panel {
+        margin-top: 26px;
+        padding: 26px 24px;
+
+        > h2 { font-size: 1.35rem; }
+    }
+}

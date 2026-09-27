@@ -1,6 +1,9 @@
 import './Contact.scss'
 import artem from '/data/artem-data'
 import { Link } from 'react-router-dom'
+import { useContext } from 'react'
+import AppContext from '../../context/AppContext'
+import ContactRedesign from './ContactRedesign'
 import ContactForm from '../../components/ContactForm/ContactForm'
 import Seo from '../../components/Seo/Seo'
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb'
@@ -12,6 +15,15 @@ const breadcrumbItems = [
 ]
 
 export default function Contact() {
+    const { user } = useContext(AppContext)
+
+    // Proposition de refonte soumise à validation : seul un administrateur
+    // connecté la voit. Les visiteurs, le pré-rendu et les moteurs de
+    // recherche, qui s'exécutent sans session, reçoivent la page en production.
+    if (user.role === 'admin') {
+        return <ContactRedesign />
+    }
+
     return (
         <>
             <Seo

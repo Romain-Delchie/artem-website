@@ -1,0 +1,393 @@
+@use 'src/styles/variables.scss' as var;
+
+/**
+ * Habillage du tableau de bord administrateur.
+ *
+ * Les couleurs restent celles de la marque : le bleu Artem pour les titres et
+ * la hiérarchie, le vert pour ce sur quoi on peut cliquer. Le fond photo de la
+ * page reste visible autour du panneau, qui est posé dessus comme une feuille
+ * de papier — même parti pris que les cartes du client, mais à l'échelle de
+ * toute la zone de travail.
+ *
+ * Ces styles ne s'appliquent qu'au panneau administrateur : le tableau de bord
+ * du client ne partage aucun sélecteur avec eux.
+ */
+
+$ink: var.$secondaryColor;
+$inkSoft: #5b6480;
+$line: #e3e7ef;
+$surfaceSoft: #f6f8f4;
+$accent: var.$primaryColor;
+$accentDark: #6f9412;
+$alert: #c33333;
+
+.admin-board {
+    width: 100%;
+    max-width: 1280px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    color: $ink;
+
+    a:focus-visible {
+        outline: 2px solid $accentDark;
+        outline-offset: 2px;
+        border-radius: 8px;
+    }
+
+    svg {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+    }
+}
+
+/* ------------------------------------------------------------------ En-tête */
+
+.admin-board-head {
+    background-color: rgba(255, 255, 255, 0.92);
+    border-radius: 14px;
+    border-left: 5px solid $accent;
+    padding: 18px 24px;
+    box-shadow: 0 10px 30px rgba(37, 46, 91, 0.18);
+
+    &-eyebrow {
+        margin: 0;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: $accentDark;
+    }
+
+    & h2 {
+        margin: 4px 0 2px;
+        font-size: 1.7rem;
+        color: $ink;
+    }
+
+    &-lede {
+        margin: 0;
+        color: $inkSoft;
+        font-size: 0.95rem;
+    }
+}
+
+/* ------------------------------------------------------------- Les chiffres */
+
+.admin-board-stats {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+}
+
+.admin-board-stat {
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.94);
+    border: 1px solid $line;
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    box-shadow: 0 6px 18px rgba(37, 46, 91, 0.14);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+    &-icon {
+        color: $accentDark;
+        display: flex;
+        margin-bottom: 6px;
+    }
+
+    &-value {
+        font-size: 1.9rem;
+        font-weight: 700;
+        line-height: 1.1;
+        color: $ink;
+        // Les chiffres gardent la même largeur d'une tuile à l'autre.
+        font-variant-numeric: tabular-nums;
+    }
+
+    &-label {
+        font-size: 0.8rem;
+        color: $inkSoft;
+    }
+
+    &:hover {
+        transform: translateY(-2px);
+        border-color: $accent;
+        box-shadow: 0 10px 24px rgba(37, 46, 91, 0.22);
+    }
+
+    /* Une tuile ne passe au rouge que s'il y a vraiment quelque chose à traiter. */
+    &--alert {
+        border-color: rgba($alert, 0.45);
+
+        .admin-board-stat-icon,
+        .admin-board-stat-value {
+            color: $alert;
+        }
+
+        &:hover {
+            border-color: $alert;
+        }
+    }
+}
+
+/* --------------------------------------------------- Outils et mouvements */
+
+.admin-board-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
+    gap: 18px;
+    align-items: start;
+}
+
+.admin-board-groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+}
+
+.admin-board-group,
+.admin-board-panel {
+    background-color: rgba(255, 255, 255, 0.94);
+    border: 1px solid $line;
+    border-radius: 14px;
+    padding: 16px 18px;
+    box-shadow: 0 8px 24px rgba(37, 46, 91, 0.16);
+
+    & h3 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 12px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid $line;
+        font-size: 1rem;
+        color: $ink;
+    }
+
+    & h3 svg {
+        color: $accentDark;
+    }
+
+    & ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.admin-board-group ul {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.admin-board-action {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    color: $ink;
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    & > svg {
+        width: 18px;
+        height: 18px;
+        color: $inkSoft;
+        transition: color 0.2s ease;
+    }
+
+    & > span:not(.admin-board-action-arrow) {
+        flex-grow: 1;
+    }
+
+    &-arrow {
+        display: flex;
+        opacity: 0;
+        transform: translateX(-4px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+
+        & svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    &:hover {
+        background-color: $surfaceSoft;
+        color: $accentDark;
+
+        & > svg {
+            color: $accentDark;
+        }
+
+        .admin-board-action-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+}
+
+.admin-board-activity {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.admin-board-feed {
+    display: flex;
+    flex-direction: column;
+
+    & li + li {
+        border-top: 1px solid $line;
+    }
+
+    & a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 9px 6px;
+        border-radius: 8px;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background-color: $surfaceSoft;
+        }
+    }
+}
+
+.admin-board-feed-main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+
+    & strong {
+        font-size: 0.9rem;
+        color: $ink;
+    }
+}
+
+.admin-board-feed-company {
+    font-size: 0.78rem;
+    color: $inkSoft;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-board-feed-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    font-size: 0.75rem;
+    color: $inkSoft;
+    white-space: nowrap;
+}
+
+.admin-board-tag {
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    background-color: #fdf1e3;
+    color: #a6640f;
+
+    &--done {
+        background-color: rgba($accent, 0.16);
+        color: $accentDark;
+    }
+
+    &--todo {
+        background-color: rgba($alert, 0.12);
+        color: $alert;
+    }
+}
+
+.admin-board-empty {
+    margin: 0;
+    padding: 6px 0 2px;
+    font-size: 0.85rem;
+    color: $inkSoft;
+}
+
+.admin-board-panel-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: $accentDark;
+
+    & svg {
+        width: 15px;
+        height: 15px;
+        transition: transform 0.2s ease;
+    }
+
+    &:hover svg {
+        transform: translateX(3px);
+    }
+}
+
+/* ------------------------------------------------------------- Adaptations */
+
+@media (max-width: 1400px) {
+    .admin-board-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 1100px) {
+    .admin-board-columns {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .admin-board {
+        gap: 14px;
+    }
+
+    .admin-board-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .admin-board-head {
+        padding: 14px 16px;
+
+        & h2 {
+            font-size: 1.4rem;
+        }
+    }
+
+    .admin-board-stat-value {
+        font-size: 1.5rem;
+    }
+
+    .admin-board-groups {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    .admin-board-activity {
+        gap: 14px;
+    }
+
+    /* Sur un téléphone, la flèche de survol n'a pas de sens et vole de la place. */
+    .admin-board-action-arrow {
+        display: none;
+    }
+}

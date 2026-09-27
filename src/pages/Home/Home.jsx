@@ -4,7 +4,7 @@ import Loading from '../../components/Loading/Loading'
 import AppContext from '../../context/AppContext';
 import Seo from '../../components/Seo/Seo';
 import HomeCurrent from './HomeCurrent';
-import HomeVariants from './HomeVariants';
+import Variant1Devis from './variants/Variant1Devis';
 import { SITE_URL, organizationJsonLd, localBusinessJsonLd } from '../../utils/seo/siteConfig';
 
 // Déclare le site lui-même, ce qui permet à Google d'afficher un champ de
@@ -38,7 +38,8 @@ export default function Home() {
         return <Loading />
     }
 
-    // Un administrateur connecté accède au sélecteur de propositions de refonte.
+    // Un administrateur connecté voit la proposition de refonte retenue, la
+    // n° 1, sans sélecteur : les autres propositions ne sont plus à comparer.
     // Tous les autres visiteurs, ainsi que le pré-rendu et les moteurs de
     // recherche, qui s'exécutent sans session, reçoivent la page en production.
     const isAdmin = user.role === 'admin';
@@ -50,7 +51,7 @@ export default function Home() {
                 jsonLd={[organizationJsonLd, localBusinessJsonLd, webSiteJsonLd]}
             />
             {isAdmin
-                ? <HomeVariants presentations={presentations} />
+                ? <Variant1Devis presentations={presentations} />
                 : <HomeCurrent presentations={presentations} />}
         </>
     )

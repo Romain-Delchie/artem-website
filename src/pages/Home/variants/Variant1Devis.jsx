@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import {
-    Icon, useRanges, FEATURED, SectionHead, RangeCard, RangeLinks,
+    Icon, useRanges, featuredRanges, SectionHead, RangeCard, RangeLinks,
     Compatibility, ContactBlock, ACCOUNT_BENEFITS,
 } from './shared';
 import './variants.scss';
@@ -35,9 +35,7 @@ const QUOTE_STEPS = [
 export default function Variant1Devis({ presentations }) {
     const { ranges, loaded } = useRanges();
 
-    const featured = FEATURED
-        .map((name) => ranges.find((range) => range.name === name))
-        .filter(Boolean);
+    const featured = featuredRanges(ranges);
     const featuredIds = new Set(featured.map((range) => range.id));
     const others = ranges
         .filter((range) => !featuredIds.has(range.id) && range.category !== 'service')
@@ -52,13 +50,15 @@ export default function Variant1Devis({ presentations }) {
                 <div className="hr-hero-media" aria-hidden="true" />
                 <div className="hr-hero-inner">
                     <h1 className="hr-hero-title">
-                        Vos pièces d’usure,<br />
-                        <em>commandées sans nous attendre</em>
+                        Le fabricant de vos toiles,<br />
+                        <em>tapis et bandes de fournil</em>
                     </h1>
                     <p className="hr-hero-lead">
-                        Depuis plus de 40 ans, ARTEM fabrique les toiles, tapis et bandes
-                        des boulangeries françaises. Avec un compte professionnel, vous
-                        accédez directement aux tarifs et éditez vos devis vous-même.
+                        Depuis plus de quarante ans, nous confectionnons dans notre atelier
+                        de Montévrain les pièces d’usure des boulangeries françaises, aux
+                        cotes de votre matériel et pour toutes les marques. Avec un compte
+                        professionnel, vous accédez directement aux tarifs et éditez vos
+                        devis vous-même.
                     </p>
                     <div className="hr-hero-actions">
                         <Link className="hr-btn hr-btn--primary" to="/creer-un-compte">
@@ -88,8 +88,9 @@ export default function Variant1Devis({ presentations }) {
 
             <section className="hr-range">
                 <SectionHead title="Quelle pièce cherchez-vous ?">
-                    Les six références ci-dessous représentent l’essentiel de nos
-                    expéditions. L’ensemble du catalogue compte {ranges.length || 36} gammes.
+                    Les pièces que l’on nous demande le plus souvent, en photo. Le
+                    catalogue complet compte {ranges.length || 36} gammes, du textile de
+                    fournil à la bande transporteuse et aux machines d’enfournement.
                 </SectionHead>
 
                 {!loaded && <p className="hr-range-loading">Chargement de la gamme…</p>}

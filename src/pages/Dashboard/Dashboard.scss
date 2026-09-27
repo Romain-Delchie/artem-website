@@ -89,6 +89,15 @@
 
 }
 
+/* Vue administrateur : le panneau du back-office est bien plus haut que les
+   six cartes du client, il part donc du haut de la zone au lieu d'être centré
+   verticalement. Le modificateur n'est posé que pour un administrateur, la
+   mise en page du client reste celle d'origine. */
+.dashboard--admin {
+    align-items: flex-start;
+    padding: 28px 30px 60px;
+}
+
 @media (max-width:600px) {
     .dashboard {
         margin: 200px 0 0;
@@ -98,6 +107,13 @@
         &-section-container {
             display: none;
         }
+    }
+
+    /* Le menu latéral repasse dans le flux sur téléphone : le panneau se place
+       dessous plutôt qu'à côté. */
+    .dashboard--admin {
+        flex-direction: column;
+        padding: 0 12px 40px;
     }
 }
 

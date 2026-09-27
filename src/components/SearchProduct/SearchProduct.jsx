@@ -88,16 +88,25 @@ export default function SearchProduct() {
         setSort({ ...sort, [name]: value });
     }
 
+/**
+ * Action de la carte entiere.
+ *
+ * Elle double celle du bouton qui forme le pied de la carte, de sorte que la
+ * cible soit la carte et non le seul bouton : sur la liste de modification, un
+ * clic n'importe ou sur la carte ouvre le formulaire du produit, exactement
+ * comme « Modifier le produit ». Le bouton, lui, arrete la propagation pour
+ * que l'action ne soit pas declenchee deux fois.
+ *
+ * Le chemin est teste par prefixe et non par egalite : la liste est servie
+ * aussi bien sur `/update-product` que sur `/update-product/inactive`.
+ */
 const handleClick = (product) => {
   if (location.includes("quote-history")) {
     setOpenAddProductForm({ [product.id]: true });
     return;
   }
 
-  if (
-    location === "/update-product" ||
-    location === "/update-product/inactive"
-  ) {
+  if (location.startsWith("/update-product")) {
     navigate(`/update-product/${product.id}`, {
       state: product,
     });

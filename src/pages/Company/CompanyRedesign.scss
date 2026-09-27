@@ -1,0 +1,320 @@
+@use 'src/styles/variables.scss' as var;
+
+/**
+ * Page « Notre entreprise », proposition de refonte.
+ *
+ * Mêmes jetons neutres que les autres propositions — en-tête, recherche
+ * produit, carte produit, page gamme — pour que l'ensemble soumis à validation
+ * forme une seule famille visuelle. Les jetons sont redéclarés ici parce que
+ * Sass isole les variables par fichier.
+ */
+
+$ink: #1a2142;
+$inkSoft: #5b6482;
+$line: #e2e6ee;
+$surface: #ffffff;
+$ground: #f6f7fa;
+$green: var.$primaryColor;
+
+.cp {
+    font-family: var.$font;
+    color: $ink;
+    background-color: $ground;
+    padding-bottom: 64px;
+
+    &-shell {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 16px;
+    }
+
+    /* ---------------------------------------------------------------- En-tête */
+
+    &-hero {
+        padding: 28px 0 8px;
+
+        &-eyebrow {
+            font-size: 0.74rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: $green;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-family: var.$font1;
+            font-size: 1.7rem;
+            font-weight: 700;
+            line-height: 1.15;
+            max-width: 26ch;
+            margin-bottom: 14px;
+        }
+
+        &-lead {
+            max-width: 44rem;
+            font-size: 1rem;
+            line-height: 1.65;
+            color: $inkSoft;
+        }
+    }
+
+    /* ------------------------------------------------- Les trois présentations
+       Deux colonnes qui alternent, la photographie à sa vraie taille. Le texte
+       est en drapeau et sa largeur est limitée : justifié sur toute la page, il
+       creusait des lézardes entre les mots. */
+
+    &-block {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        align-items: center;
+        margin-top: 32px;
+        padding: 18px;
+        border: 1px solid $line;
+        border-radius: 18px;
+        background-color: $surface;
+
+        &-media {
+            margin: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #eef1f6;
+
+            img {
+                display: block;
+                width: 100%;
+                aspect-ratio: 4 / 3;
+                object-fit: cover;
+            }
+        }
+
+        &-text {
+            max-width: 42rem;
+
+            h2 {
+                font-family: var.$font1;
+                font-size: 1.3rem;
+                font-weight: 700;
+                line-height: 1.25;
+                margin-bottom: 12px;
+
+                /* Filet d'accent sous le titre : le classement visuel de la
+                   page gamme, sans le filet vert pleine largeur de la version
+                   actuelle. */
+                &::after {
+                    content: '';
+                    display: block;
+                    width: 42px;
+                    height: 3px;
+                    margin-top: 10px;
+                    border-radius: 3px;
+                    background-color: $green;
+                }
+            }
+
+            p {
+                font-size: 0.98rem;
+                line-height: 1.7;
+                color: $inkSoft;
+
+                + p {
+                    margin-top: 12px;
+                }
+            }
+        }
+    }
+
+    /* ---------------------------------------------------------------- Boutons */
+
+    &-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 18px;
+        padding: 11px 20px;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        background-color: $ink;
+        color: #fff;
+        font-size: 0.92rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+
+        &:hover {
+            background-color: $green;
+        }
+
+        &:focus-visible {
+            outline: 2px solid $green;
+            outline-offset: 2px;
+        }
+
+        &--ghost {
+            background-color: transparent;
+            border-color: $line;
+            color: $ink;
+
+            &:hover {
+                background-color: $surface;
+                border-color: $green;
+                color: $green;
+            }
+        }
+    }
+
+    /* ----------------------------------------------------------- Notre histoire
+       Une frise verticale : l'année porte le repère, le filet relie les étapes,
+       et l'on voit la continuité de la maison au lieu de lire une liste. */
+
+    &-history {
+        margin-top: 40px;
+        padding: 24px 18px;
+        border: 1px solid $line;
+        border-radius: 18px;
+        background-color: $surface;
+
+        h2 {
+            font-family: var.$font1;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        &-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            li {
+                position: relative;
+                padding: 0 0 22px 22px;
+                border-left: 2px solid $line;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    left: -7px;
+                    top: 5px;
+                    width: 12px;
+                    height: 12px;
+                    border-radius: 50%;
+                    border: 3px solid $surface;
+                    background-color: $green;
+                }
+
+                &:last-child {
+                    padding-bottom: 0;
+                    border-left-color: transparent;
+                }
+            }
+        }
+
+        &-year {
+            font-family: var.$font1;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: $ink;
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 3px;
+        }
+
+        &-text {
+            max-width: 46rem;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: $inkSoft;
+        }
+    }
+
+    /* ------------------------------------------------------------- Fin de page */
+
+    &-outro {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        align-items: center;
+        margin-top: 32px;
+        padding: 18px;
+        border: 1px solid $line;
+        border-radius: 18px;
+        background-color: $surface;
+
+        &-media {
+            margin: 0;
+            border-radius: 12px;
+            overflow: hidden;
+
+            img {
+                display: block;
+                width: 100%;
+                aspect-ratio: 3 / 2;
+                object-fit: cover;
+            }
+        }
+
+        &-text {
+            h2 {
+                font-family: var.$font1;
+                font-size: 1.2rem;
+                font-weight: 700;
+                margin-bottom: 10px;
+            }
+
+            p {
+                max-width: 40rem;
+                font-size: 0.98rem;
+                line-height: 1.7;
+                color: $inkSoft;
+            }
+        }
+
+        &-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .cp-shell {
+        padding: 0 28px;
+    }
+
+    .cp-hero {
+        padding: 40px 0 12px;
+
+        h1 { font-size: 2.3rem; }
+        &-lead { font-size: 1.05rem; }
+    }
+
+    .cp-block {
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        gap: 32px;
+        padding: 24px;
+
+        /* Une section sur deux inverse l'ordre des colonnes : la photographie
+           passe à droite, comme les vignettes flottantes alternaient dans la
+           version actuelle. */
+        &--flip {
+            .cp-block-media { order: 2; }
+            .cp-block-text { order: 1; }
+        }
+
+        &-text h2 { font-size: 1.5rem; }
+    }
+
+    .cp-history {
+        padding: 32px 30px;
+
+        h2 { font-size: 1.5rem; }
+    }
+
+    .cp-outro {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+        gap: 32px;
+        padding: 24px;
+    }
+}

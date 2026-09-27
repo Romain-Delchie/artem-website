@@ -1,0 +1,388 @@
+@use 'src/styles/variables.scss' as var;
+
+/**
+ * Recherche produit, proposition de refonte.
+ *
+ * Page d'outil et non page de vente : la mise en forme sert le balayage d'une
+ * longue liste. D'où la barre collante, la densité assumée de la grille et
+ * l'usage de la couleur réservé aux états.
+ */
+
+$ink: #1a2142;
+$inkSoft: #5b6482;
+$line: #e2e6ee;
+$surface: #ffffff;
+$ground: #f6f7fa;
+$action: #6f9412;
+
+.spr {
+    font-family: var.$font;
+    color: $ink;
+
+    /* La barre d'outils reste sous l'en-tête, qui publie en variable CSS la
+       hauteur qu'il occupe à l'écran. Sans cela elle passerait dessous au
+       défilement ; et en se calant sur `--hd-offset` plutôt que sur la hauteur
+       mesurée, elle remonte avec lui quand il s'efface. */
+    &-toolbar {
+        position: sticky;
+        top: var(--hd-offset, 0px);
+        z-index: 40;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 14px 0;
+        margin-bottom: 4px;
+        background-color: $ground;
+        border-bottom: 1px solid $line;
+    }
+}
+
+/* ------------------------------------------------------------- Recherche */
+
+.spr-search {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 6px 6px 14px;
+    border: 1px solid $line;
+    border-radius: 12px;
+    background-color: $surface;
+
+    &:focus-within {
+        border-color: $action;
+        box-shadow: 0 0 0 3px rgba(111, 148, 18, 0.16);
+    }
+
+    > svg {
+        width: 19px;
+        height: 19px;
+        color: $inkSoft;
+        flex-shrink: 0;
+    }
+
+    input {
+        flex: 1;
+        min-width: 10rem;
+        padding: 9px 0;
+        border: none;
+        background: none;
+        font-family: var.$font;
+        font-size: 0.97rem;
+        color: $ink;
+
+        &::placeholder { color: #98a0b5; }
+        &:focus { outline: none; }
+    }
+
+    &-mode {
+        display: flex;
+        gap: 2px;
+        padding: 2px;
+        border-radius: 999px;
+        background-color: $ground;
+
+        button {
+            padding: 7px 14px;
+            border: none;
+            border-radius: 999px;
+            background: none;
+            font-family: var.$font;
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: $inkSoft;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background-color 0.18s ease, color 0.18s ease;
+
+            &:hover { color: $ink; }
+
+            &.is-on {
+                background-color: $ink;
+                color: #fff;
+            }
+        }
+    }
+}
+
+/* --------------------------------------------------------------- Filtres */
+
+.spr-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.spr-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    flex: 1 1 12rem;
+
+    span {
+        font-size: 0.74rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: $inkSoft;
+    }
+
+    select {
+        width: 100%;
+        padding: 9px 12px;
+        border: 1px solid $line;
+        border-radius: 10px;
+        background-color: $surface;
+        font-family: var.$font;
+        font-size: 0.92rem;
+        color: $ink;
+        cursor: pointer;
+
+        &:focus-visible {
+            outline: 2px solid $action;
+            outline-offset: 1px;
+        }
+    }
+}
+
+.spr-segmented {
+    display: flex;
+    gap: 2px;
+    padding: 2px;
+    border-radius: 10px;
+    background-color: #e8ebf2;
+
+    button {
+        padding: 8px 14px;
+        border: none;
+        border-radius: 8px;
+        background: none;
+        font-family: var.$font;
+        font-size: 0.86rem;
+        font-weight: 600;
+        color: $inkSoft;
+        cursor: pointer;
+        transition: background-color 0.18s ease, color 0.18s ease;
+
+        &.is-on {
+            background-color: $surface;
+            color: $ink;
+            box-shadow: 0 1px 2px rgba(26, 33, 66, 0.12);
+        }
+    }
+}
+
+/* ------------------------------------------------- Décompte et rappel */
+
+.spr-summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+    padding: 14px 0 12px;
+}
+
+.spr-count {
+    font-size: 0.94rem;
+    color: $inkSoft;
+
+    strong {
+        font-family: var.$font1;
+        font-size: 1.1rem;
+        color: $ink;
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+.spr-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    button {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 5px 11px;
+        border: 1px solid $line;
+        border-radius: 999px;
+        background-color: $surface;
+        font-family: var.$font;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: $ink;
+        cursor: pointer;
+
+        span[aria-hidden] {
+            font-size: 1rem;
+            line-height: 1;
+            color: $inkSoft;
+        }
+
+        &:hover {
+            border-color: #c2cadb;
+            span[aria-hidden] { color: $ink; }
+        }
+    }
+
+    &-reset {
+        border-color: transparent !important;
+        background: none !important;
+        color: $action !important;
+        text-decoration: underline;
+    }
+}
+
+/* ---------------------------------------------------------------- États */
+
+.spr-state {
+    padding: 40px 0;
+    text-align: center;
+    color: $inkSoft;
+
+    &--empty {
+        padding: 56px 20px;
+        border: 1px dashed #ccd3e2;
+        border-radius: 14px;
+        background-color: $surface;
+
+        p { margin-bottom: 14px; }
+
+        button {
+            padding: 9px 18px;
+            border: none;
+            border-radius: 999px;
+            background-color: $ink;
+            color: #fff;
+            font-family: var.$font;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+
+            &:hover { background-color: #262f5c; }
+        }
+    }
+}
+
+/* -------------------------------------------------------------- Résultats */
+
+/* Largeur de carte fixe plutot que des colonnes en 1fr.
+   Avec des colonnes fractionnaires, la carte s'etire pour remplir la place
+   disponible : sa largeur change donc avec celle de la fenetre, et deux
+   captures prises sur deux ecrans ne se ressemblent pas. Une piste fixe
+   garantit des cartes rigoureusement identiques, le nombre par ligne
+   s'ajustant tout seul.
+   La piste vaut 250 px, comme la carte actuelle : c'est la largeur retenue
+   apres essai d'une carte plus etroite, et c'est aussi celle donnee a la carte
+   sur les pages d'administration du catalogue, pour qu'elle soit partout
+   identique. */
+$cardWidth: 250px;
+
+.spr-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: start;
+    gap: 16px;
+    list-style: none;
+    margin: 0;
+    padding: 0 0 40px;
+
+    /* La vignette est le cadre de la carte, et non un conteneur transparent :
+       le bouton d'action lui appartient, au lieu de flotter sous elle. La carte
+       elle-meme rend donc sa bordure et son ombre a ce cadre. */
+    &-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid $line;
+        border-radius: 12px;
+        background-color: #fff;
+        box-shadow: 0 1px 2px rgba(26, 33, 66, 0.06), 0 8px 20px rgba(26, 33, 66, 0.08);
+        transition: border-color 0.18s ease,
+                    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+        &:hover {
+            border-color: #c2cadd;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(26, 33, 66, 0.08), 0 14px 30px rgba(26, 33, 66, 0.14);
+        }
+
+        /* Les coins sont portes par les enfants plutot que par un
+           `overflow: hidden` sur le cadre, qui rognerait le formulaire de
+           quantite ouvert par-dessus la carte. */
+        > .pcr {
+            border: 0;
+            border-radius: 11px;
+            box-shadow: none;
+            background-color: transparent;
+
+            &:hover {
+                transform: none;
+                box-shadow: none;
+            }
+        }
+
+        &:has(> .spr-quote-btn) > .pcr {
+            border-radius: 11px 11px 0 0;
+        }
+    }
+}
+
+/* Pied de carte plutot que pastille flottante : le bouton occupe toute la
+   largeur du cadre, separe du prix par un filet. */
+.spr-quote-btn {
+    display: block;
+    padding: 11px 14px;
+    border-radius: 0 0 11px 11px;
+    background-color: #fbfcfe;
+    border-top: 1px solid $line;
+    color: $ink;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.18s ease, color 0.18s ease;
+
+    &:hover {
+        background-color: $ink;
+        color: #fff;
+    }
+
+    &:focus-visible {
+        outline: 2px solid $action;
+        outline-offset: -2px;
+    }
+}
+
+/* Masque un libellé tout en le laissant aux lecteurs d'écran. */
+.spr .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Au-dela d'une carte et demie de large, on passe a des pistes fixes : le
+   nombre de colonnes suit la place disponible, la largeur des cartes non. En
+   dessous, la carte occupe toute la largeur de l'ecran du telephone. */
+@media (min-width: 560px) {
+    .spr-grid { grid-template-columns: repeat(auto-fill, $cardWidth); }
+}
+
+@media (min-width: 900px) {
+    .spr-toolbar { flex-direction: row; align-items: flex-end; gap: 16px; }
+    .spr-search { flex: 1 1 26rem; }
+    .spr-filters { flex: 0 1 auto; }
+    .spr-grid { gap: 18px; }
+}

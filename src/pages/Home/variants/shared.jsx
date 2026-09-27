@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import API from '../../../utils/api/api';
 import AppContext from '../../../context/AppContext';
 import artem from '/data/artem-data';
-import { rangePath } from '../../../utils/seo/slugify';
+import { rangePath, slugify } from '../../../utils/seo/slugify';
 
 /**
  * Briques communes aux quatre propositions de page d'accueil.
@@ -58,15 +58,32 @@ export function useRanges() {
     return { ranges: ranges || [], loaded };
 }
 
-/** Pièces d'usure les plus demandées, mises en avant en photo. */
+/**
+ * Pièces d'usure les plus demandées, mises en avant en photo.
+ *
+ * L'élévateur colonne a laissé la place à la toile de repose pâtons : les cinq
+ * premières cartes sont ainsi des textiles confectionnés, le cœur du métier, et
+ * la dernière l'enfourneur, seul représentant de la partie mécanique.
+ *
+ * Les noms sont rapprochés de ceux du catalogue par leur slug et non par une
+ * égalité de chaîne, pour qu'une majuscule ou un accent différents côté API ne
+ * fassent pas disparaître silencieusement une carte.
+ */
 export const FEATURED = [
     'Toile enfourneur',
     'Tapis de façonneuse',
     'Toile de couche',
     'Tapis de laminoir',
+    'Toile de repose pâtons',
     'Enfourneur',
-    'Elévateur colonne',
 ];
+
+/** Gammes mises en avant, dans l'ordre de FEATURED, sans les introuvables. */
+export function featuredRanges(ranges) {
+    return FEATURED
+        .map((name) => ranges.find((range) => slugify(range.name) === slugify(name)))
+        .filter(Boolean);
+}
 
 /** Familles du catalogue, dans l'ordre où elles sont présentées. */
 export const FAMILIES = [

@@ -119,3 +119,214 @@
         }
     }
 }
+
+
+/* ==========================================================================
+   Barre latérale de l'administrateur
+   ==========================================================================
+
+   Refonte complète, sans rien partager avec la colonne du client au-delà de la
+   classe `.dashboard-component`, conservée pour que les pages qui masquent la
+   colonne sur téléphone continuent de la viser.
+
+   Trois défauts sont corrigés ici :
+
+   - la colonne était calée sur `top: 183px`, la hauteur de l'ancien en-tête.
+     L'en-tête des administrateurs est nettement plus fin, et sa hauteur varie :
+     il se resserre au défilement puis s'efface. Il publie donc dans
+     `--hd-offset` la hauteur qu'il occupe réellement à l'écran, seule valeur
+     que la colonne réserve ; elle récupère la place dès que l'en-tête s'en va,
+     au lieu de garder une bande vide ;
+   - ses boutons vivaient dans une hauteur fixe de 600 px que douze liens
+     dépassaient. La colonne occupe maintenant la hauteur de la fenêtre et
+     défile pour son propre compte ;
+   - leur `position: sticky` ne pouvait pas fonctionner, `#root` portant un
+     `overflow: hidden` qui ancre tout élément collant à ce conteneur, lequel
+     ne défile pas. La colonne est fixée à la fenêtre, comme l'en-tête l'est
+     déjà pour la même raison.
+
+   Sa largeur reste à 300 px : c'est la marge gauche que chaque page du
+   back-office réserve en dur. */
+
+$navInk: #ccd3e6;
+$navMuted: #8d97b8;
+
+.dashboard-component--admin {
+    position: fixed;
+    bottom: 0;
+    width: 300px;
+
+    /* La colonne part du haut de la fenêtre et court jusqu'en bas : elle
+       occupe donc toute la hauteur visible, quelle que soit la page.
+       L'en-tête étant opaque et passant au-dessus, elle ne réserve en marge
+       intérieure que la hauteur qu'il occupe à l'instant — `--hd-offset` —, et
+       non sa hauteur mesurée : quand il se resserre puis s'efface au
+       défilement, le contenu de la colonne remonte d'autant au lieu de laisser
+       une bande vide. Le repli suit la même durée que celui de l'en-tête, pour
+       que les deux mouvements n'en fassent qu'un.
+
+       La valeur de repli de 110 px correspond à la hauteur de l'en-tête déplié :
+       elle ne sert qu'au tout premier rendu, avant que la mesure n'arrive. */
+    top: 0;
+    padding: var(--hd-offset, 110px) 0 0;
+    transition: padding-top 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    background-color: var.$secondaryColor;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 5;
+
+    /* Un élément fixé se repère sur la fenêtre, alors que le corps de la page
+       est centré au-delà de 2100 px. Sans ce décalage, la colonne se
+       retrouverait à l'écart du contenu sur les très grands écrans.
+       L'interpolation garde le `max()` en CSS plutôt qu'en fonction Sass. */
+    left: #{"max(0px, calc((100vw - 2100px) / 2))"};
+
+    /* Le défilement appartient à la colonne, pas à la page : la liste des
+       douze outils peut dépasser la hauteur de la fenêtre sur un petit écran,
+       et c'est elle seule qui défile alors. */
+    .admin-nav {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding-bottom: 24px;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+    }
+
+    /* En-tête de la colonne resserré : sous une barre de navigation fine, les
+       18 px d'origine ajoutaient un blanc de plus à celui que réserve déjà
+       l'en-tête. */
+    .admin-nav-head {
+        padding: 12px 18px 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+        &-eyebrow {
+            margin: 0;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var.$primaryColor;
+        }
+
+        &-company {
+            margin: 2px 0 0;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.25;
+        }
+
+        &-hello {
+            margin: 2px 0 0;
+            font-size: 0.82rem;
+            color: $navMuted;
+        }
+    }
+
+    .admin-nav-body {
+        padding: 10px 10px 0;
+        display: flex;
+        flex-direction: column;
+
+        & ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+    }
+
+    .admin-nav-group {
+        margin-top: 12px;
+
+        &-title {
+            margin: 0 0 6px;
+            padding: 0 12px;
+            font-size: 0.66rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: $navMuted;
+        }
+    }
+
+    .admin-nav-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        /* Toujours présente, transparente au repos : le texte ne se décale pas
+           quand le lien devient actif. */
+        border-left: 3px solid transparent;
+        color: $navInk;
+        font-size: 0.88rem;
+        font-weight: 500;
+        transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+
+        & svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            color: $navMuted;
+            transition: color 0.2s ease;
+        }
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #fff;
+
+            & svg {
+                color: var.$primaryColor;
+            }
+        }
+
+        &--active {
+            background-color: rgba(var.$primaryColor, 0.18);
+            border-left-color: var.$primaryColor;
+            color: #fff;
+            font-weight: 700;
+
+            & svg {
+                color: var.$primaryColor;
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid var.$primaryColor;
+            outline-offset: -2px;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+
+    /* Sur téléphone la colonne repasse dans le flux, au-dessus du contenu de la
+       page, et cesse de défiler pour son propre compte. */
+    .dashboard-component--admin {
+        position: static;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        width: 100%;
+        transition: none;
+        border-right: none;
+        margin: 0;
+        padding: 0;
+        text-align: left;
+
+        .admin-nav {
+            overflow: visible;
+            padding-bottom: 16px;
+        }
+
+        .admin-nav-body {
+            padding: 10px 12px 0;
+        }
+    }
+}

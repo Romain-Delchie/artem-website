@@ -6,6 +6,7 @@ import API from '../../utils/api/api'
 import RangeCard from '../../components/RangeCard'
 import Seo from '../../components/Seo/Seo'
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb'
+import ProductsRedesign from './ProductsRedesign'
 import { breadcrumbJsonLd } from '../../utils/seo/siteConfig'
 
 /**
@@ -75,7 +76,7 @@ function SubSection({ id, label, modifier, ranges, open, onToggle }) {
 }
 
 export default function Products() {
-    const { ranges, setRanges } = useContext(AppContext)
+    const { ranges, setRanges, user } = useContext(AppContext)
     // Les grandes familles sont dépliées au chargement : le visiteur voit
     // immédiatement l'étendue de la gamme plutôt qu'une liste de titres.
     const [isOpen, setIsOpen] = useState({
@@ -96,6 +97,14 @@ export default function Products() {
 
     if (!isDataLoaded) {
         return <Loading />
+    }
+
+    // Proposition de refonte soumise à validation : seul un administrateur
+    // connecté la voit. Le visiteur, le client et le commercial reçoivent la
+    // page actuelle, inchangée. Le branchement est placé après les hooks pour
+    // que leur ordre d'appel reste identique dans les deux cas.
+    if (user.role === 'admin') {
+        return <ProductsRedesign ranges={ranges} />
     }
 
     const byCategory = (category) => ranges.filter((range) => range.category === category)

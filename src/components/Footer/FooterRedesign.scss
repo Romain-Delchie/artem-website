@@ -1,0 +1,87 @@
+@use 'src/styles/variables.scss' as var;
+
+/**
+ * Proposition de pied de page.
+ *
+ * Une seule bande fine : même bleu que la barre utilitaire de l'en-tête, même
+ * largeur de contenu (1220 px), même jeu d'icônes. Le bas de page se lit comme
+ * la suite du haut de page, et il n'occupe que la place de ce qu'il porte.
+ *
+ * Les jetons sont redéclarés ici parce que Sass isole les variables par
+ * fichier ; ils reprennent les valeurs de l'en-tête refondu.
+ */
+
+$ink: #1a2142;
+$paleInk: rgba(255, 255, 255, 0.72);
+
+.ftr {
+    background-color: $ink;
+    color: $paleInk;
+    font-family: var.$font;
+    font-size: 0.82rem;
+    line-height: 1.4;
+
+    &-inner {
+        max-width: 1220px;
+        margin: 0 auto;
+        padding: 13px 20px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px 24px;
+    }
+
+    &-legal,
+    &-contact {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 20px;
+    }
+
+    /* Le contact se cale à droite quand la place le permet, et repasse à la
+       ligne sous les liens légaux quand elle manque. */
+    &-contact {
+        margin-left: auto;
+    }
+
+    &-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: $paleInk;
+        text-decoration: none;
+        transition: color 0.18s ease;
+
+        svg {
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+            color: var.$primaryColor;
+        }
+
+        &:hover {
+            color: #fff;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        &:focus-visible {
+            outline: 2px solid var.$primaryColor;
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+    }
+}
+
+/* La barre latérale de l'administrateur est fixée à la fenêtre et couvre les
+   300 px de gauche, y compris devant le pied de page. Sur les pages du
+   back-office, celui-ci réserve donc cette largeur, comme le fait le contenu.
+   Le sélecteur `:has` limite la règle aux pages où la colonne est présente. */
+@media (min-width: 601px) {
+    #root:has(.dashboard-component--admin) .ftr-inner {
+        padding-left: 320px;
+    }
+}

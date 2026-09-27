@@ -14,3 +14,33 @@
         }
     }
 }
+/* Proposition de refonte. Le conteneur reçoit une gouttière et une largeur
+   maximale : la version actuelle laisse le contenu coller au bord droit de
+   l'écran, ce qui gêne la lecture d'une grille large. */
+.search-product-page--new {
+    background-color: #f6f7fa;
+    min-height: 100vh;
+
+    .search-product-page-container {
+        max-width: 1400px;
+        padding: 0 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .search-product-page--new .search-product-page-container {
+        padding: 0 16px;
+    }
+}
+
+/* La barre latérale de l'administrateur est fixée à la fenêtre et large de
+   300 px sur toutes les pages du back-office ; cette page se contente donc,
+   comme les autres, de réserver cette largeur à gauche — ce que fait déjà
+   `.search-product-page-container`. Une mise en page à deux colonnes propre à
+   cette seule page avait été tentée ici : elle donnait à la colonne un
+   comportement différent du reste du back-office, et elle est abandonnée. */
+@media (min-width: 1000px) {
+    .search-product-page--new .search-product-page-container {
+        padding-right: 24px;
+    }
+}

@@ -57,6 +57,10 @@ export default function HeaderRedesign() {
 
     const isLogged = Boolean(user.token);
 
+    // La barre ne s'efface pas tant que le panneau mobile est ouvert : le menu
+    // deroulant disparaitrait avec elle.
+    const isHidden = hidden && !menuOpen;
+
     /**
      * La barre est en position fixe et non collante : `#root` porte un
      * `overflow: hidden` dans la feuille globale, ce qui ancre tout élément
@@ -110,6 +114,23 @@ export default function HeaderRedesign() {
         };
     }, []);
 
+    /**
+     * Publie la hauteur que la barre occupe *a l'ecran*, et non seulement sa
+     * hauteur mesuree.
+     *
+     * `--hd-height` vaut la hauteur de la barre meme quand celle-ci s'est
+     * effacee vers le haut : elle sert aux pages qui reservent sa place dans
+     * le flux. La barre laterale de l'administrateur, elle, est fixee au haut
+     * de la fenetre et doit se recaler sur ce qui est visible, sinon elle
+     * garde en permanence une bande vide de la hauteur d'une barre absente.
+     */
+    useEffect(() => {
+        document.documentElement.style.setProperty(
+            '--hd-offset', isHidden ? '0px' : `${height}px`,
+        );
+        return () => document.documentElement.style.removeProperty('--hd-offset');
+    }, [isHidden, height]);
+
     // Le menu se referme au changement de page.
     useEffect(() => { setMenuOpen(false); }, [location.pathname]);
 
@@ -137,8 +158,6 @@ export default function HeaderRedesign() {
         logout();
         navigate('/');
     };
-
-    const isHidden = hidden && !menuOpen;
 
     return (
         <>

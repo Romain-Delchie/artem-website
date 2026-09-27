@@ -5,6 +5,7 @@ import AppContext from '../../context/AppContext'
 import fetchData from '../../utils/fetchData'
 import Loading from '../../components/Loading/Loading'
 import ValidationEmail from '../ValidationEmail/ValidationEmail';
+import AdminBoard from './AdminBoard';
 import { Link } from 'react-router-dom';
 
 
@@ -27,6 +28,18 @@ export default function Dashboard() {
         return <ValidationEmail />
     }
 
+
+    // L'administrateur et le client partagent la même URL mais pas le même
+    // travail : le premier reçoit le tableau de bord du back-office, le second
+    // ses cartes habituelles, inchangées.
+    if (user.role === 'admin') {
+        return (
+            <main className='dashboard dashboard--admin'>
+                <DashboardComponent />
+                <AdminBoard />
+            </main>
+        )
+    }
 
     return (
         <main className='dashboard'>

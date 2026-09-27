@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom'
+import { useContext } from 'react'
 import './Company.scss'
 import Seo from '../../components/Seo/Seo'
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb'
+import AppContext from '../../context/AppContext'
+import CompanyRedesign from './CompanyRedesign'
 import { breadcrumbJsonLd } from '../../utils/seo/siteConfig'
 
 const breadcrumbItems = [
@@ -10,6 +13,14 @@ const breadcrumbItems = [
 ]
 
 export default function Company() {
+    const { user } = useContext(AppContext)
+
+    // Proposition de refonte soumise à validation : seul un administrateur
+    // connecté la voit. Les visiteurs, le pré-rendu et les moteurs de
+    // recherche, qui s'exécutent sans session, reçoivent la page en production.
+    if (user.role === 'admin') {
+        return <CompanyRedesign />
+    }
 
     return (
         <>
