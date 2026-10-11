@@ -5,30 +5,76 @@ import './UserInformations.scss'
 import API from '../../utils/api/api';
 import DashboardComponent from '../../components/Dashboard/DashboardComponent';
 
+// Champs du profil, dans l'ordre d'affichage. Le type sert au clavier proposé
+// sur téléphone et à la validation du navigateur.
+const PROFILE_FIELDS = [
+    { key: 'company', label: 'Société' },
+    { key: 'siret', label: 'Siret' },
+    { key: 'lastname', label: 'Nom' },
+    { key: 'firstname', label: 'Prénom' },
+    { key: 'email', label: 'Email', type: 'email' },
+    { key: 'phone_number', label: 'Téléphone', type: 'tel' },
+    { key: 'country', label: 'Pays' },
+];
+
+const ADDRESS_FIELDS = [
+    { key: 'name_address', label: 'Nom' },
+    { key: 'street_address', label: 'Rue' },
+    { key: 'street_other', label: 'Complément' },
+    { key: 'zip_code', label: 'Code postal' },
+    { key: 'city', label: 'Ville' },
+    { key: 'country', label: 'Pays' },
+];
+
+/**
+ * Carte d'adresse. Une adresse absente ou supprimée de la base arrive avec
+ * tous ses champs à null : on affiche alors un état vide plutôt qu'une liste
+ * de lignes blanches.
+ */
+function AddressCard({ title, address, onEdit }) {
+    const fields = ADDRESS_FIELDS.filter(({ key }) => address?.[key]);
+    return (
+        <section className='ui-card'>
+            <header className='ui-card-header'>
+                <h2>{title}</h2>
+                <button type='button' className='ui-btn ui-btn--ghost' onClick={onEdit}>
+                    Modifier
+                </button>
+            </header>
+            {fields.length > 0 ? (
+                <dl className='ui-fields ui-fields--single'>
+                    {fields.map(({ key, label }) => (
+                        <div className='ui-field' key={key}>
+                            <dt>{label}</dt>
+                            <dd>{address[key]}</dd>
+                        </div>
+                    ))}
+                </dl>
+            ) : (
+                <p className='ui-empty'>Aucune adresse renseignée.</p>
+            )}
+        </section>
+    );
+}
 
 export default function UserInformations() {
-
-    const labelName = {
-        'firstname': 'Prénom',
-        'lastname': 'Nom',
-        'email': 'Email',
-        'phone_number': 'Téléphone',
-        'invoice_address': 'Adresse',
-        'company': 'Société',
-        'siret': 'Siret',
-        "country": "Pays",
-    }
-
     const { user, updateUser } = useContext(AppContext);
     const [updatedUser, setUpdatedUser] = useState({ ...user });
     const [modification, setModification] = useState(false);
+    const profileFields = PROFILE_FIELDS.filter(({ key }) => key in user);
+
     const handleChange = (key, value) => {
         // Mettre à jour l'objet 'updatedUser' avec la nouvelle valeur
         setUpdatedUser((prevUpdatedUser) => ({ ...prevUpdatedUser, [key]: value }));
     };
 
+    const handleCancel = () => {
+        setUpdatedUser({ ...user });
+        setModification({ ...modification, profil: false });
+    };
 
-    const handleModificationProfil = () => {
+    const handleModificationProfil = (event) => {
+        event.preventDefault();
         updateUser(updatedUser);
         const dataUser = { ...updatedUser };
         delete dataUser.token;
@@ -47,143 +93,96 @@ export default function UserInformations() {
             alert("Une erreur est survenue, la modification de vos informations n'a pas été prise en compte");
         }).finally(() => {
             setModification({ ...modification, profil: false });
-
         });
-    }
+    };
+
+    const initials = `${user.firstname?.[0] ?? ''}${user.lastname?.[0] ?? ''}`.toUpperCase();
+
     return (
         <main className='user-informations'>
             <DashboardComponent />
             <div className='user-informations-container'>
-                <div className="user-informations-profile">
-                    <h2>Mes informations</h2>
-                    <ul>
-                        {Object.keys(user).filter((key) => !key.startsWith('deliver') && !key.startsWith('billing') && key !== 'quotations' && key !== 'token' && key !== 'id' && key !== 'profile_id' && key !== 'role' && key !== 'verified' && key !== 'email_token' && key !== 'reset_token').map((key, index) => (
-                            <li key={index}>
-                                {!modification.profil &&
-                                    <div className='user-informations-item'>
-                                        <p>{labelName[key]}:</p>
-                                        <p>{user[key]}</p>
-                                    </div>
-                                }
-                                {modification.profil &&
-                                    <div className='user-informations-item'>
-                                        <label htmlFor={key}>{labelName[key]}</label>
-                                        <input
-                                            type='text'
-                                            id={key}
-                                            value={updatedUser[key]}
-                                            onChange={(e) => handleChange(key, e.target.value)}
-                                        />
+                <header className='ui-head'>
+                    <span className='ui-avatar' aria-hidden='true'>{initials || '?'}</span>
+                    <div>
+                        <h1>Mon compte</h1>
+                        <p>
+                            {[user.company, user.email].filter(Boolean).join(' · ')}
+                        </p>
+                    </div>
+                </header>
 
-                                    </div>
-                                }
-                            </li>
-                        )
+                <form className='ui-card ui-card--profile' onSubmit={handleModificationProfil}>
+                    <header className='ui-card-header'>
+                        <h2>Mes informations</h2>
+                        {!modification.profil && (
+                            <button
+                                type='button'
+                                className='ui-btn ui-btn--ghost'
+                                onClick={() => setModification({ ...modification, profil: true })}
+                            >
+                                Modifier
+                            </button>
                         )}
-                    </ul>
-                    {!modification.profil &&
-                        <button className='user-informations-button' onClick={() => setModification({ ...modification, profil: true })}>Modifier</button>
-                    }
-                    {modification.profil &&
-                        <button className='user-informations-button' onClick={handleModificationProfil}>Valider</button>
-                    }
+                    </header>
+
+                    <dl className='ui-fields'>
+                        {profileFields.map(({ key, label, type }) => (
+                            <div className='ui-field' key={key}>
+                                {modification.profil ? (
+                                    <>
+                                        <dt><label htmlFor={key}>{label}</label></dt>
+                                        <dd>
+                                            <input
+                                                type={type ?? 'text'}
+                                                id={key}
+                                                value={updatedUser[key] ?? ''}
+                                                onChange={(e) => handleChange(key, e.target.value)}
+                                            />
+                                        </dd>
+                                    </>
+                                ) : (
+                                    <>
+                                        <dt>{label}</dt>
+                                        <dd>{user[key] || <span className='ui-muted'>Non renseigné</span>}</dd>
+                                    </>
+                                )}
+                            </div>
+                        ))}
+                    </dl>
+
+                    {modification.profil && (
+                        <div className='ui-actions'>
+                            <button type='button' className='ui-btn ui-btn--ghost' onClick={handleCancel}>
+                                Annuler
+                            </button>
+                            <button type='submit' className='ui-btn ui-btn--primary'>
+                                Enregistrer
+                            </button>
+                        </div>
+                    )}
+                </form>
+
+                <div className='ui-addresses'>
+                    <AddressCard
+                        title='Adresse de facturation'
+                        address={user.billing_address}
+                        onEdit={() => setModification({ ...modification, billing: true })}
+                    />
+                    <AddressCard
+                        title='Adresse de livraison standard'
+                        address={user.delivery_standard}
+                        onEdit={() => setModification({ ...modification, delivery: true })}
+                    />
                 </div>
-                <div className="user-informations-address">
-                    <h2>Adresse de facturation</h2>
 
-
-                    {!modification.billing &&
-                        <ul>
-
-                            <li className='user-informations-item'>
-                                <p>Nom:
-                                </p>
-                                <p>{user.billing_address.name_address}</p>
-                            </li>
-                            <li className='user-informations-item'>
-                                <p>Rue:
-                                </p>
-                                <p>{user.billing_address.street_address}</p>
-                            </li>
-                            {
-                                user.billing_address.street_other !== null &&
-                                <li className='user-informations-item'>
-                                    <p>Autre:
-                                    </p>
-                                    <p>{user.billing_address.street_other}</p>
-                                </li>
-                            }
-                            <li className='user-informations-item'>
-                                <p>Code postal:
-                                </p>
-                                <p>{user.billing_address.zip_code}</p>
-                            </li>
-                            <li className='user-informations-item'>
-                                <p>Ville:
-                                </p>
-                                <p>{user.billing_address.city}</p>
-                            </li>
-                            <li className='user-informations-item'>
-                                <p>Pays:
-                                </p>
-                                <p>{user.billing_address.country}</p>
-                            </li>
-
-                        </ul>
-                    }
-                    <button className='user-informations-button' onClick={() => setModification({ ...modification, billing: true })}>Modifier</button>
-                </div >
-                <div className="user-informations-address">
-                    <h2>Adresse de livraison standard</h2>
-
-                    {!modification.delivery &&
-                        <ul>
-                            <li className='user-informations-item'>
-                                <p>Nom:
-                                </p>
-                                <p>{user.delivery_standard.name_address}</p>
-                            </li>
-                            <li className='user-informations-item'>
-                                <p>Rue:
-                                </p>
-                                <p>{user.delivery_standard.street_address}</p>
-                            </li>
-                            {
-                                user.delivery_standard.street_other !== null &&
-                                <li className='user-informations-item'>
-                                    <p>Autre:
-                                    </p>
-                                    <p>{user.delivery_standard.street_other}</p>
-                                </li>
-                            }
-                            <li className='user-informations-item'>
-                                <p>Code postal:
-                                </p>
-                                <p>{user.delivery_standard.zip_code}</p>
-                            </li>
-                            <li className='user-informations-item'>
-                                <p>Ville:
-                                </p>
-                                <p>{user.delivery_standard.city}</p>
-                            </li>
-                            <li className='user-informations-item'>
-                                <p>Pays:
-                                </p>
-                                <p>{user.delivery_standard.country}</p>
-                            </li>
-                        </ul>
-                    }
-                    <button className='user-informations-button' onClick={() => setModification({ ...modification, delivery: true })}>Modifier</button>
-                </div >
                 {modification.billing &&
                     <Addresses type='billing' modification={modification} setModification={setModification} />
                 }
                 {modification.delivery &&
                     <Addresses type='delivery' modification={modification} setModification={setModification} />
                 }
-
             </div>
-        </main >
+        </main>
     )
 }
-

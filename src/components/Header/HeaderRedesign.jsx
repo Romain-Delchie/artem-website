@@ -99,8 +99,11 @@ export default function HeaderRedesign() {
         const node = headerRef.current;
         if (!node) return undefined;
 
+        // Seules les deux barres comptent : le panneau mobile ouvert occupe
+        // tout l'écran et ne doit pas repousser la page sous lui.
+        const main = node.querySelector('.hd-main');
         const measure = () => {
-            const h = node.offsetHeight;
+            const h = main.offsetTop + main.offsetHeight;
             setHeight(h);
             document.documentElement.style.setProperty('--hd-height', `${h}px`);
         };
@@ -108,6 +111,9 @@ export default function HeaderRedesign() {
 
         const observer = new ResizeObserver(measure);
         observer.observe(node);
+        observer.observe(main);
+        const utility = node.querySelector('.hd-utility');
+        if (utility) observer.observe(utility);
         return () => {
             observer.disconnect();
             document.documentElement.style.removeProperty('--hd-height');
@@ -133,6 +139,15 @@ export default function HeaderRedesign() {
 
     // Le menu se referme au changement de page.
     useEffect(() => { setMenuOpen(false); }, [location.pathname]);
+
+    // Panneau ouvert, la page dessous ne défile plus : le défilement reste
+    // dans le panneau.
+    useEffect(() => {
+        if (!menuOpen) return undefined;
+        const previous = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        return () => { document.body.style.overflow = previous; };
+    }, [menuOpen]);
 
     // Échap referme le panneau, comme attendu de tout menu déroulant.
     useEffect(() => {
@@ -163,7 +178,7 @@ export default function HeaderRedesign() {
         <>
         <header
             ref={headerRef}
-            className={`hd${compact ? ' hd--compact' : ''}${isHidden ? ' hd--hidden' : ''}`}
+            className={`hd${compact ? ' hd--compact' : ''}${isHidden ? ' hd--hidden' : ''}${menuOpen ? ' hd--menu-open' : ''}`}
         >
 
             {/* Barre utilitaire : ce qu'un client cherche sans vouloir naviguer. */}
@@ -264,6 +279,12 @@ export default function HeaderRedesign() {
                 id="hd-panel"
                 className={`hd-panel${menuOpen ? ' hd-panel--open' : ''}`}
                 hidden={!menuOpen}
+                // Tout lien ou bouton du panneau le referme, y compris celui de
+                // la page courante : le changement d'adresse, qui le referme
+                // d'ordinaire, n'a alors pas lieu.
+                onClick={(event) => {
+                    if (event.target.closest('a, button')) setMenuOpen(false);
+                }}
             >
                 <nav aria-label="Navigation mobile">
                     <ul className="hd-panel-list">

@@ -1,154 +1,238 @@
 @use 'src/styles/variables.scss' as var;
 
-.user-informations {
-    background: url("/public/images/boulangegrand.jpg") center/cover fixed no-repeat;
-    display: flex;
-    align-items: center;
-    margin-bottom: -40px;
-    flex-grow: 1;
+/**
+ * Mon compte. Même vocabulaire que la recherche produits refondue : fond
+ * clair, cartes blanches, couleur réservée aux actions.
+ */
 
-    & .dashboard-component {
-        display: none;
-    }
+$ink: #1a2142;
+$inkSoft: #5b6482;
+$line: #e2e6ee;
+$surface: #ffffff;
+$ground: #f6f7fa;
+$action: #6f9412;
+
+.user-informations {
+    flex-grow: 1;
+    min-height: 100vh;
+    margin-left: 300px;
+    background-color: $ground;
+    font-family: var.$font;
+    color: $ink;
 
     &-container {
-        padding: 50px 0;
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 40px;
-    }
-
-    &-profile {
-        color: var.$secondaryColor;
-        border-radius: 10px;
-        width: 90%;
-        padding: 20px 10px;
-        background-color: rgba(245, 245, 245, 0.9);
+        max-width: 960px;
+        padding: 32px 24px 64px;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        gap: 20px;
     }
 
-    & h2 {
-        text-align: center;
-        font-weight: 700;
-        font-size: 1.5rem;
-        padding: 0 10px 30px;
-    }
+    /* ------------------------------------------------------------ En-tête */
 
-
-    & ul {
-        width: 100%;
+    .ui-head {
         display: flex;
-        flex-direction: column;
-        justify-content: start;
         align-items: center;
-        flex-grow: 1;
-    }
+        gap: 16px;
+        margin-bottom: 4px;
 
-    & li {
-        width: 100%;
-        list-style: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+        h1 {
+            margin: 0;
+            font-family: var.$font1;
+            font-size: 1.6rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
 
-    &-item {
-        width: 100%;
-        padding: 10px;
-        display: flex;
-        font-weight: 700;
-        align-items: center;
-        flex-direction: column;
-        justify-content: center;
-        color: var.$secondaryColorDark;
-        border-radius: 5px;
-
-
-        & label,
         p {
-            width: 100%;
-            text-align: center;
+            margin: 2px 0 0;
+            color: $inkSoft;
+            font-size: 0.92rem;
+            overflow-wrap: anywhere;
+        }
+    }
 
-            &:first-child {
-                color: var.$secondaryColorLight;
+    .ui-avatar {
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background-color: $ink;
+        color: #fff;
+        font-family: var.$font1;
+        font-size: 1.15rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+    }
+
+    /* ------------------------------------------------------------- Cartes */
+
+    .ui-card {
+        background-color: $surface;
+        border: 1px solid $line;
+        border-radius: 14px;
+        padding: 20px 22px 22px;
+
+        &-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid $line;
+
+            h2 {
+                margin: 0;
+                font-size: 1.05rem;
+                font-weight: 700;
+            }
+        }
+    }
+
+    .ui-addresses {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    /* ------------------------------------------------------------ Champs */
+
+    .ui-fields {
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px 24px;
+
+        &--single {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+    }
+
+    .ui-field {
+        min-width: 0;
+
+        dt {
+            margin-bottom: 4px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: $inkSoft;
+        }
+
+        dd {
+            margin: 0;
+            font-size: 0.97rem;
+            font-weight: 500;
+            overflow-wrap: anywhere;
+        }
+
+        input {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid $line;
+            border-radius: 10px;
+            background-color: $surface;
+            font-family: var.$font;
+            font-size: 0.95rem;
+            color: $ink;
+            transition: border-color 0.18s ease, box-shadow 0.18s ease;
+
+            &:focus {
+                outline: none;
+                border-color: $action;
+                box-shadow: 0 0 0 3px rgba(111, 148, 18, 0.16);
+            }
+        }
+    }
+
+    .ui-muted,
+    .ui-empty {
+        color: #98a0b5;
+        font-weight: 400;
+    }
+
+    .ui-empty {
+        margin: 0;
+        font-size: 0.92rem;
+    }
+
+    /* ------------------------------------------------------------ Boutons */
+
+    .ui-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 22px;
+    }
+
+    .ui-btn {
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-family: var.$font;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+
+        &:focus-visible {
+            outline: 3px solid rgba(111, 148, 18, 0.4);
+            outline-offset: 2px;
+        }
+
+        &--ghost {
+            border: 1px solid $line;
+            background-color: $surface;
+            color: $ink;
+
+            &:hover {
+                border-color: $ink;
             }
         }
 
-        & input {
-            width: 170px;
-            background-color: whitesmoke;
+        &--primary {
+            border: 1px solid $ink;
+            background-color: $ink;
+            color: #fff;
+
+            &:hover {
+                border-color: $action;
+                background-color: $action;
+            }
         }
-    }
-
-    &-button {
-        border: none;
-        width: 200px;
-        margin-top: 16px;
-        height: 50px;
-        border-radius: 5px;
-        background-color: var.$secondaryColor;
-        color: var.$primaryColor;
-        font-weight: 700;
-        font-size: 1.1rem;
-    }
-
-    &-address {
-        color: var.$secondaryColor;
-        border-radius: 10px;
-        width: 90%;
-        padding: 20px 10px;
-        background-color: rgba(245, 245, 245, 0.9);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        & .user-informations-item p {
-            width: 90%;
-        }
-
     }
 }
 
-@media (min-width: 600px) {
+@media (max-width: 760px) {
     .user-informations {
-        margin-left: 300px;
-
-        .dashboard-component {
-            display: flex;
+        .ui-addresses,
+        .ui-fields {
+            grid-template-columns: 1fr;
         }
-
     }
 }
 
-@media (min-width: 680px) {
+/* Sous 600 px, la barre latérale disparaît, comme sur les autres pages
+   du compte. */
+@media (max-width: 600px) {
     .user-informations {
-        margin-left: 300px;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
+        margin-left: 0;
 
-        .dashboard-component {
-            display: flex;
+
+        &-container {
+            padding: 24px 16px 48px;
         }
 
-        &-profile {
-            width: 350px;
-            height: 500px;
+        .ui-card {
+            padding: 16px;
         }
 
-        &-address {
-            width: 350px;
-            height: 500px;
-        }
-
-        &-item {
-            flex-direction: row;
-            gap: 0;
+        .ui-actions .ui-btn {
+            flex: 1;
         }
     }
 }

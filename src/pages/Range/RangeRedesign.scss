@@ -87,11 +87,12 @@ $pending: #b3261e;
             overflow: hidden;
             background-color: $lineSoft;
 
+            /* Sur mobile, la photo garde ses proportions et reste entière ; le
+               cadre recadré n'est imposé qu'à partir de deux colonnes. */
             img {
                 display: block;
                 width: 100%;
-                aspect-ratio: 3 / 2;
-                object-fit: cover;
+                height: auto;
             }
         }
 
@@ -454,6 +455,11 @@ $pending: #b3261e;
         padding: 24px;
 
         h1 { font-size: 2.1rem; }
+
+        &-media img {
+            aspect-ratio: 3 / 2;
+            object-fit: cover;
+        }
     }
 
     .rg-panel {

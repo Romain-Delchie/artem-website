@@ -38,6 +38,10 @@ const SECTIONS = [
         id: 'savoir-faire',
         title: 'Notre savoir-faire',
         image: '/images/couture.jpg',
+        // Dimensions réelles du fichier : le navigateur réserve la bonne place
+        // avant le chargement, la photo étant affichée entière sur mobile.
+        width: 868,
+        height: 579,
         alt: "Atelier de couture ARTEM : confection de textiles techniques pour la boulangerie",
         body: [
             "Depuis plus de 40 ans, ARTEM est présent sur le marché des bandes transporteuses et textiles techniques toutes industries. Il est devenu un acteur incontournable dans le domaine des textiles techniques et des machines d'enfournement pour les professionnels de la boulangerie.",
@@ -48,6 +52,8 @@ const SECTIONS = [
         id: 'produits',
         title: 'Nos produits',
         image: '/images/te-general.jpg',
+        width: 3000,
+        height: 2000,
         alt: "Toiles et tapis ARTEM confectionnés dans l'atelier de Montévrain",
         body: [
             "Avec plus de 5000 références que nous produisons pour la quasi-totalité dans notre atelier de Montévrain, en Seine-et-Marne, près du parc Eurodisney, ARTEM est capable de répondre à tous vos besoins en textiles : toiles d'enfourneur, de couche, de balancelles, tapis de laminoir et de façonneuses, bandes de transport, feutres divers, manches à farine et plus encore.",
@@ -59,6 +65,8 @@ const SECTIONS = [
         id: 'services',
         title: 'Nos services',
         image: '/images/facade.jpg',
+        width: 1000,
+        height: 609,
         alt: "Façade du site ARTEM à Montévrain",
         body: [
             "Nous expédions dans la journée les commandes de stock reçues avant 16h. Les colis de moins de 30 kg sont livrés le lendemain avant 13h par Chronopost ou Fedex/TNT. Les envois de plus de 30 kg sont expédiés par Schenker, avec une livraison sous 48 à 72 heures. Nous n'avons pas de minimum de commande.",
@@ -110,8 +118,8 @@ export default function CompanyRedesign() {
                                 <img
                                     src={section.image}
                                     alt={section.alt}
-                                    width="960"
-                                    height="720"
+                                    width={section.width}
+                                    height={section.height}
                                     loading="lazy"
                                 />
                             </figure>
@@ -146,8 +154,8 @@ export default function CompanyRedesign() {
                             <img
                                 src="/images/continued.jpg"
                                 alt="ARTEM poursuit son développement"
-                                width="960"
-                                height="640"
+                                width="2000"
+                                height="1333"
                                 loading="lazy"
                             />
                         </figure>

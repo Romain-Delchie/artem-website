@@ -1,121 +1,365 @@
 @use 'src/styles/variables.scss' as var;
 
-.signup {
+/**
+ * Création de compte.
+ *
+ * Mêmes jetons que le reste du site — en-tête, pied de page, gamme, entreprise,
+ * contact, connexion : fond gris clair, surface blanche bordée, encre bleue,
+ * vert en accent. Les jetons sont redéclarés ici parce que Sass isole les
+ * variables par fichier.
+ */
 
-    &-container {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 16px;
+$ink: #1a2142;
+$inkSoft: #5b6482;
+$inkFaint: #8a93ab;
+$line: #e2e6ee;
+$lineSoft: #eef1f6;
+$surface: #ffffff;
+$ground: #f6f7fa;
+$green: var.$primaryColor;
+$action: #6f9412; // vert assombri, lisible en texte sur fond clair
+$error: #b3261e;
 
-        & h1,
-        & h2 {
-            margin-bottom: 32px;
-            text-align: center;
-        }
+.su {
+    font-family: var.$font;
+    color: $ink;
+    background-color: $ground;
+    flex-grow: 1;
+    padding: 28px 16px 56px;
 
+    &-shell {
+        max-width: 760px;
+        margin: 0 auto;
     }
 
-    &-form {
+    /* ---------------------------------------------------------------- En-tête */
+
+    &-head {
+        margin-bottom: 22px;
+    }
+
+    &-eyebrow {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: $green;
+        margin-bottom: 8px;
+    }
+
+    h1 {
+        font-family: var.$font1;
+        font-size: 1.6rem;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 10px;
+    }
+
+    &-lead {
+        font-size: 0.98rem;
+        line-height: 1.6;
+        color: $inkSoft;
+        max-width: 44rem;
+    }
+
+    &-benefits {
+        list-style: none;
+        margin: 16px 0 0;
+        padding: 0;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        gap: 8px;
 
-        &-item {
-            width: 85%;
-            margin: 16px 0;
+        li {
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            gap: 9px;
+            font-size: 0.92rem;
+            color: $inkSoft;
+        }
 
+        svg {
+            width: 17px;
+            height: 17px;
+            flex-shrink: 0;
+            color: $action;
+        }
+    }
 
-            & label {
-                width: 40%;
+    /* ------------------------------------------------------------ Formulaire */
+
+    &-form {
+        padding: 22px 18px 24px;
+        border: 1px solid $line;
+        border-radius: 18px;
+        background-color: $surface;
+        box-shadow: 0 1px 2px rgba(26, 33, 66, 0.06), 0 14px 32px rgba(26, 33, 66, 0.07);
+    }
+
+    /* Le formulaire compte dix-sept champs : les regrouper par moment — qui
+       vous êtes, où vous facturer, comment vous connecter — évite la liste
+       interminable. `fieldset` plutôt qu'une simple division : le `legend` est
+       annoncé avec chaque champ du groupe par les lecteurs d'écran. */
+    &-group {
+        border: 0;
+        padding: 0;
+        margin: 0 0 24px;
+
+        legend {
+            padding: 0;
+            margin-bottom: 14px;
+            font-family: var.$font1;
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: $inkFaint;
+        }
+
+        + .su-group {
+            padding-top: 22px;
+            border-top: 1px solid $lineSoft;
+        }
+    }
+
+    &-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px 18px;
+    }
+
+    &-field {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+
+        label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: $inkSoft;
+            margin-bottom: 6px;
+        }
+
+        input,
+        select {
+            height: 46px;
+            padding: 0 13px;
+            border: 1px solid $line;
+            border-radius: 10px;
+            background-color: $surface;
+            font-family: var.$font;
+            font-size: 0.98rem;
+            color: $ink;
+            transition: border-color 0.18s ease, box-shadow 0.18s ease;
+
+            &::placeholder {
+                color: $inkFaint;
             }
 
-
-            & textarea {
-                width: 60% !important;
-                resize: none !important;
-            }
-
-            & input,
-            select,
-            #country {
-                width: 60%;
-
-                &::placeholder {
-                    font-size: 14px;
-                }
-            }
-
-            &-address {
-                display: flex;
-                flex-wrap: wrap;
-            }
-
-            & .radio-container {
-                width: 70%;
-                display: flex;
-                flex-direction: column;
-
-                & .radio-item {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-
-                    & input {
-                        width: 20%;
-                    }
-                }
-
-
+            &:focus {
+                outline: none;
+                border-color: $action;
+                box-shadow: 0 0 0 3px rgba(111, 148, 18, 0.16);
             }
         }
 
-        & .password-checking {
+        /* Le champ de mot de passe est enveloppé par son composant, qui pose
+           l'œil en absolu : on le ramène à l'intérieur du champ, là où il était
+           posé 30 px en dehors, et donc par-dessus le champ voisin. */
+        .password-input {
             display: flex;
-            flex-direction: column;
-            width: 60%;
 
-            & span {
-                font-size: x-small;
-            }
-
-            & input {
+            input {
                 width: 100%;
+                padding-right: 44px;
+            }
+
+            svg {
+                right: 13px;
+                width: 21px;
+                color: $inkSoft;
+            }
+        }
+    }
+
+    /* Le sélecteur de pays est rendu par react-select : on aligne sa coquille
+       sur les autres champs plutôt que de garder son habillage par défaut. */
+    .su-select {
+        &__control {
+            min-height: 46px;
+            border-color: $line;
+            border-radius: 10px;
+            box-shadow: none;
+            font-size: 0.98rem;
+
+            &:hover {
+                border-color: $line;
+            }
+
+            &--is-focused {
+                border-color: $action;
+                box-shadow: 0 0 0 3px rgba(111, 148, 18, 0.16);
             }
         }
 
-        & .password-validation {
+        &__value-container {
+            padding: 0 9px;
+        }
+
+        &__placeholder {
+            color: $inkFaint;
+        }
+
+        &__single-value {
+            color: $ink;
+        }
+
+        &__indicator-separator {
+            background-color: $line;
+        }
+
+        &__option {
+            font-size: 0.95rem;
+
+            &--is-focused {
+                background-color: $lineSoft;
+                color: $ink;
+            }
+
+            &--is-selected {
+                background-color: $ink;
+                color: #fff;
+            }
+        }
+    }
+
+    /* ------------------------------------------------- Critères du mot de passe
+       Gris tant que le critère n'est pas rempli, vert ensuite : la page ne
+       commence pas par souligner en rouge cinq manques sur un champ vide. */
+
+    &-rules {
+        list-style: none;
+        margin: 10px 0 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        li {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.8rem;
+            color: $inkFaint;
         }
 
-        input[type="number"] {
-            -moz-appearance: textfield;
-            appearance: textfield;
+        svg {
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+            color: $line;
+            transition: color 0.18s ease;
+        }
+    }
 
-            &::-webkit-inner-spin-button,
-            &::-webkit-outer-spin-button {
-                -webkit-appearance: none;
-                appearance: none;
-                margin: 0;
-            }
+    &-rule--ok {
+        color: $action;
+
+        svg {
+            color: $action;
+        }
+    }
+
+    &-mismatch {
+        margin-top: 8px;
+        font-size: 0.82rem;
+        color: $error;
+    }
+
+    /* ------------------------------------------------------- Envoi et retours */
+
+    &-error {
+        margin: 0 0 16px;
+        padding: 11px 13px;
+        border: 1px solid rgba(179, 38, 30, 0.3);
+        border-left: 4px solid $error;
+        border-radius: 10px;
+        background-color: rgba(179, 38, 30, 0.07);
+        font-size: 0.92rem;
+        line-height: 1.5;
+        color: $error;
+    }
+
+    &-submit {
+        width: 100%;
+        height: 48px;
+        border: none;
+        border-radius: 999px;
+        background-color: $ink;
+        color: #fff;
+        font-family: var.$font;
+        font-size: 0.98rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.18s ease;
+
+        &:hover {
+            background-color: $action;
         }
 
-        & .valid {
-            color: green;
+        &:focus-visible {
+            outline: 2px solid $action;
+            outline-offset: 2px;
         }
+    }
 
-        & .invalid {
-            color: red;
+    &-switch {
+        margin: 18px 0 0;
+        padding-top: 16px;
+        border-top: 1px solid $line;
+        font-size: 0.92rem;
+        color: $inkSoft;
+        text-align: center;
+
+        a {
+            font-weight: 600;
+            color: $action;
+            text-decoration: underline;
+            text-underline-offset: 3px;
         }
     }
 }
 
-@media (min-width:1000px) {
-    .signup-form label {
-        padding-left: 15vw;
+@media (min-width: 680px) {
+    .su {
+        padding: 40px 24px 72px;
+
+        h1 { font-size: 2rem; }
+
+        &-benefits {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 10px 24px;
+        }
+
+        &-form {
+            padding: 30px 28px 28px;
+        }
+
+        &-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        /* Pays, adresse et complément occupent la ligne entière : ce sont des
+           valeurs longues, les couper en deux colonnes les rend illisibles. */
+        &-field--wide {
+            grid-column: 1 / -1;
+        }
+
+        &-submit {
+            width: auto;
+            min-width: 260px;
+            padding: 0 28px;
+        }
     }
 }

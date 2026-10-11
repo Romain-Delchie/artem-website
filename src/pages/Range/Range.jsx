@@ -1,46 +1,24 @@
-import React, { useState, useEffect, useContext, lazy, Suspense } from 'react'
-import { Link, useParams, Navigate } from 'react-router-dom'
+import { useState, useEffect, useContext } from 'react'
+import { useParams, Navigate } from 'react-router-dom'
 import API from '../../utils/api/api'
 import AppContext from '../../context/AppContext'
-import './Range.scss'
 import Loading from '../../components/Loading/Loading'
 import NotFound from '../NotFound/NotFound'
 import Seo from '../../components/Seo/Seo'
-import Breadcrumb from '../../components/Breadcrumb/Breadcrumb'
 import RangeRedesign from './RangeRedesign'
 import { getRangeSeo } from '/data/seo'
 import { slugify } from '../../utils/seo/slugify'
 import { SITE_URL, breadcrumbJsonLd } from '../../utils/seo/siteConfig'
-
-// Le générateur PDF pèse plusieurs centaines de kilo-octets et n'est utilisé
-// qu'à l'ouverture d'une fiche technique : il est chargé à la demande.
-const TechSheetPdf = lazy(() => import('../../components/TechSheetPdf/TechSheetPdf'))
 
 export default function Range() {
     const { user, ranges } = useContext(AppContext);
     const { slug } = useParams()
     const [range, setRange] = useState(null);
     const [notFound, setNotFound] = useState(false);
-    const [modalOpenState, setModalOpenState] = useState({});
-
     // Les anciennes URLs de la forme /gamme/1/Toile%20enfourneur restent
     // valides : on identifie la gamme par son identifiant puis on redirige
     // vers l'URL canonique en slug.
     const isLegacyIdUrl = /^\d+$/.test(slug || '');
-
-    const openModal = (techSheetId) => {
-        setModalOpenState((prevState) => ({
-            ...prevState,
-            [techSheetId]: true,
-        }));
-    };
-
-    const closeModal = (techSheetId) => {
-        setModalOpenState((prevState) => ({
-            ...prevState,
-            [techSheetId]: false,
-        }));
-    };
 
     useEffect(() => {
         setNotFound(false);
@@ -104,11 +82,6 @@ export default function Range() {
     const isAdmin = user.role === 'admin';
     const seo = getRangeSeo(canonicalSlug, { includePending: isAdmin });
 
-    // Ce contenu attend une validation : il n'est affiché qu'à l'administrateur.
-    // On le signale en rouge pour qu'il distingue d'un coup d'œil ce qui reste à
-    // valider de ce qui est déjà en ligne. La classe n'est jamais rendue pour un
-    // visiteur, puisque getRangeSeo ne lui renvoie alors aucun contenu.
-    const pendingClass = seo.published === false ? ' range-pending' : '';
     const path = `/gamme/${canonicalSlug}`;
     const imageUrl = `/images/products/${range.image_link}`;
     const imageAlt = seo.imageAlt || `${range.name} ARTEM pour la boulangerie`;
@@ -154,42 +127,6 @@ export default function Range() {
         }
         : null;
 
-    const renderTechSheet = (techSheet) => (
-        <li className="range-sheet-container-item" key={techSheet.id}>
-            <button className='range-sheet-container-item-link' onClick={() => openModal(techSheet.id)}>
-                <img className='range-sheet-container-item-link-pdf' src={`/images/pdf.png`} alt={`Fiche technique PDF ${techSheet.name}`} loading="lazy" />
-                {
-                    techSheet.description.includes('lavable') &&
-                    <img className='range-sheet-container-item-link-img' src={`/images/clean.png`} alt="Matière lavable, facile à nettoyer" loading="lazy" />
-                }
-                <div className='range-sheet-container-item-link-text'>
-                    <p>{techSheet.name}</p>
-                    <p>{techSheet.description}</p>
-                </div>
-            </button>
-            {modalOpenState[techSheet.id] && (
-                <div className="range-modal">
-                    <Suspense fallback={<Loading />}>
-                        <TechSheetPdf techSheet={techSheet} />
-                    </Suspense>
-                    <button className="range-modal-close" onClick={() => closeModal(techSheet.id)}>
-                        X
-                    </button>
-                </div>
-            )}
-        </li>
-    );
-
-    const isFaconneuse = canonicalSlug === 'tapis-de-faconneuse';
-    const faconneuseGroups = [
-        { heading: 'Feutre sous tapis lourd et réception :', keyword: 'bavette' },
-        { heading: 'Tapis lourd :', keyword: 'lourd' },
-        { heading: 'Manchon de façonneuse artisanale :', keyword: 'manchon' },
-        { heading: 'Bande pour façonneuse horizontale :', keyword: 'bande' },
-    ];
-
-    // Les balises et les données structurées sont communes aux deux rendus :
-    // seule la mise en page change pour l'administrateur.
     const head = (
         <Seo
             title={seo.title || range.name}
@@ -200,118 +137,23 @@ export default function Range() {
         />
     );
 
-    // Proposition de refonte soumise à validation : seul un administrateur
-    // connecté la voit. Le chargement de la gamme, le contenu et les balises
-    // restent ceux de la page en production, y compris le signalement en rouge
-    // des textes qui attendent une validation.
-    if (isAdmin) {
-        return (
-            <>
-                {head}
-                <RangeRedesign
-                    range={range}
-                    seo={seo}
-                    slug={canonicalSlug}
-                    imageUrl={imageUrl}
-                    imageAlt={imageAlt}
-                    breadcrumbItems={breadcrumbItems}
-                    pending={seo.published === false}
-                    isLogged={Boolean(user.token)}
-                />
-            </>
-        );
-    }
-
+    // La refonte est validée : elle est servie à tout le monde. Seuls les
+    // textes qui attendent encore une validation restent réservés à
+    // l'administrateur — `getRangeSeo` ne les renvoie qu'avec `includePending`,
+    // et c'est à lui seul que `pending` les fait afficher en rouge.
     return (
         <>
             {head}
-            <main className='range'>
-                <Breadcrumb items={breadcrumbItems} />
-                <h1>{range.name}</h1>
-                <Link to="/gamme" className='range-return-products'>
-                    <p>Retour à la gamme complète</p>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 16.811c0 .864-.933 1.405-1.683.977l-7.108-4.062a1.125 1.125 0 010-1.953l7.108-4.062A1.125 1.125 0 0121 8.688v8.123zM11.25 16.811c0 .864-.933 1.405-1.683.977l-7.108-4.062a1.125 1.125 0 010-1.953L9.567 7.71a1.125 1.125 0 011.683.977v8.123z" />
-                    </svg>
-
-                </Link>
-                <img className='range-img' src={imageUrl} alt={imageAlt} width="600" height="400" />
-                <p className='range-description'>{range.description}</p>
-
-                {
-                    seo.sections?.length > 0 &&
-                    <section className={`range-content${pendingClass}`}>
-                        {seo.sections.map((section) => (
-                            <article className="range-content-block" key={section.heading}>
-                                <h2>{section.heading}</h2>
-                                {section.paragraphs.map((paragraph, index) => (
-                                    <p key={index}>{paragraph}</p>
-                                ))}
-                            </article>
-                        ))}
-                    </section>
-                }
-
-                {
-                    range.techSheets &&
-                    <section className="range-sheet">
-
-                        <h2>Fiche technique des différentes matières à télécharger :</h2>
-                        <div className="range-sheet-legende">
-                            <img className='range-sheet-img' src={`/images/clean.png`} alt="Pictogramme indiquant une matière lavable" loading="lazy" />
-                            <p>: Facilité de nettoyage</p>
-                        </div>
-                        {
-                            isFaconneuse &&
-                            <div className='range-dought'>
-                                {faconneuseGroups.map((group) => (
-                                    <React.Fragment key={group.keyword}>
-                                        <h3>{group.heading}</h3>
-                                        <ul className="range-sheet-container">
-                                            {range.techSheets
-                                                .filter((ts) => ts.description.toLowerCase().includes(group.keyword))
-                                                .map(renderTechSheet)}
-                                        </ul>
-                                    </React.Fragment>
-                                ))}
-                            </div>
-                        }
-                        {
-                            !isFaconneuse &&
-                            <ul className="range-sheet-container">
-                                {range.techSheets.map(renderTechSheet)}
-                            </ul>
-                        }
-                    </section>
-                }
-
-                {
-                    seo.faq?.length > 0 &&
-                    <section className={`range-faq${pendingClass}`}>
-                        <h2>Questions fréquentes</h2>
-                        <dl className="range-faq-list">
-                            {seo.faq.map((item) => (
-                                <div className="range-faq-list-item" key={item.question}>
-                                    <dt>{item.question}</dt>
-                                    <dd>{item.answer}</dd>
-                                </div>
-                            ))}
-                        </dl>
-                    </section>
-                }
-
-                {
-                    !user.token &&
-                    <div className="range-links">
-                        <h2>Pour voir tous nos produits plus en détails :</h2>
-                        <div className="range-link">
-                            <Link className='range-link-btn' to='/connexion'>Connectez-vous</Link>
-                            <p>ou</p>
-                            <Link className='range-link-btn' to='/creer-un-compte'>Créez un compte</Link>
-                        </div>
-                    </div>
-                }
-            </main>
+            <RangeRedesign
+                range={range}
+                seo={seo}
+                slug={canonicalSlug}
+                imageUrl={imageUrl}
+                imageAlt={imageAlt}
+                breadcrumbItems={breadcrumbItems}
+                pending={seo.published === false}
+                isLogged={Boolean(user.token)}
+            />
         </>
-    )
+    );
 }

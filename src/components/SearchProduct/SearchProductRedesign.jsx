@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import AppContext from "../../context/AppContext";
-import ProductCard from "../ProductCard/ProductCard";
+// La carte refondue est appelée directement, et non à travers `ProductCard`,
+// qui n'y renvoie que pour un administrateur : sur cette page, client et
+// administrateur voient la même carte.
+import ProductCard from "../ProductCard/ProductCardRedesign";
 import ModalTeTool from "../ModalTeTool/ModalTeTool";
 import API from "../../utils/api/api";
 import "./SearchProductRedesign.scss";

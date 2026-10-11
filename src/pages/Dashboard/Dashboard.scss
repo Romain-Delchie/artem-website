@@ -1,132 +1,48 @@
 @use 'src/styles/variables.scss' as var;
 
-
+/**
+ * Page du tableau de bord : la zone de travail, à droite de la barre latérale.
+ *
+ * Elle ne contient plus que la mise en place. Les deux panneaux qu'elle
+ * accueille — celui du client et celui de l'administrateur — sont habillés par
+ * Board.scss, qu'ils partagent.
+ *
+ * La photographie de fournil est conservée en fond : les panneaux y sont posés
+ * comme des feuilles de papier. Les 300 px de marge à gauche correspondent à
+ * la largeur de la barre latérale, qui est fixée à la fenêtre.
+ */
 .dashboard {
-    background: url("/public/images/boulangegrand.jpg") center/cover fixed no-repeat;
+    background: url("/images/boulangegrand.jpg") center/cover fixed no-repeat;
     display: flex;
     margin-left: 300px;
-    margin-bottom: -40px;
+    /* Pas de marge negative sous la page : l'ancien pied de page etait decoupe
+       en biais et les pages se glissaient sous son triangle vide. Le pied de
+       page actuel est une bande droite et opaque, si bien que cette marge
+       recouvrait le bas du contenu sur un ecran peu haut. */
     justify-content: center;
-    align-items: center;
-    padding: 30px;
-    padding-bottom: 60px;
-    flex-grow: 1;
-    min-height: 780px;
-
-    &-section {
-        cursor: pointer;
-        width: 280px;
-        height: 240px;
-        border-radius: 50px;
-        background-color: rgba(245, 245, 245, 0.88);
-        box-shadow: 2px 2px 2px #505050;
-        border-radius: 5px;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        transition: all 0.3s ease-in-out;
-
-        &-quotation-list {
-            overflow-y: scroll;
-        }
-
-        &-new-user {
-            background-color: whitesmoke;
-            width: 80%;
-            padding: 20px;
-            border-radius: 5px;
-
-            & p {
-                font-size: 1.1rem;
-                color: red;
-                text-align: center;
-            }
-        }
-
-        &-title {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            color: var.$primaryColor;
-
-            & svg {
-                width: 30px;
-            }
-        }
-
-        & p {
-            margin-left: 20px;
-            color: var.$secondaryColor;
-            font-weight: 700;
-            transition: all 0.3s ease-in-out;
-        }
-
-        &-informations {
-            font-size: 0.8rem;
-        }
-
-        &:hover {
-            box-shadow: none;
-            background-color: whitesmoke;
-
-            & p {
-                color: var.$secondaryColorLight;
-            }
-        }
-
-        &-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 50px;
-            align-items: center;
-            justify-content: center;
-        }
-
-        &-quotation {
-            font-weight: 400 !important;
-        }
-    }
-
-}
-
-/* Vue administrateur : le panneau du back-office est bien plus haut que les
-   six cartes du client, il part donc du haut de la zone au lieu d'être centré
-   verticalement. Le modificateur n'est posé que pour un administrateur, la
-   mise en page du client reste celle d'origine. */
-.dashboard--admin {
     align-items: flex-start;
-    padding: 28px 30px 60px;
+    padding: 24px 26px 32px;
+    flex-grow: 1;
+
+    /* La zone de travail occupe la hauteur qui reste entre l'en-tête et le pied
+       de page, et pas un pouce de plus : avec une hauteur plancher de 780 px,
+       la page débordait de l'écran d'un ordinateur portable et obligeait à
+       défiler pour atteindre la dernière carte. `100svh` tient compte des
+       barres d'outils mobiles, qui se replient au défilement. */
+    min-height: calc(100vh - var(--hd-height, 110px) - 48px);
+    min-height: calc(100svh - var(--hd-height, 110px) - 48px);
 }
 
-@media (max-width:600px) {
+@media (max-width: 600px) {
+
+    /* Sur téléphone, la barre latérale est masquée (voir DashboardComponent.scss)
+       et le panneau prend toute la largeur. Il reste affiché — une version
+       antérieure masquait les cartes du client, si bien que la page ne
+       montrait plus rien. */
     .dashboard {
-        margin: 200px 0 0;
-        padding: 0;
-        align-items: normal;
-
-        &-section-container {
-            display: none;
-        }
-    }
-
-    /* Le menu latéral repasse dans le flux sur téléphone : le panneau se place
-       dessous plutôt qu'à côté. */
-    .dashboard--admin {
         flex-direction: column;
-        padding: 0 12px 40px;
-    }
-}
-
-@media (min-width: 1629px) {
-    .dashboard-section {
-        width: 350px;
-        height: 300px;
-    }
-}
-
-@media (min-width: 1908px) {
-    .dashboard-section {
-        width: 400px;
-        height: 300px;
+        margin-left: 0;
+        padding: 16px 12px 40px;
+        min-height: 0;
     }
 }

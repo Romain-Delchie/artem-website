@@ -1,126 +1,177 @@
 @use 'src/styles/variables.scss' as var;
 
-.tools {
-    background: url("/public/images/boulangegrand.jpg") center/cover fixed no-repeat;
-    color: var.$secondaryColor;
-    flex-grow: 1;
-    margin-bottom: -40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 0 90px;
+/**
+ * Page « Mes outils ».
+ *
+ * La mise en place est celle du tableau de bord — photographie de fournil en
+ * fond, panneau posé dessus, 300 px réservés à gauche pour la barre latérale —
+ * et les cartes sont habillées par Board.scss, partagé avec lui. Ne restent
+ * ici que les quelques éléments propres à cette page : la carte de l'outil en
+ * ligne et l'étiquette « PDF ».
+ */
 
-    &-title {
-        text-align: center;
-        background-color: whitesmoke;
-        width: 620px;
-        border-radius: 10px;
-        padding: 20px;
+$ink: var.$secondaryColor;
+$inkSoft: #5b6480;
+$line: #e3e7ef;
+$accent: var.$primaryColor;
+$accentDark: #6f9412;
+
+.tools {
+    /* Le chemin passait par `/public/images/…`, qui n'existe pas en
+       production : Vite sert le contenu de `public/` à la racine du site. */
+    background: url("/images/boulangegrand.jpg") center/cover fixed no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-grow: 1;
+    padding: 24px 26px 32px;
+    min-height: calc(100vh - var(--hd-height, 110px) - 48px);
+    min-height: calc(100svh - var(--hd-height, 110px) - 48px);
+}
+
+/* ------------------------------------------------------ L'outil en ligne */
+
+.tools-define {
+    /* Pas d'encadré ni d'aplat : le bloc est déjà une carte, et un second
+       cadre à l'intérieur donnait à cet outil l'allure d'un bouton posé là.
+       Restent la photographie, le texte, et un lien qui se souligne. */
+    &-card {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        color: $ink;
+
+        &:hover {
+            .tools-define-cta {
+                color: $accentDark;
+                text-decoration: underline;
+                text-underline-offset: 3px;
+
+                svg {
+                    transform: translateX(3px);
+                }
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid $accentDark;
+            outline-offset: 3px;
+            border-radius: 8px;
+        }
     }
 
-    &-container {
+    /* La photographie montre la pièce : elle mérite mieux qu'une vignette. */
+    &-media {
+        flex-shrink: 0;
+        width: 190px;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: #fff;
+
+        img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+        }
+    }
+
+    &-text {
         display: flex;
         flex-direction: column;
+        gap: 4px;
+        font-size: 0.88rem;
+        line-height: 1.45;
+        color: $inkSoft;
+
+        strong {
+            font-size: 1rem;
+            color: $ink;
+        }
+    }
+
+    &-cta {
+        display: inline-flex;
         align-items: center;
-        gap: 20px;
+        gap: 6px;
+        margin-top: 4px;
+        font-size: 0.84rem;
+        font-weight: 700;
+        color: $inkSoft;
+        transition: color 0.2s ease;
 
-        &-item {
-            width: 300px;
-            height: 400px;
-            display: flex;
-            border-radius: 10px;
-            align-items: center;
-            flex-direction: column;
-            justify-content: start;
-            gap: 10px;
-            padding: 20px;
-            background-color: whitesmoke;
-
-            & h3 {
-                text-align: center;
-                height: 50px;
-            }
-
-            &-define {
-                display: flex;
-                flex-direction: column;
-                width: 80%;
-                padding: 10px;
-                border-radius: 5px;
-                text-transform: uppercase;
-                text-align: center;
-                align-items: center;
-                transition: 0.2s ease-in;
-                background-color: white;
-                box-shadow: 5px 10px 20px #8c8c8c;
-
-                &:hover {
-
-                    box-shadow: 5px 5px 10px #c9c9c9,
-                        -5px -5px 10px #ffffff;
-                    transform: translate(3px, 3px);
-                }
-
-                & h4 {
-                    font-size: 0.9rem;
-                }
-
-                &-img {
-                    margin-bottom: 10px;
-                    width: 100px;
-                    border-radius: 5px;
-                }
-            }
-
-            &-link {
-                display: flex;
-                align-self: start;
-
-                &-pdf {
-                    margin-right: 5px;
-                    width: 25px;
-                }
-
-
-            }
+        svg {
+            width: 15px;
+            height: 15px;
+            transition: transform 0.2s ease;
         }
     }
 }
 
-@media (min-width:800px) {
-    .tools {
-        &-container {
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-            gap: 20px;
-            padding: 20px;
-        }
+/* ------------------------------------------------- Les plans de prise de cotes
+
+   Un seul bloc pour les neuf plans, et une phrase qui dit à quoi ils servent.
+   Leur liste se range en colonnes selon la place disponible : empilés, ils
+   faisaient neuf lignes et une carte deux fois plus haute que sa voisine. */
+
+.tools-plans {
+    &-lede {
+        margin: -4px 0 12px;
+        font-size: 0.88rem;
+        line-height: 1.5;
+        color: $inkSoft;
+    }
+
+    /* Le sélecteur nomme deux classes : `.board-group ul` de la feuille
+       partagée a la même force qu'une classe seule, et l'ordre des deux
+       fichiers de style n'est pas garanti. */
+    .tools-plans-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 2px 14px;
+    }
+
+    /* Le logo PDF de la page d'origine est conservé : il signale le format
+       mieux qu'un pictogramme au trait, et les clients le connaissent. */
+    &-icon {
+        flex-shrink: 0;
+        width: 22px;
+        height: 22px;
+        object-fit: contain;
     }
 }
 
-@media (max-width:600px) {
-    .tools {
-        & .dashboard-component {
-            display: none;
-        }
+/* Deux blocs pleine largeur, l'un sous l'autre : la carte de l'outil est
+   courte et celle des plans longue, les mettre côte à côte laissait un grand
+   vide sous la première. */
+.tools-grid {
+    grid-template-columns: minmax(0, 1fr);
+}
 
+@media (max-width: 600px) {
+    .tools {
+        flex-direction: column;
+        padding: 16px 12px 40px;
+        min-height: 0;
+    }
+
+    /* Sur un téléphone, la photographie passe au-dessus du texte plutôt que de
+       lui laisser une colonne de quelques mots. */
+    .tools-define-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .tools-define-media {
+        width: 100%;
+        max-width: 320px;
     }
 }
 
-@media (max-width:959px) {
+@media (min-width: 601px) {
     .tools {
-        &-title {
-            margin: 10px 0;
-            width: 300px;
-        }
-
-    }
-}
-
-@media (min-width:600px) {
-    .tools {
+        /* Largeur de la barre latérale, qui est fixée à la fenêtre. */
         margin-left: 300px;
     }
 }

@@ -2,7 +2,10 @@
 
 .quote {
     background: url("/public/images/boulangegrand.jpg") center/cover fixed no-repeat;
-    margin-bottom: -90px;
+    /* Pas de marge negative sous la page : l'ancien pied de page etait decoupe
+       en biais et les pages se glissaient sous son triangle vide. Le pied de
+       page actuel est une bande droite et opaque, si bien que cette marge
+       recouvrait le bas du contenu sur un ecran peu haut. */
     padding-bottom: 40px;
     flex-grow: 1;
     display: flex;

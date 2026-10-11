@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import moment from 'moment/moment';
 import AppContext from '../../context/AppContext';
 import API from '../../utils/api/api';
-import { ADMIN_GROUPS, Icon } from '../../components/Dashboard/adminNav';
-import './AdminBoard.scss';
+import { ADMIN_GROUPS, Icon } from '../../components/Dashboard/sideNav';
+import './Board.scss';
 
 /**
  * Accueil du back-office.
@@ -117,34 +117,34 @@ export default function AdminBoard() {
     ];
 
     return (
-        <section className="admin-board" aria-labelledby="admin-board-title">
-            <header className="admin-board-head">
-                <p className="admin-board-head-eyebrow">Back-office Artem</p>
-                <h2 id="admin-board-title">Tableau de bord</h2>
-                <p className="admin-board-head-lede">
+        <section className="board" aria-labelledby="board-title">
+            <header className="board-head">
+                <p className="board-head-eyebrow">Back-office Artem</p>
+                <h2 id="board-title">Tableau de bord</h2>
+                <p className="board-head-lede">
                     Bonjour {user.firstname}, voici l&apos;état du site et vos outils d&apos;administration.
                 </p>
             </header>
 
-            <ul className="admin-board-stats" aria-busy={isLoading}>
+            <ul className="board-stats" aria-busy={isLoading}>
                 {stats.map((stat) => (
                     <li key={stat.key}>
                         <Link
                             to={stat.to}
-                            className={stat.alert ? 'admin-board-stat admin-board-stat--alert' : 'admin-board-stat'}
+                            className={stat.alert ? 'board-stat board-stat--alert' : 'board-stat'}
                         >
-                            <span className="admin-board-stat-icon"><Icon name={stat.icon} /></span>
-                            <span className="admin-board-stat-value">{formatCount(stat.value)}</span>
-                            <span className="admin-board-stat-label">{stat.label}</span>
+                            <span className="board-stat-icon"><Icon name={stat.icon} /></span>
+                            <span className="board-stat-value">{formatCount(stat.value)}</span>
+                            <span className="board-stat-label">{stat.label}</span>
                         </Link>
                     </li>
                 ))}
             </ul>
 
-            <div className="admin-board-columns">
-                <div className="admin-board-groups">
+            <div className="board-columns">
+                <div className="board-groups">
                     {ADMIN_GROUPS.map((group) => (
-                        <article key={group.title} className="admin-board-group">
+                        <article key={group.title} className="board-group">
                             <h3>
                                 <Icon name={group.icon} />
                                 {group.title}
@@ -152,10 +152,10 @@ export default function AdminBoard() {
                             <ul>
                                 {group.links.map((link) => (
                                     <li key={link.to + link.label}>
-                                        <Link to={link.to} className="admin-board-action">
+                                        <Link to={link.to} className="board-action">
                                             <Icon name={link.icon} />
                                             <span>{link.label}</span>
-                                            <span className="admin-board-action-arrow"><Icon name="arrow" /></span>
+                                            <span className="board-action-arrow"><Icon name="arrow" /></span>
                                         </Link>
                                     </li>
                                 ))}
@@ -164,32 +164,32 @@ export default function AdminBoard() {
                     ))}
                 </div>
 
-                <aside className="admin-board-activity">
-                    <article className="admin-board-panel">
+                <aside className="board-activity">
+                    <article className="board-panel">
                         <h3>Derniers devis</h3>
-                        {isLoading && <p className="admin-board-empty">Chargement…</p>}
+                        {isLoading && <p className="board-empty">Chargement…</p>}
                         {!isLoading && latestQuotations.length === 0 && (
-                            <p className="admin-board-empty">Aucun devis à afficher.</p>
+                            <p className="board-empty">Aucun devis à afficher.</p>
                         )}
                         {latestQuotations.length > 0 && (
-                            <ul className="admin-board-feed">
+                            <ul className="board-feed">
                                 {latestQuotations.map((quotation) => (
                                     <li key={quotation.quotation_id}>
                                         {/* La liste des devis ouvre le détail dans sa propre fenêtre :
                                             on y renvoie plutôt que vers /quotation-list/:id, dont le
                                             composant attend un devis en propriété. */}
                                         <Link to="/quotation-list">
-                                            <span className="admin-board-feed-main">
+                                            <span className="board-feed-main">
                                                 <strong>N° {quotation.quotation_id}</strong>
-                                                <span className="admin-board-feed-company">{quotation.account_company}</span>
+                                                <span className="board-feed-company">{quotation.account_company}</span>
                                             </span>
-                                            <span className="admin-board-feed-meta">
+                                            <span className="board-feed-meta">
                                                 <span>{quotation.creation_date}</span>
                                                 <span
                                                     className={
                                                         isOrdered(quotation)
-                                                            ? 'admin-board-tag admin-board-tag--done'
-                                                            : 'admin-board-tag'
+                                                            ? 'board-tag board-tag--done'
+                                                            : 'board-tag'
                                                     }
                                                 >
                                                     {isOrdered(quotation) ? 'Commandé' : 'En attente'}
@@ -200,37 +200,37 @@ export default function AdminBoard() {
                                 ))}
                             </ul>
                         )}
-                        <Link to="/quotation-list" className="admin-board-panel-more">
+                        <Link to="/quotation-list" className="board-panel-more">
                             Voir tous les devis <Icon name="arrow" />
                         </Link>
                     </article>
 
-                    <article className="admin-board-panel">
+                    <article className="board-panel">
                         <h3>Comptes en attente de rôle</h3>
-                        {isLoading && <p className="admin-board-empty">Chargement…</p>}
+                        {isLoading && <p className="board-empty">Chargement…</p>}
                         {!isLoading && pendingAccounts.length === 0 && (
-                            <p className="admin-board-empty">Aucun compte en attente.</p>
+                            <p className="board-empty">Aucun compte en attente.</p>
                         )}
                         {pendingAccounts.length > 0 && (
-                            <ul className="admin-board-feed">
+                            <ul className="board-feed">
                                 {pendingAccounts.map((account) => (
                                     <li key={account.id}>
                                         <Link to="/role-validation">
-                                            <span className="admin-board-feed-main">
+                                            <span className="board-feed-main">
                                                 <strong>{account.company}</strong>
-                                                <span className="admin-board-feed-company">
+                                                <span className="board-feed-company">
                                                     {account.firstname} {account.lastname}
                                                 </span>
                                             </span>
-                                            <span className="admin-board-feed-meta">
-                                                <span className="admin-board-tag admin-board-tag--todo">À valider</span>
+                                            <span className="board-feed-meta">
+                                                <span className="board-tag board-tag--todo">À valider</span>
                                             </span>
                                         </Link>
                                     </li>
                                 ))}
                             </ul>
                         )}
-                        <Link to="/role-validation" className="admin-board-panel-more">
+                        <Link to="/role-validation" className="board-panel-more">
                             Gérer les rôles <Icon name="arrow" />
                         </Link>
                     </article>

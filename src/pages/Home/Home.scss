@@ -1,339 +1,776 @@
 @use 'src/styles/variables.scss' as var;
 
-.hero {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    background: url('/images/bgg.jpg') center/cover fixed no-repeat;
-    margin-bottom: -60px;
-    padding-bottom: 60px;
+/**
+ * Feuille de style de la page d'accueil.
+ *
+ * Elle a d'abord porté le monde visuel commun aux propositions comparées sur
+ * le site ; seule la retenue subsiste, et cette feuille est donc celle de la
+ * page d'accueil et de ses blocs (voir Home.jsx et HomeSections.jsx).
+ *
+ * Le monde visuel reprend les trois couleurs de la marque — le vert comme
+ * couleur d'action, le bleu comme surface de voix, le blanc comme surface de
+ * lecture — et laisse la photographie porter le fournil. Les neutres sont
+ * tirés du bleu de marque plutôt que d'un gris pur, pour que les fonds
+ * appartiennent à la même famille que le logo.
+ */
 
-    &-button-container {
-        max-width: 910px;
-        margin: 30px auto;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0px 0px 5px 1px var.$secondaryColor;
-        display: flex;
-        flex-direction: column;
-        width: 90%;
-        height: 60vw;
-        align-items: end;
-        background: url(/images/boulanger.jpg) center/cover no-repeat;
+// Surfaces et neutres, tous dérivés du bleu de marque.
+$ink: #1a2142;
+$inkSoft: #4a5470;
+$paper: #ffffff;
+$paperAlt: #f2f4f8;
+$line: #dde2ec;
+$action: #6f9412; // vert de marque assombri pour tenir le contraste sur blanc
+$actionBright: var.$primaryColor;
+
+$shadowCard: 0 2px 4px rgba(26, 33, 66, 0.06), 0 12px 28px rgba(26, 33, 66, 0.1);
+$shadowLift: 0 4px 8px rgba(26, 33, 66, 0.08), 0 20px 44px rgba(26, 33, 66, 0.16);
+
+$radius: 14px;
+$maxWidth: 1180px;
+$gutter: 20px;
+
+.hr {
+    font-family: var.$font;
+    color: $ink;
+    background-color: $paper;
+
+    h1, h2, h3 {
+        font-family: var.$font1;
+        text-wrap: balance;
+        letter-spacing: -0.025em;
     }
 
+    p {
+        line-height: 1.65;
+    }
 
-    &-button {
-        display: flex;
-        justify-content: end;
-        align-items: center;
-        border: none;
-        font-size: 1rem;
-        width: 60%;
-        padding-right: 16px;
-        height: 25%;
-        background-color: rgba(255, 255, 255, 0.8);
-        color: var.$secondaryColor;
+    // Les surfaces que nous ne dessinons pas portent quand même la charte.
+    ::selection {
+        background-color: rgba(139, 184, 23, 0.28);
+        color: $ink;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+        outline: 3px solid $actionBright;
+        outline-offset: 3px;
+        border-radius: 4px;
+    }
+}
+
+/* ------------------------------------------------------------------ Boutons */
+
+.hr-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 26px;
+    border-radius: 999px;
+    font-family: var.$font1;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.2s ease;
+
+    .hr-icon {
+        width: 18px;
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    &:hover {
+        transform: translateY(-2px);
+
+        .hr-icon {
+            transform: translateX(4px);
+        }
+    }
+
+    &--primary {
+        background-color: $action;
+        color: #fff;
+        box-shadow: 0 2px 4px rgba(26, 33, 66, 0.12), 0 10px 24px rgba(111, 148, 18, 0.32);
+
+        &:hover {
+            background-color: #7ea515;
+            box-shadow: 0 4px 8px rgba(26, 33, 66, 0.14), 0 16px 34px rgba(111, 148, 18, 0.38);
+        }
+    }
+
+    &--ghost {
+        color: #fff;
+        border: 1.5px solid rgba(255, 255, 255, 0.55);
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.12);
+            border-color: #fff;
+        }
+    }
+
+    &--accent {
+        background-color: $ink;
+        color: #fff;
+        box-shadow: $shadowCard;
+
+        &:hover {
+            background-color: #262f5c;
+            box-shadow: $shadowLift;
+        }
+    }
+}
+
+.hr-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var.$font1;
+    font-weight: 600;
+    color: $action;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 2px;
+
+    .hr-icon { width: 17px; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+
+    &:hover {
+        border-bottom-color: $action;
+        .hr-icon { transform: translateX(4px); }
+    }
+}
+
+.hr-icon {
+    width: 22px;
+    height: auto;
+    flex-shrink: 0;
+}
+
+/* -------------------------------------------------------------- En-têtes */
+
+.hr-section-head {
+    max-width: 44rem;
+    margin: 0 auto 44px;
+    text-align: center;
+
+    h2 {
+        font-size: clamp(1.6rem, 4.2vw, 2.4rem);
+        line-height: 1.15;
+        margin-bottom: 14px;
+    }
+
+    p {
+        color: $inkSoft;
+        font-size: 1.02rem;
+    }
+
+    &--light {
+        h2 { color: #fff; }
+        p { color: rgba(255, 255, 255, 0.78); }
+    }
+}
+
+/* ----------------------------------------------------------------- Accroche */
+
+.hr-hero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    // Le premier écran se cale sur la hauteur réellement disponible : la
+    // hauteur de la barre est publiée en variable CSS par l'en-tête, et `svh`
+    // tient compte des barres d'outils mobiles, qui font varier 100vh.
+    min-height: calc(100vh - var(--hd-height, 7rem));
+    min-height: calc(100svh - var(--hd-height, 7rem));
+    padding: 64px $gutter 56px;
+    background-color: $ink;
+    overflow: hidden;
+
+    &-media {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: url('/images/boulangegrand.jpg') center 38% / cover no-repeat;
+
+        // Le voile est plus dense à gauche, là où court le texte, et s'allège
+        // à droite pour laisser respirer le fournil.
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(100deg,
+                rgba(20, 26, 54, 0.94) 0%,
+                rgba(20, 26, 54, 0.88) 42%,
+                rgba(20, 26, 54, 0.62) 100%);
+        }
+    }
+
+    &-inner {
+        width: 100%;
+        max-width: $maxWidth;
+        margin: 0 auto;
+        color: #fff;
+    }
+
+    &-title {
+        max-width: 17ch;
+        font-size: clamp(2.1rem, 7vw, 4rem);
+        line-height: 1.06;
         font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s ease-in-out;
+        margin-bottom: 22px;
 
+        em {
+            font-style: normal;
+            color: $actionBright;
+        }
+    }
 
-        &-one {
-            -webkit-clip-path: polygon(20% 0, 100% 0%, 100% 100%, 15% 100%);
-            clip-path: polygon(20% 0, 100% 0%, 100% 100%, 15% 100%);
+    &-lead {
+        max-width: 56ch;
+        font-size: clamp(1rem, 2.4vw, 1.15rem);
+        color: rgba(255, 255, 255, 0.86);
+        margin-bottom: 34px;
+    }
+
+    &-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-bottom: 56px;
+    }
+
+    &-proof {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 22px;
+        margin: 0;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.22);
+
+        dt {
+            font-family: var.$font1;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: $actionBright;
+            margin-bottom: 4px;
         }
 
-        &-two {
-            -webkit-clip-path: polygon(15% 0, 100% 0%, 100% 100%, 10% 100%);
-            clip-path: polygon(15 0, 100% 0%, 100% 100%, 10% 100%);
+        dd {
+            margin: 0;
+            font-size: 0.93rem;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.76);
+        }
+    }
+}
+
+/* ------------------------------------------------------------------- Gamme */
+
+.hr-range {
+    max-width: $maxWidth;
+    margin: 0 auto;
+    padding: 84px $gutter;
+
+    &-loading {
+        text-align: center;
+        color: $inkSoft;
+    }
+
+    &-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 22px;
+        list-style: none;
+        padding: 0;
+        margin: 0 0 64px;
+    }
+
+    &-card {
+        display: block;
+        position: relative;
+        border-radius: $radius;
+        overflow: hidden;
+        text-decoration: none;
+        background-color: $ink;
+        box-shadow: $shadowCard;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+        img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 3 / 2;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        opacity 0.3s ease;
         }
 
-        &-three {
-            -webkit-clip-path: polygon(20% 0, 100% 0%, 100% 100%, 10% 100%);
-            clip-path: polygon(10% 0, 100% 0%, 100% 100%, 5% 100%);
-        }
+        &-name {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 42px 20px 18px;
+            font-family: var.$font1;
+            font-size: 1.08rem;
+            font-weight: 600;
+            color: #fff;
+            background: linear-gradient(to top, rgba(20, 26, 54, 0.92) 30%, rgba(20, 26, 54, 0));
 
-        &-four {
-            -webkit-clip-path: polygon(5% 0, 100% 0%, 100% 100%, 0% 100%);
-            clip-path: polygon(5% 0, 100% 0%, 100% 100%, 0% 100%);
+            .hr-icon {
+                width: 19px;
+                transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            }
         }
 
         &:hover {
-            background-color: var.$secondaryColorTransparent;
-            clip-path: none;
-            color: var.$primaryColor;
-            width: 100%;
-            letter-spacing: 1px;
-            font-size: larger;
+            transform: translateY(-4px);
+            box-shadow: $shadowLift;
+
+            img { transform: scale(1.04); opacity: 0.92; }
+            .hr-icon { transform: translateX(5px); }
         }
     }
 
+    &-rest {
+        padding-top: 34px;
+        border-top: 1px solid $line;
 
-    &-products-container {
-        box-shadow: 0px 0px 5px 1px var.$secondaryColor;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        height: 200px;
-        background-color: rgba(245, 245, 245, 0.97);
-        width: 90%;
-        border-radius: 8px;
-        padding: 16px;
+        & + & { margin-top: 34px; }
+
+        h3 {
+            font-size: 1.05rem;
+            margin-bottom: 18px;
+            color: $inkSoft;
+            font-weight: 600;
+        }
+    }
+
+    &-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2px 28px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            border-bottom: 1px solid $line;
+        }
+
+        a {
+            display: block;
+            padding: 11px 2px;
+            color: $ink;
+            text-decoration: none;
+            font-size: 0.97rem;
+            // Le décalage au survol passe par transform : animer padding-left
+            // déclencherait un recalcul de mise en page à chaque image.
+            transition: color 0.2s ease,
+                        transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+            &:hover {
+                color: $action;
+                transform: translateX(8px);
+            }
+        }
+    }
+}
+
+/* ----------------------------------------------------------- Compatibilité */
+
+.hr-compat {
+    padding: 80px $gutter;
+    background-color: $ink;
+
+    &-groups {
+        max-width: $maxWidth;
         margin: 0 auto;
-
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 34px;
     }
 
-    &-description-container {
-        border-radius: 8px;
-        background-color: rgba(245, 245, 245, 0.97);
-        box-shadow: 0px 0px 5px 1px var.$secondaryColor;
-        width: 90%;
-        margin: 30px auto;
-        padding: 1rem;
-        text-align: center;
-        color: var.$secondaryColor;
-
-        & h2 {
-            margin: 32px 0;
-        }
-    }
-
-    &-service {
-        display: flex;
-        border: #8bb817 1px solid;
-        border-radius: 5px;
-        gap: 0.2rem;
-        margin: 1rem 1rem;
-        padding: 1rem;
-        background: linear-gradient(145deg, var.$secondaryColor 70%, var.$primaryColor);
-        color: white;
-        box-shadow: 9px 9px 5px #7d7d7d;
-
-        & svg {
-            width: 50px;
-            height: 50px;
+    &-group {
+        h3 {
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: $actionBright;
+            margin-bottom: 12px;
         }
 
-        & p {
-            width: 80%;
-            margin: auto;
-            font-size: 0.8rem;
+        p {
+            font-size: 1.12rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
         }
     }
 }
 
-@media (min-width:360px) {
-    .hero {
-        &-button {
-            font-size: 1.1rem;
-        }
+/* ------------------------------------------------------------------ Étapes */
 
-
-    }
-}
-
-@media (min-width:500px) {
-    .hero {
-        &-header-btn {
-            width: 150px;
-            height: 80px;
-            font-size: 1.2rem;
-
-            & svg {
-                height: 30px;
-            }
-        }
-
-        &-button {
-            font-size: 1.3rem;
-        }
-
-        &-service {
-            width: 80%;
-            margin: 2rem auto;
-
-            & p {
-                font-size: 1.1rem;
-            }
-        }
-
-        &-products-container {
-            height: 300px;
-        }
-
-    }
-
-    .hero .swiper {
-        width: 350px;
-    }
-}
-
-
-@media (min-width:1050px) {
-    .hero {
-        justify-content: center;
-        align-items: center;
-        gap: 30px;
-        padding: 50px 30px 100px;
-
-        &-button-container {
-            width: calc(50% - 15px);
-            height: 300px;
-            margin: 0;
-        }
-
-        &-button {
-            font-size: 1.3rem;
-
-            &:hover {
-                font-size: 1.5rem;
-            }
-        }
-
-        &-products-container {
-            height: 300px;
-            width: calc(50% - 15px);
-            margin: 0;
-
-
-            & .swiper {
-                &-slide {
-                    width: 50px;
-                }
-            }
-        }
-
-        &-description-container {
-            justify-self: center;
-            width: 100%;
-            margin: 0;
-            // margin: 0 calc(100% - 1018px);
-            padding: 50px;
-        }
-    }
-}
-
-
-@media (min-width:1200px) {
-    .hero {
-        padding: 80px 10%;
-
-        & .swiper {
-            width: 350px;
-        }
-
-        &-service {
-            & p {
-                font-size: 1.3rem;
-
-            }
-        }
-    }
-}
-
-@media (min-width:1400px) {
-    .hero {
-        &-button-container {
-
-            height: 400px;
-        }
-
-        &-products-container {
-            height: 400px;
-        }
-
-        & .swiper {
-            width: 400px;
-        }
-    }
-}
-
-@media (min-width:1800px) {
-    .hero {
-        // width: 1800px;
-        padding-left: calc(calc(100vw - 1800px)/2);
-        padding-right: calc(calc(100vw - 1800px)/2);
-        margin-bottom: -60px;
-
-        &-button {
-            font-size: 2rem;
-
-            &:hover {
-                font-size: 2.2rem;
-            }
-
-            &-container {
-                height: 450px;
-
-            }
-        }
-
-        &-products-container {
-            height: 450px;
-
-            & .swiper {
-                & p {
-                    font-size: 2rem;
-                }
-            }
-        }
-
-        &-description-container {
-            margin-top: 20px;
-            font-size: 1.5rem;
-
-        }
-
-        &-service {
-            & p {
-                font-size: 1.5rem;
-            }
-        }
-    }
-
-}
-
-@media (min-width:2100px) {
-    .hero {
-        padding-left: 150px;
-        padding-right: 150px;
-    }
-}
-
-/* Titre principal de l'accueil.
-   L'image de fond bgg.jpg défile en `cover fixed` : selon la taille de la
-   fenêtre, le titre se retrouve tantôt sur la zone verte, tantôt sur la zone
-   blanche, tantôt sur la zone bleue. Une couleur de texte seule ne peut donc
-   pas rester lisible partout. Le bandeau blanc translucide règle le problème
-   dans les trois cas, et reprend le rayon et l'ombre du bloc de boutons situé
-   juste en dessous. */
-.hero-title {
-    width: 90%;
-    max-width: 910px;
-    margin: 30px auto 0;
-    padding: 16px 20px;
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.85);
-    box-shadow: 0px 0px 5px 1px var.$secondaryColor;
-    color: var.$secondaryColor;
-    font-family: var.$font1;
-    font-size: 1.1rem;
-    font-weight: 700;
-    line-height: 1.35;
+.hr-steps {
+    max-width: $maxWidth;
+    margin: 0 auto;
+    padding: 84px $gutter;
     text-align: center;
-    text-wrap: balance;
-}
 
-@media (min-width: 500px) {
-    .hero-title {
-        font-size: 1.4rem;
-        padding: 20px 24px;
+    &-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 38px;
+        list-style: none;
+        padding: 0;
+        margin: 0 0 48px;
+        text-align: left;
+        counter-reset: none;
+
+        li {
+            position: relative;
+            padding-top: 6px;
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            margin: 14px 0 8px;
+        }
+
+        p {
+            color: $inkSoft;
+            font-size: 0.98rem;
+        }
+    }
+
+    &-rank {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background-color: $paperAlt;
+        color: $action;
+        font-family: var.$font1;
+        font-size: 0.95rem;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
     }
 }
 
-@media (min-width: 800px) {
-    .hero-title {
-        font-size: 1.75rem;
+/* ---------------------------------------------------------------- L'atelier */
+
+/* La section précédente, « Ou obtenez vos prix vous-même », est un aplat bleu
+   dont la marge intérieure basse appartient au bandeau : sans marge haute ici,
+   le titre venait se coller à l'arête de cet aplat. On reprend donc le même
+   rythme vertical que les autres sections de la page. */
+.hr-about {
+    max-width: $maxWidth;
+    margin: 0 auto;
+    padding: 84px $gutter;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 36px;
+    align-items: center;
+
+    &-text {
+        h2 {
+            font-size: clamp(1.5rem, 4vw, 2.1rem);
+            line-height: 1.2;
+            margin-bottom: 18px;
+        }
+
+        p {
+            color: $inkSoft;
+            margin-bottom: 16px;
+            max-width: 62ch;
+        }
+    }
+
+    &-media {
+        margin: 0;
+
+        img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            border-radius: $radius;
+            box-shadow: $shadowCard;
+        }
+
+        figcaption {
+            margin-top: 12px;
+            font-size: 0.87rem;
+            color: $inkSoft;
+        }
+    }
+}
+
+/* ----------------------------------------------------------- Espace client */
+
+/* Espace client. Sur fond bleu plutôt que gris pâle : le bloc doit se lire
+   comme une seconde offre, à égalité avec le devis, et non comme une mention
+   de bas de page. */
+.hr-account {
+    padding: 78px $gutter;
+    background-color: $ink;
+    text-align: center;
+    color: #fff;
+
+    &-list {
+        max-width: $maxWidth;
+        margin: 0 auto 44px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+        list-style: none;
+        padding: 0;
+        text-align: left;
+
+        li {
+            padding: 22px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        h3 {
+            font-size: 1.04rem;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.78);
+            font-size: 0.96rem;
+        }
+    }
+
+    /* Pour un client connecté, les quatre arguments de vente deviennent autant
+       de chemins vers son espace : la liste est la même, mais chaque entrée est
+       un lien, et la marge intérieure passe du <li> au lien pour que toute la
+       surface soit cliquable. Le bouton de création de compte disparaît alors,
+       les entrées portant elles-mêmes l'action. */
+    &-list--links {
+        margin-bottom: 0;
+
+        li {
+            padding: 0;
+        }
+    }
+
+    &-link {
+        display: block;
+        padding: 22px 0;
+        color: inherit;
+        text-decoration: none;
+
+        h3 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.18s ease;
+        }
+
+        &:hover h3 {
+            color: var.$primaryColor;
+        }
+
+        &:hover .hr-account-arrow {
+            transform: translateX(4px);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var.$primaryColor;
+            outline-offset: 4px;
+            border-radius: 4px;
+        }
+    }
+
+    &-arrow {
+        width: 17px;
+        height: 17px;
+        flex-shrink: 0;
+        color: var.$primaryColor;
+        transition: transform 0.18s ease;
+    }
+}
+
+/* ----------------------------------------------------------------- Contact */
+
+.hr-contact {
+    max-width: $maxWidth;
+    margin: 0 auto;
+    padding: 84px $gutter 96px;
+    text-align: center;
+
+    h2 {
+        font-size: clamp(1.6rem, 4.2vw, 2.4rem);
+        margin-bottom: 14px;
+    }
+
+    &-lead {
+        max-width: 44rem;
+        margin: 0 auto 40px;
+        color: $inkSoft;
+    }
+
+    &-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        justify-items: center;
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.02rem;
+        }
+
+        .hr-icon { color: $action; }
+
+        a {
+            color: $ink;
+            text-decoration: none;
+            border-bottom: 2px solid rgba(111, 148, 18, 0.35);
+            padding-bottom: 2px;
+
+            &:hover { border-bottom-color: $action; }
+        }
+    }
+}
+
+/* ------------------------------------------------------------- Respirations */
+
+@media (max-width: 859px) {
+    .hr-hero-media::after {
+        background: linear-gradient(180deg,
+            rgba(20, 26, 54, 0.9) 0%,
+            rgba(20, 26, 54, 0.82) 55%,
+            rgba(20, 26, 54, 0.9) 100%);
+    }
+}
+
+@media (min-width: 640px) {
+    .hr-range-list { grid-template-columns: repeat(2, 1fr); }
+    .hr-contact-list { grid-template-columns: repeat(2, 1fr); justify-items: start; }
+}
+
+
+
+@media (min-width: 860px) {
+    .hr-hero {
+        padding: 72px 40px 64px;
+
+        &-proof { grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    }
+
+    .hr-range-grid { grid-template-columns: repeat(3, 1fr); gap: 26px; }
+    .hr-range-list { grid-template-columns: repeat(3, 1fr); }
+    .hr-compat-groups { grid-template-columns: repeat(3, 1fr); gap: 40px; }
+    .hr-steps-list { grid-template-columns: repeat(3, 1fr); gap: 44px; }
+    .hr-about { grid-template-columns: 1.15fr 1fr; gap: 56px; padding: 96px $gutter; }
+
+    .hr-account-list {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 48px;
+
+        li { padding: 24px 0; }
+    }
+
+    .hr-contact-list { grid-template-columns: repeat(4, 1fr); gap: 24px; }
+}
+
+/* ----------------------------------------------------------------- Entrée */
+
+/**
+ * Un seul moment animé, à l'ouverture de la page. Les éléments partent d'un
+ * état déjà visible : si l'animation ne se joue pas, la page reste correcte.
+ */
+@media (prefers-reduced-motion: no-preference) {
+    .hr-hero-title,
+    .hr-hero-lead,
+    .hr-hero-actions,
+    .hr-hero-proof {
+        animation: hr-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .hr-hero-lead { animation-delay: 0.08s; }
+    .hr-hero-actions { animation-delay: 0.16s; }
+    .hr-hero-proof { animation-delay: 0.24s; }
+}
+
+@keyframes hr-rise {
+    from {
+        opacity: 0.4;
+        transform: translateY(14px);
+        filter: blur(3px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+        filter: none;
+    }
+}
+
+/* ------------------------------------------------------------------------
+   Ajustements en hauteur d'écran.
+
+   Placés en fin de feuille à dessein : les blocs `min-width` plus haut
+   emploient le raccourci `padding`, qui écrase les valeurs verticales. À
+   spécificité égale, seule la position dans le fichier départage.
+   ------------------------------------------------------------------------ */
+
+/* Écrans peu hauts — portables 13 pouces, fenêtres réduites. L'accroche se
+   resserre pour tenir dans le premier écran au lieu d'être coupée par le bas.
+   Les trois preuves passent en ligne : on garde l'information en abandonnant
+   sa glose, ce qui économise l'essentiel de la hauteur. */
+@media (max-height: 820px) {
+    .hr-hero {
+        padding-top: 32px;
+        padding-bottom: 28px;
+
+        &-title { font-size: clamp(1.7rem, 4.6vw, 2.5rem); margin-bottom: 12px; }
+        &-lead { font-size: 0.99rem; margin-bottom: 20px; }
+        &-actions { margin-bottom: 22px; gap: 10px; }
+
+        &-proof {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 22px;
+            padding-top: 16px;
+
+            dt { font-size: 0.95rem; margin-bottom: 0; }
+            dd { display: none; }
+        }
+    }
+}
+
+@media (max-height: 640px) {
+    .hr-hero {
+        padding-top: 20px;
+        padding-bottom: 18px;
+
+        &-title { font-size: clamp(1.5rem, 4vw, 2.05rem); }
+        &-lead { font-size: 0.94rem; margin-bottom: 16px; }
+        &-proof { display: none; }
+    }
+}
+
+/* Mobile : les trois preuves empilées ajoutent une dizaine de pixels de trop
+   sur les grands téléphones. On resserre leur interligne plutôt que d'en
+   retirer une. */
+@media (max-width: 560px) {
+    .hr-hero-proof {
+        gap: 15px;
+        padding-top: 22px;
     }
 }

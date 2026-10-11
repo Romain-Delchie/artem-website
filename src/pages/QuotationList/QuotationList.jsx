@@ -6,8 +6,7 @@ import "./QuotationList.scss";
 import API from "../../utils/api/api";
 import QuoteAdmin from "../QuoteAdmin/QuoteAdmin";
 import Loading from "../../components/Loading/Loading";
-import goodPrice from "../../utils/goodPrice";
-import artemData from "../../../data/artem-data";
+import computeTotalHT from "../../utils/quotationTotal";
 
 // Portées possibles du champ de recherche
 const SEARCH_SCOPES = [
@@ -69,51 +68,6 @@ const getSearchableText = (quotation, scope) => {
   return normalize(selected.join(" "));
 };
 
-// Total HT complet : produits + transport + clicli + supplément Corse
-// (même calcul que dans QuoteAdmin / Quote)
-const computeTotalHT = (quotation) => {
-  const products = quotation.products || [];
-  const productsPrice = products.reduce(
-    (acc, product) =>
-      acc +
-      Number(
-        goodPrice(quotation.account_profile_id, product, product.quantity)
-      ) *
-        product.quantity,
-    0
-  );
-  const totalWeight = products.reduce(
-    (acc, product) => acc + Number(product.weight) * Number(product.quantity),
-    0
-  );
-  const zipCode = String(quotation.zip_code ?? "");
-  const isFrance = quotation.country?.toLowerCase() === "france";
-
-  const transport =
-    quotation.delivery_id === 1 ? 0 : artemData.tansportFunction(totalWeight);
-  // Transport "Nous consulter" pour les DOM-TOM, l'étranger et les colis
-  // trop lourds (tansportFunction renvoie alors une chaîne)
-  const transportUnknown =
-    zipCode.startsWith("97") || !isFrance || typeof transport !== "number";
-  const clicli =
-    quotation.delivery_id !== quotation.account_delivery_standard_id
-      ? artemData.clicli
-      : 0;
-  const corse =
-    zipCode.startsWith("20") ||
-    zipCode.startsWith("2A") ||
-    zipCode.startsWith("2B")
-      ? artemData.corse
-      : 0;
-
-  return {
-    totalHT:
-      productsPrice + (transportUnknown ? 0 : transport) + clicli + corse ||
-      0,
-    transportUnknown,
-  };
-};
-
 export default function QuotationList() {
   const { user } = useContext(AppContext);
   const [quotations, setQuotations] = useState([]);
@@ -132,7 +86,13 @@ export default function QuotationList() {
               ? JSON.parse(quotation.products)
               : quotation.products;
           const formatted = { ...quotation, products };
-          return { ...formatted, ...computeTotalHT(formatted) };
+          return {
+            ...formatted,
+            ...computeTotalHT(formatted, {
+              profileId: formatted.account_profile_id,
+              deliveryStandardId: formatted.account_delivery_standard_id,
+            }),
+          };
         });
         setQuotations(quotationsFormatted);
       })

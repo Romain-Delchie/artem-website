@@ -356,6 +356,24 @@ $actionBright: var.$primaryColor;
     }
 }
 
+/* Panneau ouvert : la barre s'étire jusqu'au bas de l'écran et le panneau
+   remplit l'espace restant. `bottom: 0` suit la hauteur réellement visible,
+   barres du navigateur mobile comprises, là où `100vh` la dépasse. */
+@media (max-width: 979px) {
+    .hd--menu-open {
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+
+        .hd-panel {
+            flex: 1;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            padding-bottom: calc(24px + env(safe-area-inset-bottom));
+        }
+    }
+}
+
 /* ------------------------------------------------------------ Respirations */
 
 @media (min-width: 560px) {

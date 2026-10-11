@@ -1,14 +1,61 @@
-import React, { useEffect, useState } from "react";
-import API from "../../utils/api/api";
-import { useContext } from "react";
-import AppContext from "../../context/AppContext";
-import "./SignUp.scss";
-import Seo from "../../components/Seo/Seo";
-import PasswordInput from "../../components/PasswordInput/PasswordInput";
-import { useNavigate } from "react-router-dom";
-import Loading from "../../components/Loading/Loading";
+import { useEffect, useState, useContext } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import Select from "react-select";
+import API from "../../utils/api/api";
+import AppContext from "../../context/AppContext";
+import Seo from "../../components/Seo/Seo";
+import PasswordInput from "../../components/PasswordInput/PasswordInput";
+import Loading from "../../components/Loading/Loading";
+import "./SignUp.scss";
+
+/**
+ * Création d'un compte professionnel.
+ *
+ * La page reprend la charte du reste du site — fond gris clair, surface
+ * blanche bordée, encre bleue, vert en accent — là où le formulaire alignait
+ * dix-sept champs à plat, libellé à gauche et champ à droite, avec un retrait
+ * de 15 vw sur grand écran qui poussait les libellés au milieu de l'écran.
+ *
+ * Le formulaire est désormais découpé en quatre moments — l'entreprise, les
+ * coordonnées, l'adresse de facturation, le mot de passe — avec le libellé
+ * au-dessus du champ. C'est la forme qui change : les règles de validation,
+ * la création de l'adresse puis du compte, la connexion automatique et les
+ * courriels envoyés derrière sont ceux d'avant, à l'identique.
+ *
+ * Deux choses changent dans le comportement, et elles vont avec la refonte :
+ *
+ *  - les refus de validation s'affichent dans le formulaire au lieu d'une
+ *    boîte de dialogue du navigateur, qu'il fallait fermer avant de corriger ;
+ *  - les critères du mot de passe ne sont plus tous en rouge à l'arrivée. Un
+ *    critère non encore rempli est gris, un critère rempli est vert : la page
+ *    ne commence plus par reprocher au visiteur un champ qu'il n'a pas saisi.
+ */
+
+/** Critères du mot de passe, dans l'ordre où ils sont vérifiés. */
+const PASSWORD_RULES = [
+    { key: 'minLength', label: 'Au moins 8 caractères' },
+    { key: 'uppercase', label: 'Au moins 1 majuscule' },
+    { key: 'lowercase', label: 'Au moins 1 minuscule' },
+    { key: 'digit', label: 'Au moins 1 chiffre' },
+    { key: 'specialChar', label: 'Au moins 1 caractère spécial' },
+];
+
+/** Ce qu'ouvre le compte, rappelé en tête de page. */
+const BENEFITS = [
+    'Les tarifs de la gamme standard, à toute heure',
+    'Vos devis composés et conservés',
+    'Les outils de prise de cotes',
+];
+
+function CheckIcon() {
+    return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
+            strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+    );
+}
 
 export default function SignUp() {
   const { user, updateUser } = useContext(AppContext);
@@ -16,6 +63,7 @@ export default function SignUp() {
   const [availableCities, setAvailableCities] = useState([]);
   const [apiError, setApiError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [formError, setFormError] = useState("");
   const [formData, setFormData] = useState({
     company: "",
     firstname: "",
@@ -126,6 +174,7 @@ export default function SignUp() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setFormError("");
     const isPasswordValid =
       passwordValidation.minLength &&
       passwordValidation.uppercase &&
@@ -143,12 +192,12 @@ export default function SignUp() {
     );
 
     if (!allFieldsFilled) {
-      alert("Veuillez remplir tous les champs.");
+      setFormError("Veuillez remplir tous les champs.");
       return;
     }
 
     if (formData.city === "other" && formData.otherCity === "") {
-      alert("Veuillez indiquer votre ville dans le champs approprié.");
+      setFormError("Veuillez indiquer votre ville dans le champ approprié.");
       return;
     }
 
@@ -157,19 +206,19 @@ export default function SignUp() {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!isPasswordValid) {
-      alert("Le mot de passe ne respecte pas les critères de sécurité.");
+      setFormError("Le mot de passe ne respecte pas les critères de sécurité.");
       return;
     } else if (!phonePattern.test(formData.phone_number)) {
-      alert("Le numéro de téléphone n'est pas valide.");
+      setFormError("Le numéro de téléphone n'est pas valide.");
       return;
     } else if (!siretPattern.test(formData.siret)) {
-      alert("Le numéro de SIRET n'est pas valide.");
+      setFormError("Le numéro de SIRET n'est pas valide.");
       return;
     } else if (formData.password !== formData.repeat_password) {
-      alert("Les mots de passe ne correspondent pas.");
+      setFormError("Les mots de passe ne correspondent pas.");
       return;
     } else if (!emailPattern.test(formData.email)) {
-      alert("L'adresse e-mail n'est pas valide.");
+      setFormError("L'adresse e-mail n'est pas valide.");
       return;
     } else {
       setIsLoading(true);
@@ -222,18 +271,19 @@ export default function SignUp() {
             })
             .catch((error) => {
               setIsLoading(false);
-              if (error.response.status === 400) {
-                alert("Cet email est déjà utilisé");
+              if (error.response?.status === 400) {
+                setFormError("Cet email est déjà utilisé.");
               } else {
-                alert(error.message);
+                setFormError(error.message);
                 console.log(error);
               }
             });
         })
         .catch((error) => {
+          console.error(error);
           setIsLoading(false);
-          alert(
-            "Une erreur est survenue lors de la création de votre compte, veuillez nous contacter svp"
+          setFormError(
+            "Une erreur est survenue lors de la création de votre compte, veuillez nous contacter."
           );
         });
     }
@@ -243,6 +293,8 @@ export default function SignUp() {
     return <Loading />;
   }
 
+  const isFrance = selectedCountry.label === "France";
+
   return (
     <>
       <Seo
@@ -250,229 +302,267 @@ export default function SignUp() {
         description="Créez votre compte professionnel ARTEM pour accéder aux prix, aux outils de définition produit et à l'historique de vos devis."
         path="/creer-un-compte"
       />
-    <main className="signup">
-      <div className="signup-container">
-        <h1>Créez votre compte et bénéficiez de tous nos services</h1>
-        <form onSubmit={handleSubmit} className="signup-form">
-          <div className="signup-form-item">
-            <label htmlFor="company">Nom de votre entreprise</label>
-            <input
-              type="text"
-              name="company"
-              id="company"
-              value={formData.company}
-              placeholder="Nom entreprise"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="signup-form-item">
-            <label htmlFor="firstname">Prénom</label>
-            <input
-              placeholder="Prénom"
-              type="text"
-              name="firstname"
-              id="firstname"
-              value={formData.firstname}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="signup-form-item">
-            <label htmlFor="lastname">Nom</label>
-            <input
-              placeholder="Nom"
-              type="text"
-              name="lastname"
-              id="lastname"
-              value={formData.lastname}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="signup-form-item">
-            <label htmlFor="email">Email</label>
-            <input
-              placeholder="Email"
-              type="email"
-              name="email"
-              id="email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="signup-form-item">
-            <label htmlFor="phone_number">Téléphone</label>
-            <input
-              placeholder="Téléphone"
-              type="tel"
-              name="phone_number"
-              id="phone_number"
-              value={formData.phone_number}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="signup-form-item">
-            <label htmlFor="country">Pays</label>
-            <Select
-              id="country"
-              options={countryOptions}
-              value={selectedCountry}
-              onChange={(option) => setSelectedCountry(option)}
-              placeholder="Sélectionnez un pays"
-              isSearchable={true}
-            />
-          </div>
+      <main className="su">
+        <div className="su-shell">
 
-          <div className="signup-form-item signup-form-item-address">
-            <label htmlFor="street_address">Adresse de facturation</label>
-            <input
-              placeholder="ex: 10 Rue de la paix"
-              type="text"
-              name="street_address"
-              id="street_address"
-              value={formData.street_address}
-              onChange={handleChange}
-            />
-            <label htmlFor="street_other">Complément adresse</label>
-            <input
-              placeholder="Facultatif : ex: lieu dit"
-              type="text"
-              name="street_other"
-              id="street_other"
-              value={formData.street_other}
-              onChange={handleChange}
-            />
+          <header className="su-head">
+            <p className="su-eyebrow">Espace client</p>
+            <h1>Créer un compte professionnel</h1>
+            <p className="su-lead">
+              Quelques minutes, et vous accédez aux tarifs, aux outils et à vos
+              devis. Votre compte est activé sous un jour ouvré.
+            </p>
+            <ul className="su-benefits">
+              {BENEFITS.map((benefit) => (
+                <li key={benefit}>
+                  <CheckIcon />
+                  {benefit}
+                </li>
+              ))}
+            </ul>
+          </header>
 
-            <label htmlFor="zip_code">C.P.</label>
-            <input
-              type="text"
-              name="zip_code"
-              id="zip_code"
-              placeholder="ex : 75000"
-              value={formData.zip_code}
-              onChange={handleZipCodeChange}
-            />
+          <form onSubmit={handleSubmit} className="su-form" noValidate>
 
-            <label htmlFor="city">Ville</label>
-            {
-              apiError || selectedCountry.label !== "France" ? (
-                <input
-                  type="text"
-                  name="city"
-                  id="city"
-                  placeholder="Ville"
-                  value={formData.otherCity}
-                  onChange={handleChange}
-                />
-              ) : !apiError && selectedCountry.label === "France" ? (
-                <select
-                  name="city"
-                  id="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                >
-                  <option value="none" key="none">
-                    Sélectionnez une ville
-                  </option>
-                  {availableCities.map((city, index) => (
-                    <option key={`${city}_${index}`} value={city}>
-                      {city}
-                    </option>
-                  ))}
-                  <option value="other" key="other">
-                    Autre
-                  </option>
-                </select>
-              ) : null // Ajout de null pour éviter un rendu inattendu
-            }
-            {formData.city === "other" && (
-              <>
-                <label htmlFor="otherCity">Indiquer Ville</label>
-                <input
-                  type="text"
-                  name="otherCity"
-                  id="otherCity"
-                  placeholder="indiquer la ville"
-                  value={formData.otherCity}
-                  onChange={handleChange}
-                />
-              </>
-            )}
-          </div>
-          <div className="signup-form-item">
-            <label htmlFor="password">Mot de passe</label>
-            <div className="password-checking">
-              <PasswordInput
-                name="password"
-                id="password"
-                placeholder="Mot de passe"
-                value={formData.password}
-                onChange={handleChange}
-              />
-
-              <div className="password-validation">
-                {passwordValidation.minLength ? (
-                  <span className="valid">Au moins 8 caractères</span>
-                ) : (
-                  <span className="invalid">Au moins 8 caractères</span>
-                )}
-                {passwordValidation.uppercase ? (
-                  <span className="valid">Au moins 1 majuscule</span>
-                ) : (
-                  <span className="invalid">Au moins 1 majuscule</span>
-                )}
-                {passwordValidation.lowercase ? (
-                  <span className="valid">Au moins 1 minuscule</span>
-                ) : (
-                  <span className="invalid">Au moins 1 minuscule</span>
-                )}
-                {passwordValidation.digit ? (
-                  <span className="valid">Au moins un chiffre</span>
-                ) : (
-                  <span className="invalid">Au moins un chiffre</span>
-                )}
-                {passwordValidation.specialChar ? (
-                  <span className="valid">Au moins un caractère spécial</span>
-                ) : (
-                  <span className="invalid">Au moins un caractère spécial</span>
+            <fieldset className="su-group">
+              <legend>Votre entreprise</legend>
+              <div className="su-grid">
+                <div className="su-field">
+                  <label htmlFor="company">Nom de l’entreprise</label>
+                  <input
+                    type="text"
+                    name="company"
+                    id="company"
+                    value={formData.company}
+                    onChange={handleChange}
+                  />
+                </div>
+                {isFrance && (
+                  <div className="su-field">
+                    <label htmlFor="siret">Numéro de SIRET</label>
+                    <input
+                      placeholder="14 chiffres"
+                      type="text"
+                      name="siret"
+                      id="siret"
+                      value={formData.siret}
+                      onChange={handleChange}
+                    />
+                  </div>
                 )}
               </div>
-            </div>
-          </div>
-          <div className="signup-form-item">
-            <label htmlFor="password-confirm">Confirmez votre MDP</label>
-            <div className="password-checking">
-              <PasswordInput
-                name="repeat_password"
-                id="password-confirm"
-                placeholder="Confirmez votre MDP"
-                value={formData.repeat_password}
-                onChange={handleChange}
-              />
+            </fieldset>
 
-              {!passwordMatch && (
-                <span className="invalid">
-                  Doit être identique au premier mot de passe
-                </span>
-              )}
-            </div>
-          </div>
-          {selectedCountry.label === "France" && (
-            <div className="signup-form-item">
-              <label htmlFor="siret">Numéro de SIRET</label>
-              <input
-                placeholder="N° de SIRET à 14 chiffres"
-                type="text"
-                name="siret"
-                id="siret"
-                value={formData.siret}
-                onChange={handleChange}
-              />
-            </div>
-          )}
+            <fieldset className="su-group">
+              <legend>Vos coordonnées</legend>
+              <div className="su-grid">
+                <div className="su-field">
+                  <label htmlFor="firstname">Prénom</label>
+                  <input
+                    type="text"
+                    name="firstname"
+                    id="firstname"
+                    autoComplete="given-name"
+                    value={formData.firstname}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="su-field">
+                  <label htmlFor="lastname">Nom</label>
+                  <input
+                    type="text"
+                    name="lastname"
+                    id="lastname"
+                    autoComplete="family-name"
+                    value={formData.lastname}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="su-field">
+                  <label htmlFor="email">Adresse e-mail</label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    autoComplete="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="su-field">
+                  <label htmlFor="phone_number">Téléphone</label>
+                  <input
+                    placeholder="ex : 01 64 11 00 33"
+                    type="tel"
+                    name="phone_number"
+                    id="phone_number"
+                    autoComplete="tel"
+                    value={formData.phone_number}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+            </fieldset>
 
-          <button type="submit">Valider</button>
-        </form>
-      </div>
-    </main>
+            <fieldset className="su-group">
+              <legend>Adresse de facturation</legend>
+              <div className="su-grid">
+                <div className="su-field su-field--wide">
+                  <label htmlFor="country">Pays</label>
+                  <Select
+                    inputId="country"
+                    classNamePrefix="su-select"
+                    options={countryOptions}
+                    value={selectedCountry}
+                    onChange={(option) => setSelectedCountry(option)}
+                    placeholder="Sélectionnez un pays"
+                    isSearchable={true}
+                  />
+                </div>
+                <div className="su-field su-field--wide">
+                  <label htmlFor="street_address">Adresse</label>
+                  <input
+                    placeholder="ex : 10 rue de la Paix"
+                    type="text"
+                    name="street_address"
+                    id="street_address"
+                    autoComplete="street-address"
+                    value={formData.street_address}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="su-field su-field--wide">
+                  <label htmlFor="street_other">Complément d’adresse</label>
+                  <input
+                    placeholder="Facultatif : bâtiment, lieu-dit…"
+                    type="text"
+                    name="street_other"
+                    id="street_other"
+                    value={formData.street_other}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="su-field">
+                  <label htmlFor="zip_code">Code postal</label>
+                  <input
+                    type="text"
+                    name="zip_code"
+                    id="zip_code"
+                    placeholder="ex : 77144"
+                    autoComplete="postal-code"
+                    value={formData.zip_code}
+                    onChange={handleZipCodeChange}
+                  />
+                </div>
+
+                {/* En France, les villes sont proposées d'après le code postal ;
+                    ailleurs, ou si le service d'adresses ne répond pas, la ville
+                    est saisie à la main. */}
+                <div className="su-field">
+                  <label htmlFor="city">Ville</label>
+                  {apiError || !isFrance ? (
+                    <input
+                      type="text"
+                      name="city"
+                      id="city"
+                      placeholder="Ville"
+                      value={formData.otherCity}
+                      onChange={handleChange}
+                    />
+                  ) : (
+                    <select
+                      name="city"
+                      id="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                    >
+                      <option value="none" key="none">
+                        Sélectionnez une ville
+                      </option>
+                      {availableCities.map((city, index) => (
+                        <option key={`${city}_${index}`} value={city}>
+                          {city}
+                        </option>
+                      ))}
+                      <option value="other" key="other">
+                        Autre
+                      </option>
+                    </select>
+                  )}
+                </div>
+
+                {formData.city === "other" && (
+                  <div className="su-field">
+                    <label htmlFor="otherCity">Indiquez la ville</label>
+                    <input
+                      type="text"
+                      name="otherCity"
+                      id="otherCity"
+                      placeholder="Nom de la ville"
+                      value={formData.otherCity}
+                      onChange={handleChange}
+                    />
+                  </div>
+                )}
+              </div>
+            </fieldset>
+
+            <fieldset className="su-group">
+              <legend>Votre mot de passe</legend>
+              <div className="su-grid">
+                <div className="su-field">
+                  <label htmlFor="password">Mot de passe</label>
+                  <PasswordInput
+                    name="password"
+                    id="password"
+                    placeholder=""
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
+                  <ul className="su-rules">
+                    {PASSWORD_RULES.map((rule) => (
+                      <li
+                        key={rule.key}
+                        className={passwordValidation[rule.key] ? 'su-rule--ok' : undefined}
+                      >
+                        <CheckIcon />
+                        {rule.label}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="su-field">
+                  <label htmlFor="password-confirm">Confirmation</label>
+                  <PasswordInput
+                    name="repeat_password"
+                    id="password-confirm"
+                    placeholder=""
+                    value={formData.repeat_password}
+                    onChange={handleChange}
+                  />
+                  {formData.repeat_password !== "" && !passwordMatch && (
+                    <p className="su-mismatch">
+                      Les deux mots de passe doivent être identiques.
+                    </p>
+                  )}
+                </div>
+              </div>
+            </fieldset>
+
+            {/* `role="alert"` fait annoncer le message par les lecteurs d'écran
+                au moment où il apparaît. */}
+            {formError && <p className="su-error" role="alert">{formError}</p>}
+
+            <button className="su-submit" type="submit">
+              Créer mon compte
+            </button>
+
+            <p className="su-switch">
+              Vous avez déjà un compte ? <Link to="/connexion">Se connecter</Link>
+            </p>
+          </form>
+        </div>
+      </main>
     </>
   );
 }

@@ -1,296 +1,496 @@
 @use 'src/styles/variables.scss' as var;
 
+/**
+ * Création d'un devis.
+ *
+ * La mise en place est celle du tableau de bord — photographie de fournil en
+ * fond, panneau posé dessus, 300 px réservés à gauche pour la barre latérale —
+ * et les cartes sont habillées par Board.scss, partagé avec lui. Ne restent
+ * ici que les champs de saisie, le produit rattaché et les deux fenêtres
+ * modales de l'adresse de livraison.
+ */
+
+$ink: var.$secondaryColor;
+$inkSoft: #5b6480;
+$inkFaint: #8a93ab;
+$line: #e3e7ef;
+$surfaceSoft: #f6f8f4;
+$accent: var.$primaryColor;
+$accentDark: #6f9412;
+
 .new-quote {
+    background: url("/images/boulangegrand.jpg") center/cover fixed no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-grow: 1;
+    padding: 24px 26px 32px;
+    min-height: calc(100vh - var(--hd-height, 110px) - 48px);
+    min-height: calc(100svh - var(--hd-height, 110px) - 48px);
+}
+
+/* Un seul bloc, qui porte tout le formulaire : la carte du tableau de bord,
+   mais d'une pièce. Sa largeur est bornée pour que les champs ne s'étirent pas
+   sur toute la zone de travail. */
+.nq-card {
+    width: 100%;
+    max-width: 680px;
+    padding: 20px 22px 22px;
+    border: 1px solid $line;
+    border-radius: 14px;
+    background-color: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 8px 24px rgba(37, 46, 91, 0.16);
+}
+
+/* Les trois moments du formulaire — le produit, la référence, la livraison —
+   séparés par un filet plutôt que par trois cartes distinctes, qui donnaient
+   à croire à trois formulaires indépendants. */
+.nq-section {
+    + .nq-section {
+        margin-top: 18px;
+        padding-top: 18px;
+        border-top: 1px solid $line;
+    }
+
+    &-title {
+        margin: 0 0 12px;
+        font-family: var.$font1;
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: $inkSoft;
+    }
+}
+
+/* L'adresse et le lien qui la change restent sur la même ligne tant que la
+   place le permet. */
+.nq-delivery {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 10px 18px;
+}
+
+/* ---------------------------------------------------------------- Les champs */
+
+.nq-field {
     display: flex;
     flex-direction: column;
+
+    label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: $inkSoft;
+        margin-bottom: 6px;
+    }
+
+    input,
+    select {
+        height: 44px;
+        padding: 0 12px;
+        border: 1px solid $line;
+        border-radius: 10px;
+        background-color: #fff;
+        font-family: var.$font;
+        font-size: 0.96rem;
+        color: $ink;
+        transition: border-color 0.18s ease, box-shadow 0.18s ease;
+
+        &::placeholder {
+            color: $inkFaint;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: $accentDark;
+            box-shadow: 0 0 0 3px rgba(111, 148, 18, 0.16);
+        }
+    }
+
+    /* La quantité tient en trois chiffres : un champ pleine largeur donnerait
+       à croire qu'on y attend autre chose. */
+    &--qty {
+        margin-top: 12px;
+        max-width: 140px;
+    }
+}
+
+.nq-hint {
+    margin: 8px 0 0;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: $inkFaint;
+}
+
+/* ----------------------------------------------------- Le produit rattaché */
+
+.nq-product {
+    &-body {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+    }
+
+    &-media {
+        flex-shrink: 0;
+        width: 150px;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: $surfaceSoft;
+
+        img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 8 / 5;
+            object-fit: cover;
+        }
+    }
+
+    &-brand {
+        margin: 0 0 4px;
+        font-size: 0.74rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: $accentDark;
+    }
+
+    &-name {
+        margin: 0;
+        font-family: var.$font1;
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.35;
+        color: $ink;
+    }
+
+    &-ref {
+        margin: 4px 0 0;
+        font-size: 0.84rem;
+        color: $inkSoft;
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+/* -------------------------------------------------- L'adresse de livraison */
+
+.nq-address {
+    font-style: normal;
+    font-size: 0.94rem;
+    line-height: 1.55;
+    color: $inkSoft;
+
+    strong {
+        display: block;
+        color: $ink;
+    }
+}
+
+/* Bouton d'apparence textuelle : il ouvre un choix, il ne valide rien. */
+.nq-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: var.$font;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: $inkSoft;
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    svg {
+        width: 15px;
+        height: 15px;
+        transition: transform 0.2s ease;
+    }
+
+    &:hover {
+        color: $accentDark;
+
+        svg {
+            transform: translateX(3px);
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid $accentDark;
+        outline-offset: 2px;
+        border-radius: 6px;
+    }
+}
+
+/* ------------------------------------------------------------- La validation */
+
+.nq-submit-row {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid $line;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 18px;
+
+    .nq-hint {
+        margin: 0;
+    }
+}
+
+.nq-submit {
+    height: 48px;
+    padding: 0 28px;
+    border: none;
+    border-radius: 999px;
+    background-color: $ink;
+    color: #fff;
+    font-family: var.$font;
+    font-size: 0.98rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.18s ease;
+
+    &:hover {
+        background-color: $accentDark;
+    }
+
+    &:focus-visible {
+        outline: 2px solid $accentDark;
+        outline-offset: 2px;
+    }
+}
+
+/* ------------------------------------------------------- Fenêtres modales */
+
+.nq-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
     align-items: center;
     justify-content: center;
-    background: url("/public/images/boulangegrand.jpg") center/cover fixed no-repeat;
-    margin-bottom: -160px;
-    padding: 50px 0 320px;
-    flex-grow: 1;
-    margin-left: 300px;
+    padding: 20px;
+    background-color: rgba(20, 26, 52, 0.55);
 
-    & h1 {
-        background-color: var.$primaryColorTransparent;
-        width: 80%;
-        padding: 16px;
-        color: var.$secondaryColor;
-        text-align: center;
-        font-size: 1.4rem;
-        border-radius: 8px 8px 0 0;
-    }
+    /* La fenêtre est assez large pour une adresse complète et assez haute
+       pour une dizaine d'entrées ; au-delà, c'est elle qui défile, pas la
+       page derrière. `100dvh` suit le repli des barres d'outils mobiles. */
+    &-card {
+        position: relative;
+        width: 100%;
+        max-width: 640px;
+        max-height: calc(100vh - 48px);
+        max-height: calc(100dvh - 48px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 24px 22px 22px;
+        border-radius: 16px;
+        background-color: #fff;
+        box-shadow: 0 20px 50px rgba(20, 26, 52, 0.35);
 
-    &-form {
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        background-color: var.$secondaryColorTransparent;
-        border-radius: 0 0 8px 8px;
-        width: 80%;
-
-
-
-        &-item {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            align-items: center;
-            margin: 16px 0;
-
-            & label {
-                color: var.$primaryColor;
-                font-size: 1rem;
-                font-weight: 700;
-
-            }
-
-            & input,
-            select {
-                width: 90%;
-                height: 40px;
-            }
+        h3 {
+            margin: 0 0 16px;
+            padding-right: 32px;
+            font-family: var.$font1;
+            font-size: 1.15rem;
+            color: $ink;
         }
     }
 
-    &-product {
-        color: var.$primaryColor;
-        border: 1px solid var.$primaryColor;
-        width: 90%;
-        margin: 16px auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 16px;
+    &-close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 32px;
+        height: 32px;
+        border: 1px solid $line;
+        border-radius: 50%;
+        background-color: #fff;
+        color: $inkSoft;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background-color 0.18s ease, color 0.18s ease;
 
-        & h3 {
-            text-align: center;
-            font-size: 1rem;
-            margin-bottom: 10px;
-        }
-
-        &-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            width: 100%;
-        }
-
-        &-image {
-            flex-shrink: 0;
-
-            & img {
-                width: 70px;
-                height: 70px;
-                object-fit: contain;
-                background-color: var.$secondaryColor;
-                border-radius: 5px;
-            }
-        }
-
-        &-description {
-            font-size: 0.9rem;
-
-            & p {
-                margin: 2px 0;
-            }
-        }
-
-        &-quantity {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 12px;
-            width: 100%;
-
-            & label {
-                font-weight: 700;
-                font-size: 0.9rem;
-            }
-
-            & input {
-                width: 80px;
-                height: 35px;
-                text-align: center;
-            }
+        &:hover {
+            background-color: $ink;
+            color: #fff;
         }
     }
 
-    &-shipment {
-        color: var.$primaryColor;
-        border: 1px solid var.$primaryColor;
-        width: 90%;
-        margin: 16px auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 16px;
+    &-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 18px;
+    }
+}
 
-        & h3 {
-            text-align: center;
-            font-size: 1rem;
+/* ------------------------------------------- Choix de l'adresse de livraison
 
-        }
+   Les adresses sont présentées en liste de boutons : chacune garde ses lignes,
+   nom au-dessus, rue puis code postal, ville et pays en dessous. */
 
-        &-item {
-            font-size: 0.9rem;
+.nq-address-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
-            &-last-line {
-                display: flex;
-                gap: 5px;
-            }
-        }
+.nq-address-choice {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid $line;
+    border-radius: 12px;
+    background-color: #fff;
+    font-family: var.$font;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
 
-
-        &-btn {
-            background-color: var.$primaryColor;
-            color: var.$secondaryColor;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 5px;
-            font-size: 1rem;
-            font-weight: 700;
-        }
+    &:hover {
+        border-color: $accentDark;
+        background-color: $surfaceSoft;
     }
 
-    &-submit {
-        width: 90%;
-        margin: 0 auto 15px;
-        border-radius: 5px;
-        height: 50px;
-        background-color: var.$primaryColor;
-        color: var.$secondaryColor;
+    &:focus-visible {
+        outline: 2px solid $accentDark;
+        outline-offset: 2px;
+    }
+
+    &-name {
+        display: block;
+        font-family: var.$font1;
+        font-size: 0.98rem;
         font-weight: 700;
-        font-size: 1.2rem;
-
+        color: $ink;
+        margin-bottom: 3px;
+        padding-right: 80px;
     }
 
-    &-select-shipment {
-        position: absolute;
-        background-color: var.$primaryColorTransparent;
-        width: 70%;
-        height: 200px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        border-radius: 5px;
-        align-items: center;
-
-
-        & label {
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        & svg {
-            font-size: 1.5rem;
-            color: var.$secondaryColor;
-            margin: 5px;
-            width: 30px;
-            right: 0;
-            top: 0;
-            position: absolute
-        }
+    &-lines {
+        display: block;
+        font-size: 0.88rem;
+        line-height: 1.5;
+        color: $inkSoft;
     }
 
-    &-modal-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        background-color: rgba(245, 245, 245, 0.92);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        min-width: 320px;
+    /* L'adresse en place est marquée : sans cela, rien ne dit laquelle des
+       entrées est celle du devis en cours. */
+    &--current {
+        border-color: $accent;
+        box-shadow: inset 3px 0 0 $accent;
     }
 
-    &-new-address {
+    &-tag {
         position: absolute;
-        background-color: var.$primaryColorTransparent;
-        width: 70%;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        border-radius: 5px;
-        align-items: center;
+        top: 13px;
+        right: 15px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background-color: rgba($accent, 0.16);
+        font-size: 0.68rem;
+        font-weight: 700;
+        color: $accentDark;
+    }
 
-        & svg {
-            font-size: 1.5rem;
-            color: var.$secondaryColor;
-            margin: 5px;
-            width: 30px;
-            right: 0;
-            top: 0;
-            position: absolute
+    /* La dernière entrée n'est pas une adresse mais une action. */
+    &--new {
+        border-style: dashed;
+
+        svg {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            width: 17px;
+            height: 17px;
+            transform: translateY(-50%);
+            color: $inkSoft;
+            transition: transform 0.18s ease, color 0.18s ease;
         }
 
-        & label {
-            color: var.$secondaryColor;
-            font-weight: 700;
-            margin: 5px;
-            font-size: 0.9rem;
-        }
-
-        &-item {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            align-items: center;
-            width: 80%;
-            min-width: 220px;
-
-        }
-
-        & input,
-        select,
-        #country {
-            width: 100%;
-
-        }
-
-        &-btn {
-            margin: 10px;
-            color: var.$primaryColor;
-            background-color: var.$secondaryColor;
-            border-radius: 5px;
+        &:hover svg {
+            color: $accentDark;
+            transform: translateY(-50%) translateX(3px);
         }
     }
 }
 
-@media (min-width: 860px) {
-    .new-quote {
-        & h1 {
-            width: 550px;
+/* Le pays est rendu par react-select : on aligne sa coquille sur les autres
+   champs plutôt que de garder son habillage par défaut. */
+.nq-select {
+    &__control {
+        min-height: 44px;
+        border-color: $line;
+        border-radius: 10px;
+        box-shadow: none;
+        font-size: 0.96rem;
+
+        &:hover {
+            border-color: $line;
         }
 
-        &-form {
-            width: 550px;
+        &--is-focused {
+            border-color: $accentDark;
+            box-shadow: 0 0 0 3px rgba(111, 148, 18, 0.16);
         }
+    }
+
+    &__value-container {
+        padding: 0 9px;
+    }
+
+    &__placeholder {
+        color: $inkFaint;
+    }
+
+    &__option--is-focused {
+        background-color: $surfaceSoft;
+        color: $ink;
+    }
+
+    &__option--is-selected {
+        background-color: $ink;
+        color: #fff;
     }
 }
 
 @media (max-width: 600px) {
     .new-quote {
-        margin-left: 0;
+        flex-direction: column;
+        padding: 16px 12px 40px;
+        min-height: 0;
+    }
 
-        & .dashboard-component {
-            display: none;
-        }
+    .nq-product-body {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nq-product-media {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .nq-modal-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .nq-card {
+        padding: 16px 16px 18px;
     }
 }
 
-@media (min-width:600px) {
+@media (min-width: 601px) {
     .new-quote {
-        &-select-shipment {
-            width: 590px;
-        }
+        /* Largeur de la barre latérale, qui est fixée à la fenêtre. */
+        margin-left: 300px;
     }
 }

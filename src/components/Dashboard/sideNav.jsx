@@ -1,11 +1,11 @@
 /**
- * Navigation du back-office, partagée par la barre latérale et par le tableau
- * de bord.
+ * Navigation des espaces connectés, partagée par la barre latérale et par le
+ * tableau de bord, côté client comme côté administration.
  *
  * Les deux affichaient auparavant des listes indépendantes : la colonne de
- * gauche énumérait douze liens à plat, la page en proposait d'autres. Une
- * source unique garantit que les mêmes outils apparaissent des deux côtés,
- * rangés dans le même ordre et sous les mêmes intitulés.
+ * gauche énumérait ses liens à plat, la page en proposait d'autres. Une source
+ * unique garantit que les mêmes outils apparaissent des deux côtés, rangés
+ * dans le même ordre et sous les mêmes intitulés.
  */
 
 export const ICONS = {
@@ -23,6 +23,9 @@ export const ICONS = {
     home: 'm2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25',
     card: 'M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z',
     arrow: 'M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3',
+    tool: 'M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26',
+    user: 'M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z',
+    search: 'm21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z',
 };
 
 /** Pictogramme au trait, dans le style déjà employé sur le site. */
@@ -67,6 +70,51 @@ export const ADMIN_GROUPS = [
             { to: '/role-validation', label: 'Valider un rôle client', icon: 'check' },
             { to: '/quotation-list', label: 'Liste des devis', icon: 'doc' },
             { to: '/new-quote', label: 'Nouveau devis', icon: 'plus' },
+        ],
+    },
+];
+
+/* ==========================================================================
+   Espace client
+   ==========================================================================
+
+   Le client dispose de moins d'outils que l'administrateur, mais le même
+   rangement par domaine s'y applique : ce qu'il cherche, ce qu'il chiffre,
+   ce qui concerne son compte. L'URL de paiement sort du site, elle est donc
+   marquée `external` pour être rendue en lien ordinaire et ouverte dans un
+   nouvel onglet.
+
+   Les liens marqués `restricted` ne sont pas servis à un compte qui attend
+   encore sa validation (`profile_id` 3) : les tarifs et les devis ne lui sont
+   pas ouverts avant un jour ouvré. */
+
+export const PAYMENT_URL = 'https://pay-pro.monetico.fr/artem/paiementenligne';
+
+export const CLIENT_HOME = { to: '/dashboard', label: 'Tableau de bord', icon: 'gauge' };
+
+export const CLIENT_GROUPS = [
+    {
+        title: 'Produits',
+        icon: 'box',
+        links: [
+            { to: '/search-products', label: 'Les produits Artem', icon: 'search' },
+            { to: '/tools', label: 'Mes outils', icon: 'tool' },
+        ],
+    },
+    {
+        title: 'Mes devis',
+        icon: 'doc',
+        links: [
+            { to: '/new-quote', label: 'Nouveau devis', icon: 'plus', restricted: true },
+            { to: '/quote-history', label: 'Mon historique de devis', icon: 'doc', restricted: true, badge: 'quotations' },
+        ],
+    },
+    {
+        title: 'Mon compte',
+        icon: 'user',
+        links: [
+            { to: '/user-informations', label: 'Mes informations', icon: 'user' },
+            { to: PAYMENT_URL, label: 'Régler une facture en CB', icon: 'card', external: true },
         ],
     },
 ];

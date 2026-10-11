@@ -1,24 +1,21 @@
-import { useContext } from "react";
-import Footer from "../Footer/Footer";
-import FooterRedesign from "../Footer/FooterRedesign";
-import Header from "../Header/Header";
-import HeaderRedesign from "../Header/HeaderRedesign";
-import AppContext from "../../context/AppContext";
+import Footer from "../Footer/FooterRedesign";
+import Header from "../Header/HeaderRedesign";
 import './Layout.scss';
 
+/**
+ * En-tête et pied de page du site, validés et servis à tout le monde.
+ *
+ * Les deux ont d'abord été soumis à la direction en n'étant montrés qu'à un
+ * administrateur connecté ; la validation étant acquise, le branchement sur le
+ * rôle a disparu et les composants d'origine ont été supprimés. Les noms
+ * importés ici sont ceux des refontes.
+ */
 export default function Layout({ children }) {
-    const { user } = useContext(AppContext);
-
-    // Propositions d'en-tête et de pied de page soumises à validation : seul un
-    // administrateur connecté les voit, sur l'ensemble du site. Les visiteurs,
-    // le pré-rendu et les moteurs de recherche reçoivent celles en production.
-    const isAdmin = user.role === 'admin';
-
     return (
         <>
-            {isAdmin ? <HeaderRedesign /> : <Header />}
+            <Header />
             {children}
-            {isAdmin ? <FooterRedesign /> : <Footer />}
+            <Footer />
         </>
     )
 }

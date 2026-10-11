@@ -147,6 +147,7 @@ export default function AddProduct() {
                         <label htmlFor='image_link'>lien image</label>
                         <select onChange={handleChange} name="image_link" id="image_link">
                             <option value="mp.jpg">Manchon</option>
+                            <option value="mpw.jpg">MPW</option>
                             <option value="tl.jpg">Bavette, TR, TPV</option>
                             <option value="TE_recouv.jpg">TE à recouvrement</option>
                             <option value="TE_Bong.jpg">TE à sangles Bongard</option>
@@ -198,7 +199,7 @@ export default function AddProduct() {
                     </div>
                     <div className="input-container">
                         <label htmlFor='coeff'>Coeff</label>
-                        <input onChange={handleChange} type='number' name='coeff' id='coeff' placeholder='coeff pour les boulangers, ex: 1.60 (2 chiffres apres la virgule)' />
+                        <input onChange={handleChange} type='number' step='0.01' name='coeff' id='coeff' placeholder='coeff pour les boulangers, ex: 1.60' />
                     </div>
                     <div className="input-container input-container-stock">
                         <label htmlFor='stock'>stock</label>

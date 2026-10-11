@@ -2,24 +2,117 @@ import React, { useEffect, useState } from 'react'
 import './ModalTeTool.scss'
 import { Link } from 'react-router-dom'
 
-export default function ModalTeTool() {
-    const [isVisible, setIsVisible] = useState(false)
-    useEffect(() => {
-        setTimeout(() => {
-            setIsVisible(true)
-        }, 1500)
-    }, [])
-    return (
-        <div className={isVisible ? 'modal-te-tool' : 'modal-te-tool hide'}>
-            <h3 className='modal-te-tool-title'>Toile enfourneur</h3>
-            <svg className='modal-te-tool-svg w-6 h-6' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
-            </svg>
-            <p className='modal-te-tool-text'>Si vous souhaitez le prix d'une toile enfourneur sur mesure ou de l'aide pour définir votre toile, cliquez ci-dessous :</p>
-            <img className='modal-te-tool-img' src="/images/products/te.jpg" alt="photo de toile enfourneur" />
-            <Link to='/te-tool' className='modal-te-tool-link'>Outils d'aide pour toile enfourneur</Link>
-            <span className='modal-te-tool-cross' onClick={() => setIsVisible(false)}>x</span>
+/**
+ * Encart qui signale l'outil d'aide pour toile enfourneur sur la page produits.
+ *
+ * Il ne s'ouvre de lui-même qu'une fois : dès que l'utilisateur le ferme ou
+ * suit le lien, le choix est gardé dans le navigateur. Il laisse alors place
+ * à une languette discrète sur le bord droit, qui permet de le rouvrir.
+ * À la première visite, il attend quelques secondes avant d'apparaître, pour
+ * laisser l'utilisateur commencer sa recherche sans être interrompu.
+ */
+const STORAGE_KEY = 'artem:te-tool-modal-dismissed'
+const DELAY_MS = 6000
 
-        </div>
+function isDismissed() {
+    try {
+        return localStorage.getItem(STORAGE_KEY) === '1'
+    } catch {
+        return false
+    }
+}
+
+function rememberDismissal() {
+    try {
+        localStorage.setItem(STORAGE_KEY, '1')
+    } catch {
+        // Stockage indisponible (navigation privée) : l'encart reviendra
+        // à la prochaine visite, sans autre conséquence.
+    }
+}
+
+export default function ModalTeTool() {
+    // 'waiting' : avant la première apparition ; 'open' : encart affiché ;
+    // 'tab' : encart fermé, seule la languette reste.
+    const [state, setState] = useState(() => (isDismissed() ? 'tab' : 'waiting'))
+    const isVisible = state === 'open'
+
+    useEffect(() => {
+        if (state !== 'waiting') return
+        const timer = setTimeout(() => setState('open'), DELAY_MS)
+        return () => clearTimeout(timer)
+    }, [state])
+
+    const dismiss = () => {
+        rememberDismissal()
+        setState('tab')
+    }
+
+    useEffect(() => {
+        if (!isVisible) return
+        const onKeyDown = (event) => {
+            if (event.key === 'Escape') dismiss()
+        }
+        document.addEventListener('keydown', onKeyDown)
+        return () => document.removeEventListener('keydown', onKeyDown)
+    }, [isVisible])
+
+    return (
+        <>
+        <button
+            type='button'
+            className={state === 'tab' ? 'modal-te-tool-tab is-visible' : 'modal-te-tool-tab'}
+            onClick={() => setState('open')}
+            aria-label="Afficher l'outil d'aide toile enfourneur"
+            aria-hidden={state !== 'tab'}
+            tabIndex={state === 'tab' ? 0 : -1}
+        >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
+                strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M15 6l-6 6 6 6" />
+            </svg>
+            <span>Toile sur mesure</span>
+        </button>
+        <aside
+            className={isVisible ? 'modal-te-tool is-visible' : 'modal-te-tool'}
+            aria-label="Outil d'aide toile enfourneur"
+            aria-hidden={!isVisible}
+        >
+            <div className='modal-te-tool-media'>
+                <img src="/images/products/te.jpg" alt="" />
+                <span className='modal-te-tool-badge'>Sur mesure</span>
+            </div>
+            <div className='modal-te-tool-body'>
+                <h3 className='modal-te-tool-title'>Besoin d'une toile enfourneur ?</h3>
+                <p className='modal-te-tool-text'>
+                    Obtenez le prix d'une toile sur mesure ou laissez-vous guider pour définir la vôtre.
+                </p>
+                <Link
+                    to='/te-tool'
+                    className='modal-te-tool-link'
+                    onClick={dismiss}
+                    tabIndex={isVisible ? 0 : -1}
+                >
+                    Ouvrir l'outil d'aide
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                        strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                </Link>
+            </div>
+            <button
+                type='button'
+                className='modal-te-tool-close'
+                onClick={dismiss}
+                aria-label="Fermer et ne plus afficher"
+                tabIndex={isVisible ? 0 : -1}
+            >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                    strokeLinecap="round" aria-hidden="true">
+                    <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+            </button>
+        </aside>
+        </>
     )
 }

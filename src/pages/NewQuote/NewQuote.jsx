@@ -3,12 +3,27 @@ import { useNavigate, useLocation } from "react-router-dom";
 import API from "../../utils/api/api";
 import axios from "axios";
 import AppContext from "../../context/AppContext";
+import { Icon } from "../../components/Dashboard/sideNav";
+import "../Dashboard/Board.scss";
 import "./NewQuote.scss";
 import fetchData from "../../utils/fetchData";
 import Loading from "../../components/Loading/Loading";
 import DashboardComponent from "../../components/Dashboard/DashboardComponent";
 import Select from "react-select";
 
+/**
+ * Création d’un devis.
+ *
+ * La page empilait un titre, un champ de référence, un encart d’adresse et
+ * deux fenêtres modales habillées à part. Elle prend la forme du tableau de
+ * bord, dont elle partage la feuille de style : un en-tête, puis une carte par
+ * décision — le produit déjà choisi le cas échéant, la référence du devis,
+ * l’adresse de livraison — et le bouton de création en pied.
+ *
+ * Toute la logique est inchangée : création du devis, rattachement du produit
+ * venu d’une carte produit, enregistrement d’une nouvelle adresse de
+ * livraison, puis redirection vers le devis créé.
+ */
 export default function NewQuote() {
   const { user, updateUser } = useContext(AppContext);
   const navigate = useNavigate();
@@ -211,210 +226,266 @@ export default function NewQuote() {
   return (
     <main className="new-quote">
       <DashboardComponent />
-      <h1>Nouveau devis</h1>
-      <form className="new-quote-form" onSubmit={handleCreateQuotation}>
-        {productToAdd && (
-          <div className="new-quote-product">
-            <h3>Produit ajouté à ce devis</h3>
-            <div className="new-quote-product-container">
-              <div className="new-quote-product-image">
-                <img
-                  src={`/images/products/${productToAdd.image_link}`}
-                  alt={productToAdd.description}
-                />
+
+      <section className="board" aria-labelledby="new-quote-title">
+        <header className="board-head">
+          <p className="board-head-eyebrow">Espace client</p>
+          <h2 id="new-quote-title">Nouveau devis</h2>
+          <p className="board-head-lede">
+            Donnez une référence à ce devis et vérifiez l’adresse de livraison.
+            Vous ajouterez les produits une fois le devis ouvert.
+          </p>
+        </header>
+
+        {/* Un seul bloc, et non une carte par champ : le découpage
+            précédent laissait croire à deux formulaires indépendants, l'un
+            pour la référence et l'autre pour la livraison, alors qu'il s'agit
+            d'un seul envoi. Les sections sont séparées par un filet à
+            l'intérieur de la même carte. */}
+        <form className="nq-card" onSubmit={handleCreateQuotation}>
+
+          {/* Produit transmis par le bouton « Créer un devis » d’une carte
+              produit : il est rattaché au devis dès sa création. */}
+          {productToAdd && (
+            <section className="nq-section">
+              <p className="nq-section-title">Produit ajouté à ce devis</p>
+              <div className="nq-product-body">
+                <span className="nq-product-media">
+                  <img
+                    src={`/images/products/${productToAdd.image_link}`}
+                    alt={productToAdd.description}
+                    width="320"
+                    height="200"
+                    loading="lazy"
+                  />
+                </span>
+                <div className="nq-product-text">
+                  {productToAdd.brand?.toLowerCase() !== "artem" && (
+                    <p className="nq-product-brand">
+                      Adaptable {productToAdd.brand}
+                    </p>
+                  )}
+                  <p className="nq-product-name">{productToAdd.description}</p>
+                  <p className="nq-product-ref">Réf. {productToAdd.reference}</p>
+                </div>
+                <div className="nq-field nq-field--qty">
+                  <label htmlFor="quantity">Quantité</label>
+                  <input
+                    type="number"
+                    name="quantity"
+                    id="quantity"
+                    min="1"
+                    step="1"
+                    value={quantityToAdd}
+                    onChange={(e) => setQuantityToAdd(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="new-quote-product-description">
-                {productToAdd.brand?.toLowerCase() !== "artem" && (
-                  <p>Adaptable {productToAdd.brand}</p>
+            </section>
+          )}
+
+          <section className="nq-section">
+            <p className="nq-section-title">Votre référence</p>
+            <div className="nq-field">
+              <label htmlFor="reference">Référence du devis</label>
+              <input
+                type="text"
+                name="reference"
+                id="reference"
+                placeholder="ex : nom de votre client, ou n° de chantier"
+              />
+              <p className="nq-hint">
+                Elle vous servira à retrouver ce devis dans votre historique.
+              </p>
+            </div>
+          </section>
+
+          <section className="nq-section">
+            <p className="nq-section-title">Adresse de livraison</p>
+            <div className="nq-delivery">
+              <address className="nq-address">
+                {addressSelected.name_address && (
+                  <strong>{addressSelected.name_address}</strong>
                 )}
-                <p>{productToAdd.description}</p>
-                <p>Ref: {productToAdd.reference}</p>
-              </div>
-            </div>
-            <div className="new-quote-product-quantity">
-              <label htmlFor="quantity">Quantité</label>
-              <input
-                type="number"
-                name="quantity"
-                id="quantity"
-                min="1"
-                step="1"
-                value={quantityToAdd}
-                onChange={(e) => setQuantityToAdd(e.target.value)}
-              />
-            </div>
-          </div>
-        )}
-        <div className="new-quote-form-item">
-          <label htmlFor="reference">Votre référence</label>
-          <input
-            type="text"
-            name="reference"
-            id="reference"
-            placeholder="ex : Nom de votre client"
-          />
-        </div>
-
-        <div className="new-quote-shipment">
-          <h3>Adresse de livraison</h3>
-          <div className="new-quote-shipment-container">
-            <div className="new-quote-shipment-item">
-              <p>{addressSelected.name_address}</p>
-              <p>{addressSelected.street_address}</p>
-              <div className="new-quote-shipment-item-last-line">
-                <p>{addressSelected.zip_code}</p>
-                <p>{addressSelected.city}</p>
-              </div>
-              <p>{addressSelected.country}</p>
-            </div>
-          </div>
-          <button
-            className="new-quote-shipment-btn"
-            onClick={handleOpenAddresses}
-          >
-            Modifier livraison
-          </button>
-        </div>
-
-        {isOpenAddresses && (
-          <div className="new-quote-modal-container">
-            <div className="new-quote-select-shipment">
-              <svg
-                onClick={() => setIsOpenAddresses(false)}
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
+                {addressSelected.street_address}
+                <br />
+                {addressSelected.zip_code} {addressSelected.city}
+                <br />
+                {addressSelected.country}
+              </address>
+              <button
+                type="button"
+                className="nq-link-btn"
+                onClick={handleOpenAddresses}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-
-              <label htmlFor="shipment">Adresse de livraison</label>
-              <select
-                name="shipment"
-                id="shipment"
-                onChange={handleChangeSelect}
-                defaultValue="none"
-              >
-                <option disabled value="none" key="none">
-                  Choisissez une adresse
-                </option>
-                <option value="new" key="new">
-                  Nouvelle adresse
-                </option>
-                {user.deliveries.map((address) => {
-                  return (
-                    <option key={`address_${address.id}`} value={address.id}>
-                      {address.name_address} {address.street_address}{" "}
-                      {address.zip_code} {address.city}
-                    </option>
-                  );
-                })}
-              </select>
+                Modifier la livraison
+                <Icon name="arrow" />
+              </button>
             </div>
-          </div>
-        )}
+          </section>
 
-        <button className="new-quote-submit" type="submit">
-          Créer ce nouveau devis
-        </button>
-      </form>
-      {addressSelected.new && (
-        <div className="new-quote-modal-container">
-          <form className="new-quote-new-address" onSubmit={handleNewAddress}>
-            <svg
-              onClick={() => setAddressSelected({ new: false })}
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
+          <div className="nq-submit-row">
+            <button className="nq-submit" type="submit">
+              Créer ce devis
+            </button>
+            <p className="nq-hint">
+              Le devis s’ouvrira ensuite pour y ajouter vos produits.
+            </p>
+          </div>
+        </form>
+      </section>
+
+      {/* Choix d’une adresse déjà enregistrée, ou création d’une nouvelle. */}
+      {isOpenAddresses && (
+        <div className="nq-modal" role="dialog" aria-modal="true" aria-label="Adresse de livraison">
+          <div className="nq-modal-card">
+            <button
+              type="button"
+              className="nq-modal-close"
+              onClick={() => setIsOpenAddresses(false)}
+              aria-label="Fermer"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-            <div className="new-quote-new-address-item">
-              <label htmlFor="name_address">Nom</label>
-              <input
-                type="text"
-                name="name_address"
-                id="name_address"
-                placeholder="ex : Nom de votre client"
-              />
-            </div>
-            <div className="new-quote-new-address-item">
-              <label htmlFor="street_address">Rue</label>
-              <input
-                type="text"
-                name="street_address"
-                id="street_address"
-                placeholder="ex : 1 rue de la Paix"
-              />
-            </div>
-            <div className="new-quote-new-address-item">
-              <label htmlFor="country">Pays</label>
-              <Select
-                id="country"
-                options={countryOptions}
-                value={selectedCountry}
-                onChange={(option) => setSelectedCountry(option)}
-                placeholder="Sélectionnez un pays"
-                isSearchable={true}
-              />
-            </div>
-            <div className="new-quote-new-address-item">
-              <label htmlFor="zip_code">C.P.</label>
-              <input
-                type="text"
-                name="zip_code"
-                id="zip_code"
-                placeholder="ex : 75000"
-                value={addressSelected.zip_code}
-                onChange={handleZipCodeChange}
-              />
-            </div>
-            <div className="new-quote-new-address-item">
-              <label htmlFor="city">Ville</label>
-              {apiError || selectedCountry.label !== "France" ? (
+              ✕
+            </button>
+            <h3>Choisissez une adresse de livraison</h3>
+
+            {/* Une liste d'adresses plutôt qu'une liste déroulante : une
+                adresse complète — nom, rue, code postal, ville — ne tient pas
+                sur la ligne d'un `select`, qui la tronquait. Chaque entrée
+                appelle le même gestionnaire que l'ancien menu, avec la valeur
+                qu'il attend. */}
+            <ul className="nq-address-list">
+              {user.deliveries.map((address) => (
+                <li key={`address_${address.id}`}>
+                  <button
+                    type="button"
+                    className={address.id === addressSelected.id
+                      ? 'nq-address-choice nq-address-choice--current'
+                      : 'nq-address-choice'}
+                    onClick={() => handleChangeSelect({ target: { value: String(address.id) } })}
+                  >
+                    <span className="nq-address-choice-name">
+                      {address.name_address}
+                    </span>
+                    <span className="nq-address-choice-lines">
+                      {address.street_address}
+                      <br />
+                      {address.zip_code} {address.city}
+                      {address.country && <>, {address.country}</>}
+                    </span>
+                    {address.id === addressSelected.id && (
+                      <span className="nq-address-choice-tag">Actuelle</span>
+                    )}
+                  </button>
+                </li>
+              ))}
+              <li>
+                <button
+                  type="button"
+                  className="nq-address-choice nq-address-choice--new"
+                  onClick={() => handleChangeSelect({ target: { value: 'new' } })}
+                >
+                  <span className="nq-address-choice-name">
+                    Livrer à une nouvelle adresse
+                  </span>
+                  <span className="nq-address-choice-lines">
+                    Elle sera enregistrée pour vos prochains devis.
+                  </span>
+                  <Icon name="arrow" />
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      )}
+
+      {addressSelected.new && (
+        <div className="nq-modal" role="dialog" aria-modal="true" aria-label="Nouvelle adresse">
+          <form className="nq-modal-card" onSubmit={handleNewAddress}>
+            <button
+              type="button"
+              className="nq-modal-close"
+              onClick={() => setAddressSelected({ new: false })}
+              aria-label="Fermer"
+            >
+              ✕
+            </button>
+            <h3>Nouvelle adresse de livraison</h3>
+
+            <div className="nq-modal-grid">
+              <div className="nq-field nq-field--wide">
+                <label htmlFor="name_address">Nom de l’adresse</label>
                 <input
                   type="text"
-                  name="city"
-                  id="city"
-                  placeholder="Ville"
-                  value={addressSelected.city}
-                  onChange={handleCityChange}
+                  name="name_address"
+                  id="name_address"
+                  placeholder="ex : nom de votre client"
                 />
-              ) : !apiError && selectedCountry.label === "France" ? (
-                <select
-                  name="city"
-                  id="city"
-                  defaultValue={addressSelected.city || "none"}
-                  onChange={handleCityChange}
-                >
-                  <option value="none" key="none">
-                    Sélectionnez une ville
-                  </option>
-                  {availableCities.map((city, index) => (
-                    <option key={`${city}_${index}`} value={city}>
-                      {city}
+              </div>
+              <div className="nq-field nq-field--wide">
+                <label htmlFor="street_address">Rue</label>
+                <input
+                  type="text"
+                  name="street_address"
+                  id="street_address"
+                  placeholder="ex : 1 rue de la Paix"
+                />
+              </div>
+              <div className="nq-field nq-field--wide">
+                <label htmlFor="country">Pays</label>
+                <Select
+                  inputId="country"
+                  classNamePrefix="nq-select"
+                  options={countryOptions}
+                  value={selectedCountry}
+                  onChange={(option) => setSelectedCountry(option)}
+                  placeholder="Sélectionnez un pays"
+                  isSearchable={true}
+                />
+              </div>
+              <div className="nq-field">
+                <label htmlFor="zip_code">Code postal</label>
+                <input
+                  type="text"
+                  name="zip_code"
+                  id="zip_code"
+                  placeholder="ex : 77144"
+                  value={addressSelected.zip_code}
+                  onChange={handleZipCodeChange}
+                />
+              </div>
+              <div className="nq-field">
+                <label htmlFor="city">Ville</label>
+                {apiError || selectedCountry.label !== "France" ? (
+                  <input
+                    type="text"
+                    name="city"
+                    id="city"
+                    placeholder="Ville"
+                    value={addressSelected.city}
+                    onChange={handleCityChange}
+                  />
+                ) : (
+                  <select
+                    name="city"
+                    id="city"
+                    defaultValue={addressSelected.city || "none"}
+                    onChange={handleCityChange}
+                  >
+                    <option value="none" key="none">
+                      Sélectionnez une ville
                     </option>
-                  ))}
-                </select>
-              ) : null // Ajout de null pour éviter un rendu inattendu
-              }
+                    {availableCities.map((city, index) => (
+                      <option key={`${city}_${index}`} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </div>
             </div>
 
-            <button className="new-quote-new-address-btn" type="submit">
+            <button className="nq-submit" type="submit">
               Valider la nouvelle adresse
             </button>
           </form>

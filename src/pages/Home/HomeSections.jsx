@@ -1,15 +1,18 @@
 import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import API from '../../../utils/api/api';
-import AppContext from '../../../context/AppContext';
+import API from '../../utils/api/api';
+import AppContext from '../../context/AppContext';
 import artem from '/data/artem-data';
-import { rangePath, slugify } from '../../../utils/seo/slugify';
+import { rangePath, slugify } from '../../utils/seo/slugify';
 
 /**
- * Briques communes aux quatre propositions de page d'accueil.
+ * Briques de la page d'accueil.
  *
- * Chaque proposition compose ces éléments différemment : ce qui les distingue
- * est l'ordre, le poids donné à chaque bloc et le ton, pas un habillage.
+ * Elles ont d'abord servi à composer plusieurs propositions de page d'accueil
+ * à partir des mêmes éléments ; seule la proposition retenue subsiste, mais le
+ * découpage est conservé : il garde `Home.jsx` lisible, et ces blocs — l'icône,
+ * l'en-tête de section, la vignette de gamme, le tableau de compatibilité, le
+ * bloc de contact — sont employés à plusieurs endroits de la page.
  */
 
 /** Jeu d'icônes maison : même grille, même épaisseur de trait partout. */
@@ -85,19 +88,6 @@ export function featuredRanges(ranges) {
         .filter(Boolean);
 }
 
-/** Familles du catalogue, dans l'ordre où elles sont présentées. */
-export const FAMILIES = [
-    { key: 'textile', label: 'Textiles et feutres', match: (r) => r.category === 'textile' },
-    { key: 'bande', label: 'Bandes transporteuses', match: (r) => r.category === 'bande' },
-    { key: 'meca', label: 'Élévateurs et enfourneurs', match: (r) => r.category === 'meca' },
-    { key: 'inox', label: 'Produits inox', match: (r) => r.category === 'inox' },
-    { key: 'indus', label: 'Boulangerie industrielle', match: (r) => r.category === 'indus' },
-    { key: 'autre', label: 'Bandes tous secteurs', match: (r) => r.category === 'autre' },
-    { key: 'chocolat', label: 'Chocolaterie et biscuiterie', match: (r) => r.category === 'chocolat' },
-    { key: 'feutre', label: 'Feutre industriel', match: (r) => r.category === 'feutre' },
-    { key: 'service', label: 'Nos interventions', match: (r) => r.category === 'service' },
-];
-
 /** Marques citées dans les descriptions de gamme, groupées par type de matériel. */
 export const COMPATIBILITY = [
     {
@@ -112,14 +102,6 @@ export const COMPATIBILITY = [
         machine: 'Lignes industrielles',
         brands: ['Mecatherm', 'Werner', 'Kaak', 'Hein', 'Kemper', 'Benier'],
     },
-];
-
-/** Jalons de l'entreprise, repris de la page Notre entreprise. */
-export const MILESTONES = [
-    { year: '1995', body: "Déménagement à Torcy : les locaux de Paris ne suffisent plus, la production interne prend de l'importance." },
-    { year: '2001', body: "Premier accessoire mécanique pour les boulangers, l'enfourneur, développé et fabriqué par le groupe." },
-    { year: '2011', body: "Installation à Montévrain dans 1 500 m², permettant la mise en stock de nombreuses références supplémentaires." },
-    { year: '2019', body: "Carine Autret prend la direction de l'entreprise, qui compte alors douze personnes." },
 ];
 
 export const ACCOUNT_BENEFITS = [

@@ -1,102 +1,276 @@
 @use 'src/styles/variables.scss' as var;
 
-.signin {
-    color: var.$secondaryColor;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: url(/images/boulangegrand-inverse.jpg) no-repeat center center/cover;
-    margin-bottom: -100px;
-    min-height: 500px;
-    padding: 0 0 60px;
-    flex-grow: 1;
+/**
+ * Page de connexion.
+ *
+ * Mêmes jetons que le reste du site refondu — en-tête, pied de page, gamme,
+ * entreprise, contact : fond gris clair, surface blanche bordée, encre bleue,
+ * vert en accent. Les jetons sont redéclarés ici parce que Sass isole les
+ * variables par fichier.
+ */
 
-    & h2 {
-        width: 80%;
-        font-size: 1rem;
-        text-align: center;
-        margin: auto;
-        line-height: 25px;
-        font-weight: 600;
-        background-color: var.$secondaryColorTransparent;
-        color: var.$primaryColor;
-        padding: 16px;
-        border-radius: 10px 10px 0 0;
+$ink: #1a2142;
+$inkSoft: #5b6482;
+$inkFaint: #8a93ab;
+$line: #e2e6ee;
+$surface: #ffffff;
+$ground: #f6f7fa;
+$green: var.$primaryColor;
+$action: #6f9412; // vert assombri, lisible en texte sur fond clair
+$error: #b3261e;
+
+.si {
+    font-family: var.$font;
+    color: $ink;
+    background-color: $ground;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 32px 16px 56px;
+
+    &-shell {
+        width: 100%;
+        max-width: 960px;
+        display: grid;
+        grid-template-columns: 1fr;
+        border: 1px solid $line;
+        border-radius: 20px;
+        background-color: $surface;
+        overflow: hidden;
+        box-shadow: 0 1px 2px rgba(26, 33, 66, 0.06), 0 18px 40px rgba(26, 33, 66, 0.08);
+    }
+
+    /* ------------------------------------------------------------ Formulaire */
+
+    &-panel {
+        padding: 28px 22px 26px;
+    }
+
+    &-eyebrow {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: $green;
+        margin-bottom: 8px;
+    }
+
+    h1 {
+        font-family: var.$font1;
+        font-size: 1.6rem;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 8px;
+    }
+
+    &-lead {
+        font-size: 0.96rem;
+        line-height: 1.6;
+        color: $inkSoft;
+        margin-bottom: 22px;
     }
 
     &-form {
-        background-color: rgba(255, 255, 255, 0.7);
-        padding: 10px;
-        padding-top: 30px;
-        border-radius: 0 0 10px 10px;
         display: flex;
         flex-direction: column;
-        width: 80%;
-        margin: auto;
-        align-items: center;
-        justify-content: space-around;
-        height: 250px;
+    }
 
-        & .forgot-link {
-            font-size: 0.8rem;
-            font-weight: bolder;
-            color: var.$secondaryColorTransparent;
-            text-align: end;
-            width: 90%;
-            margin: -10px 0 10px 0;
+    /* Un libellé au-dessus du champ, et non un simple texte de substitution :
+       celui-ci disparaît à la saisie, si bien qu'on ne sait plus ce qu'on
+       remplit, et les lecteurs d'écran ne s'y fient pas. */
+    &-field {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 16px;
+
+        label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: $inkSoft;
+            margin-bottom: 6px;
         }
 
-        &-input {
-            background-color: rgba(255, 255, 255, 0.9);
-            width: 90%;
-            margin-bottom: 10px;
-            color: var.$secondaryColor;
-            font-weight: 700;
-            border: none;
-            border-radius: 5px;
-            padding: 0.5rem;
-            font-size: 1rem;
-            outline: none;
-
-            &::placeholder {
-                color: var.$primaryColor;
-                font-weight: 400;
-            }
+        input {
+            height: 46px;
+            padding: 0 13px;
+            border: 1px solid $line;
+            border-radius: 10px;
+            background-color: $surface;
+            font-family: var.$font;
+            font-size: 0.98rem;
+            color: $ink;
+            transition: border-color 0.18s ease, box-shadow 0.18s ease;
 
             &:focus {
-                background-color: var.$primaryColorTransparent;
-                border: 1px solid var.$secondaryColor;
+                outline: none;
+                border-color: $action;
+                box-shadow: 0 0 0 3px rgba(111, 148, 18, 0.16);
+            }
+        }
+    }
 
-                &::placeholder {
-                    color: rgba(245, 245, 245, 0.644);
+    &-forgot {
+        align-self: flex-end;
+        margin-top: 7px;
+        font-size: 0.84rem;
+        font-weight: 600;
+        color: $inkSoft;
+        text-decoration: none;
 
-                }
+        &:hover {
+            color: $action;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+    }
+
+    /* Le message d'erreur prend la place de la boîte de dialogue du
+       navigateur : il reste sous les yeux pendant la correction de la saisie. */
+    &-error {
+        margin-bottom: 14px;
+        padding: 11px 13px;
+        border: 1px solid rgba(179, 38, 30, 0.3);
+        border-left: 4px solid $error;
+        border-radius: 10px;
+        background-color: rgba(179, 38, 30, 0.07);
+        font-size: 0.92rem;
+        line-height: 1.5;
+        color: $error;
+    }
+
+    &-submit {
+        height: 48px;
+        border: none;
+        border-radius: 999px;
+        background-color: $ink;
+        color: #fff;
+        font-family: var.$font;
+        font-size: 0.98rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.18s ease;
+
+        &:hover:not(:disabled) {
+            background-color: $action;
+        }
+
+        &:focus-visible {
+            outline: 2px solid $action;
+            outline-offset: 2px;
+        }
+
+        &:disabled {
+            opacity: 0.7;
+            cursor: progress;
+        }
+    }
+
+    &-switch {
+        margin-top: 20px;
+        padding-top: 18px;
+        border-top: 1px solid $line;
+        font-size: 0.92rem;
+        color: $inkSoft;
+
+        a {
+            font-weight: 600;
+            color: $action;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+    }
+
+    /* --------------------------------------------------------- Volet de droite
+       Masqué sur téléphone : le formulaire doit tenir l'écran à lui seul. */
+
+    &-aside {
+        display: none;
+        position: relative;
+        background-color: $ink;
+
+        &-media {
+            position: absolute;
+            inset: 0;
+
+            img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                opacity: 0.38;
+            }
+
+            /* Dégradé vers le bas : le texte s'appuie sur une zone sombre,
+               la photographie reste lisible au-dessus. */
+            &::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(180deg,
+                    rgba(26, 33, 66, 0.25) 0%,
+                    rgba(26, 33, 66, 0.9) 70%);
             }
         }
 
-        &-button {
-            margin-top: 10px;
-            background-color: var.$primaryColorTransparent;
-            color: var.$secondaryColor;
-            font-weight: 700;
-            border: none;
-            border-radius: 5px;
-            padding: 0.6rem;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
+        &-text {
+            position: relative;
+            align-self: end;
+            padding: 28px 26px 30px;
+            color: #fff;
+        }
 
-            &:hover {
-                background-color: var.$secondaryColorTransparent;
-                color: var.$primaryColor;
-            }
+        &-title {
+            font-family: var.$font1;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.92rem;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.86);
+        }
+
+        svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            color: $green;
         }
     }
 }
 
-@media (min-width: 500px) {
-    .signin-container {
-        width: 400px;
-        margin: auto;
+@media (min-width: 900px) {
+    .si {
+        padding: 48px 24px 72px;
+
+        &-shell {
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+        }
+
+        &-panel {
+            padding: 44px 40px 40px;
+        }
+
+        h1 { font-size: 2rem; }
+
+        &-aside {
+            display: grid;
+        }
     }
 }

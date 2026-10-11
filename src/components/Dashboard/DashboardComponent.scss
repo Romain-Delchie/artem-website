@@ -1,143 +1,21 @@
 @use 'src/styles/variables.scss' as var;
 
-.dashboard-component {
-    background-color: var.$secondaryColor;
-    width: 300px;
-    max-width: 100%;
-    position: absolute;
-    color: whitesmoke;
-    display: flex;
-    flex-direction: column;
-    left: 0;
-    bottom: 0;
-    top: 183px;
-    padding: 0 0 200px 15px;
-
-    & .dashboard-link-active {
-        color: whitesmoke
-    }
-
-    & h2 {
-        padding: 20px 0 5px;
-    }
-
-    & h2,
-    h3,
-    h4 {
-        text-align: center;
-        border-left: 3px solid var.$secondaryColorLight;
-    }
-
-    & h4 {
-        padding-bottom: 10px;
-        border-bottom: 3px solid var.$secondaryColorLight;
-        border-left: 3px solid var.$secondaryColorLight;
-        border-radius: 0 10px;
-    }
-
-    &-container {
-        flex-grow: 1;
-    }
-
-    &-buttons {
-        position: sticky;
-        top: 200px;
-        padding-top: 15px;
-        padding-bottom: 30px;
-        margin-top: 15px;
-        height: 600px;
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    &-button {
-        padding: 5px;
-        padding-left: 30px;
-        border-radius: 105px 0 0 105px;
-        color: var.$primaryColor;
-        font-size: 1rem;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.3s ease-in-out;
-
-        &-attente {
-            background-color: red;
-            color: var.$primaryColorLight;
-            margin-left: -20px;
-            padding: 20px;
-
-
-        }
-
-        &:hover {
-            background-color: var.$secondaryColorLight;
-            color: var.$primaryColorLight;
-        }
-
-        & span {
-            background-color: rgb(199, 51, 51);
-            color: whitesmoke;
-            padding: 3px;
-            margin-left: 5px;
-            position: relative;
-            top: -8px;
-            border-radius: 50px;
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            font-size: 8px;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-        }
-    }
-}
-
-@media (max-width:600px) {
-    .dashboard-component {
-        position: static;
-        margin: 0 0 -40px;
-        padding: 20px 0 0;
-        width: 100%;
-        text-align: center;
-
-        &-button {
-            border-radius: 0;
-        }
-
-        & .dashboard-link-active {
-            color: var.$primaryColor;
-        }
-
-        & h2,
-        h3,
-        h4 {
-            border: none;
-            margin: 0;
-            padding: 0;
-        }
-    }
-}
-
-
 /* ==========================================================================
-   Barre latérale de l'administrateur
+   Barre latérale des espaces connectés
    ==========================================================================
 
-   Refonte complète, sans rien partager avec la colonne du client au-delà de la
-   classe `.dashboard-component`, conservée pour que les pages qui masquent la
-   colonne sur téléphone continuent de la viser.
+   Une seule colonne pour le client et pour l'administrateur : même forme, même
+   comportement, seuls les liens diffèrent (voir sideNav.jsx).
 
-   Trois défauts sont corrigés ici :
+   Trois défauts de la version précédente sont corrigés ici :
 
    - la colonne était calée sur `top: 183px`, la hauteur de l'ancien en-tête.
-     L'en-tête des administrateurs est nettement plus fin, et sa hauteur varie :
-     il se resserre au défilement puis s'efface. Il publie donc dans
-     `--hd-offset` la hauteur qu'il occupe réellement à l'écran, seule valeur
-     que la colonne réserve ; elle récupère la place dès que l'en-tête s'en va,
-     au lieu de garder une bande vide ;
-   - ses boutons vivaient dans une hauteur fixe de 600 px que douze liens
+     Le nouvel en-tête est nettement plus fin, et sa hauteur varie : il se
+     resserre au défilement puis s'efface. Il publie donc dans `--hd-offset` la
+     hauteur qu'il occupe réellement à l'écran, seule valeur que la colonne
+     réserve ; elle récupère la place dès que l'en-tête s'en va, au lieu de
+     garder une bande vide ;
+   - ses boutons vivaient dans une hauteur fixe de 600 px que les liens
      dépassaient. La colonne occupe maintenant la hauteur de la fenêtre et
      défile pour son propre compte ;
    - leur `position: sticky` ne pouvait pas fonctionner, `#root` portant un
@@ -145,16 +23,20 @@
      ne défile pas. La colonne est fixée à la fenêtre, comme l'en-tête l'est
      déjà pour la même raison.
 
-   Sa largeur reste à 300 px : c'est la marge gauche que chaque page du
-   back-office réserve en dur. */
+   Sa largeur reste à 300 px : c'est la marge gauche que chaque page de l'espace
+   connecté réserve en dur. */
 
 $navInk: #ccd3e6;
 $navMuted: #8d97b8;
 
-.dashboard-component--admin {
+.dashboard-component {
     position: fixed;
     bottom: 0;
     width: 300px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    color: whitesmoke;
 
     /* La colonne part du haut de la fenêtre et court jusqu'en bas : elle
        occupe donc toute la hauteur visible, quelle que soit la page.
@@ -183,7 +65,7 @@ $navMuted: #8d97b8;
     /* Le défilement appartient à la colonne, pas à la page : la liste des
        douze outils peut dépasser la hauteur de la fenêtre sur un petit écran,
        et c'est elle seule qui défile alors. */
-    .admin-nav {
+    .side-nav {
         display: flex;
         flex-direction: column;
         flex: 1;
@@ -198,7 +80,7 @@ $navMuted: #8d97b8;
     /* En-tête de la colonne resserré : sous une barre de navigation fine, les
        18 px d'origine ajoutaient un blanc de plus à celui que réserve déjà
        l'en-tête. */
-    .admin-nav-head {
+    .side-nav-head {
         padding: 12px 18px 12px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
@@ -226,7 +108,20 @@ $navMuted: #8d97b8;
         }
     }
 
-    .admin-nav-body {
+    /* Compte en attente de validation : le message remplace les liens qui lui
+       sont encore fermés, plutôt que de les afficher en impasse. */
+    .side-nav-notice {
+        margin: 12px 12px 0;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border-left: 3px solid var.$primaryColor;
+        background-color: rgba(255, 255, 255, 0.07);
+        font-size: 0.8rem;
+        line-height: 1.45;
+        color: $navInk;
+    }
+
+    .side-nav-body {
         padding: 10px 10px 0;
         display: flex;
         flex-direction: column;
@@ -241,7 +136,7 @@ $navMuted: #8d97b8;
         }
     }
 
-    .admin-nav-group {
+    .side-nav-group {
         margin-top: 12px;
 
         &-title {
@@ -255,7 +150,7 @@ $navMuted: #8d97b8;
         }
     }
 
-    .admin-nav-link {
+    .side-nav-link {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -302,31 +197,69 @@ $navMuted: #8d97b8;
             outline-offset: -2px;
         }
     }
+
+    /* Nombre de devis en cours, accolé au lien de l'historique. Il pousse le
+       libellé à gauche plutôt que de s'y superposer. */
+    .side-nav-badge {
+        margin-left: auto;
+        min-width: 1.35rem;
+        padding: 1px 6px;
+        border-radius: 999px;
+        background-color: var.$primaryColor;
+        color: var.$secondaryColor;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-align: center;
+        font-variant-numeric: tabular-nums;
+    }
 }
 
 @media (max-width: 600px) {
 
-    /* Sur téléphone la colonne repasse dans le flux, au-dessus du contenu de la
-       page, et cesse de défiler pour son propre compte. */
-    .dashboard-component--admin {
-        position: static;
-        top: auto;
-        bottom: auto;
-        left: auto;
-        width: 100%;
-        transition: none;
-        border-right: none;
-        margin: 0;
-        padding: 0;
-        text-align: left;
+    /* Sur téléphone, la barre latérale n'est affichée sur aucune page : empilée
+       au-dessus du contenu, elle repoussait la page sous une longue liste de
+       liens. Le tableau de bord les reprend tous dans ses cartes, et le lien
+       `.side-nav-back` y ramène depuis chaque page. */
+    .dashboard-component {
+        display: none;
+    }
+}
+/* Lien de retour au tableau de bord, propre au téléphone, où la colonne est
+   masquée. Il se cale à gauche quelle que soit la mise en page de la page. */
+.side-nav-back {
+    display: none;
+}
 
-        .admin-nav {
-            overflow: visible;
-            padding-bottom: 16px;
+@media (max-width: 600px) {
+    .side-nav-back {
+        display: inline-flex;
+        align-items: center;
+        align-self: flex-start;
+        gap: 6px;
+        margin: 14px 0 4px 12px;
+        padding: 8px 14px 8px 10px;
+        border: 1px solid #e2e6ee;
+        border-radius: 999px;
+        background-color: #fff;
+        color: #1a2142;
+        font-size: 0.88rem;
+        font-weight: 600;
+        text-decoration: none;
+
+        svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
         }
 
-        .admin-nav-body {
-            padding: 10px 12px 0;
+        &:hover {
+            border-color: #6f9412;
+            color: #6f9412;
+        }
+
+        &:focus-visible {
+            outline: 3px solid rgba(111, 148, 18, 0.4);
+            outline-offset: 2px;
         }
     }
 }

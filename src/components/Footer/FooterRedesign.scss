@@ -76,12 +76,13 @@ $paleInk: rgba(255, 255, 255, 0.72);
     }
 }
 
-/* La barre latérale de l'administrateur est fixée à la fenêtre et couvre les
-   300 px de gauche, y compris devant le pied de page. Sur les pages du
-   back-office, celui-ci réserve donc cette largeur, comme le fait le contenu.
-   Le sélecteur `:has` limite la règle aux pages où la colonne est présente. */
+/* La barre latérale des espaces connectés — client comme administrateur — est
+   fixée à la fenêtre et couvre les 300 px de gauche, y compris devant le pied
+   de page. Celui-ci réserve donc cette largeur sur les pages qui la portent,
+   comme le fait leur contenu. Le sélecteur `:has` limite la règle à ces
+   pages. */
 @media (min-width: 601px) {
-    #root:has(.dashboard-component--admin) .ftr-inner {
+    #root:has(.dashboard-component) .ftr-inner {
         padding-left: 320px;
     }
 }
