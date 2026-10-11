@@ -23,7 +23,7 @@ import './ProductCardRedesign.scss';
  *
  * La logique métier est reprise telle quelle de la carte actuelle.
  */
-export default function ProductCardRedesign({ product }) {
+export default function ProductCardRedesign({ product, onAdded }) {
     const {
         user, updateUser, products, setProducts,
         openAddProductForm, setOpenAddProductForm,
@@ -46,9 +46,13 @@ export default function ProductCardRedesign({ product }) {
                 };
                 setProducts(products === null ? [line] : [...products, line]);
                 fetchData(user, updateUser);
+                onAdded?.(product, quantityToAdd);
             })
-            .catch((err) => console.error(err))
-            .finally(setOpenAddProductForm(false));
+            .catch((err) => {
+                console.error(err);
+                alert("Le produit n'a pas pu être ajouté au devis, veuillez réessayer.");
+            })
+            .finally(() => setOpenAddProductForm(false));
     }
 
     const inStock = product.delivery_time?.startsWith('0');

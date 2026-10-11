@@ -6,7 +6,7 @@ import API from "../../utils/api/api";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function SearchProduct() {
-    const { user, setOpenAddProductForm } = useContext(AppContext);
+    const { user } = useContext(AppContext);
     const [products, setProducts] = useState([]);
     const location = window.location.pathname;
     const [ranges, setRanges] = useState([]);
@@ -100,11 +100,6 @@ export default function SearchProduct() {
  * aussi bien sur `/update-product` que sur `/update-product/inactive`.
  */
 const handleClick = (product) => {
-  if (location.includes("quote-history")) {
-    setOpenAddProductForm({ [product.id]: true });
-    return;
-  }
-
   if (location.startsWith("/update-product")) {
     navigate(`/update-product/${product.id}`, {
       state: product,
@@ -239,14 +234,6 @@ const handleClick = (product) => {
                   onClick={() => handleClick(product)}
                 >
                   <ProductCard product={product} />
-
-                  {location.includes("quote-history") && (
-                    <div className="product-card-btn">
-                      <button onClick={(e) => e.stopPropagation()}>
-                        Ajouter au devis
-                      </button>
-                    </div>
-                  )}
 
                   {location === "/search-products" && user.profile_id !== 3 && (
                     <div className="product-card-btn">

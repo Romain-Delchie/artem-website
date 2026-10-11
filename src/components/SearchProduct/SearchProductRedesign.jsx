@@ -24,9 +24,16 @@ import "./SearchProductRedesign.scss";
  *
  * Toute la logique de filtrage est reprise telle quelle de SearchProduct.jsx :
  * seule la présentation change.
+ *
+ * @param {object}  props
+ * @param {boolean} props.quoteMode Recherche ouverte depuis un devis : chaque carte
+ *   propose « Ajouter au devis » au lieu de « Créer un devis », et l'encart
+ *   de l'outil toile enfourneur n'a pas sa place dans cette fenêtre.
+ * @param {function} [props.onAdded] Appelée avec le produit et la quantité une
+ *   fois la ligne ajoutée au devis, pour que la page confirme l'ajout.
  */
-export default function SearchProductRedesign() {
-    const { user } = useContext(AppContext);
+export default function SearchProductRedesign({ quoteMode = false, onAdded }) {
+    const { user, setOpenAddProductForm } = useContext(AppContext);
     const [products, setProducts] = useState([]);
     const [ranges, setRanges] = useState([]);
     const [searchBy, setSearchBy] = useState('description');
@@ -126,8 +133,8 @@ export default function SearchProductRedesign() {
     };
 
     return (
-        <div className="spr">
-            <ModalTeTool />
+        <div className={quoteMode ? "spr spr--embedded" : "spr"}>
+            {!quoteMode && <ModalTeTool />}
 
             {/* Barre d'outils collante : la recherche reste accessible quelle
                 que soit la profondeur de défilement dans les résultats. */}
@@ -269,8 +276,17 @@ export default function SearchProductRedesign() {
             <ul className="spr-grid">
                 {productsSorted.map((product) => (
                     <li className="spr-grid-item" key={product.id}>
-                        <ProductCard product={product} />
-                        {user.profile_id !== 3 && (
+                        <ProductCard product={product} onAdded={onAdded} />
+                        {quoteMode && (
+                            <button
+                                type="button"
+                                className="spr-quote-btn"
+                                onClick={() => setOpenAddProductForm({ [product.id]: true })}
+                            >
+                                Ajouter au devis
+                            </button>
+                        )}
+                        {!quoteMode && user.profile_id !== 3 && (
                             <Link
                                 className="spr-quote-btn"
                                 to="/new-quote"

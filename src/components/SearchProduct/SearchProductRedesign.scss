@@ -386,3 +386,21 @@ $cardWidth: 250px;
     .spr-filters { flex: 0 1 auto; }
     .spr-grid { gap: 18px; }
 }
+
+/* ------------------------------------------------------- Depuis un devis */
+
+/* Dans la fenêtre d'ajout au devis, la barre d'outils colle au haut de la
+   fenêtre, qui défile pour son propre compte, et non sous l'en-tête du site. */
+.spr--embedded .spr-toolbar {
+    top: 0;
+}
+
+/* « Ajouter au devis » est un bouton et non un lien : il reprend l'habillage
+   du pied de carte sans les styles par défaut du navigateur. */
+button.spr-quote-btn {
+    width: 100%;
+    border: none;
+    border-top: 1px solid $line;
+    font-family: var.$font;
+    cursor: pointer;
+}
